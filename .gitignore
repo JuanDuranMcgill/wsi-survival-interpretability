@@ -1,0 +1,55 @@
+# ---- WSI slide data & derived patient-level artifacts: NEVER commit ----
+*.svs
+*.ndpi
+*.mrxs
+*.tiff
+*.tif
+TCGA-*/
+TCGA-CDR*
+*clinical_features*.csv
+gdc_manifest*.txt
+gdc-client*
+manifest*.json
+*_tiles.jsonl
+blca_jsons/
+brca_jsons/
+blca_paths/
+brca_paths/
+clinical/
+clinical_brca/
+pathologist_validation/
+
+# ---- Model outputs: checkpoints, embeddings, bootstrap artifacts ----
+*.pt
+*.pth
+*.ckpt
+*.npz
+*.npy
+UNI2_*embeddings*/
+med3pa_bootstrap*/
+radiomic_patches/
+radiomics_output*/
+
+# ---- Logs ----
+*.log
+*.out
+*.err
+slurm-*.out
+slurm_logs/
+bootstrap_logs*/
+tensorboard_logs/
+runs/
+
+# ---- Python ----
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+venv/
+env/
+.venv/
+
+# ---- OS / editor cruft ----
+.DS_Store
+.vscode/
+*.swp
