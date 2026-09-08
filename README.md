@@ -31,15 +31,35 @@ preprocessing/
 
 model/
     interpret_graphtrans_late_int_sparse_m3save.py
-                                    # Main model: per-region GAT, cross-region
-                                    # self-attention, ReLU fusion, Cox loss,
+                                    # Main model (BLCA, 8 regions): per-region GAT,
+                                    # cross-region self-attention, ReLU fusion, Cox loss,
                                     # bootstrap training + region weight recording
+    interpret_graphtrans_late_int_sparse_m3save_BRCA.py
+                                    # Same model, parameterized for BRCA (9 regions)
 
 analysis/
+    compute_patient_error.py        # BLCA: per-patient concordance/discordance error
+                                     # from mean_risk vs TCGA-CDR PFI/PFI.time — this is
+                                     # the "backbone_error" MED3PA labels are built from
+    compute_patient_error_BRCA.py   # Same, for BRCA
     blca_clinical_linear_med3pa.py  # BLCA: clinical feature importance + MED3PA
     brca_clinical_linear_med3pa.py  # BRCA: clinical feature importance + MED3PA
     blca_radiomic_linear_med3pa.py  # BLCA: radiomic feature importance + MED3PA
     brca_radiomic_linear_med3pa.py  # BRCA: radiomic feature importance + MED3PA
+
+slurm/
+    submit_bootstrap.sh             # BLCA: 6 jobs x 17 rounds = 102 bootstrap rounds
+    submit_bootstrap_BRCA.sh        # BRCA: 10 jobs x 10 rounds = 100 bootstrap rounds
+    submit_bootstrap_BRCA_top_up.sh # BRCA: 11 extra jobs, 52 more rounds (seeds 101-152)
+    blca_clinical.sh, blca_radiomic.sh,
+    brca_clinical.sh, brca_radiomic.sh
+                                    # Launch the analysis/*_linear_med3pa.py scripts
+                                    # with the actual flags used: --fi-n-bootstrap 500000
+                                    # (500k RF resamples) --med3pa-n-runs 1000
+    submit_radiomics.sh, submit_radiomics_BRCA.sh
+                                    # Launch pyradiomics feature extraction batches
+                                    # (depend on find_pairs.py / find_pairs_BRCA.py,
+                                    # not yet in this repo — see note below)
 
 visualization/
     generate_wsi_highlights.py      # WSI thumbnails with top-2 regions highlighted
@@ -80,3 +100,8 @@ Tissue classification requires [CONCH](https://github.com/mahmoodlab/CONCH) and 
 ## Note
 
 This repository is intended as a code reference. Raw WSI data (TCGA-BLCA, TCGA-BRCA) must be independently obtained through the [GDC Data Portal](https://portal.gdc.cancer.gov/).
+
+All SLURM scripts assume `module load gcc opencv/4.12.0 && source ~/envs/conch_env/bin/activate` and `--account=def-senger`, and reference absolute cluster paths under `/home/sorkwos/links/scratch/...` — update these for any other environment.
+
+### Known gaps (found during a repo/scratch audit, not yet ported in)
+Still living only on `/scratch` and not yet in this repo: `find_pairs.py` / `find_pairs_BRCA.py` (feeds `submit_radiomics*.sh`), `extract_radiomics.py` / `_BRCA.py`, `filter_radiomics*.py`, `merge_bootstrap.py` / `_BRCA.py`, `prepare_clinical.py` / `_BRCA.py`. Ask if you want these pulled in too.
