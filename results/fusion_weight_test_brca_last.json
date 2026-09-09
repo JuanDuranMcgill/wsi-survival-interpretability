@@ -1,0 +1,212 @@
+{
+  "cohort": "brca",
+  "n_rounds": 106,
+  "n_regions": 9,
+  "uniform_weight": 0.1111111111111111,
+  "epoch_selection": "last",
+  "npz_glob": "/Users/juan/wsi-transfer/brca/rounds/job_*/round_*/epoch_*.npz",
+  "n_files_used": 106,
+  "per_region": {
+    "Adipose tissue (fat)": {
+      "mean": 0.10660368878886385,
+      "sd": 0.005092218328192659,
+      "ci95": [
+        0.10563717780740194,
+        0.10756487474899809
+      ],
+      "deviation_from_uniform_pp": -0.45074223222472537,
+      "ci_excludes_uniform": true
+    },
+    "Blood vessels (vasculature)": {
+      "mean": 0.10552439304455272,
+      "sd": 0.00519198831869714,
+      "ci95": [
+        0.10453802978549645,
+        0.10650197265950857
+      ],
+      "deviation_from_uniform_pp": -0.5586718066558388,
+      "ci_excludes_uniform": true
+    },
+    "Ductal carcinoma in situ (DCIS)": {
+      "mean": 0.11635317737763783,
+      "sd": 0.004321016922153224,
+      "ci95": [
+        0.11553528272845554,
+        0.11717440977622315
+      ],
+      "deviation_from_uniform_pp": 0.5242066266526721,
+      "ci_excludes_uniform": true
+    },
+    "Fibrous desmoplastic stroma": {
+      "mean": 0.10296253747535201,
+      "sd": 0.005114880959333689,
+      "ci95": [
+        0.1019922765499016,
+        0.10392477808098467
+      ],
+      "deviation_from_uniform_pp": -0.8148573635759091,
+      "ci_excludes_uniform": true
+    },
+    "Invasive breast carcinoma (tumor cells)": {
+      "mean": 0.1100972775580748,
+      "sd": 0.00536392923279116,
+      "ci95": [
+        0.10907983353783218,
+        0.11106288665026988
+      ],
+      "deviation_from_uniform_pp": -0.1013833553036303,
+      "ci_excludes_uniform": true
+    },
+    "Muscle tissue (smooth or skeletal muscle)": {
+      "mean": 0.11038015290813626,
+      "sd": 0.00575230978480705,
+      "ci95": [
+        0.10930269575800818,
+        0.1114577561810191
+      ],
+      "deviation_from_uniform_pp": -0.0730958202974849,
+      "ci_excludes_uniform": false
+    },
+    "Necrosis or hemorrhage": {
+      "mean": 0.12441798636935791,
+      "sd": 0.005631897342860888,
+      "ci95": [
+        0.12335942848146242,
+        0.12548608583099438
+      ],
+      "deviation_from_uniform_pp": 1.3306875258246809,
+      "ci_excludes_uniform": true
+    },
+    "Normal breast glands and lobules (TDLU)": {
+      "mean": 0.10918560659266868,
+      "sd": 0.005562538851776873,
+      "ci95": [
+        0.108135169210299,
+        0.1102108268242962
+      ],
+      "deviation_from_uniform_pp": -0.19255045184424224,
+      "ci_excludes_uniform": true
+    },
+    "Tumor-infiltrating lymphocytes (immune infiltrates)": {
+      "mean": 0.11447518009622142,
+      "sd": 0.005070932356457563,
+      "ci95": [
+        0.11351899366896107,
+        0.11546818850175389
+      ],
+      "deviation_from_uniform_pp": 0.33640689851103106,
+      "ci_excludes_uniform": true
+    }
+  },
+  "delta_w": {
+    "per_round_mean": 0.025776397788299703,
+    "per_round_sd": 0.00674085602297823,
+    "per_round_ci95": [
+      0.015638322569429874,
+      0.03984123561531305
+    ],
+    "of_mean_vector": 0.0214554488940059,
+    "of_mean_vector_pp": 2.1455448894005897
+  },
+  "consistency_permutation_test": {
+    "statistic": "spread of across-round mean weight vector (max - min)",
+    "observed": 0.0214554488940059,
+    "null_mean": 0.002472218095279246,
+    "null_q95": 0.003647171340461047,
+    "p_value": 4.999750012499375e-05,
+    "n_permutations": 20000,
+    "interpretation": "p small means the same regions are consistently weighted higher across independent bootstrap rounds, so the ordering is real even if the effect size is small. p large means the ranking is noise."
+  },
+  "rank_stability_counts": {
+    "Adipose tissue (fat)": {
+      "6": 14,
+      "9": 21,
+      "8": 18,
+      "7": 22,
+      "3": 6,
+      "4": 10,
+      "5": 12,
+      "2": 3
+    },
+    "Blood vessels (vasculature)": {
+      "9": 23,
+      "6": 16,
+      "8": 22,
+      "7": 20,
+      "5": 11,
+      "4": 7,
+      "3": 6,
+      "2": 1
+    },
+    "Ductal carcinoma in situ (DCIS)": {
+      "2": 42,
+      "3": 23,
+      "4": 15,
+      "6": 9,
+      "1": 7,
+      "5": 8,
+      "7": 2
+    },
+    "Fibrous desmoplastic stroma": {
+      "7": 23,
+      "8": 23,
+      "9": 41,
+      "4": 5,
+      "5": 7,
+      "6": 7
+    },
+    "Invasive breast carcinoma (tumor cells)": {
+      "4": 10,
+      "5": 20,
+      "9": 6,
+      "6": 20,
+      "3": 17,
+      "7": 11,
+      "8": 14,
+      "2": 6,
+      "1": 2
+    },
+    "Muscle tissue (smooth or skeletal muscle)": {
+      "8": 11,
+      "1": 4,
+      "3": 13,
+      "6": 21,
+      "7": 5,
+      "2": 9,
+      "4": 24,
+      "5": 10,
+      "9": 9
+    },
+    "Necrosis or hemorrhage": {
+      "1": 87,
+      "3": 4,
+      "2": 9,
+      "4": 2,
+      "5": 3,
+      "7": 1
+    },
+    "Normal breast glands and lobules (TDLU)": {
+      "3": 18,
+      "7": 19,
+      "4": 12,
+      "5": 13,
+      "8": 17,
+      "2": 8,
+      "6": 12,
+      "9": 5,
+      "1": 2
+    },
+    "Tumor-infiltrating lymphocytes (immune infiltrates)": {
+      "5": 22,
+      "4": 21,
+      "2": 28,
+      "1": 4,
+      "3": 19,
+      "6": 7,
+      "9": 1,
+      "7": 3,
+      "8": 1
+    }
+  },
+  "n_regions_whose_ci_excludes_uniform": 8
+}

@@ -1,0 +1,191 @@
+{
+  "cohort": "blca",
+  "n_rounds": 102,
+  "n_regions": 8,
+  "uniform_weight": 0.125,
+  "epoch_selection": "best",
+  "npz_glob": "/Users/juan/wsi-transfer/blca/rounds/job_*/round_*/epoch_*.npz",
+  "n_files_used": 102,
+  "per_region": {
+    "Perivesical adipose tissue (extravesical fat)": {
+      "mean": 0.12449554339343426,
+      "sd": 0.004481416115837299,
+      "ci95": [
+        0.12358596952559026,
+        0.12534917852494354
+      ],
+      "deviation_from_uniform_pp": -0.05044566065657424,
+      "ci_excludes_uniform": false
+    },
+    "Invasive urothelial carcinoma (tumor)": {
+      "mean": 0.1306399190981014,
+      "sd": 0.004621428686067633,
+      "ci95": [
+        0.1297643776818672,
+        0.13153096871340975
+      ],
+      "deviation_from_uniform_pp": 0.5639919098101409,
+      "ci_excludes_uniform": true
+    },
+    "Normal urothelium (benign mucosa)": {
+      "mean": 0.12394183954479647,
+      "sd": 0.00426394951098863,
+      "ci95": [
+        0.12315906559610192,
+        0.12477807601292928
+      ],
+      "deviation_from_uniform_pp": -0.10581604552035301,
+      "ci_excludes_uniform": true
+    },
+    "Inflammatory infiltrates (immune cells)": {
+      "mean": 0.12595216871476642,
+      "sd": 0.004609994453425811,
+      "ci95": [
+        0.1250581080258331,
+        0.12682977055984676
+      ],
+      "deviation_from_uniform_pp": 0.0952168714766416,
+      "ci_excludes_uniform": true
+    },
+    "Lamina propria (fibrovascular stroma)": {
+      "mean": 0.12172309667164204,
+      "sd": 0.004490865412880673,
+      "ci95": [
+        0.12084156557296713,
+        0.12259361921791352
+      ],
+      "deviation_from_uniform_pp": -0.32769033283579635,
+      "ci_excludes_uniform": true
+    },
+    "Blood vessels (vasculature)": {
+      "mean": 0.12008983671080832,
+      "sd": 0.005056714893971885,
+      "ci95": [
+        0.11912747813644362,
+        0.12106157443394848
+      ],
+      "deviation_from_uniform_pp": -0.49101632891916797,
+      "ci_excludes_uniform": true
+    },
+    "Muscularis propria (detrusor muscle)": {
+      "mean": 0.12168062945791319,
+      "sd": 0.004644342264124669,
+      "ci95": [
+        0.12076559517642155,
+        0.12257518069088166
+      ],
+      "deviation_from_uniform_pp": -0.3319370542086808,
+      "ci_excludes_uniform": true
+    },
+    "Necrosis": {
+      "mean": 0.1314769656780888,
+      "sd": 0.0048929472592561885,
+      "ci95": [
+        0.13058091276781816,
+        0.1324251049088643
+      ],
+      "deviation_from_uniform_pp": 0.6476965678088809,
+      "ci_excludes_uniform": true
+    }
+  },
+  "delta_w": {
+    "per_round_mean": 0.017086060754224367,
+    "per_round_sd": 0.007565643509647041,
+    "per_round_ci95": [
+      0.0016110075637698175,
+      0.03232163712382317
+    ],
+    "of_mean_vector": 0.011387128967280488,
+    "of_mean_vector_pp": 1.1387128967280489
+  },
+  "consistency_permutation_test": {
+    "statistic": "spread of across-round mean weight vector (max - min)",
+    "observed": 0.011387128967280488,
+    "null_mean": 0.0018304349417743435,
+    "null_q95": 0.002760988042927248,
+    "p_value": 4.999750012499375e-05,
+    "n_permutations": 20000,
+    "interpretation": "p small means the same regions are consistently weighted higher across independent bootstrap rounds, so the ordering is real even if the effect size is small. p large means the ranking is noise."
+  },
+  "rank_stability_counts": {
+    "Perivesical adipose tissue (extravesical fat)": {
+      "3": 20,
+      "4": 20,
+      "2": 8,
+      "1": 8,
+      "5": 13,
+      "6": 15,
+      "8": 5,
+      "7": 13
+    },
+    "Invasive urothelial carcinoma (tumor)": {
+      "2": 33,
+      "6": 3,
+      "3": 13,
+      "4": 12,
+      "1": 32,
+      "5": 8,
+      "7": 1
+    },
+    "Normal urothelium (benign mucosa)": {
+      "6": 24,
+      "3": 12,
+      "7": 16,
+      "5": 20,
+      "4": 12,
+      "8": 7,
+      "2": 8,
+      "1": 3
+    },
+    "Inflammatory infiltrates (immune cells)": {
+      "4": 19,
+      "1": 6,
+      "8": 9,
+      "2": 21,
+      "3": 23,
+      "6": 8,
+      "7": 6,
+      "5": 10
+    },
+    "Lamina propria (fibrovascular stroma)": {
+      "5": 14,
+      "2": 1,
+      "1": 3,
+      "8": 24,
+      "6": 17,
+      "7": 25,
+      "4": 13,
+      "3": 5
+    },
+    "Blood vessels (vasculature)": {
+      "8": 36,
+      "7": 22,
+      "6": 14,
+      "5": 11,
+      "3": 6,
+      "1": 2,
+      "4": 10,
+      "2": 1
+    },
+    "Muscularis propria (detrusor muscle)": {
+      "7": 16,
+      "5": 23,
+      "6": 19,
+      "8": 21,
+      "3": 14,
+      "4": 5,
+      "2": 3,
+      "1": 1
+    },
+    "Necrosis": {
+      "1": 47,
+      "5": 3,
+      "6": 2,
+      "4": 11,
+      "7": 3,
+      "2": 27,
+      "3": 9
+    }
+  },
+  "n_regions_whose_ci_excludes_uniform": 7
+}
