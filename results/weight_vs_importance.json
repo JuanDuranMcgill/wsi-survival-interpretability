@@ -1,0 +1,191 @@
+{
+  "analysis": "region fusion weight vs region-level pathomic RF importance",
+  "closes": "Reviewer 1: compare region-level RF importance with region-fusion weights",
+  "note": "Importance shares are renormalised within the regions present in the radiomics feature table. BRCA necrosis has no pathomic features, so 8 of 9 BRCA regions are matched.",
+  "cohorts": {
+    "blca": {
+      "n_regions_matched": 8,
+      "n_regions_fusion": 8,
+      "spearman_rho": 0.2381,
+      "spearman_p": 0.5702,
+      "pearson_r": 0.0794,
+      "pearson_p": 0.8518,
+      "adipose_rank_by_pathomic_importance": 1,
+      "adipose_rank_by_fusion_weight": 4,
+      "regions": [
+        {
+          "region": "necrosis",
+          "fusion_weight_pct": 13.442,
+          "pathomic_importance_pct_q50": 12.17,
+          "pathomic_importance_pct_range": [
+            10.99,
+            12.17
+          ],
+          "matched_to": "Necrosis"
+        },
+        {
+          "region": "tumor",
+          "fusion_weight_pct": 13.281,
+          "pathomic_importance_pct_q50": 10.65,
+          "pathomic_importance_pct_range": [
+            9.89,
+            10.65
+          ],
+          "matched_to": "Invasive urothelial carcinoma (tumor)"
+        },
+        {
+          "region": "immune",
+          "fusion_weight_pct": 12.662,
+          "pathomic_importance_pct_q50": 13.61,
+          "pathomic_importance_pct_range": [
+            9.76,
+            13.61
+          ],
+          "matched_to": "Inflammatory infiltrates (immune cells)"
+        },
+        {
+          "region": "adipose",
+          "fusion_weight_pct": 12.401,
+          "pathomic_importance_pct_q50": 16.96,
+          "pathomic_importance_pct_range": [
+            16.96,
+            22.32
+          ],
+          "matched_to": "Perivesical adipose tissue (extravesical fat)"
+        },
+        {
+          "region": "urothelium",
+          "fusion_weight_pct": 12.365,
+          "pathomic_importance_pct_q50": 13.84,
+          "pathomic_importance_pct_range": [
+            9.97,
+            13.84
+          ],
+          "matched_to": "Normal urothelium (benign mucosa)"
+        },
+        {
+          "region": "muscularis",
+          "fusion_weight_pct": 12.055,
+          "pathomic_importance_pct_q50": 12.4,
+          "pathomic_importance_pct_range": [
+            12.4,
+            14.4
+          ],
+          "matched_to": "Muscularis propria (detrusor muscle)"
+        },
+        {
+          "region": "lamina",
+          "fusion_weight_pct": 11.96,
+          "pathomic_importance_pct_q50": 11.5,
+          "pathomic_importance_pct_range": [
+            11.13,
+            11.56
+          ],
+          "matched_to": "Lamina propria (fibrovascular stroma)"
+        },
+        {
+          "region": "vessels",
+          "fusion_weight_pct": 11.834,
+          "pathomic_importance_pct_q50": 8.88,
+          "pathomic_importance_pct_range": [
+            8.88,
+            11.97
+          ],
+          "matched_to": "Blood vessels (vasculature)"
+        }
+      ]
+    },
+    "brca": {
+      "n_regions_matched": 8,
+      "n_regions_fusion": 9,
+      "spearman_rho": 0.3333,
+      "spearman_p": 0.4198,
+      "pearson_r": 0.1806,
+      "pearson_p": 0.6687,
+      "adipose_rank_by_pathomic_importance": 1,
+      "adipose_rank_by_fusion_weight": 6,
+      "regions": [
+        {
+          "region": "dcis",
+          "fusion_weight_pct": 11.635,
+          "pathomic_importance_pct_q50": 14.03,
+          "pathomic_importance_pct_range": [
+            10.17,
+            14.03
+          ],
+          "matched_to": "Ductal carcinoma in situ (DCIS)"
+        },
+        {
+          "region": "tils",
+          "fusion_weight_pct": 11.448,
+          "pathomic_importance_pct_q50": 15.08,
+          "pathomic_importance_pct_range": [
+            14.31,
+            16.01
+          ],
+          "matched_to": "Tumor-infiltrating lymphocytes (immune infiltrates)"
+        },
+        {
+          "region": "muscle",
+          "fusion_weight_pct": 11.038,
+          "pathomic_importance_pct_q50": 9.33,
+          "pathomic_importance_pct_range": [
+            9.33,
+            10.41
+          ],
+          "matched_to": "Muscle tissue (smooth or skeletal muscle)"
+        },
+        {
+          "region": "tumor",
+          "fusion_weight_pct": 11.01,
+          "pathomic_importance_pct_q50": 11.41,
+          "pathomic_importance_pct_range": [
+            9.26,
+            11.41
+          ],
+          "matched_to": "Invasive breast carcinoma (tumor cells)"
+        },
+        {
+          "region": "tdlu",
+          "fusion_weight_pct": 10.919,
+          "pathomic_importance_pct_q50": 10.34,
+          "pathomic_importance_pct_range": [
+            9.85,
+            12.19
+          ],
+          "matched_to": "Normal breast glands and lobules (TDLU)"
+        },
+        {
+          "region": "adipose",
+          "fusion_weight_pct": 10.66,
+          "pathomic_importance_pct_q50": 20.76,
+          "pathomic_importance_pct_range": [
+            20.05,
+            24.59
+          ],
+          "matched_to": "Adipose tissue (fat)"
+        },
+        {
+          "region": "vessels",
+          "fusion_weight_pct": 10.552,
+          "pathomic_importance_pct_q50": 7.66,
+          "pathomic_importance_pct_range": [
+            7.66,
+            9.45
+          ],
+          "matched_to": "Blood vessels (vasculature)"
+        },
+        {
+          "region": "stroma",
+          "fusion_weight_pct": 10.296,
+          "pathomic_importance_pct_q50": 11.38,
+          "pathomic_importance_pct_range": [
+            11.38,
+            12.36
+          ],
+          "matched_to": "Fibrous desmoplastic stroma"
+        }
+      ]
+    }
+  }
+}
