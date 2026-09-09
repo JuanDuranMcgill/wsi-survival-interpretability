@@ -35,8 +35,9 @@ from MED3pa.datasets import DatasetsManager
 from MED3pa.models import BaseModelManager
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
-if _HERE not in sys.path:
-    sys.path.insert(0, os.path.dirname(_HERE))
+_REPO = os.path.dirname(_HERE)
+if _REPO not in sys.path:
+    sys.path.insert(0, _REPO)
 from analysis.profile_metrics import discovery_eval_split, classifier_metrics, profile_report
 
 warnings.filterwarnings("ignore")
