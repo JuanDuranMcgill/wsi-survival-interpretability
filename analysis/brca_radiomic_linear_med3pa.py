@@ -39,7 +39,7 @@ warnings.filterwarnings("ignore")
 
 
 _DATA = os.path.expanduser("~/data")
-RADIOMICS_CSV = os.path.join(_DATA, "radiomics_output_BRCA", "radiomics_pre_corr.csv")
+RADIOMICS_CSV = os.path.join(_DATA, "brca", "radiomics_pre_corr.csv")
 SAVE_ROOT     = os.path.join(_DATA, "med3pa_bootstrap_intermediate_BRCA")
 ERROR_NPZ     = os.path.join(_DATA, "patient_error_brca_oob.npz")
 
@@ -569,17 +569,11 @@ def main():
         load_and_align_data(args.radiomics_csv, args.error_npz)
     print(f"    Patients: {X.shape[0]} | Features: {X.shape[1]}")
 
-    X_fo, _, fo_feature_names, top_idx_med3pa, selected_feature_names, fi_metrics = \
-        run_radiomic_importance_firstorder(
-            X=X, survival_target=survival_target, feature_names=feature_names,
-            n_trees=args.n_trees, n_bootstrap=args.n_bootstrap, n_jobs=args.n_jobs,
-            max_depth=args.max_depth, min_samples_leaf=args.min_samples_leaf,
-            outdir=args.outdir, top_n_for_med3pa=args.top_n_med3pa,
-        )
+    # First-order slice for full cohort — needed to build eval features after split
+    fo_mask = np.array(["firstorder" in f for f in feature_names])
+    X_fo_all = X[:, fo_mask]
 
-    X_med3pa = X_fo[:, top_idx_med3pa]
-    print(f">>> MED3PA will use {X_med3pa.shape[1]} first-order BRCA features.")
-
+    # Label threshold defined on full cohort (consistent with reported metrics)
     finite = np.isfinite(backbone_error)
     thresh = float(np.quantile(backbone_error[finite], args.med3pa_error_quantile))
     y_med3pa = np.zeros(len(backbone_error), dtype=int)
@@ -588,17 +582,31 @@ def main():
     print(f"    q{args.med3pa_error_quantile:.2f} threshold={thresh:.4f}, "
           f"prevalence={prevalence_overall:.3f}")
 
+    # Split BEFORE feature importance — top-K selection must not see eval patients
     disc_mask, eval_mask = discovery_eval_split(
         patient_ids, frac_discovery=args.discovery_frac,
         seed=args.split_seed, stratify=y_med3pa,
     )
-    X_disc, y_disc = X_med3pa[disc_mask], y_med3pa[disc_mask]
-    X_eval, y_eval = X_med3pa[eval_mask], y_med3pa[eval_mask]
+    print(f">>> discovery N={disc_mask.sum()}, eval N={eval_mask.sum()}")
+
+    # Feature importance and top-K selection on DISCOVERY patients only (no eval leak)
+    X_fo_disc, _, fo_feature_names, top_idx_med3pa, selected_feature_names, fi_metrics = \
+        run_radiomic_importance_firstorder(
+            X=X[disc_mask], survival_target=survival_target[disc_mask],
+            feature_names=feature_names,
+            n_trees=args.n_trees, n_bootstrap=args.n_bootstrap, n_jobs=args.n_jobs,
+            max_depth=args.max_depth, min_samples_leaf=args.min_samples_leaf,
+            outdir=args.outdir, top_n_for_med3pa=args.top_n_med3pa,
+        )
+
+    # Apply the same top-K column indices to both splits
+    X_disc, y_disc = X_fo_disc[:, top_idx_med3pa], y_med3pa[disc_mask]
+    X_eval, y_eval = X_fo_all[eval_mask][:, top_idx_med3pa], y_med3pa[eval_mask]
     err_eval = backbone_error[eval_mask]
     pfi_t_eval = pfi_t[eval_mask]
     pfi_e_eval = pfi_e[eval_mask]
     risks_eval = survival_target[eval_mask]
-    print(f">>> discovery N={disc_mask.sum()}, eval N={eval_mask.sum()}")
+    print(f"    MED3PA uses {X_disc.shape[1]} first-order features (top-K from discovery only).")
 
     label_df = pd.DataFrame({
         "patient_id": patient_ids, "backbone_error": backbone_error, "high_error_label": y_med3pa,
@@ -638,7 +646,7 @@ def main():
 
     agg_df, med3pa_summary = aggregate_profiles(all_results, args.n_runs)
 
-    scaler_params = make_scaler_params(X_med3pa, selected_feature_names)
+    scaler_params = make_scaler_params(X_disc, selected_feature_names)
 
     profile_reports = []
     if not agg_df.empty:

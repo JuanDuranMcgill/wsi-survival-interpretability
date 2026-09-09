@@ -44,7 +44,7 @@ echo "[$(date)] Starting BRCA radiomic q${Q} on $SLURMD_NODENAME"
 
 python analysis/brca_radiomic_linear_med3pa.py \
     --error-npz          "$DATA/patient_error_brca_oob.npz" \
-    --radiomics-csv      "$DATA/radiomics_output_BRCA/radiomics_pre_corr.csv" \
+    --radiomics-csv      "$DATA/brca/radiomics_pre_corr.csv" \
     --round-count        106 \
     --save-root          "$DATA/med3pa_bootstrap_intermediate_BRCA" \
     --outdir             "$OUTDIR" \

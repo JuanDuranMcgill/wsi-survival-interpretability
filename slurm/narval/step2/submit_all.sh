@@ -8,8 +8,8 @@
 #        patient_error_brca_oob.npz       ← from results/ on this machine
 #        clinical_features.csv            ← from Trillium (scp or Globus)
 #        clinical_features_BRCA.csv       ← from Trillium
-#        radiomics_output/radiomics_pre_corr.csv        ← from Trillium
-#        radiomics_output_BRCA/radiomics_pre_corr.csv   ← from Trillium
+#        blca/radiomics_pre_corr.csv                    ← from Mac ~/data/blca/
+#        brca/radiomics_pre_corr.csv                    ← from Mac ~/data/brca/
 #
 #   2. Install MED3pa dependencies on the login node (one-time):
 #        module load python/3.11 scipy-stack
