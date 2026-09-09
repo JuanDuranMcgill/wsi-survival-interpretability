@@ -1,0 +1,113 @@
+{
+  "n_patients": 1060,
+  "n_scored": 1023,
+  "n_unscored_no_comparable_pairs": 37,
+  "n_events": 139,
+  "n_censored": 921,
+  "censored_fraction": 0.8688679245283019,
+  "n_exactly_zero_error": 447,
+  "frac_exactly_zero_error": 0.436950146627566,
+  "mean_comparable_pairs": 147.83186705767352,
+  "min_comparable_pairs": 1,
+  "quantiles": {
+    "q10": 0.0,
+    "q25": 0.0,
+    "q50": 0.017391304347826087,
+    "q60": 0.031315789473684186,
+    "q70": 0.061426051902242366,
+    "q75": 0.08743430482560918,
+    "q80": 0.1111111111111111,
+    "q90": 0.20958824385275723,
+    "q95": 0.3217980295566502
+  },
+  "histogram_20_bins": {
+    "counts": [
+      683,
+      107,
+      85,
+      39,
+      24,
+      22,
+      14,
+      17,
+      7,
+      7,
+      7,
+      0,
+      1,
+      2,
+      0,
+      2,
+      2,
+      1,
+      0,
+      3
+    ],
+    "bin_edges": [
+      0.0,
+      0.05,
+      0.1,
+      0.15000000000000002,
+      0.2,
+      0.25,
+      0.30000000000000004,
+      0.35000000000000003,
+      0.4,
+      0.45,
+      0.5,
+      0.55,
+      0.6000000000000001,
+      0.65,
+      0.7000000000000001,
+      0.75,
+      0.8,
+      0.8500000000000001,
+      0.9,
+      0.9500000000000001,
+      1.0
+    ]
+  },
+  "label_at_q50": {
+    "threshold": 0.017391304347826087,
+    "n_high_error": 512,
+    "prevalence": 0.5004887585532747,
+    "majority_class_accuracy": 0.5004887585532747,
+    "frac_of_high_error_that_had_event": 0.267578125,
+    "event_rate_in_low_error": 0.003913894324853229
+  },
+  "label_at_q70": {
+    "threshold": 0.061426051902242366,
+    "n_high_error": 307,
+    "prevalence": 0.30009775171065495,
+    "majority_class_accuracy": 0.6999022482893451,
+    "frac_of_high_error_that_had_event": 0.33876221498371334,
+    "event_rate_in_low_error": 0.04888268156424581
+  },
+  "label_at_q80": {
+    "threshold": 0.1111111111111111,
+    "n_high_error": 206,
+    "prevalence": 0.2013685239491691,
+    "majority_class_accuracy": 0.7986314760508308,
+    "frac_of_high_error_that_had_event": 0.33495145631067963,
+    "event_rate_in_low_error": 0.08567931456548347
+  },
+  "label_at_q90": {
+    "threshold": 0.20958824385275723,
+    "n_high_error": 103,
+    "prevalence": 0.10068426197458455,
+    "majority_class_accuracy": 0.8993157380254154,
+    "frac_of_high_error_that_had_event": 0.20388349514563106,
+    "event_rate_in_low_error": 0.1282608695652174
+  },
+  "cohort": "brca",
+  "endpoint": "PFI",
+  "source_npz": "/Users/juan/wsi-transfer/brca/final_med3pa_input.npz",
+  "risk_key": "mean_risk",
+  "n_dropped_missing_survival": 0,
+  "global_cindex": 0.9119763013118917,
+  "primary_metric": "symmetric_pairwise_concordance_error",
+  "ipcw_brier": {
+    "horizon_days": 784.0,
+    "score": 0.0914412958168986
+  }
+}

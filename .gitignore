@@ -53,3 +53,8 @@ env/
 .DS_Store
 .vscode/
 *.swp
+
+# Patient-level derived data: barcodes paired with risk scores / survival.
+# Summary JSONs are fine; per-patient rows are not.
+results/*_per_patient.csv
+results/*.npz
