@@ -7,11 +7,29 @@ Decisions already locked by Juan:
 - **Endpoint: PFI.** Already corrected in the paper. Do not switch to OS.
 - **Primary error metric: symmetric pairwise concordance.** IPCW Brier is
   computed too, as extra supporting information, not as the label.
-- **Label threshold: not yet chosen.** Step 1 prints the distribution; the
-  threshold gets picked from that evidence. Do not assume 0.8.
+- **Label threshold: q50 (median split).** Primary arm. q70/80/90 are
+  sensitivity arms, already run. Do not change this without Juan's approval.
 - **Title: deferred.** Do not touch it.
 - **Target: Artificial Intelligence in Medicine** (Elsevier). Affects text
   structure only, not these runs.
+
+---
+
+## Status — 2026-09-09
+
+| Step | Status | Output |
+|------|--------|--------|
+| 0 | Done | — |
+| 1 | **Done** | `results/patient_error_blca.json`, `results/patient_error_brca.json` |
+| 2 | **Done** | 16 JSONs under `results/reliability_<cohort>_<arm>_q<q>/` — all 4 arms × 4 quantiles |
+| 3 | **Blocked** | Needs Globus transfer of round npz files from Trillium to Narval first |
+| 4 | Not started | — |
+| 5 | Not started | Requires saved GPU checkpoints |
+| 6 | Not started | — |
+
+**Prerequisite for Step 3:** The fusion-weight npz files (one per training round/epoch) live on
+Trillium. Nothing has been transferred yet. Use Globus or the rsync pattern in the Cluster
+portability section below, then run `fusion_weight_stats.py` on Narval.
 
 ---
 
