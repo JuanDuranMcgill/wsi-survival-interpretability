@@ -191,11 +191,21 @@ def main():
     ap.add_argument("--cohort", required=True, choices=["blca", "brca"])
     ap.add_argument("--rounds-glob", required=True)
     ap.add_argument("--cdr-xlsx", required=True)
-    ap.add_argument("--seed-offset-per-job", type=int, required=True)
+    ap.add_argument("--seed-offset-per-job", type=int, default=None,
+                    help="Single linear scheme: offset = base + per_job * job.")
     ap.add_argument("--seed-offset-base", type=int, default=0)
+    ap.add_argument("--seed-offsets", default=None,
+                    help='Explicit per-job map as JSON, e.g. \'{"0":0,"1":10}\'. '
+                         "Required when a cohort used more than one scheme, as "
+                         "BRCA did (main jobs job*10, top-up 100+(job-10)*5).")
     ap.add_argument("--pick", default="last", choices=["last", "first"])
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
+
+    if args.seed_offsets is None and args.seed_offset_per_job is None:
+        raise SystemExit("give --seed-offset-per-job or --seed-offsets")
+    offsets = {int(k): int(v) for k, v in json.loads(args.seed_offsets).items()} \
+        if args.seed_offsets else None
 
     rounds = collect_rounds(args.rounds_glob, args.pick)
     print(f"[{args.cohort}] {len(rounds)} rounds found")
@@ -222,7 +232,16 @@ def main():
     retry_limit_hits, seeds = 0, []
 
     for rd in rounds:
-        g = args.seed_offset_base + args.seed_offset_per_job * rd["job"] + rd["round"]
+        if offsets is not None:
+            if rd["job"] not in offsets:
+                raise SystemExit(
+                    f"job {rd['job']} missing from --seed-offsets; "
+                    "every job dir present must have an offset"
+                )
+            base = offsets[rd["job"]]
+        else:
+            base = args.seed_offset_base + args.seed_offset_per_job * rd["job"]
+        g = base + rd["round"]
         oob, seed, nev, hit = replay_split(n, ev_int, g)
         seeds.append({"job": rd["job"], "round": rd["round"], "global_round": g,
                       "seed_used": seed, "n_val_events": nev,
@@ -268,6 +287,7 @@ def main():
         "train_frac": TRAIN_FRAC,
         "seed_offset_base": args.seed_offset_base,
         "seed_offset_per_job": args.seed_offset_per_job,
+        "seed_offsets_explicit": offsets,
         "epoch_selection": args.pick,
         "rounds_glob": args.rounds_glob,
         "mean_per_round_val_cidx": mean_val,
