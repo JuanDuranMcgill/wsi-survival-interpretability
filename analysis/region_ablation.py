@@ -424,6 +424,8 @@ def train_one_round(model, train_loader, device, epochs, save_root, round_id, lr
             sched.step()
             total_loss += float(loss.detach())
             del feats_list, pos_list, t, e, risk, loss
+            if device.startswith("cuda"):
+                torch.cuda.empty_cache()
         ckpt = os.path.join(save_root, f"round_{round_id}_epoch_{ep}.pt")
         torch.save(model.state_dict(), ckpt)
         # We record NaN as placeholder; OOB c-index is computed later.

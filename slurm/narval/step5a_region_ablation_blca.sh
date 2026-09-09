@@ -78,7 +78,7 @@ python "$REPO/analysis/region_ablation.py" \
     --cdr-xlsx  "$CDR_XLSX" \
     --rounds    20 \
     --epochs    15 \
-    --batch-size 16 \
+    --batch-size 4 \
     --save-root "$SAVE_TMP" \
     --out       "$OUT"
 
