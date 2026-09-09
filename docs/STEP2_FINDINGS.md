@@ -130,3 +130,58 @@ than the original framing.
   stability check.
 - **Region ablation and the fusion-parameterisation arms (Step 5) have not
   run.** Those are what the interpretability section still needs.
+
+---
+
+## Addendum: both open statistical items resolved
+
+### No feature-selection leakage. The radiomic arms are valid.
+
+Checked the committed drivers directly. In both radiomic scripts the
+discovery/evaluation split happens **before** feature importance, and the
+importance model is fitted on discovery rows only:
+
+```python
+disc_mask, eval_mask = discovery_eval_split(patient_ids, ...)   # line 593
+run_radiomic_importance_firstorder(X=X[disc_mask],
+                                   survival_target=survival_target[disc_mask], ...)
+X_disc = X_fo_disc[:, top_idx_med3pa]
+X_eval = X_fo_all[eval_mask][:, top_idx_med3pa]   # same columns, eval rows
+```
+
+Top-K indices come from importances computed on discovery patients and are then
+applied as fixed columns to both halves. The evaluation set never influenced
+feature selection. The clinical arms use all clinical features, so there is no
+selection step to leak through.
+
+**The AUROCs of 0.643 to 0.693 stand.**
+
+### Multiple-testing correction across the 16 AUROC tests
+
+Bonferroni alpha = 0.00313; Benjamini-Hochberg critical p = 0.0065.
+
+| Arm | AUROC | p | raw | Bonferroni | BH |
+|---|---|---|---|---|---|
+| BRCA radiomic q90 | 0.693 | ≤0.0005 | yes | **yes** | yes |
+| BRCA radiomic q50 | 0.671 | ≤0.0005 | yes | **yes** | yes |
+| BRCA radiomic q70 | 0.651 | ≤0.0005 | yes | **yes** | yes |
+| BRCA radiomic q80 | 0.643 | ≤0.0005 | yes | **yes** | yes |
+| BRCA clinical q70 | 0.612 | ≤0.0005 | yes | **yes** | yes |
+| BRCA clinical q50 | 0.579 | 0.0065 | yes | no | yes |
+| BRCA clinical q80 | 0.580 | 0.0240 | yes | no | no |
+| BLCA, all 8 arms | 0.439–0.588 | 0.055–0.758 | no | no | no |
+
+5 of 16 survive Bonferroni, 6 of 16 survive BH at FDR 0.05. **All four BRCA
+radiomic arms survive Bonferroni**, which is the most conservative correction
+available, at every label threshold. The reported p of 0.0005 is the permutation
+floor (1/2001), so those are upper bounds.
+
+No BLCA arm is significant at any correction level, including uncorrected.
+
+### The 159-profile result needs no correction
+
+3 profiles have a CI excluding the cohort-wide c-index against roughly 8 expected
+by chance at alpha = 0.05 **uncorrected**. Since the observed count is already
+below the uncorrected chance expectation, any multiple-testing correction can
+only reduce it further. The negative conclusion therefore holds without a formal
+correction, and stating it that way is cleaner than applying one.
