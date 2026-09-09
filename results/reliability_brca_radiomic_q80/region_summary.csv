@@ -1,0 +1,9 @@
+region,n_features,sum_mean_importance,avg_mean_importance,best_rank,features_in_top20,features_in_top50,top_feature,top_feature_importance
+adipose,63,0.2056,0.003263,1,9,16,adipose_E_original_firstorder_InterquartileRange_std,0.02144
+tils,62,0.1431,0.002308,6,7,10,tils_H_original_firstorder_Variance_std,0.007487
+stroma,61,0.1236,0.002025,24,0,8,stroma_H_original_firstorder_MeanAbsoluteDeviation_std,0.004324
+tdlu,66,0.1219,0.001846,10,3,8,tdlu_H_original_firstorder_Entropy_std,0.00655
+dcis,66,0.1175,0.001781,19,1,4,dcis_E_original_firstorder_10Percentile_mean,0.005036
+muscle,66,0.1008,0.001527,23,0,3,muscle_E_original_firstorder_Median_std,0.00456
+tumor,64,0.096,0.001501,75,0,0,tumor_H_original_firstorder_Variance_mean,0.002647
+vessels,66,0.0916,0.001387,21,0,1,vessels_E_original_firstorder_MeanAbsoluteDeviation_std,0.004742
