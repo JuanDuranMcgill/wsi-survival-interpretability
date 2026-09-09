@@ -1,0 +1,1051 @@
+{
+  "cohort": "blca",
+  "endpoint": "PFI",
+  "n_patients": 379,
+  "n_rounds": 102,
+  "train_frac": 0.8,
+  "seed_offset_base": 0,
+  "seed_offset_per_job": 17,
+  "epoch_selection": "last",
+  "rounds_glob": "/Users/juan/wsi-transfer/blca/rounds/job_*/round_*/epoch_*.npz",
+  "mean_per_round_val_cidx": 0.5954945800351161,
+  "cindex_oob_only": 0.6215344938749194,
+  "cindex_insample_only": 0.991833225875779,
+  "cindex_all_rounds": 0.9300719965613583,
+  "expected_cindex_from_paper": 0.6,
+  "reconstruction_verdict": "PLAUSIBLE",
+  "expected_oob_fraction": 0.44932896411722156,
+  "observed_oob_fraction": 0.44948005587459255,
+  "n_patients_never_oob": 0,
+  "n_rounds_hit_retry_limit": 0,
+  "oob_count_quantiles": {
+    "q0": 34.0,
+    "q25": 42.0,
+    "q50": 45.0,
+    "q75": 49.0,
+    "q100": 63.0
+  },
+  "n_comparable_pairs_oob": 37224,
+  "per_round": [
+    {
+      "job": 0,
+      "round": 1,
+      "global_round": 1,
+      "seed_used": 1,
+      "n_val_events": 73,
+      "oob_size": 161,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6361072063446045
+    },
+    {
+      "job": 0,
+      "round": 2,
+      "global_round": 2,
+      "seed_used": 2,
+      "n_val_events": 75,
+      "oob_size": 165,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6113953590393066
+    },
+    {
+      "job": 0,
+      "round": 3,
+      "global_round": 3,
+      "seed_used": 3,
+      "n_val_events": 78,
+      "oob_size": 173,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5914223790168762
+    },
+    {
+      "job": 0,
+      "round": 4,
+      "global_round": 4,
+      "seed_used": 4,
+      "n_val_events": 72,
+      "oob_size": 173,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6520107388496399
+    },
+    {
+      "job": 0,
+      "round": 5,
+      "global_round": 5,
+      "seed_used": 5,
+      "n_val_events": 72,
+      "oob_size": 164,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6038870215415955
+    },
+    {
+      "job": 0,
+      "round": 6,
+      "global_round": 6,
+      "seed_used": 6,
+      "n_val_events": 73,
+      "oob_size": 172,
+      "hit_retry_limit": false,
+      "val_cidx": 0.626109778881073
+    },
+    {
+      "job": 0,
+      "round": 7,
+      "global_round": 7,
+      "seed_used": 7,
+      "n_val_events": 68,
+      "oob_size": 162,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5950967073440552
+    },
+    {
+      "job": 0,
+      "round": 8,
+      "global_round": 8,
+      "seed_used": 8,
+      "n_val_events": 78,
+      "oob_size": 168,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6031378507614136
+    },
+    {
+      "job": 0,
+      "round": 9,
+      "global_round": 9,
+      "seed_used": 9,
+      "n_val_events": 82,
+      "oob_size": 176,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5888294577598572
+    },
+    {
+      "job": 0,
+      "round": 10,
+      "global_round": 10,
+      "seed_used": 10,
+      "n_val_events": 74,
+      "oob_size": 176,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5844435691833496
+    },
+    {
+      "job": 0,
+      "round": 11,
+      "global_round": 11,
+      "seed_used": 11,
+      "n_val_events": 73,
+      "oob_size": 173,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5598663687705994
+    },
+    {
+      "job": 0,
+      "round": 12,
+      "global_round": 12,
+      "seed_used": 12,
+      "n_val_events": 72,
+      "oob_size": 163,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5651335120201111
+    },
+    {
+      "job": 0,
+      "round": 13,
+      "global_round": 13,
+      "seed_used": 13,
+      "n_val_events": 62,
+      "oob_size": 160,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5717431902885437
+    },
+    {
+      "job": 0,
+      "round": 14,
+      "global_round": 14,
+      "seed_used": 14,
+      "n_val_events": 71,
+      "oob_size": 172,
+      "hit_retry_limit": false,
+      "val_cidx": 0.590345561504364
+    },
+    {
+      "job": 0,
+      "round": 15,
+      "global_round": 15,
+      "seed_used": 15,
+      "n_val_events": 68,
+      "oob_size": 168,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6126061081886292
+    },
+    {
+      "job": 0,
+      "round": 16,
+      "global_round": 16,
+      "seed_used": 16,
+      "n_val_events": 72,
+      "oob_size": 162,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6223569512367249
+    },
+    {
+      "job": 0,
+      "round": 17,
+      "global_round": 17,
+      "seed_used": 17,
+      "n_val_events": 69,
+      "oob_size": 168,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6257912516593933
+    },
+    {
+      "job": 1,
+      "round": 1,
+      "global_round": 18,
+      "seed_used": 18,
+      "n_val_events": 86,
+      "oob_size": 179,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5600966811180115
+    },
+    {
+      "job": 1,
+      "round": 2,
+      "global_round": 19,
+      "seed_used": 19,
+      "n_val_events": 73,
+      "oob_size": 170,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5712770223617554
+    },
+    {
+      "job": 1,
+      "round": 3,
+      "global_round": 20,
+      "seed_used": 20,
+      "n_val_events": 69,
+      "oob_size": 167,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5747351050376892
+    },
+    {
+      "job": 1,
+      "round": 4,
+      "global_round": 21,
+      "seed_used": 21,
+      "n_val_events": 66,
+      "oob_size": 167,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6008996367454529
+    },
+    {
+      "job": 1,
+      "round": 5,
+      "global_round": 22,
+      "seed_used": 22,
+      "n_val_events": 64,
+      "oob_size": 165,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5740823745727539
+    },
+    {
+      "job": 1,
+      "round": 6,
+      "global_round": 23,
+      "seed_used": 23,
+      "n_val_events": 75,
+      "oob_size": 171,
+      "hit_retry_limit": false,
+      "val_cidx": 0.598072350025177
+    },
+    {
+      "job": 1,
+      "round": 7,
+      "global_round": 24,
+      "seed_used": 24,
+      "n_val_events": 73,
+      "oob_size": 166,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6335877776145935
+    },
+    {
+      "job": 1,
+      "round": 8,
+      "global_round": 25,
+      "seed_used": 25,
+      "n_val_events": 77,
+      "oob_size": 170,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5601383447647095
+    },
+    {
+      "job": 1,
+      "round": 9,
+      "global_round": 26,
+      "seed_used": 26,
+      "n_val_events": 79,
+      "oob_size": 165,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5649137496948242
+    },
+    {
+      "job": 1,
+      "round": 10,
+      "global_round": 27,
+      "seed_used": 27,
+      "n_val_events": 72,
+      "oob_size": 165,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5955237150192261
+    },
+    {
+      "job": 1,
+      "round": 11,
+      "global_round": 28,
+      "seed_used": 28,
+      "n_val_events": 73,
+      "oob_size": 164,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6426393389701843
+    },
+    {
+      "job": 1,
+      "round": 12,
+      "global_round": 29,
+      "seed_used": 29,
+      "n_val_events": 84,
+      "oob_size": 168,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5912575125694275
+    },
+    {
+      "job": 1,
+      "round": 13,
+      "global_round": 30,
+      "seed_used": 30,
+      "n_val_events": 74,
+      "oob_size": 173,
+      "hit_retry_limit": false,
+      "val_cidx": 0.536922037601471
+    },
+    {
+      "job": 1,
+      "round": 14,
+      "global_round": 31,
+      "seed_used": 31,
+      "n_val_events": 72,
+      "oob_size": 174,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5672467350959778
+    },
+    {
+      "job": 1,
+      "round": 15,
+      "global_round": 32,
+      "seed_used": 32,
+      "n_val_events": 70,
+      "oob_size": 160,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5752924084663391
+    },
+    {
+      "job": 1,
+      "round": 16,
+      "global_round": 33,
+      "seed_used": 33,
+      "n_val_events": 69,
+      "oob_size": 167,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5984572172164917
+    },
+    {
+      "job": 1,
+      "round": 17,
+      "global_round": 34,
+      "seed_used": 34,
+      "n_val_events": 77,
+      "oob_size": 176,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5775060653686523
+    },
+    {
+      "job": 2,
+      "round": 1,
+      "global_round": 35,
+      "seed_used": 35,
+      "n_val_events": 80,
+      "oob_size": 179,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5734289884567261
+    },
+    {
+      "job": 2,
+      "round": 2,
+      "global_round": 36,
+      "seed_used": 36,
+      "n_val_events": 76,
+      "oob_size": 182,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6162387132644653
+    },
+    {
+      "job": 2,
+      "round": 3,
+      "global_round": 37,
+      "seed_used": 37,
+      "n_val_events": 72,
+      "oob_size": 167,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5820176601409912
+    },
+    {
+      "job": 2,
+      "round": 4,
+      "global_round": 38,
+      "seed_used": 38,
+      "n_val_events": 73,
+      "oob_size": 175,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5940148830413818
+    },
+    {
+      "job": 2,
+      "round": 5,
+      "global_round": 39,
+      "seed_used": 39,
+      "n_val_events": 72,
+      "oob_size": 169,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5997821688652039
+    },
+    {
+      "job": 2,
+      "round": 6,
+      "global_round": 40,
+      "seed_used": 40,
+      "n_val_events": 78,
+      "oob_size": 178,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5867328643798828
+    },
+    {
+      "job": 2,
+      "round": 7,
+      "global_round": 41,
+      "seed_used": 41,
+      "n_val_events": 79,
+      "oob_size": 176,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6268090009689331
+    },
+    {
+      "job": 2,
+      "round": 8,
+      "global_round": 42,
+      "seed_used": 42,
+      "n_val_events": 83,
+      "oob_size": 183,
+      "hit_retry_limit": false,
+      "val_cidx": 0.579146146774292
+    },
+    {
+      "job": 2,
+      "round": 9,
+      "global_round": 43,
+      "seed_used": 43,
+      "n_val_events": 78,
+      "oob_size": 173,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6171746850013733
+    },
+    {
+      "job": 2,
+      "round": 10,
+      "global_round": 44,
+      "seed_used": 44,
+      "n_val_events": 80,
+      "oob_size": 172,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5742906928062439
+    },
+    {
+      "job": 2,
+      "round": 11,
+      "global_round": 45,
+      "seed_used": 45,
+      "n_val_events": 69,
+      "oob_size": 174,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5878073573112488
+    },
+    {
+      "job": 2,
+      "round": 12,
+      "global_round": 46,
+      "seed_used": 46,
+      "n_val_events": 72,
+      "oob_size": 177,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6153641939163208
+    },
+    {
+      "job": 2,
+      "round": 13,
+      "global_round": 47,
+      "seed_used": 47,
+      "n_val_events": 70,
+      "oob_size": 169,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5968462824821472
+    },
+    {
+      "job": 2,
+      "round": 14,
+      "global_round": 48,
+      "seed_used": 48,
+      "n_val_events": 75,
+      "oob_size": 169,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6149141192436218
+    },
+    {
+      "job": 2,
+      "round": 15,
+      "global_round": 49,
+      "seed_used": 49,
+      "n_val_events": 76,
+      "oob_size": 167,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5879833698272705
+    },
+    {
+      "job": 2,
+      "round": 16,
+      "global_round": 50,
+      "seed_used": 50,
+      "n_val_events": 74,
+      "oob_size": 167,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6046258211135864
+    },
+    {
+      "job": 2,
+      "round": 17,
+      "global_round": 51,
+      "seed_used": 51,
+      "n_val_events": 71,
+      "oob_size": 166,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5811034440994263
+    },
+    {
+      "job": 3,
+      "round": 1,
+      "global_round": 52,
+      "seed_used": 52,
+      "n_val_events": 72,
+      "oob_size": 176,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6381744742393494
+    },
+    {
+      "job": 3,
+      "round": 2,
+      "global_round": 53,
+      "seed_used": 53,
+      "n_val_events": 67,
+      "oob_size": 159,
+      "hit_retry_limit": false,
+      "val_cidx": 0.620604932308197
+    },
+    {
+      "job": 3,
+      "round": 3,
+      "global_round": 54,
+      "seed_used": 54,
+      "n_val_events": 66,
+      "oob_size": 163,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6213375926017761
+    },
+    {
+      "job": 3,
+      "round": 4,
+      "global_round": 55,
+      "seed_used": 55,
+      "n_val_events": 71,
+      "oob_size": 172,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6083809733390808
+    },
+    {
+      "job": 3,
+      "round": 5,
+      "global_round": 56,
+      "seed_used": 56,
+      "n_val_events": 78,
+      "oob_size": 172,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6261854767799377
+    },
+    {
+      "job": 3,
+      "round": 6,
+      "global_round": 57,
+      "seed_used": 57,
+      "n_val_events": 73,
+      "oob_size": 171,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6240262389183044
+    },
+    {
+      "job": 3,
+      "round": 7,
+      "global_round": 58,
+      "seed_used": 58,
+      "n_val_events": 74,
+      "oob_size": 167,
+      "hit_retry_limit": false,
+      "val_cidx": 0.590062141418457
+    },
+    {
+      "job": 3,
+      "round": 8,
+      "global_round": 59,
+      "seed_used": 59,
+      "n_val_events": 68,
+      "oob_size": 161,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5481611490249634
+    },
+    {
+      "job": 3,
+      "round": 9,
+      "global_round": 60,
+      "seed_used": 60,
+      "n_val_events": 81,
+      "oob_size": 168,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5777521133422852
+    },
+    {
+      "job": 3,
+      "round": 10,
+      "global_round": 61,
+      "seed_used": 61,
+      "n_val_events": 74,
+      "oob_size": 168,
+      "hit_retry_limit": false,
+      "val_cidx": 0.600386917591095
+    },
+    {
+      "job": 3,
+      "round": 11,
+      "global_round": 62,
+      "seed_used": 62,
+      "n_val_events": 80,
+      "oob_size": 175,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5596619844436646
+    },
+    {
+      "job": 3,
+      "round": 12,
+      "global_round": 63,
+      "seed_used": 63,
+      "n_val_events": 82,
+      "oob_size": 171,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5781062245368958
+    },
+    {
+      "job": 3,
+      "round": 13,
+      "global_round": 64,
+      "seed_used": 64,
+      "n_val_events": 81,
+      "oob_size": 176,
+      "hit_retry_limit": false,
+      "val_cidx": 0.602531909942627
+    },
+    {
+      "job": 3,
+      "round": 14,
+      "global_round": 65,
+      "seed_used": 65,
+      "n_val_events": 78,
+      "oob_size": 174,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5726031064987183
+    },
+    {
+      "job": 3,
+      "round": 15,
+      "global_round": 66,
+      "seed_used": 66,
+      "n_val_events": 67,
+      "oob_size": 166,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6288766860961914
+    },
+    {
+      "job": 3,
+      "round": 16,
+      "global_round": 67,
+      "seed_used": 67,
+      "n_val_events": 75,
+      "oob_size": 169,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5918071866035461
+    },
+    {
+      "job": 3,
+      "round": 17,
+      "global_round": 68,
+      "seed_used": 68,
+      "n_val_events": 62,
+      "oob_size": 166,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6157064437866211
+    },
+    {
+      "job": 4,
+      "round": 1,
+      "global_round": 69,
+      "seed_used": 69,
+      "n_val_events": 81,
+      "oob_size": 182,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5854916572570801
+    },
+    {
+      "job": 4,
+      "round": 2,
+      "global_round": 70,
+      "seed_used": 70,
+      "n_val_events": 80,
+      "oob_size": 176,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6114656925201416
+    },
+    {
+      "job": 4,
+      "round": 3,
+      "global_round": 71,
+      "seed_used": 71,
+      "n_val_events": 72,
+      "oob_size": 172,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5660151839256287
+    },
+    {
+      "job": 4,
+      "round": 4,
+      "global_round": 72,
+      "seed_used": 72,
+      "n_val_events": 78,
+      "oob_size": 179,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5913073420524597
+    },
+    {
+      "job": 4,
+      "round": 5,
+      "global_round": 73,
+      "seed_used": 73,
+      "n_val_events": 85,
+      "oob_size": 171,
+      "hit_retry_limit": false,
+      "val_cidx": 0.607510507106781
+    },
+    {
+      "job": 4,
+      "round": 6,
+      "global_round": 74,
+      "seed_used": 74,
+      "n_val_events": 70,
+      "oob_size": 172,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6223241686820984
+    },
+    {
+      "job": 4,
+      "round": 7,
+      "global_round": 75,
+      "seed_used": 75,
+      "n_val_events": 76,
+      "oob_size": 170,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5868844389915466
+    },
+    {
+      "job": 4,
+      "round": 8,
+      "global_round": 76,
+      "seed_used": 76,
+      "n_val_events": 75,
+      "oob_size": 172,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6361755132675171
+    },
+    {
+      "job": 4,
+      "round": 9,
+      "global_round": 77,
+      "seed_used": 77,
+      "n_val_events": 70,
+      "oob_size": 171,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5513737797737122
+    },
+    {
+      "job": 4,
+      "round": 10,
+      "global_round": 78,
+      "seed_used": 78,
+      "n_val_events": 70,
+      "oob_size": 179,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5645593404769897
+    },
+    {
+      "job": 4,
+      "round": 11,
+      "global_round": 79,
+      "seed_used": 79,
+      "n_val_events": 67,
+      "oob_size": 167,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5679382681846619
+    },
+    {
+      "job": 4,
+      "round": 12,
+      "global_round": 80,
+      "seed_used": 80,
+      "n_val_events": 71,
+      "oob_size": 174,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5903928875923157
+    },
+    {
+      "job": 4,
+      "round": 13,
+      "global_round": 81,
+      "seed_used": 81,
+      "n_val_events": 73,
+      "oob_size": 178,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6099574565887451
+    },
+    {
+      "job": 4,
+      "round": 14,
+      "global_round": 82,
+      "seed_used": 82,
+      "n_val_events": 70,
+      "oob_size": 170,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5880979895591736
+    },
+    {
+      "job": 4,
+      "round": 15,
+      "global_round": 83,
+      "seed_used": 83,
+      "n_val_events": 68,
+      "oob_size": 168,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5759682059288025
+    },
+    {
+      "job": 4,
+      "round": 16,
+      "global_round": 84,
+      "seed_used": 84,
+      "n_val_events": 61,
+      "oob_size": 170,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5974926352500916
+    },
+    {
+      "job": 4,
+      "round": 17,
+      "global_round": 85,
+      "seed_used": 85,
+      "n_val_events": 76,
+      "oob_size": 172,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5855072736740112
+    },
+    {
+      "job": 5,
+      "round": 1,
+      "global_round": 86,
+      "seed_used": 86,
+      "n_val_events": 69,
+      "oob_size": 167,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5911610126495361
+    },
+    {
+      "job": 5,
+      "round": 2,
+      "global_round": 87,
+      "seed_used": 87,
+      "n_val_events": 77,
+      "oob_size": 177,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6408450603485107
+    },
+    {
+      "job": 5,
+      "round": 3,
+      "global_round": 88,
+      "seed_used": 88,
+      "n_val_events": 75,
+      "oob_size": 174,
+      "hit_retry_limit": false,
+      "val_cidx": 0.548284649848938
+    },
+    {
+      "job": 5,
+      "round": 4,
+      "global_round": 89,
+      "seed_used": 89,
+      "n_val_events": 76,
+      "oob_size": 168,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6257877945899963
+    },
+    {
+      "job": 5,
+      "round": 5,
+      "global_round": 90,
+      "seed_used": 90,
+      "n_val_events": 69,
+      "oob_size": 161,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5878130793571472
+    },
+    {
+      "job": 5,
+      "round": 6,
+      "global_round": 91,
+      "seed_used": 91,
+      "n_val_events": 75,
+      "oob_size": 171,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6140812039375305
+    },
+    {
+      "job": 5,
+      "round": 7,
+      "global_round": 92,
+      "seed_used": 92,
+      "n_val_events": 80,
+      "oob_size": 174,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6064437627792358
+    },
+    {
+      "job": 5,
+      "round": 8,
+      "global_round": 93,
+      "seed_used": 93,
+      "n_val_events": 61,
+      "oob_size": 164,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6158899068832397
+    },
+    {
+      "job": 5,
+      "round": 9,
+      "global_round": 94,
+      "seed_used": 94,
+      "n_val_events": 76,
+      "oob_size": 178,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5770283937454224
+    },
+    {
+      "job": 5,
+      "round": 10,
+      "global_round": 95,
+      "seed_used": 95,
+      "n_val_events": 76,
+      "oob_size": 166,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6047825813293457
+    },
+    {
+      "job": 5,
+      "round": 11,
+      "global_round": 96,
+      "seed_used": 96,
+      "n_val_events": 64,
+      "oob_size": 164,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6122919917106628
+    },
+    {
+      "job": 5,
+      "round": 12,
+      "global_round": 97,
+      "seed_used": 97,
+      "n_val_events": 72,
+      "oob_size": 174,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5287944674491882
+    },
+    {
+      "job": 5,
+      "round": 13,
+      "global_round": 98,
+      "seed_used": 98,
+      "n_val_events": 79,
+      "oob_size": 172,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5787797570228577
+    },
+    {
+      "job": 5,
+      "round": 14,
+      "global_round": 99,
+      "seed_used": 99,
+      "n_val_events": 72,
+      "oob_size": 175,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6222596764564514
+    },
+    {
+      "job": 5,
+      "round": 15,
+      "global_round": 100,
+      "seed_used": 100,
+      "n_val_events": 66,
+      "oob_size": 163,
+      "hit_retry_limit": false,
+      "val_cidx": 0.6405607461929321
+    },
+    {
+      "job": 5,
+      "round": 16,
+      "global_round": 101,
+      "seed_used": 101,
+      "n_val_events": 73,
+      "oob_size": 175,
+      "hit_retry_limit": false,
+      "val_cidx": 0.5911998748779297
+    },
+    {
+      "job": 5,
+      "round": 17,
+      "global_round": 102,
+      "seed_used": 102,
+      "n_val_events": 69,
+      "oob_size": 170,
+      "hit_retry_limit": false,
+      "val_cidx": 0.610403835773468
+    }
+  ]
+}
