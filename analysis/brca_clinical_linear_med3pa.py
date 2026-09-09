@@ -34,6 +34,12 @@ from MED3pa.med3pa import Med3paExperiment
 from MED3pa.datasets import DatasetsManager
 from MED3pa.models import BaseModelManager
 
+# Unwrap @checkpoint decorator to avoid ObjectHashError on BaseModelManager.
+import inspect as _inspect
+_raw_run = getattr(Med3paExperiment.run, '__wrapped__', None)
+if _raw_run is not None:
+    Med3paExperiment.run = staticmethod(_raw_run)
+
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _REPO = os.path.dirname(_HERE)
 if _REPO not in sys.path:
