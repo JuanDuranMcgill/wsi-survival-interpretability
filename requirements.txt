@@ -1,0 +1,24 @@
+# Core requirements for analysis/patient_error.py, analysis/fusion_weight_stats.py,
+# and analysis/profile_metrics.py (Steps 1 and 3 of the runbook).
+#
+# On Alliance (Narval/Graham/Béluga): install from the wheelhouse — see envs/narval.md.
+# On Trillium (SciNet): see envs/trillium.md (to be written when back on that cluster).
+# Do NOT pip-install from PyPI on compute nodes; they have no outbound internet.
+#
+# Tested: numpy 2.4.2, pandas 3.0.5, scikit-learn 1.8.0, scipy 1.17.1
+# numpy >= 2.0: ndarray.ptp() was removed; use np.ptp(arr) instead.
+
+numpy>=2.0
+pandas>=2.0
+scikit-learn>=1.3
+scipy>=1.10
+openpyxl>=3.1         # required by pandas.read_excel for .xlsx files
+
+# Step 2 (MED3pa reliability re-run) additionally requires MED3pa and its
+# dependencies. MED3pa is NOT in the Alliance wheelhouse and must be installed
+# with --no-deps after the wheelhouse packages are in place.
+# Its full dependency list (from PyPI metadata) is:
+#   checkpointer, matplotlib, PyYAML, ray, relib, torch, tqdm, xgboost
+# These must be installed on the LOGIN NODE before submitting jobs.
+# See envs/narval.md §Step 2 for the exact install sequence.
+# med3pa==1.0.4
