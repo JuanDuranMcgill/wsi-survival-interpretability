@@ -46,6 +46,8 @@ mkdir -p "$SAVE_TMP"
 module load python/3.11 scipy-stack
 source "$REPO/venv/bin/activate"
 
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+
 # Sanity checks before committing GPU hours
 echo ">>> Python: $(which python)"
 echo ">>> Torch version: $(python -c 'import torch; print(torch.__version__)')"

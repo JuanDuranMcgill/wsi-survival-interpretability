@@ -443,6 +443,9 @@ def oob_cindex(model, loader, device):
     for feats_list, pos_list, t, e, paths, ntiles in loader:
         risks = model.forward_batch(feats_list, pos_list).detach().cpu().numpy()
         Rs.extend(risks.tolist()); Ts.extend(t.tolist()); Es.extend(e.tolist())
+        del feats_list, pos_list, risks
+        if device.startswith("cuda"):
+            torch.cuda.empty_cache()
     return fast_cindex(Ts, Es, Rs)
 
 
@@ -455,6 +458,9 @@ def oob_cindex_ablated(model, loader, device, zeroed_region, renormalize):
             feats_list, pos_list, zeroed_region, renormalize
         ).detach().cpu().numpy()
         Rs.extend(risks.tolist()); Ts.extend(t.tolist()); Es.extend(e.tolist())
+        del feats_list, pos_list, risks
+        if device.startswith("cuda"):
+            torch.cuda.empty_cache()
     return fast_cindex(Ts, Es, Rs)
 
 
@@ -504,6 +510,8 @@ def run_ablation(dataset, num_regions, region_names, rounds, train_frac,
 
         print(f"  OOB N={len(oob_idx)}, OOB events={val_events}")
 
+        # batch_size for training; eval always uses batch_size=1 to stay within
+        # 40 GB GPU memory (8 regions × N_tiles × 1536 features per slide).
         train_loader = DataLoader(
             torch.utils.data.Subset(dataset, train_idx.tolist()),
             batch_size=batch_size, shuffle=True,
@@ -511,20 +519,26 @@ def run_ablation(dataset, num_regions, region_names, rounds, train_frac,
         )
         oob_loader = DataLoader(
             torch.utils.data.Subset(dataset, oob_idx.tolist()),
-            batch_size=batch_size, shuffle=False,
-            num_workers=4, collate_fn=collate_bags,
+            batch_size=1, shuffle=False,
+            num_workers=2, collate_fn=collate_bags,
         )
 
         # ── Train ─────────────────────────────────────────────────────────────
         model = IPGGraphFormer(num_regions=num_regions)
         train_one_round(model, train_loader, device, epochs, save_root, rnd, lr=lr)
 
+        # Move training model off GPU before loading epoch checkpoints on top of it.
+        model.cpu()
+        del model
+        if device.startswith("cuda"):
+            torch.cuda.empty_cache()
+
         # ── Pick best epoch by OOB c-index ────────────────────────────────────
         best_ep, best_c = 1, -1.0
         for ep in range(1, epochs + 1):
             ckpt = os.path.join(save_root, f"round_{rnd}_epoch_{ep}.pt")
             m = IPGGraphFormer(num_regions=num_regions)
-            m.load_state_dict(torch.load(ckpt, map_location=device))
+            m.load_state_dict(torch.load(ckpt, map_location="cpu"))
             m.to(device)
             c = oob_cindex(m, oob_loader, device)
             print(f"    epoch {ep} OOB c-index={c:.4f}")
@@ -565,7 +579,7 @@ def run_ablation(dataset, num_regions, region_names, rounds, train_frac,
                   f"renorm={c_re:.4f} (Δ{c_re-baseline:+.4f})")
 
         # ── Cleanup ───────────────────────────────────────────────────────────
-        del model, model_best
+        del model_best
         for ep in range(1, epochs + 1):
             p = os.path.join(save_root, f"round_{rnd}_epoch_{ep}.pt")
             if os.path.exists(p):
