@@ -1,0 +1,47 @@
+{
+  "cohort": "blca",
+  "arm": "radiomic",
+  "endpoint": "PFI",
+  "input_error_npz": "/home/sorkwos/data/patient_error_blca_oob.npz",
+  "input_radiomics_csv": "/home/sorkwos/data/blca/radiomics_pre_corr.csv",
+  "backbone_round_count": 102,
+  "backbone_save_root": "/home/sorkwos/data/med3pa_bootstrap_intermediate",
+  "n_patients_aligned": 379,
+  "n_events": 163,
+  "n_censored": 216,
+  "n_first_order_features": 504,
+  "n_features_in_med3pa": 30,
+  "med3pa_error_quantile": 0.5,
+  "error_threshold": 0.3558282208588957,
+  "label_prevalence_overall": 0.49604221635883905,
+  "majority_class_accuracy_overall": 0.503957783641161,
+  "discovery_eval_split": {
+    "frac_discovery": 0.6,
+    "seed": 20260908,
+    "n_discovery": 228,
+    "n_eval": 151
+  },
+  "med3pa_n_runs": 200,
+  "classifier_metrics_on_eval": {
+    "n": 151,
+    "prevalence_high_error": 0.4966887417218543,
+    "majority_class_accuracy": 0.5033112582781457,
+    "plain_accuracy": 0.5099337748344371,
+    "balanced_accuracy": 0.5099122807017544,
+    "auroc": 0.5466666666666666,
+    "auroc_p_vs_0.5": 0.2943528235882059,
+    "auroc_n_permutations": 2000,
+    "average_precision": 0.557061493764921,
+    "average_precision_baseline": 0.4966887417218543,
+    "note": "Accuracy must be read against majority_class_accuracy, not 0.50. AUROC is the threshold-free metric; its null is 0.50."
+  },
+  "scaler_note": "StandardScaler fitted on X_med3pa (top-K first-order features).",
+  "top_profiles_eval": [],
+  "feature_importance_summary": {
+    "n_bootstrap": 1000,
+    "mean_oob_corr": 0.3647165894508362,
+    "std_oob_corr": 0.08045574277639389,
+    "n_first_order_features": 504,
+    "n_selected_for_med3pa": 30
+  }
+}

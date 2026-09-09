@@ -1,0 +1,224 @@
+{
+  "cohort": "blca",
+  "arm": "clinical",
+  "endpoint": "PFI",
+  "input_error_npz": "/home/sorkwos/data/patient_error_blca_oob.npz",
+  "input_clinical_csv": "/home/sorkwos/data/clinical_features.csv",
+  "backbone_round_count": 102,
+  "backbone_save_root": "/home/sorkwos/data/med3pa_bootstrap_intermediate",
+  "n_patients_aligned": 379,
+  "n_events": 163,
+  "n_censored": 216,
+  "med3pa_error_quantile": 0.8,
+  "error_threshold": 0.5525359143390619,
+  "label_prevalence_overall": 0.19788918205804748,
+  "majority_class_accuracy_overall": 0.8021108179419525,
+  "discovery_eval_split": {
+    "frac_discovery": 0.6,
+    "seed": 20260908,
+    "n_discovery": 227,
+    "n_eval": 152
+  },
+  "med3pa_n_runs": 200,
+  "classifier_metrics_on_eval": {
+    "n": 152,
+    "prevalence_high_error": 0.19736842105263158,
+    "majority_class_accuracy": 0.8026315789473684,
+    "plain_accuracy": 0.6578947368421053,
+    "balanced_accuracy": 0.4601092896174863,
+    "auroc": 0.4551912568306011,
+    "auroc_p_vs_0.5": 0.46976511744127936,
+    "auroc_n_permutations": 2000,
+    "average_precision": 0.17820849139780787,
+    "average_precision_baseline": 0.19736842105263158,
+    "note": "Accuracy must be read against majority_class_accuracy, not 0.50. AUROC is the threshold-free metric; its null is 0.50."
+  },
+  "scaler_params_note": "StandardScaler fitted on aligned X. If the input CSV is already z-scored, threshold_clinical_approx \u2248 threshold_in_csv_units (scale\u22481, mean\u22480). Use the original preprocessing scaler for exact clinical-unit thresholds.",
+  "top_profiles_eval": [
+    {
+      "profile": "pathologic_stage_UP",
+      "readable_rule": "pathologic_stage > 2.5 [2.5, 3.5]",
+      "runs_appeared": 16,
+      "run_freq_pct": 8.0,
+      "discovery_avg_accuracy": 0.6887,
+      "thresholds": {
+        "pathologic_stage_UP": {
+          "feature": "pathologic_stage",
+          "op": ">",
+          "threshold_in_csv_units": 2.5,
+          "threshold_clinical_approx": 5.0636
+        }
+      },
+      "n_patients": 101,
+      "coverage_pct": 66.44736842105263,
+      "n_events_in_profile": 43,
+      "n_censored_in_profile": 58,
+      "high_error_prevalence_in_profile": 0.1782178217821782,
+      "high_error_prevalence_overall": 0.19736842105263158,
+      "majority_class_accuracy_in_profile": 0.8217821782178218,
+      "survival_model_cindex_in_profile": 0.6395301741595788,
+      "survival_model_cindex_ci95": [
+        0.5535905040814728,
+        0.7264054589406606
+      ],
+      "n_comparable_pairs_in_profile": 2469,
+      "mean_patient_error_in_profile": 0.3747328369207119,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "pathologic_stage_DOWN",
+      "readable_rule": "pathologic_stage <= 2.5 [2.5, 3.5]",
+      "runs_appeared": 16,
+      "run_freq_pct": 8.0,
+      "discovery_avg_accuracy": 0.9032,
+      "thresholds": {
+        "pathologic_stage_DOWN": {
+          "feature": "pathologic_stage",
+          "op": "<=",
+          "threshold_in_csv_units": 2.5,
+          "threshold_clinical_approx": 5.0636
+        }
+      },
+      "n_patients": 51,
+      "coverage_pct": 33.55263157894737,
+      "n_events_in_profile": 16,
+      "n_censored_in_profile": 35,
+      "high_error_prevalence_in_profile": 0.23529411764705882,
+      "high_error_prevalence_overall": 0.19736842105263158,
+      "majority_class_accuracy_in_profile": 0.7647058823529411,
+      "survival_model_cindex_in_profile": 0.5637254901960784,
+      "survival_model_cindex_ci95": [
+        0.41829363136215686,
+        0.7189528679413072
+      ],
+      "n_comparable_pairs_in_profile": 408,
+      "mean_patient_error_in_profile": 0.3519577051316316,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "age_at_diagnosis_UP",
+      "readable_rule": "age_at_diagnosis > 0.3183 [-1.6656, 1.1805]",
+      "runs_appeared": 14,
+      "run_freq_pct": 7.0,
+      "discovery_avg_accuracy": 0.7152,
+      "thresholds": {
+        "age_at_diagnosis_UP": {
+          "feature": "age_at_diagnosis",
+          "op": ">",
+          "threshold_in_csv_units": 0.3183,
+          "threshold_clinical_approx": 0.3016
+        }
+      },
+      "n_patients": 57,
+      "coverage_pct": 37.5,
+      "n_events_in_profile": 24,
+      "n_censored_in_profile": 33,
+      "high_error_prevalence_in_profile": 0.14035087719298245,
+      "high_error_prevalence_overall": 0.19736842105263158,
+      "majority_class_accuracy_in_profile": 0.8596491228070176,
+      "survival_model_cindex_in_profile": 0.6789940828402367,
+      "survival_model_cindex_ci95": [
+        0.5561254460110947,
+        0.7919358759754428
+      ],
+      "n_comparable_pairs_in_profile": 676,
+      "mean_patient_error_in_profile": 0.361777458470386,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "age_at_diagnosis_DOWN",
+      "readable_rule": "age_at_diagnosis <= 0.3183 [-1.6656, 1.1805]",
+      "runs_appeared": 14,
+      "run_freq_pct": 7.0,
+      "discovery_avg_accuracy": 0.7663,
+      "thresholds": {
+        "age_at_diagnosis_DOWN": {
+          "feature": "age_at_diagnosis",
+          "op": "<=",
+          "threshold_in_csv_units": 0.3183,
+          "threshold_clinical_approx": 0.3016
+        }
+      },
+      "n_patients": 95,
+      "coverage_pct": 62.5,
+      "n_events_in_profile": 35,
+      "n_censored_in_profile": 60,
+      "high_error_prevalence_in_profile": 0.23157894736842105,
+      "high_error_prevalence_overall": 0.19736842105263158,
+      "majority_class_accuracy_in_profile": 0.7684210526315789,
+      "survival_model_cindex_in_profile": 0.6069802731411229,
+      "survival_model_cindex_ci95": [
+        0.5096466854845306,
+        0.7011971700939722
+      ],
+      "n_comparable_pairs_in_profile": 1977,
+      "mean_patient_error_in_profile": 0.3708427784498549,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "weight_UP",
+      "readable_rule": "weight > -0.2591 [-0.6979, 0.3488]",
+      "runs_appeared": 12,
+      "run_freq_pct": 6.0,
+      "discovery_avg_accuracy": 0.753,
+      "thresholds": {
+        "weight_UP": {
+          "feature": "weight",
+          "op": ">",
+          "threshold_in_csv_units": -0.2591,
+          "threshold_clinical_approx": -0.2543
+        }
+      },
+      "n_patients": 104,
+      "coverage_pct": 68.42105263157895,
+      "n_events_in_profile": 45,
+      "n_censored_in_profile": 59,
+      "high_error_prevalence_in_profile": 0.20192307692307693,
+      "high_error_prevalence_overall": 0.19736842105263158,
+      "majority_class_accuracy_in_profile": 0.7980769230769231,
+      "survival_model_cindex_in_profile": 0.642962962962963,
+      "survival_model_cindex_ci95": [
+        0.5512304906215005,
+        0.7263682472592788
+      ],
+      "n_comparable_pairs_in_profile": 2700,
+      "mean_patient_error_in_profile": 0.3669216828914141,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "weight_DOWN",
+      "readable_rule": "weight <= -0.2591 [-0.6979, 0.3488]",
+      "runs_appeared": 12,
+      "run_freq_pct": 6.0,
+      "discovery_avg_accuracy": 0.7456,
+      "thresholds": {
+        "weight_DOWN": {
+          "feature": "weight",
+          "op": "<=",
+          "threshold_in_csv_units": -0.2591,
+          "threshold_clinical_approx": -0.2543
+        }
+      },
+      "n_patients": 48,
+      "coverage_pct": 31.57894736842105,
+      "n_events_in_profile": 14,
+      "n_censored_in_profile": 34,
+      "high_error_prevalence_in_profile": 0.1875,
+      "high_error_prevalence_overall": 0.19736842105263158,
+      "majority_class_accuracy_in_profile": 0.8125,
+      "survival_model_cindex_in_profile": 0.6217008797653959,
+      "survival_model_cindex_ci95": [
+        0.4604607597744123,
+        0.7814708141321044
+      ],
+      "n_comparable_pairs_in_profile": 341,
+      "mean_patient_error_in_profile": 0.36865075951852516,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    }
+  ],
+  "feature_importance_summary": {
+    "n_bootstrap": 200,
+    "mean_oob_corr": 0.29089805483818054,
+    "std_oob_corr": 0.05535784736275673
+  }
+}
