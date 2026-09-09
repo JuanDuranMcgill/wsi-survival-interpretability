@@ -117,33 +117,42 @@ how MED3pa outputs should be read rather than a criticism of the method.
 
 ---
 
-## Blocking issue: the strongest result rests on the unresolved arms
+## Statistical items: both RESOLVED, Results 3.3 is unblocked
 
-**The radiomic arms are the ones carrying the positive finding, and they are
-also the ones with the unresolved top-K feature-selection question.** If top-K
-selection runs on all patients before the discovery/evaluation split, the
-evaluation set leaked into feature selection and the 0.64 to 0.69 AUROCs are
-inflated by an unknown amount.
+**No feature-selection leakage.** Verified from the committed drivers: in both
+radiomic scripts the discovery/evaluation split happens before feature
+importance (line 593), and importance is fitted on `X[disc_mask]` only (line
+600), with top-K indices then applied as fixed columns to both halves. The
+clinical arms have no selection step. The 0.64 to 0.69 AUROCs stand.
 
-This must be settled before the reliability section is written. If selection
-precedes the split, move it inside the discovery half and re-run those four
-arms. Nothing in Results 3.3 should be drafted until then.
+**Multiple-testing correction applied.** Across the 16 AUROC tests, 5 survive
+Bonferroni (alpha = 0.00313) and 6 survive Benjamini-Hochberg at FDR 0.05. **All
+four BRCA radiomic arms survive Bonferroni at every label threshold**, which is
+the most conservative correction available. No BLCA arm is significant even
+uncorrected. Reported p of 0.0005 is the permutation floor, so those are upper
+bounds.
 
-Two smaller items in the same section:
-- **No multiple-testing correction across the 159 profiles.** Add one before any
-  individual profile is discussed.
+**The 159-profile negative needs no correction**, since 3 observed against
+roughly 8 expected by chance uncorrected means any correction can only reduce
+the count. State it that way rather than applying one.
+
+Detail in `STEP2_FINDINGS.md`, addendum section.
+
+One item still open:
 - **BRCA radiomic q90 rests on roughly 41 high-error evaluation patients**
-  ($0.097 \times 424$). The study's best AUROC needs a stability check.
+  ($0.097 \times 424$). It survives Bonferroni, but the study's strongest AUROC
+  resting on that few positives deserves a stability check or a stated caveat.
 
 ---
 
 ## Run order from here
 
-1. **Resolve the top-K leakage question**, and re-run the four radiomic arms if
-   needed. Blocks Results 3.3.
-2. **Step 5a, region ablation.** Blocks Results 3.1, which is now the lead
-   section. GPU.
-3. **Step 3, fusion weight consistency test.** Cheap, CPU, also feeds 3.1.
+1. ~~Resolve the top-K leakage question~~ **DONE, no leak.**
+2. **Step 5a, region ablation.** Now the only real blocker. Blocks Results 3.1,
+   which is the lead section. GPU. Highest priority.
+3. ~~Step 3, fusion weight consistency test~~ **DONE**, run locally from the
+   round npz already on the Mac. p = 5e-5 in both cohorts, both epoch choices;
+   CIs exclude uniform for 7/8 BLCA and 8/9 BRCA regions.
 4. **Step 5b, fusion parameterisation arms** (init at 0.0, softmax). Supporting
    robustness checks for 3.1.
 5. Multiple-testing correction and the q90 stability check.
