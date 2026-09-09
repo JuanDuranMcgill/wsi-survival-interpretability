@@ -617,15 +617,21 @@ def main():
         "evaluate_models": True,
     }
     n_test_approx = int(round(args.med3pa_test_size * len(X_disc)))
-    all_results = Parallel(n_jobs=args.med3pa_n_parallel, verbose=5)(
-        delayed(run_single_med3pa)(
+    # Med3paExperiment.run uses Ray/joblib internally; running it inside a Loky
+    # subprocess causes nested-subprocess ObjectHashError pickle failures.
+    # Sequential loop keeps MED3pa in the main process where Ray is safe.
+    all_results = []
+    print(f">>> Running {args.med3pa_n_runs} MED3PA iterations (sequential)...")
+    for i in range(args.med3pa_n_runs):
+        result = run_single_med3pa(
             run_idx=i, X_disc=X_disc, y_disc=y_disc, feature_names=feature_names,
             X_eval=X_eval, test_size=args.med3pa_test_size, ref_size=args.med3pa_ref_size,
             med3pa_params=med3pa_params, n_test_approx=n_test_approx,
             outdir=args.outdir, save_runs=args.save_runs,
         )
-        for i in range(args.med3pa_n_runs)
-    )
+        all_results.append(result)
+        if (i + 1) % 20 == 0:
+            print(f"  [{i+1}/{args.med3pa_n_runs}] runs done")
 
     # ---- 2c: Classifier metrics on eval set (AUROC, balanced acc) ----
     all_eval_scores = np.vstack([r[1] for r in all_results if r is not None])

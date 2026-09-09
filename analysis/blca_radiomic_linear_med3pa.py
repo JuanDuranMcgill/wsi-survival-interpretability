@@ -626,18 +626,21 @@ def main():
         "evaluate_models": True,
     }
     n_test_approx = int(round(args.test_size * len(X_disc)))
-    print(f">>> Running {args.n_runs} MED3PA iterations ({args.n_parallel} parallel workers)...")
-
-    all_results = Parallel(n_jobs=args.n_parallel, verbose=5)(
-        delayed(run_single_med3pa)(
+    # Sequential: Med3paExperiment.run uses Ray internally; Loky subprocess
+    # nesting causes ObjectHashError pickle failures.
+    print(f">>> Running {args.n_runs} MED3PA iterations (sequential)...")
+    all_results = []
+    for i in range(args.n_runs):
+        result = run_single_med3pa(
             run_idx=i, X_disc=X_disc, y_disc=y_disc,
             feature_names=selected_feature_names, X_eval=X_eval,
             test_size=args.test_size, ref_size=args.ref_size,
             med3pa_params=med3pa_params, n_test_approx=n_test_approx,
             outdir=args.outdir, save_runs=args.save_runs,
         )
-        for i in range(args.n_runs)
-    )
+        all_results.append(result)
+        if (i + 1) % 20 == 0:
+            print(f"  [{i+1}/{args.n_runs}] runs done")
 
     all_eval_scores = np.vstack([r[1] for r in all_results if r is not None])
     mean_eval_scores = all_eval_scores.mean(axis=0)
