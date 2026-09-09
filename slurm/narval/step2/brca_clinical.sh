@@ -1,23 +1,25 @@
 #!/bin/bash
+# Step 2 — BRCA clinical MED3PA reliability (Narval / Alliance)
+# Cluster: Narval. Do NOT use on Trillium — paths and module names differ.
+#
+# BRCA has 1060 patients vs BLCA's 379; backbone round count: 106.
+# Required env var: QUANTILE  — 50, 70, 80, or 90
+#
+# Submit via submit_all.sh, or manually:
+#   QUANTILE=50 sbatch --job-name=s2_brca_clin_q50 slurm/narval/step2/brca_clinical.sh
+#
+# Data prerequisites in ~/data/:
+#   patient_error_brca_oob.npz     (copy from Mac: results/patient_error_brca_oob.npz)
+#   clinical_features_BRCA.csv     (copy from Mac: ~/data/clinical_features_BRCA.csv)
+
 #SBATCH --account=def-senger_cpu
-#SBATCH --job-name=s2_brca_clin_q${QUANTILE:-50}
-#SBATCH --output=logs/step2_brca_clinical_q%j.out
-#SBATCH --error=logs/step2_brca_clinical_q%j.err
-#SBATCH --time=8:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
 #SBATCH --cpus-per-task=12
 #SBATCH --mem=48G
-
-# Step 2 — BRCA clinical MED3PA reliability (all 2a-2f changes applied)
-#
-# BRCA has 1060 patients vs BLCA's 379; more memory requested.
-# Backbone round count: 106.
-#
-# Required env vars:
-#   QUANTILE  — 50, 70, 80, or 90
-#
-# Data must be present in ~/data/ before this job runs:
-#   patient_error_brca_oob.npz
-#   clinical_features_BRCA.csv
+#SBATCH --time=8:00:00
+#SBATCH --output=/scratch/sorkwos/slurm_logs/step2_brca_clinical_%j.out
+#SBATCH --error=/scratch/sorkwos/slurm_logs/step2_brca_clinical_%j.err
 
 set -euo pipefail
 
@@ -38,21 +40,26 @@ module load python/3.11 scipy-stack
 source "$REPO/venv/bin/activate"
 
 cd "$REPO"
-mkdir -p logs "$OUTDIR"
+mkdir -p "$OUTDIR"
 
-echo "[$(date)] Starting BRCA clinical q${Q} on $SLURMD_NODENAME"
+echo "[$(date)] BRCA clinical q${Q} starting on $(hostname)"
+echo "  cpus     : $SLURM_CPUS_PER_TASK"
+echo "  mem      : $SLURM_MEM_PER_NODE MB"
+echo "  error_npz: $DATA/patient_error_brca_oob.npz"
+echo "  clinical : $DATA/clinical_features_BRCA.csv"
+echo "  outdir   : $OUTDIR"
 
 python analysis/brca_clinical_linear_med3pa.py \
-    --error-npz      "$DATA/patient_error_brca_oob.npz" \
-    --clinical-csv   "$DATA/clinical_features_BRCA.csv" \
-    --round-count    106 \
-    --save-root      "$DATA/med3pa_bootstrap_intermediate_BRCA" \
-    --outdir         "$OUTDIR" \
+    --error-npz             "$DATA/patient_error_brca_oob.npz" \
+    --clinical-csv          "$DATA/clinical_features_BRCA.csv" \
+    --round-count           106 \
+    --save-root             "$DATA/med3pa_bootstrap_intermediate_BRCA" \
+    --outdir                "$OUTDIR" \
     --med3pa-error-quantile "$QFLOAT" \
-    --med3pa-n-runs  200 \
-    --med3pa-n-parallel 10 \
-    --fi-n-jobs      10 \
-    --discovery-frac 0.6 \
-    --split-seed     20260908
+    --med3pa-n-runs         200 \
+    --med3pa-n-parallel     10 \
+    --fi-n-jobs             10 \
+    --discovery-frac        0.6 \
+    --split-seed            20260908
 
-echo "[$(date)] Done. Results in $OUTDIR"
+echo "[$(date)] BRCA clinical q${Q} done. Results in $OUTDIR"
