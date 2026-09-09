@@ -40,15 +40,23 @@ censored patient `error = 0.0`, because `counts[i]` only incremented when
 `events[i] == 1`. So only patients with an event could ever be labelled
 high-error, making the label a partial proxy for the outcome.
 
+Set these three per cluster first. The values below are Narval; see
+`envs/narval.md`. On Trillium the CDR file was under a UUID subdirectory of
+`/home/sorkwos/` and the npz files were under `/scratch/sorkwos/`.
+
 ```bash
+export CDR_XLSX=/home/sorkwos/TCGA-CDR-SupplementalTableS1.xlsx
+export BLCA_NPZ=$HOME/data/blca/final_med3pa_input.npz
+export BRCA_NPZ=$HOME/data/brca/final_med3pa_input.npz
+
 python analysis/patient_error.py --cohort blca \
-  --final-npz /scratch/sorkwos/med3pa_bootstrap/final_med3pa_input.npz \
-  --cdr-xlsx  /home/sorkwos/1b5f413e-a8d1-4d10-92eb-7c4ae739ed81/TCGA-CDR-SupplementalTableS1.xlsx \
+  --final-npz "$BLCA_NPZ" \
+  --cdr-xlsx  "$CDR_XLSX" \
   --out results/patient_error_blca.json
 
 python analysis/patient_error.py --cohort brca \
-  --final-npz /scratch/sorkwos/med3pa_bootstrap_intermediate_BRCA/final_med3pa_input.npz \
-  --cdr-xlsx  /home/sorkwos/1b5f413e-a8d1-4d10-92eb-7c4ae739ed81/TCGA-CDR-SupplementalTableS1.xlsx \
+  --final-npz "$BRCA_NPZ" \
+  --cdr-xlsx  "$CDR_XLSX" \
   --out results/patient_error_brca.json
 ```
 
@@ -141,12 +149,13 @@ split seed, and N in every file.
 ## Step 3. Fusion weight statistics  (CPU, minutes)
 
 ```bash
+# Narval, after rsyncing the round trees from Trillium:
 python analysis/fusion_weight_stats.py --cohort blca \
-  --npz-glob '/scratch/sorkwos/med3pa_bootstrap_intermediate/job_*/round_*/epoch_*.npz' \
+  --npz-glob "$HOME/data/blca/rounds/job_*/round_*/epoch_*.npz" \
   --out results/fusion_weight_test_blca.json
 
 python analysis/fusion_weight_stats.py --cohort brca \
-  --npz-glob '/scratch/sorkwos/med3pa_bootstrap_intermediate_BRCA/job_*/round_*/epoch_*.npz' \
+  --npz-glob "$HOME/data/brca/rounds/job_*/round_*/epoch_*.npz" \
   --out results/fusion_weight_test_brca.json
 ```
 
@@ -231,3 +240,27 @@ paper; the numbers get pulled into LaTeX from these files.
 Priority if time runs short: Steps 1, 2 and 3. Those close the reviewers' core
 objection and the biggest interpretability question. Steps 4 and 5 are
 important but survivable as follow-ups.
+
+---
+
+## Cluster portability
+
+**Every path in this runbook was written for Trillium.** Trillium and Narval have
+separate `/home`, `/scratch` and `/project`, so nothing transfers implicitly.
+Resolve paths per cluster before running; see `envs/narval.md` for the Narval
+locations. Set `CDR_XLSX` to wherever the TCGA-CDR spreadsheet actually is.
+
+Move data between clusters with rsync over ssh rather than through git. The npz
+files pair TCGA barcodes with model risk scores, which is patient-level data and
+is excluded by `.gitignore` on purpose:
+
+```bash
+rsync -avP sorkwos@trillium.scinet.utoronto.ca:<trillium-path> ~/data/<cohort>/
+```
+
+**Version skew to watch.** The three new analysis modules were tested against
+numpy 2.0 / pandas 2.3 / sklearn 1.6. Narval's venv has numpy 2.4 / pandas 3.0 /
+sklearn 1.8. pandas 3.0 is a major release with behaviour changes, so if
+`patient_error.py` throws on the `read_excel` or `.at[]` lookups, that is the
+likely cause and not a logic error. Report the traceback rather than rewriting
+the metric.
