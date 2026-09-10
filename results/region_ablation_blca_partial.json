@@ -1,0 +1,748 @@
+{
+  "completed_rounds": 11,
+  "baseline_rounds": [
+    0.6207,
+    0.6555,
+    0.6445,
+    0.6208,
+    0.609,
+    0.5605,
+    0.6147,
+    0.5862,
+    0.557,
+    0.645,
+    0.5732
+  ],
+  "per_region_rounds": {
+    "0": [
+      {
+        "round": 1,
+        "baseline": 0.6207,
+        "ablated_no_renorm": 0.6256,
+        "ablated_renorm": 0.6256,
+        "delta_no_renorm": 0.0049,
+        "delta_renorm": 0.0049
+      },
+      {
+        "round": 2,
+        "baseline": 0.6555,
+        "ablated_no_renorm": 0.6402,
+        "ablated_renorm": 0.6402,
+        "delta_no_renorm": -0.0153,
+        "delta_renorm": -0.0153
+      },
+      {
+        "round": 3,
+        "baseline": 0.6445,
+        "ablated_no_renorm": 0.6157,
+        "ablated_renorm": 0.6157,
+        "delta_no_renorm": -0.0288,
+        "delta_renorm": -0.0288
+      },
+      {
+        "round": 4,
+        "baseline": 0.6208,
+        "ablated_no_renorm": 0.6147,
+        "ablated_renorm": 0.6147,
+        "delta_no_renorm": -0.0061,
+        "delta_renorm": -0.0061
+      },
+      {
+        "round": 5,
+        "baseline": 0.609,
+        "ablated_no_renorm": 0.6022,
+        "ablated_renorm": 0.6022,
+        "delta_no_renorm": -0.0069,
+        "delta_renorm": -0.0069
+      },
+      {
+        "round": 6,
+        "baseline": 0.5605,
+        "ablated_no_renorm": 0.5469,
+        "ablated_renorm": 0.5469,
+        "delta_no_renorm": -0.0136,
+        "delta_renorm": -0.0136
+      },
+      {
+        "round": 7,
+        "baseline": 0.6147,
+        "ablated_no_renorm": 0.5953,
+        "ablated_renorm": 0.5953,
+        "delta_no_renorm": -0.0194,
+        "delta_renorm": -0.0194
+      },
+      {
+        "round": 8,
+        "baseline": 0.5862,
+        "ablated_no_renorm": 0.5867,
+        "ablated_renorm": 0.5867,
+        "delta_no_renorm": 0.0005,
+        "delta_renorm": 0.0005
+      },
+      {
+        "round": 9,
+        "baseline": 0.557,
+        "ablated_no_renorm": 0.5557,
+        "ablated_renorm": 0.5557,
+        "delta_no_renorm": -0.0014,
+        "delta_renorm": -0.0014
+      },
+      {
+        "round": 10,
+        "baseline": 0.645,
+        "ablated_no_renorm": 0.6332,
+        "ablated_renorm": 0.6332,
+        "delta_no_renorm": -0.0118,
+        "delta_renorm": -0.0118
+      },
+      {
+        "round": 11,
+        "baseline": 0.5732,
+        "ablated_no_renorm": 0.5587,
+        "ablated_renorm": 0.5587,
+        "delta_no_renorm": -0.0145,
+        "delta_renorm": -0.0145
+      }
+    ],
+    "1": [
+      {
+        "round": 1,
+        "baseline": 0.6207,
+        "ablated_no_renorm": 0.5785,
+        "ablated_renorm": 0.5785,
+        "delta_no_renorm": -0.0422,
+        "delta_renorm": -0.0422
+      },
+      {
+        "round": 2,
+        "baseline": 0.6555,
+        "ablated_no_renorm": 0.6315,
+        "ablated_renorm": 0.6315,
+        "delta_no_renorm": -0.024,
+        "delta_renorm": -0.024
+      },
+      {
+        "round": 3,
+        "baseline": 0.6445,
+        "ablated_no_renorm": 0.6459,
+        "ablated_renorm": 0.6459,
+        "delta_no_renorm": 0.0013,
+        "delta_renorm": 0.0013
+      },
+      {
+        "round": 4,
+        "baseline": 0.6208,
+        "ablated_no_renorm": 0.6128,
+        "ablated_renorm": 0.6128,
+        "delta_no_renorm": -0.008,
+        "delta_renorm": -0.008
+      },
+      {
+        "round": 5,
+        "baseline": 0.609,
+        "ablated_no_renorm": 0.6015,
+        "ablated_renorm": 0.6015,
+        "delta_no_renorm": -0.0076,
+        "delta_renorm": -0.0076
+      },
+      {
+        "round": 6,
+        "baseline": 0.5605,
+        "ablated_no_renorm": 0.5649,
+        "ablated_renorm": 0.5649,
+        "delta_no_renorm": 0.0044,
+        "delta_renorm": 0.0044
+      },
+      {
+        "round": 7,
+        "baseline": 0.6147,
+        "ablated_no_renorm": 0.6161,
+        "ablated_renorm": 0.6161,
+        "delta_no_renorm": 0.0015,
+        "delta_renorm": 0.0015
+      },
+      {
+        "round": 8,
+        "baseline": 0.5862,
+        "ablated_no_renorm": 0.5683,
+        "ablated_renorm": 0.5683,
+        "delta_no_renorm": -0.0179,
+        "delta_renorm": -0.0179
+      },
+      {
+        "round": 9,
+        "baseline": 0.557,
+        "ablated_no_renorm": 0.539,
+        "ablated_renorm": 0.539,
+        "delta_no_renorm": -0.018,
+        "delta_renorm": -0.018
+      },
+      {
+        "round": 10,
+        "baseline": 0.645,
+        "ablated_no_renorm": 0.6398,
+        "ablated_renorm": 0.6398,
+        "delta_no_renorm": -0.0052,
+        "delta_renorm": -0.0052
+      },
+      {
+        "round": 11,
+        "baseline": 0.5732,
+        "ablated_no_renorm": 0.5786,
+        "ablated_renorm": 0.5786,
+        "delta_no_renorm": 0.0054,
+        "delta_renorm": 0.0054
+      }
+    ],
+    "2": [
+      {
+        "round": 1,
+        "baseline": 0.6207,
+        "ablated_no_renorm": 0.6156,
+        "ablated_renorm": 0.6156,
+        "delta_no_renorm": -0.005,
+        "delta_renorm": -0.005
+      },
+      {
+        "round": 2,
+        "baseline": 0.6555,
+        "ablated_no_renorm": 0.6699,
+        "ablated_renorm": 0.6699,
+        "delta_no_renorm": 0.0144,
+        "delta_renorm": 0.0144
+      },
+      {
+        "round": 3,
+        "baseline": 0.6445,
+        "ablated_no_renorm": 0.6413,
+        "ablated_renorm": 0.6413,
+        "delta_no_renorm": -0.0032,
+        "delta_renorm": -0.0032
+      },
+      {
+        "round": 4,
+        "baseline": 0.6208,
+        "ablated_no_renorm": 0.6207,
+        "ablated_renorm": 0.6207,
+        "delta_no_renorm": -0.0001,
+        "delta_renorm": -0.0001
+      },
+      {
+        "round": 5,
+        "baseline": 0.609,
+        "ablated_no_renorm": 0.6137,
+        "ablated_renorm": 0.6137,
+        "delta_no_renorm": 0.0046,
+        "delta_renorm": 0.0046
+      },
+      {
+        "round": 6,
+        "baseline": 0.5605,
+        "ablated_no_renorm": 0.5556,
+        "ablated_renorm": 0.5556,
+        "delta_no_renorm": -0.0049,
+        "delta_renorm": -0.0049
+      },
+      {
+        "round": 7,
+        "baseline": 0.6147,
+        "ablated_no_renorm": 0.6068,
+        "ablated_renorm": 0.6068,
+        "delta_no_renorm": -0.0078,
+        "delta_renorm": -0.0078
+      },
+      {
+        "round": 8,
+        "baseline": 0.5862,
+        "ablated_no_renorm": 0.5766,
+        "ablated_renorm": 0.5766,
+        "delta_no_renorm": -0.0096,
+        "delta_renorm": -0.0096
+      },
+      {
+        "round": 9,
+        "baseline": 0.557,
+        "ablated_no_renorm": 0.5527,
+        "ablated_renorm": 0.5527,
+        "delta_no_renorm": -0.0044,
+        "delta_renorm": -0.0044
+      },
+      {
+        "round": 10,
+        "baseline": 0.645,
+        "ablated_no_renorm": 0.6274,
+        "ablated_renorm": 0.6274,
+        "delta_no_renorm": -0.0176,
+        "delta_renorm": -0.0176
+      },
+      {
+        "round": 11,
+        "baseline": 0.5732,
+        "ablated_no_renorm": 0.5768,
+        "ablated_renorm": 0.5768,
+        "delta_no_renorm": 0.0036,
+        "delta_renorm": 0.0036
+      }
+    ],
+    "3": [
+      {
+        "round": 1,
+        "baseline": 0.6207,
+        "ablated_no_renorm": 0.6281,
+        "ablated_renorm": 0.6281,
+        "delta_no_renorm": 0.0074,
+        "delta_renorm": 0.0074
+      },
+      {
+        "round": 2,
+        "baseline": 0.6555,
+        "ablated_no_renorm": 0.6393,
+        "ablated_renorm": 0.6393,
+        "delta_no_renorm": -0.0162,
+        "delta_renorm": -0.0162
+      },
+      {
+        "round": 3,
+        "baseline": 0.6445,
+        "ablated_no_renorm": 0.6209,
+        "ablated_renorm": 0.6209,
+        "delta_no_renorm": -0.0236,
+        "delta_renorm": -0.0236
+      },
+      {
+        "round": 4,
+        "baseline": 0.6208,
+        "ablated_no_renorm": 0.6149,
+        "ablated_renorm": 0.6149,
+        "delta_no_renorm": -0.006,
+        "delta_renorm": -0.006
+      },
+      {
+        "round": 5,
+        "baseline": 0.609,
+        "ablated_no_renorm": 0.6189,
+        "ablated_renorm": 0.6189,
+        "delta_no_renorm": 0.0098,
+        "delta_renorm": 0.0098
+      },
+      {
+        "round": 6,
+        "baseline": 0.5605,
+        "ablated_no_renorm": 0.5558,
+        "ablated_renorm": 0.5558,
+        "delta_no_renorm": -0.0047,
+        "delta_renorm": -0.0047
+      },
+      {
+        "round": 7,
+        "baseline": 0.6147,
+        "ablated_no_renorm": 0.622,
+        "ablated_renorm": 0.622,
+        "delta_no_renorm": 0.0074,
+        "delta_renorm": 0.0074
+      },
+      {
+        "round": 8,
+        "baseline": 0.5862,
+        "ablated_no_renorm": 0.5712,
+        "ablated_renorm": 0.5712,
+        "delta_no_renorm": -0.0149,
+        "delta_renorm": -0.0149
+      },
+      {
+        "round": 9,
+        "baseline": 0.557,
+        "ablated_no_renorm": 0.5455,
+        "ablated_renorm": 0.5455,
+        "delta_no_renorm": -0.0116,
+        "delta_renorm": -0.0116
+      },
+      {
+        "round": 10,
+        "baseline": 0.645,
+        "ablated_no_renorm": 0.6354,
+        "ablated_renorm": 0.6354,
+        "delta_no_renorm": -0.0095,
+        "delta_renorm": -0.0095
+      },
+      {
+        "round": 11,
+        "baseline": 0.5732,
+        "ablated_no_renorm": 0.568,
+        "ablated_renorm": 0.568,
+        "delta_no_renorm": -0.0053,
+        "delta_renorm": -0.0053
+      }
+    ],
+    "4": [
+      {
+        "round": 1,
+        "baseline": 0.6207,
+        "ablated_no_renorm": 0.61,
+        "ablated_renorm": 0.61,
+        "delta_no_renorm": -0.0107,
+        "delta_renorm": -0.0107
+      },
+      {
+        "round": 2,
+        "baseline": 0.6555,
+        "ablated_no_renorm": 0.6596,
+        "ablated_renorm": 0.6596,
+        "delta_no_renorm": 0.0041,
+        "delta_renorm": 0.0041
+      },
+      {
+        "round": 3,
+        "baseline": 0.6445,
+        "ablated_no_renorm": 0.6465,
+        "ablated_renorm": 0.6465,
+        "delta_no_renorm": 0.002,
+        "delta_renorm": 0.002
+      },
+      {
+        "round": 4,
+        "baseline": 0.6208,
+        "ablated_no_renorm": 0.6243,
+        "ablated_renorm": 0.6243,
+        "delta_no_renorm": 0.0035,
+        "delta_renorm": 0.0035
+      },
+      {
+        "round": 5,
+        "baseline": 0.609,
+        "ablated_no_renorm": 0.6082,
+        "ablated_renorm": 0.6082,
+        "delta_no_renorm": -0.0008,
+        "delta_renorm": -0.0008
+      },
+      {
+        "round": 6,
+        "baseline": 0.5605,
+        "ablated_no_renorm": 0.5624,
+        "ablated_renorm": 0.5624,
+        "delta_no_renorm": 0.0019,
+        "delta_renorm": 0.0019
+      },
+      {
+        "round": 7,
+        "baseline": 0.6147,
+        "ablated_no_renorm": 0.6124,
+        "ablated_renorm": 0.6124,
+        "delta_no_renorm": -0.0022,
+        "delta_renorm": -0.0022
+      },
+      {
+        "round": 8,
+        "baseline": 0.5862,
+        "ablated_no_renorm": 0.5966,
+        "ablated_renorm": 0.5966,
+        "delta_no_renorm": 0.0104,
+        "delta_renorm": 0.0104
+      },
+      {
+        "round": 9,
+        "baseline": 0.557,
+        "ablated_no_renorm": 0.5433,
+        "ablated_renorm": 0.5433,
+        "delta_no_renorm": -0.0138,
+        "delta_renorm": -0.0138
+      },
+      {
+        "round": 10,
+        "baseline": 0.645,
+        "ablated_no_renorm": 0.645,
+        "ablated_renorm": 0.645,
+        "delta_no_renorm": 0.0,
+        "delta_renorm": 0.0
+      },
+      {
+        "round": 11,
+        "baseline": 0.5732,
+        "ablated_no_renorm": 0.5716,
+        "ablated_renorm": 0.5716,
+        "delta_no_renorm": -0.0017,
+        "delta_renorm": -0.0017
+      }
+    ],
+    "5": [
+      {
+        "round": 1,
+        "baseline": 0.6207,
+        "ablated_no_renorm": 0.6262,
+        "ablated_renorm": 0.6262,
+        "delta_no_renorm": 0.0055,
+        "delta_renorm": 0.0055
+      },
+      {
+        "round": 2,
+        "baseline": 0.6555,
+        "ablated_no_renorm": 0.6482,
+        "ablated_renorm": 0.6482,
+        "delta_no_renorm": -0.0074,
+        "delta_renorm": -0.0074
+      },
+      {
+        "round": 3,
+        "baseline": 0.6445,
+        "ablated_no_renorm": 0.6467,
+        "ablated_renorm": 0.6467,
+        "delta_no_renorm": 0.0022,
+        "delta_renorm": 0.0022
+      },
+      {
+        "round": 4,
+        "baseline": 0.6208,
+        "ablated_no_renorm": 0.6216,
+        "ablated_renorm": 0.6216,
+        "delta_no_renorm": 0.0008,
+        "delta_renorm": 0.0008
+      },
+      {
+        "round": 5,
+        "baseline": 0.609,
+        "ablated_no_renorm": 0.6072,
+        "ablated_renorm": 0.6072,
+        "delta_no_renorm": -0.0018,
+        "delta_renorm": -0.0018
+      },
+      {
+        "round": 6,
+        "baseline": 0.5605,
+        "ablated_no_renorm": 0.5585,
+        "ablated_renorm": 0.5585,
+        "delta_no_renorm": -0.002,
+        "delta_renorm": -0.002
+      },
+      {
+        "round": 7,
+        "baseline": 0.6147,
+        "ablated_no_renorm": 0.6184,
+        "ablated_renorm": 0.6184,
+        "delta_no_renorm": 0.0037,
+        "delta_renorm": 0.0037
+      },
+      {
+        "round": 8,
+        "baseline": 0.5862,
+        "ablated_no_renorm": 0.5957,
+        "ablated_renorm": 0.5957,
+        "delta_no_renorm": 0.0096,
+        "delta_renorm": 0.0096
+      },
+      {
+        "round": 9,
+        "baseline": 0.557,
+        "ablated_no_renorm": 0.5691,
+        "ablated_renorm": 0.5691,
+        "delta_no_renorm": 0.012,
+        "delta_renorm": 0.012
+      },
+      {
+        "round": 10,
+        "baseline": 0.645,
+        "ablated_no_renorm": 0.6383,
+        "ablated_renorm": 0.6383,
+        "delta_no_renorm": -0.0067,
+        "delta_renorm": -0.0067
+      },
+      {
+        "round": 11,
+        "baseline": 0.5732,
+        "ablated_no_renorm": 0.5836,
+        "ablated_renorm": 0.5836,
+        "delta_no_renorm": 0.0104,
+        "delta_renorm": 0.0104
+      }
+    ],
+    "6": [
+      {
+        "round": 1,
+        "baseline": 0.6207,
+        "ablated_no_renorm": 0.628,
+        "ablated_renorm": 0.628,
+        "delta_no_renorm": 0.0073,
+        "delta_renorm": 0.0073
+      },
+      {
+        "round": 2,
+        "baseline": 0.6555,
+        "ablated_no_renorm": 0.6564,
+        "ablated_renorm": 0.6564,
+        "delta_no_renorm": 0.0009,
+        "delta_renorm": 0.0009
+      },
+      {
+        "round": 3,
+        "baseline": 0.6445,
+        "ablated_no_renorm": 0.6424,
+        "ablated_renorm": 0.6424,
+        "delta_no_renorm": -0.0021,
+        "delta_renorm": -0.0021
+      },
+      {
+        "round": 4,
+        "baseline": 0.6208,
+        "ablated_no_renorm": 0.625,
+        "ablated_renorm": 0.625,
+        "delta_no_renorm": 0.0042,
+        "delta_renorm": 0.0042
+      },
+      {
+        "round": 5,
+        "baseline": 0.609,
+        "ablated_no_renorm": 0.6092,
+        "ablated_renorm": 0.6092,
+        "delta_no_renorm": 0.0001,
+        "delta_renorm": 0.0001
+      },
+      {
+        "round": 6,
+        "baseline": 0.5605,
+        "ablated_no_renorm": 0.5573,
+        "ablated_renorm": 0.5573,
+        "delta_no_renorm": -0.0032,
+        "delta_renorm": -0.0032
+      },
+      {
+        "round": 7,
+        "baseline": 0.6147,
+        "ablated_no_renorm": 0.6085,
+        "ablated_renorm": 0.6085,
+        "delta_no_renorm": -0.0062,
+        "delta_renorm": -0.0062
+      },
+      {
+        "round": 8,
+        "baseline": 0.5862,
+        "ablated_no_renorm": 0.582,
+        "ablated_renorm": 0.582,
+        "delta_no_renorm": -0.0042,
+        "delta_renorm": -0.0042
+      },
+      {
+        "round": 9,
+        "baseline": 0.557,
+        "ablated_no_renorm": 0.5553,
+        "ablated_renorm": 0.5553,
+        "delta_no_renorm": -0.0017,
+        "delta_renorm": -0.0017
+      },
+      {
+        "round": 10,
+        "baseline": 0.645,
+        "ablated_no_renorm": 0.6413,
+        "ablated_renorm": 0.6413,
+        "delta_no_renorm": -0.0037,
+        "delta_renorm": -0.0037
+      },
+      {
+        "round": 11,
+        "baseline": 0.5732,
+        "ablated_no_renorm": 0.5756,
+        "ablated_renorm": 0.5756,
+        "delta_no_renorm": 0.0024,
+        "delta_renorm": 0.0024
+      }
+    ],
+    "7": [
+      {
+        "round": 1,
+        "baseline": 0.6207,
+        "ablated_no_renorm": 0.618,
+        "ablated_renorm": 0.618,
+        "delta_no_renorm": -0.0027,
+        "delta_renorm": -0.0027
+      },
+      {
+        "round": 2,
+        "baseline": 0.6555,
+        "ablated_no_renorm": 0.6642,
+        "ablated_renorm": 0.6642,
+        "delta_no_renorm": 0.0087,
+        "delta_renorm": 0.0087
+      },
+      {
+        "round": 3,
+        "baseline": 0.6445,
+        "ablated_no_renorm": 0.6456,
+        "ablated_renorm": 0.6456,
+        "delta_no_renorm": 0.0011,
+        "delta_renorm": 0.0011
+      },
+      {
+        "round": 4,
+        "baseline": 0.6208,
+        "ablated_no_renorm": 0.6207,
+        "ablated_renorm": 0.6207,
+        "delta_no_renorm": -0.0001,
+        "delta_renorm": -0.0001
+      },
+      {
+        "round": 5,
+        "baseline": 0.609,
+        "ablated_no_renorm": 0.6065,
+        "ablated_renorm": 0.6065,
+        "delta_no_renorm": -0.0025,
+        "delta_renorm": -0.0025
+      },
+      {
+        "round": 6,
+        "baseline": 0.5605,
+        "ablated_no_renorm": 0.5613,
+        "ablated_renorm": 0.5613,
+        "delta_no_renorm": 0.0008,
+        "delta_renorm": 0.0008
+      },
+      {
+        "round": 7,
+        "baseline": 0.6147,
+        "ablated_no_renorm": 0.6212,
+        "ablated_renorm": 0.6212,
+        "delta_no_renorm": 0.0065,
+        "delta_renorm": 0.0065
+      },
+      {
+        "round": 8,
+        "baseline": 0.5862,
+        "ablated_no_renorm": 0.5638,
+        "ablated_renorm": 0.5638,
+        "delta_no_renorm": -0.0224,
+        "delta_renorm": -0.0224
+      },
+      {
+        "round": 9,
+        "baseline": 0.557,
+        "ablated_no_renorm": 0.5755,
+        "ablated_renorm": 0.5755,
+        "delta_no_renorm": 0.0185,
+        "delta_renorm": 0.0185
+      },
+      {
+        "round": 10,
+        "baseline": 0.645,
+        "ablated_no_renorm": 0.6458,
+        "ablated_renorm": 0.6458,
+        "delta_no_renorm": 0.0008,
+        "delta_renorm": 0.0008
+      },
+      {
+        "round": 11,
+        "baseline": 0.5732,
+        "ablated_no_renorm": 0.5599,
+        "ablated_renorm": 0.5599,
+        "delta_no_renorm": -0.0133,
+        "delta_renorm": -0.0133
+      }
+    ]
+  },
+  "region_names": [
+    "Perivesical adipose tissue (extravesical fat)",
+    "Invasive urothelial carcinoma (tumor)",
+    "Normal urothelium (benign mucosa)",
+    "Inflammatory infiltrates (immune cells)",
+    "Lamina propria (fibrovascular stroma)",
+    "Blood vessels (vasculature)",
+    "Muscularis propria (detrusor muscle)",
+    "Necrosis"
+  ]
+}

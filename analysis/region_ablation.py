@@ -469,7 +469,8 @@ def oob_cindex_ablated(model, loader, device, zeroed_region, renormalize):
 # ── Main ablation loop ────────────────────────────────────────────────────────
 
 def run_ablation(dataset, num_regions, region_names, rounds, train_frac,
-                 batch_size, epochs, save_root, cohort, out_path, lr=3e-5):
+                 batch_size, epochs, save_root, cohort, out_path, lr=3e-5,
+                 resume_path=None):
     os.makedirs(save_root, exist_ok=True)
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"Device: {device}")
@@ -482,8 +483,27 @@ def run_ablation(dataset, num_regions, region_names, rounds, train_frac,
     # Per-region per-round results: list of dicts
     per_region_rounds = {r: [] for r in range(num_regions)}
     baseline_rounds = []
+    completed_rounds = 0
+
+    # ── Resume from partial state ─────────────────────────────────────────────
+    if resume_path and os.path.exists(resume_path):
+        try:
+            with open(resume_path) as f:
+                state = json.load(f)
+            completed_rounds = int(state.get("completed_rounds", 0))
+            baseline_rounds = list(state.get("baseline_rounds", []))
+            for k, v in state.get("per_region_rounds", {}).items():
+                per_region_rounds[int(k)] = list(v)
+            print(f">>> Resuming from {resume_path}: {completed_rounds} rounds already done "
+                  f"(skipping rounds 1–{completed_rounds}, starting from round {completed_rounds+1})")
+        except Exception as ex:
+            print(f">>> WARNING: could not load resume file ({ex}), starting from scratch")
+            completed_rounds = 0
 
     for rnd in range(1, rounds + 1):
+        if rnd <= completed_rounds:
+            print(f"\n=== Round {rnd}/{rounds} === [SKIP — already done]")
+            continue
         t0 = time.time()
         print(f"\n=== Round {rnd}/{rounds} ===")
 
@@ -591,6 +611,22 @@ def run_ablation(dataset, num_regions, region_names, rounds, train_frac,
 
         print(f"  Round {rnd} time: {time.time()-t0:.0f}s")
 
+        # ── Incremental save after every completed round ───────────────────────
+        if resume_path:
+            partial_state = {
+                "cohort": cohort,
+                "completed_rounds": rnd,
+                "baseline_rounds": baseline_rounds,
+                "per_region_rounds": {str(k): v for k, v in per_region_rounds.items()},
+                "region_names": region_names,
+            }
+            try:
+                with open(resume_path, "w") as f:
+                    json.dump(partial_state, f, indent=2)
+                print(f"  >>> Partial state saved ({rnd}/{rounds} rounds) → {resume_path}")
+            except Exception as ex:
+                print(f"  >>> WARNING: could not save partial state: {ex}")
+
     # ── Aggregate across rounds ───────────────────────────────────────────────
     def summarise(vals):
         a = np.array(vals)
@@ -688,6 +724,10 @@ def main():
                     help="Temp dir for per-round .pt checkpoints. Cleaned up after each round.")
     ap.add_argument("--out", required=True,
                     help="Output JSON path, e.g. results/region_ablation_blca.json")
+    ap.add_argument("--resume", default=None,
+                    help="Path to a partial-state JSON written by a previous interrupted run. "
+                         "Rounds already present are skipped; the file is updated after each "
+                         "new round completes, so cancellation only loses the in-progress round.")
     args = ap.parse_args()
 
     # ── Paths ─────────────────────────────────────────────────────────────────
@@ -739,6 +779,7 @@ def main():
         cohort=args.cohort,
         out_path=args.out,
         lr=args.lr,
+        resume_path=args.resume,
     )
 
 
