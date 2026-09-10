@@ -1,0 +1,109 @@
+{
+  "cohort": "blca",
+  "endpoint": "PFI",
+  "n_patients": 379,
+  "n_events": 163,
+  "n_features_tested": 851,
+  "n_degenerate_features_dropped": 44,
+  "degenerate_filter": "dropped features whose modal value covers >50% of patients or with <20 unique values; the radiomics table contains intensity features saturated at the 8-bit ceiling of 255",
+  "degenerate_examples": [
+    "tumor_E_original_firstorder_Maximum_mean",
+    "tumor_E_original_firstorder_Maximum_std",
+    "tumor_E_original_firstorder_Range_mean",
+    "tumor_E_original_firstorder_Range_std",
+    "urothelium_H_original_firstorder_Maximum_mean"
+  ],
+  "multiple_testing": "Benjamini-Hochberg FDR across all features in the cohort",
+  "note": "Surrogate importance measures prediction of the model's risk score. These Cox tests measure association with observed survival. A feature can rank high on the former with no support on the latter.",
+  "n_fdr_significant_overall": 0,
+  "per_region_cox": {
+    "adipose": {
+      "n_features": 104,
+      "n_fdr_significant": 0,
+      "frac_fdr_significant": 0.0,
+      "min_q": 0.06387873044947387,
+      "best_feature": "adipose_H_original_firstorder_Entropy_mean",
+      "best_hr": 1.2963683346271435
+    },
+    "immune": {
+      "n_features": 108,
+      "n_fdr_significant": 0,
+      "frac_fdr_significant": 0.0,
+      "min_q": 0.21606463127734493,
+      "best_feature": "immune_H_original_glcm_DifferenceEntropy_mean",
+      "best_hr": 1.2213934567011233
+    },
+    "lamina": {
+      "n_features": 107,
+      "n_fdr_significant": 0,
+      "frac_fdr_significant": 0.0,
+      "min_q": 0.33395396818975037,
+      "best_feature": "lamina_H_original_glcm_JointEntropy_std",
+      "best_hr": 0.8353234243286043
+    },
+    "muscularis": {
+      "n_features": 106,
+      "n_fdr_significant": 0,
+      "frac_fdr_significant": 0.0,
+      "min_q": 0.1621978899768743,
+      "best_feature": "muscularis_H_original_glcm_DifferenceEntropy_mean",
+      "best_hr": 1.2433744080752889
+    },
+    "necrosis": {
+      "n_features": 107,
+      "n_fdr_significant": 0,
+      "frac_fdr_significant": 0.0,
+      "min_q": 0.1930185575981836,
+      "best_feature": "necrosis_H_original_glcm_ClusterProminence_mean",
+      "best_hr": 1.219369159562642
+    },
+    "tumor": {
+      "n_features": 109,
+      "n_fdr_significant": 0,
+      "frac_fdr_significant": 0.0,
+      "min_q": 0.33395396818975037,
+      "best_feature": "tumor_H_original_glcm_ClusterProminence_mean",
+      "best_hr": 1.173391790368439
+    },
+    "urothelium": {
+      "n_features": 105,
+      "n_fdr_significant": 0,
+      "frac_fdr_significant": 0.0,
+      "min_q": 0.14846136419683756,
+      "best_feature": "urothelium_E_original_glcm_JointEntropy_std",
+      "best_hr": 0.7967626349209957
+    },
+    "vessels": {
+      "n_features": 105,
+      "n_fdr_significant": 0,
+      "frac_fdr_significant": 0.0,
+      "min_q": 0.2088892413460976,
+      "best_feature": "vessels_H_original_glcm_DifferenceEntropy_mean",
+      "best_hr": 1.2385117179905656
+    }
+  },
+  "adipose_summary": {
+    "n_features": 104,
+    "n_fdr_significant": 0,
+    "frac_fdr_significant": 0.0,
+    "min_q": 0.06387873044947387,
+    "best_feature": "adipose_H_original_firstorder_Entropy_mean",
+    "best_hr": 1.2963683346271435
+  },
+  "correlation_structure": {
+    "n_top_features": 30,
+    "mean_abs_spearman_all_pairs": 0.6277278637863039,
+    "mean_abs_spearman_within_region": 0.841803398311685,
+    "mean_abs_spearman_between_region": 0.5127473646772653,
+    "n_pairs_abs_rho_above_0.8": 117,
+    "effective_n_independent_directions": 2.809836308321648,
+    "top_region_counts": {
+      "adipose": 16,
+      "immune": 8,
+      "lamina": 3,
+      "muscularis": 1,
+      "urothelium": 2
+    },
+    "interpretation": "Impurity importance divides credit among correlated predictors, so a block of near-duplicate features within one region can appear as several independent signals. Compare the effective number of independent directions against n_top_features."
+  }
+}

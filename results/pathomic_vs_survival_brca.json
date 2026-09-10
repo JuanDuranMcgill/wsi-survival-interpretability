@@ -1,0 +1,109 @@
+{
+  "cohort": "brca",
+  "endpoint": "PFI",
+  "n_patients": 1060,
+  "n_events": 139,
+  "n_features_tested": 875,
+  "n_degenerate_features_dropped": 52,
+  "degenerate_filter": "dropped features whose modal value covers >50% of patients or with <20 unique values; the radiomics table contains intensity features saturated at the 8-bit ceiling of 255",
+  "degenerate_examples": [
+    "adipose_H_original_firstorder_Maximum_std",
+    "adipose_H_original_firstorder_Range_std",
+    "adipose_E_original_firstorder_Maximum_mean",
+    "adipose_E_original_firstorder_Maximum_std",
+    "adipose_E_original_firstorder_Range_mean"
+  ],
+  "multiple_testing": "Benjamini-Hochberg FDR across all features in the cohort",
+  "note": "Surrogate importance measures prediction of the model's risk score. These Cox tests measure association with observed survival. A feature can rank high on the former with no support on the latter.",
+  "n_fdr_significant_overall": 0,
+  "per_region_cox": {
+    "adipose": {
+      "n_features": 104,
+      "n_fdr_significant": 0,
+      "frac_fdr_significant": 0.0,
+      "min_q": 0.148859583754339,
+      "best_feature": "adipose_E_original_firstorder_MeanAbsoluteDeviation_std",
+      "best_hr": 0.7710684532271146
+    },
+    "dcis": {
+      "n_features": 111,
+      "n_fdr_significant": 0,
+      "frac_fdr_significant": 0.0,
+      "min_q": 0.30300046565606575,
+      "best_feature": "dcis_H_original_glcm_SumEntropy_std",
+      "best_hr": 0.8258597792443516
+    },
+    "muscle": {
+      "n_features": 110,
+      "n_fdr_significant": 0,
+      "frac_fdr_significant": 0.0,
+      "min_q": 0.3215418206831641,
+      "best_feature": "muscle_E_original_glcm_Correlation_mean",
+      "best_hr": 1.2064719483071233
+    },
+    "stroma": {
+      "n_features": 109,
+      "n_fdr_significant": 0,
+      "frac_fdr_significant": 0.0,
+      "min_q": 0.148859583754339,
+      "best_feature": "stroma_E_original_glcm_Correlation_mean",
+      "best_hr": 1.32652197635385
+    },
+    "tdlu": {
+      "n_features": 112,
+      "n_fdr_significant": 0,
+      "frac_fdr_significant": 0.0,
+      "min_q": 0.21649675013434674,
+      "best_feature": "tdlu_E_original_glcm_MCC_mean",
+      "best_hr": 1.2708304318061519
+    },
+    "tils": {
+      "n_features": 110,
+      "n_fdr_significant": 0,
+      "frac_fdr_significant": 0.0,
+      "min_q": 0.148859583754339,
+      "best_feature": "tils_H_original_firstorder_90Percentile_std",
+      "best_hr": 0.7591417783151138
+    },
+    "tumor": {
+      "n_features": 111,
+      "n_fdr_significant": 0,
+      "frac_fdr_significant": 0.0,
+      "min_q": 0.148859583754339,
+      "best_feature": "tumor_E_original_firstorder_Entropy_mean",
+      "best_hr": 1.297914020814234
+    },
+    "vessels": {
+      "n_features": 108,
+      "n_fdr_significant": 0,
+      "frac_fdr_significant": 0.0,
+      "min_q": 0.21579571181794566,
+      "best_feature": "vessels_E_original_glcm_Imc2_mean",
+      "best_hr": 1.2882296700934914
+    }
+  },
+  "adipose_summary": {
+    "n_features": 104,
+    "n_fdr_significant": 0,
+    "frac_fdr_significant": 0.0,
+    "min_q": 0.148859583754339,
+    "best_feature": "adipose_E_original_firstorder_MeanAbsoluteDeviation_std",
+    "best_hr": 0.7710684532271146
+  },
+  "correlation_structure": {
+    "n_top_features": 30,
+    "mean_abs_spearman_all_pairs": 0.3434785299932237,
+    "mean_abs_spearman_within_region": 0.6278695802552943,
+    "mean_abs_spearman_between_region": 0.22621338913840885,
+    "n_pairs_abs_rho_above_0.8": 46,
+    "effective_n_independent_directions": 5.4406507012540875,
+    "top_region_counts": {
+      "adipose": 12,
+      "dcis": 3,
+      "stroma": 3,
+      "tdlu": 1,
+      "tils": 11
+    },
+    "interpretation": "Impurity importance divides credit among correlated predictors, so a block of near-duplicate features within one region can appear as several independent signals. Compare the effective number of independent directions against n_top_features."
+  }
+}
