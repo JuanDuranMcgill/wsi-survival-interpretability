@@ -321,7 +321,9 @@ def run_radiomic_importance_firstorder(X, survival_target, feature_names, n_tree
     selected_feature_names = [fo_feature_names[i] for i in top_indices_for_med3pa]
     print(f"    Selected top {k} first-order features for MED3PA.")
     fi_metrics = {
+        "n_trees": int(n_trees),
         "n_bootstrap": int(n_boot_total),
+        "trees_per_bootstrap": int(trees_per_bootstrap),
         "mean_oob_corr": float(np.nanmean(oob_scores)) if np.isfinite(oob_scores).any() else None,
         "std_oob_corr": float(np.nanstd(oob_scores)) if np.isfinite(oob_scores).any() else None,
         "n_first_order_features": int(n_features),
@@ -731,6 +733,7 @@ def main():
         "scaler_note": "StandardScaler fitted on X_med3pa (top-K first-order features).",
         "top_profiles_eval": profile_reports,
         "feature_importance_summary": fi_metrics,
+        "med3pa_params": med3pa_params,
     }
     out_json = os.path.join(args.outdir, "reliability_blca_radiomic.json")
     with open(out_json, "w") as f:

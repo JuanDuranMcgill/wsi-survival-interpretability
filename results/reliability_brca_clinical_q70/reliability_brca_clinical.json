@@ -663,6 +663,41 @@
   "feature_importance_summary": {
     "n_bootstrap": 200,
     "mean_oob_corr": 0.31892964243888855,
-    "std_oob_corr": 0.03488284721970558
+    "std_oob_corr": 0.03488284721970558,
+    "n_trees": 200000,
+    "trees_per_bootstrap": 1000
+  },
+  "med3pa_params": {
+    "uncertainty_metric": "sigmoidal_error",
+    "ipc_type": "RandomForestRegressor",
+    "ipc_params": {
+      "n_estimators": 100
+    },
+    "apc_params": {
+      "max_depth": 4
+    },
+    "ipc_grid_params": {
+      "n_estimators": [
+        50,
+        100,
+        200
+      ],
+      "max_depth": [
+        2,
+        4,
+        6
+      ]
+    },
+    "apc_grid_params": {
+      "min_samples_leaf": [
+        2,
+        4,
+        6
+      ]
+    },
+    "samples_ratio_min": 0,
+    "samples_ratio_max": 10,
+    "samples_ratio_step": 5,
+    "evaluate_models": true
   }
 }

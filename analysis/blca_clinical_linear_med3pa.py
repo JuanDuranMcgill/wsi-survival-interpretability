@@ -213,7 +213,9 @@ def run_feature_importance(X, target, feature_names, n_trees, n_bootstrap, n_job
 
     feat_df = pd.DataFrame(rows).sort_values(["rank", "median_rank", "feature"])
     metrics = {
+        "n_trees": int(n_trees),
         "n_bootstrap": int(n_boot_total),
+        "trees_per_bootstrap": int(trees_per_bootstrap),
         "mean_oob_corr": float(np.nanmean(oob_scores)) if np.isfinite(oob_scores).any() else None,
         "std_oob_corr": float(np.nanstd(oob_scores)) if np.isfinite(oob_scores).any() else None,
     }
@@ -725,6 +727,7 @@ def main():
         ),
         "top_profiles_eval": profile_reports,
         "feature_importance_summary": fi_metrics,
+        "med3pa_params": med3pa_params,
     }
     out_json = os.path.join(args.outdir, "reliability_blca_clinical.json")
     with open(out_json, "w") as f:
