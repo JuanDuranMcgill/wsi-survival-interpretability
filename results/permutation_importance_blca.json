@@ -1,0 +1,200 @@
+{
+  "cohort": "blca",
+  "target": "out-of-bag risk score",
+  "n_patients": 379,
+  "n_features": 504,
+  "first_order_only": true,
+  "top_n_restriction": null,
+  "forest": {
+    "n_trees": 1000,
+    "oob_r2": 0.16686976327665615,
+    "test_r2": 0.1949840325940606,
+    "test_size": 0.3
+  },
+  "n_repeats": 10,
+  "agreement_feature_level": {
+    "spearman_rho": 0.28258230329224493,
+    "p": 1.0447136945730876e-10,
+    "n_features_compared": 504
+  },
+  "agreement_region_level": {
+    "spearman_rho": 0.7619047619047621,
+    "p": 0.028004939153071805,
+    "n_regions": 8
+  },
+  "region_table": [
+    {
+      "region": "adipose",
+      "n_features": 61,
+      "perm_sum": 0.060194078299501,
+      "impurity_sum": 0.169568,
+      "perm_pct": 61.3663627043376,
+      "impurity_pct": 16.95676608646783
+    },
+    {
+      "region": "urothelium",
+      "n_features": 66,
+      "perm_sum": 0.02235376545639688,
+      "impurity_sum": 0.138386,
+      "perm_pct": 22.78910679518313,
+      "impurity_pct": 13.838572322855358
+    },
+    {
+      "region": "muscularis",
+      "n_features": 57,
+      "perm_sum": 0.011744535430439684,
+      "impurity_sum": 0.124044,
+      "perm_pct": 11.973261180814193,
+      "impurity_pct": 12.40437519124962
+    },
+    {
+      "region": "necrosis",
+      "n_features": 61,
+      "perm_sum": 0.009678368480366406,
+      "impurity_sum": 0.121684,
+      "perm_pct": 9.866855467032163,
+      "impurity_pct": 12.168375663248675
+    },
+    {
+      "region": "lamina",
+      "n_features": 65,
+      "perm_sum": 0.006284412506110704,
+      "impurity_sum": 0.114954,
+      "perm_pct": 6.406801933486232,
+      "impurity_pct": 11.495377009245983
+    },
+    {
+      "region": "tumor",
+      "n_features": 62,
+      "perm_sum": 0.0026604689653670025,
+      "impurity_sum": 0.106522,
+      "perm_pct": 2.7122818075228956,
+      "impurity_pct": 10.652178695642611
+    },
+    {
+      "region": "immune",
+      "n_features": 66,
+      "perm_sum": 0.00010114991399332608,
+      "impurity_sum": 0.136089,
+      "perm_pct": 0.1031198165165436,
+      "impurity_pct": 13.608872782254435
+    },
+    {
+      "region": "vessels",
+      "n_features": 66,
+      "perm_sum": -0.014927083579240842,
+      "impurity_sum": 0.088755,
+      "perm_pct": -15.217789704892764,
+      "impurity_pct": 8.875482249035503
+    }
+  ],
+  "top_15_by_permutation": [
+    {
+      "feature": "adipose_H_original_firstorder_Kurtosis_std",
+      "region": "adipose",
+      "perm_mean": 0.012147618385336534,
+      "perm_std": 0.006354579005861493,
+      "impurity_mean": 0.007934
+    },
+    {
+      "feature": "adipose_H_original_firstorder_Skewness_mean",
+      "region": "adipose",
+      "perm_mean": 0.012114956403513654,
+      "perm_std": 0.009091972247297747,
+      "impurity_mean": 0.006936
+    },
+    {
+      "feature": "adipose_H_original_firstorder_InterquartileRange_mean",
+      "region": "adipose",
+      "perm_mean": 0.010073546417896118,
+      "perm_std": 0.007534957914839166,
+      "impurity_mean": 0.00891
+    },
+    {
+      "feature": "adipose_H_original_firstorder_Uniformity_mean",
+      "region": "adipose",
+      "perm_mean": 0.009349636396898009,
+      "perm_std": 0.012485821534142785,
+      "impurity_mean": 0.00938
+    },
+    {
+      "feature": "adipose_H_original_firstorder_Kurtosis_mean",
+      "region": "adipose",
+      "perm_mean": 0.007081683154313035,
+      "perm_std": 0.0060040262061341,
+      "impurity_mean": 0.006859
+    },
+    {
+      "feature": "muscularis_E_original_firstorder_10Percentile_mean",
+      "region": "muscularis",
+      "perm_mean": 0.0054755934429645105,
+      "perm_std": 0.0035464468439035794,
+      "impurity_mean": 0.003114
+    },
+    {
+      "feature": "necrosis_E_original_firstorder_InterquartileRange_std",
+      "region": "necrosis",
+      "perm_mean": 0.005156625015031058,
+      "perm_std": 0.0033326542776750683,
+      "impurity_mean": 0.003921
+    },
+    {
+      "feature": "urothelium_E_original_firstorder_Kurtosis_mean",
+      "region": "urothelium",
+      "perm_mean": 0.0036601623652812165,
+      "perm_std": 0.0018564257436247023,
+      "impurity_mean": 0.003903
+    },
+    {
+      "feature": "muscularis_E_original_firstorder_RobustMeanAbsoluteDeviation_std",
+      "region": "muscularis",
+      "perm_mean": 0.0036241481917517306,
+      "perm_std": 0.0015699210549437277,
+      "impurity_mean": 0.003525
+    },
+    {
+      "feature": "necrosis_E_original_firstorder_Entropy_std",
+      "region": "necrosis",
+      "perm_mean": 0.003446417943085123,
+      "perm_std": 0.0006534264775937253,
+      "impurity_mean": 0.002511
+    },
+    {
+      "feature": "tumor_H_original_firstorder_Kurtosis_std",
+      "region": "tumor",
+      "perm_mean": 0.0033714193533140426,
+      "perm_std": 0.002922550677057646,
+      "impurity_mean": 0.002934
+    },
+    {
+      "feature": "urothelium_E_original_firstorder_RootMeanSquared_std",
+      "region": "urothelium",
+      "perm_mean": 0.0032271562873982472,
+      "perm_std": 0.0028464442674456586,
+      "impurity_mean": 0.002419
+    },
+    {
+      "feature": "urothelium_E_original_firstorder_Skewness_mean",
+      "region": "urothelium",
+      "perm_mean": 0.003075039738099539,
+      "perm_std": 0.0037621077166020553,
+      "impurity_mean": 0.003072
+    },
+    {
+      "feature": "urothelium_E_original_firstorder_Mean_std",
+      "region": "urothelium",
+      "perm_mean": 0.0027537654126782996,
+      "perm_std": 0.0016397957305546917,
+      "impurity_mean": 0.001823
+    },
+    {
+      "feature": "muscularis_E_original_firstorder_Variance_std",
+      "region": "muscularis",
+      "perm_mean": 0.0024897530060144614,
+      "perm_std": 0.0020952119846551535,
+      "impurity_mean": 0.003044
+    }
+  ],
+  "n_features_with_negative_perm": 220,
+  "caveat": "Permutation importance is degraded by correlated features in the opposite direction to impurity importance: shuffling one member of a duplicated pair leaves the information available through its partner, so both appear unimportant. The region-level comparison is the more stable one."
+}

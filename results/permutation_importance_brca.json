@@ -1,0 +1,200 @@
+{
+  "cohort": "brca",
+  "target": "out-of-bag risk score",
+  "n_patients": 1060,
+  "n_features": 514,
+  "first_order_only": true,
+  "top_n_restriction": null,
+  "forest": {
+    "n_trees": 1000,
+    "oob_r2": 0.23022922414640745,
+    "test_r2": 0.25651670085538447,
+    "test_size": 0.3
+  },
+  "n_repeats": 10,
+  "agreement_feature_level": {
+    "spearman_rho": 0.17883834309928073,
+    "p": 4.5504383564712235e-05,
+    "n_features_compared": 514
+  },
+  "agreement_region_level": {
+    "spearman_rho": 0.7619047619047621,
+    "p": 0.028004939153071805,
+    "n_regions": 8
+  },
+  "region_table": [
+    {
+      "region": "adipose",
+      "n_features": 63,
+      "perm_sum": 0.11460177269892431,
+      "impurity_sum": 0.207628,
+      "perm_pct": 100.60928330801171,
+      "impurity_pct": 20.76267542394746
+    },
+    {
+      "region": "tils",
+      "n_features": 62,
+      "perm_sum": 0.010341901329640012,
+      "impurity_sum": 0.150836,
+      "perm_pct": 9.079190105992325,
+      "impurity_pct": 15.083509498943007
+    },
+    {
+      "region": "dcis",
+      "n_features": 66,
+      "perm_sum": 0.008641442918734822,
+      "impurity_sum": 0.140297,
+      "perm_pct": 7.5863519239363715,
+      "impurity_pct": 14.029615822305066
+    },
+    {
+      "region": "muscle",
+      "n_features": 66,
+      "perm_sum": 0.0022535765896635087,
+      "impurity_sum": 0.093283,
+      "perm_pct": 1.9784224992872814,
+      "impurity_pct": 9.328244030535817
+    },
+    {
+      "region": "tumor",
+      "n_features": 64,
+      "perm_sum": -0.00042941650362872136,
+      "impurity_sum": 0.114078,
+      "perm_pct": -0.376986198845451,
+      "impurity_pct": 11.40773155361068
+    },
+    {
+      "region": "tdlu",
+      "n_features": 66,
+      "perm_sum": -0.004851010773131514,
+      "impurity_sum": 0.10344300000000001,
+      "perm_pct": -4.2587187415189645,
+      "impurity_pct": 10.344237934572394
+    },
+    {
+      "region": "vessels",
+      "n_features": 66,
+      "perm_sum": -0.006498006560107528,
+      "impurity_sum": 0.076617,
+      "perm_pct": -5.704621905463013,
+      "impurity_pct": 7.6616540300758205
+    },
+    {
+      "region": "stroma",
+      "n_features": 61,
+      "perm_sum": -0.010152507919302344,
+      "impurity_sum": 0.113824,
+      "perm_pct": -8.912920991400245,
+      "impurity_pct": 11.382331706009763
+    }
+  ],
+  "top_15_by_permutation": [
+    {
+      "feature": "adipose_E_original_firstorder_InterquartileRange_std",
+      "region": "adipose",
+      "perm_mean": 0.06094690406609069,
+      "perm_std": 0.013673320326069738,
+      "impurity_mean": 0.017948
+    },
+    {
+      "feature": "adipose_E_original_firstorder_RobustMeanAbsoluteDeviation_std",
+      "region": "adipose",
+      "perm_mean": 0.04293223187725631,
+      "perm_std": 0.011868430570758226,
+      "impurity_mean": 0.017483
+    },
+    {
+      "feature": "dcis_H_original_firstorder_InterquartileRange_std",
+      "region": "dcis",
+      "perm_mean": 0.006784981194645956,
+      "perm_std": 0.003289039609586196,
+      "impurity_mean": 0.004523
+    },
+    {
+      "feature": "adipose_E_original_firstorder_Variance_std",
+      "region": "adipose",
+      "perm_mean": 0.0058383941133399505,
+      "perm_std": 0.0016358205267745978,
+      "impurity_mean": 0.013474
+    },
+    {
+      "feature": "adipose_H_original_firstorder_Skewness_mean",
+      "region": "adipose",
+      "perm_mean": 0.00393257250378648,
+      "perm_std": 0.0005894691626386356,
+      "impurity_mean": 0.005767
+    },
+    {
+      "feature": "tils_H_original_firstorder_Variance_std",
+      "region": "tils",
+      "perm_mean": 0.0028630560015344363,
+      "perm_std": 0.0011389991732003223,
+      "impurity_mean": 0.005497
+    },
+    {
+      "feature": "dcis_E_original_firstorder_10Percentile_mean",
+      "region": "dcis",
+      "perm_mean": 0.002689725136544807,
+      "perm_std": 0.0025803703300879195,
+      "impurity_mean": 0.006889
+    },
+    {
+      "feature": "adipose_H_original_firstorder_Kurtosis_mean",
+      "region": "adipose",
+      "perm_mean": 0.002435790168319374,
+      "perm_std": 0.0007356075419444096,
+      "impurity_mean": 0.005355
+    },
+    {
+      "feature": "tumor_H_original_firstorder_Variance_mean",
+      "region": "tumor",
+      "perm_mean": 0.0022804381391661964,
+      "perm_std": 0.00208823709203379,
+      "impurity_mean": 0.002259
+    },
+    {
+      "feature": "tils_H_original_firstorder_MeanAbsoluteDeviation_std",
+      "region": "tils",
+      "perm_mean": 0.002257635210708586,
+      "perm_std": 0.0004973416699597414,
+      "impurity_mean": 0.005815
+    },
+    {
+      "feature": "adipose_H_original_firstorder_Median_mean",
+      "region": "adipose",
+      "perm_mean": 0.002069729895681749,
+      "perm_std": 0.0016892676114641202,
+      "impurity_mean": 0.005652
+    },
+    {
+      "feature": "tils_E_original_firstorder_Uniformity_mean",
+      "region": "tils",
+      "perm_mean": 0.0019059736044441111,
+      "perm_std": 0.0011361048028991959,
+      "impurity_mean": 0.002105
+    },
+    {
+      "feature": "tils_H_original_firstorder_Median_std",
+      "region": "tils",
+      "perm_mean": 0.0018949307547118988,
+      "perm_std": 0.00043897104298306716,
+      "impurity_mean": 0.002171
+    },
+    {
+      "feature": "adipose_E_original_firstorder_Median_mean",
+      "region": "adipose",
+      "perm_mean": 0.0018182425882543262,
+      "perm_std": 0.0013395887644634835,
+      "impurity_mean": 0.003011
+    },
+    {
+      "feature": "dcis_H_original_firstorder_Variance_mean",
+      "region": "dcis",
+      "perm_mean": 0.0016256598987582805,
+      "perm_std": 0.0016560129396990472,
+      "impurity_mean": 0.004285
+    }
+  ],
+  "n_features_with_negative_perm": 269,
+  "caveat": "Permutation importance is degraded by correlated features in the opposite direction to impurity importance: shuffling one member of a duplicated pair leaves the information available through its partner, so both appear unimportant. The region-level comparison is the more stable one."
+}
