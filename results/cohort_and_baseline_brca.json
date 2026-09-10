@@ -1,0 +1,118 @@
+{
+  "cohort": "brca",
+  "endpoint": "PFI",
+  "source_oob_npz": "/Users/juan/Projects/wsi-survival-interpretability/results/oob_risk_brca.npz",
+  "cohort_descriptives": {
+    "n_patients_modelled": 1060,
+    "n_with_survival": 1060,
+    "n_events": 139,
+    "n_censored": 921,
+    "censored_fraction": 0.8688679245283019,
+    "pfi_time_days": {
+      "median_all": 784.0,
+      "median_censored": 777.0,
+      "median_event": 790.0,
+      "iqr_all": [
+        438.5,
+        1589.25
+      ],
+      "max": 8556.0
+    },
+    "slides_per_patient": "One slide per patient by construction: the dataset builder selects DX1 slides only and keys on the first 12 barcode characters, so each patient contributes exactly one slide.",
+    "oob_rounds_per_patient": {
+      "min": 33,
+      "median": 48,
+      "max": 64,
+      "n_never_oob": 0
+    },
+    "patient_set_usage": "All modelled patients enter every analysis. Backbone training and validation are per-round bootstrap splits (80% with replacement, out-of-bag remainder validated). Explainability and reliability use out-of-bag risk averaged over the rounds in which each patient was out-of-bag. Reliability additionally splits patients 60/40 into disjoint profile-discovery and profile-evaluation halves."
+  },
+  "tcga_source_site": {
+    "n_sites": 38,
+    "n_sites_with_ge10_patients": 19,
+    "largest_site_share": 0.1339622641509434,
+    "top_sites": {
+      "BH": 142,
+      "A2": 100,
+      "E2": 90,
+      "A8": 83,
+      "D8": 78,
+      "AR": 70,
+      "E9": 62,
+      "B6": 50
+    },
+    "kruskal_risk_by_site": {
+      "H": 170.15691231689152,
+      "p": 8.438212064767856e-27
+    },
+    "kruskal_event_by_site": {
+      "H": 77.051719059889,
+      "p": 2.796219834643564e-09
+    },
+    "interpretation": "A small p for risk-by-site means the model's output varies with the contributing institution, which is a confounder for any morphology-based claim. Compare against event-by-site, since genuine case-mix differences between sites also produce this."
+  },
+  "wsi_cindex": {
+    "value": 0.6067498942022852,
+    "ci95": [
+      0.5520339823605183,
+      0.6594575797857056
+    ],
+    "n_bootstrap": 2000,
+    "provenance": "Computed from out-of-bag predictions: each patient's risk is the mean over only those bootstrap rounds in which they were out of bag. This is neither a training nor an in-sample figure. The in-sample counterpart is reported alongside for contrast.",
+    "insample_cindex_for_contrast": 0.9950142826914938
+  },
+  "clinical_baseline": {
+    "n_matched_to_clinical": 1060,
+    "n_used": 1060,
+    "n_features": 25,
+    "feature_names": [
+      "age_at_diagnosis",
+      "lymph_node_examined_count",
+      "number_of_lymphnodes_positive_by_he",
+      "pathologic_t",
+      "pathologic_n",
+      "pathologic_m",
+      "pathologic_stage",
+      "breast_carcinoma_estrogen_receptor_status",
+      "breast_carcinoma_progesterone_receptor_status",
+      "lab_proc_her2_neu_immunohistochemistry_receptor_status",
+      "gender",
+      "histological_type_infiltrating_carcinoma_nos",
+      "histological_type_infiltrating_ductal_carcinoma",
+      "histological_type_infiltrating_lobular_carcinoma",
+      "histological_type_medullary_carcinoma",
+      "histological_type_metaplastic_carcinoma",
+      "histological_type_mixed_histology_please_specify",
+      "histological_type_mucinous_carcinoma",
+      "histological_type_nan",
+      "histological_type_other_specify",
+      "menopause_status_indeterminate_neither_pre_or_postmenopausal",
+      "menopause_status_nan",
+      "menopause_status_peri_612_months_since_last_menstrual_period",
+      "menopause_status_post_prior_bilateral_ovariectomy_or_12_mo_since_lmp_with_no_prior_hysterectomy",
+      "menopause_status_pre_6_months_since_lmp_and_no_prior_bilateral_ovariectomy_and_not_on_estrogen_replacement"
+    ],
+    "protocol": "Bootstrap out-of-bag, matching the backbone: 80% of patients sampled with replacement to fit, c-index scored on the out-of-bag remainder, averaged over rounds.",
+    "clinical_only": {
+      "n_rounds_used": 100,
+      "cindex_oob_mean": 0.6681666011727249,
+      "cindex_oob_sd": 0.033553098810443015,
+      "cindex_oob_ci95": [
+        0.599836796498054,
+        0.7274954798240914
+      ]
+    },
+    "wsi_only_on_same_patients": 0.6067498942022852,
+    "clinical_plus_wsi": {
+      "n_rounds_used": 100,
+      "cindex_oob_mean": 0.6697431466996506,
+      "cindex_oob_sd": 0.03184901875198959,
+      "cindex_oob_ci95": [
+        0.6058844924087813,
+        0.7294142730771385
+      ]
+    },
+    "wsi_increment_over_clinical": 0.0015765455269257656,
+    "interpretation": "If clinical_plus_wsi does not exceed clinical_only, the WSI model adds nothing over routine clinical variables on this cohort. Read the increment against clinical_only's CI width."
+  }
+}

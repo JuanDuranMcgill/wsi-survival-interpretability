@@ -1,0 +1,114 @@
+{
+  "cohort": "blca",
+  "endpoint": "PFI",
+  "source_oob_npz": "/Users/juan/Projects/wsi-survival-interpretability/results/oob_risk_blca.npz",
+  "cohort_descriptives": {
+    "n_patients_modelled": 379,
+    "n_with_survival": 379,
+    "n_events": 163,
+    "n_censored": 216,
+    "censored_fraction": 0.5699208443271768,
+    "pfi_time_days": {
+      "median_all": 428.0,
+      "median_censored": 543.0,
+      "median_event": 294.0,
+      "iqr_all": [
+        213.5,
+        792.0
+      ],
+      "max": 4967.0
+    },
+    "slides_per_patient": "One slide per patient by construction: the dataset builder selects DX1 slides only and keys on the first 12 barcode characters, so each patient contributes exactly one slide.",
+    "oob_rounds_per_patient": {
+      "min": 34,
+      "median": 45,
+      "max": 63,
+      "n_never_oob": 0
+    },
+    "patient_set_usage": "All modelled patients enter every analysis. Backbone training and validation are per-round bootstrap splits (80% with replacement, out-of-bag remainder validated). Explainability and reliability use out-of-bag risk averaged over the rounds in which each patient was out-of-bag. Reliability additionally splits patients 60/40 into disjoint profile-discovery and profile-evaluation halves."
+  },
+  "tcga_source_site": {
+    "n_sites": 32,
+    "n_sites_with_ge10_patients": 13,
+    "largest_site_share": 0.1345646437994723,
+    "top_sites": {
+      "XF": 51,
+      "FD": 48,
+      "DK": 36,
+      "ZF": 31,
+      "CF": 22,
+      "E7": 22,
+      "BT": 21,
+      "4Z": 16
+    },
+    "kruskal_risk_by_site": {
+      "H": 44.966180677801276,
+      "p": 1.0443395498520655e-05
+    },
+    "kruskal_event_by_site": {
+      "H": 18.172656938516635,
+      "p": 0.110547748843023
+    },
+    "interpretation": "A small p for risk-by-site means the model's output varies with the contributing institution, which is a confounder for any morphology-based claim. Compare against event-by-site, since genuine case-mix differences between sites also produce this."
+  },
+  "wsi_cindex": {
+    "value": 0.6215344938749194,
+    "ci95": [
+      0.5771353745320407,
+      0.6670248195907763
+    ],
+    "n_bootstrap": 2000,
+    "provenance": "Computed from out-of-bag predictions: each patient's risk is the mean over only those bootstrap rounds in which they were out of bag. This is neither a training nor an in-sample figure. The in-sample counterpart is reported alongside for contrast.",
+    "insample_cindex_for_contrast": 0.991833225875779
+  },
+  "clinical_baseline": {
+    "n_matched_to_clinical": 379,
+    "n_used": 379,
+    "n_features": 21,
+    "feature_names": [
+      "age_at_diagnosis",
+      "height",
+      "weight",
+      "lymph_node_examined_count",
+      "number_of_lymphnodes_positive_by_he",
+      "pathologic_T",
+      "pathologic_N",
+      "pathologic_M",
+      "pathologic_stage",
+      "gender",
+      "lymphovascular_invasion_present",
+      "hist_of_non_mibc",
+      "history_of_neoadjuvant_treatment",
+      "histological_type_muscle_invasive_urothelial_carcinoma_pt2_or_above",
+      "tobacco_smoking_history_1",
+      "tobacco_smoking_history_2",
+      "tobacco_smoking_history_3",
+      "tobacco_smoking_history_4",
+      "tobacco_smoking_history_5",
+      "neoplasm_histologic_grade_high_grade",
+      "neoplasm_histologic_grade_low_grade"
+    ],
+    "protocol": "Bootstrap out-of-bag, matching the backbone: 80% of patients sampled with replacement to fit, c-index scored on the out-of-bag remainder, averaged over rounds.",
+    "clinical_only": {
+      "n_rounds_used": 100,
+      "cindex_oob_mean": 0.6496481322427975,
+      "cindex_oob_sd": 0.030495409687525652,
+      "cindex_oob_ci95": [
+        0.5896539763474634,
+        0.7042310492054985
+      ]
+    },
+    "wsi_only_on_same_patients": 0.6215344938749194,
+    "clinical_plus_wsi": {
+      "n_rounds_used": 100,
+      "cindex_oob_mean": 0.656708997302169,
+      "cindex_oob_sd": 0.028735374180549698,
+      "cindex_oob_ci95": [
+        0.6018065079694043,
+        0.7055335566332401
+      ]
+    },
+    "wsi_increment_over_clinical": 0.007060865059371535,
+    "interpretation": "If clinical_plus_wsi does not exceed clinical_only, the WSI model adds nothing over routine clinical variables on this cohort. Read the increment against clinical_only's CI width."
+  }
+}
