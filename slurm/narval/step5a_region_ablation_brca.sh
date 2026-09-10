@@ -39,6 +39,9 @@ BASE="/scratch/sorkwos/UNI2_classwise_embeddings_BRCA"
 CDR_XLSX="/home/sorkwos/TCGA-CDR-SupplementalTableS1.xlsx"
 SAVE_TMP="/scratch/sorkwos/ablation_tmp_brca"
 OUT="$REPO/results/region_ablation_brca.json"
+# Partial-state file written after each completed round.
+# If this file exists when the job starts, rounds already in it are skipped.
+PARTIAL="$REPO/results/region_ablation_brca_partial.json"
 
 mkdir -p /scratch/sorkwos/slurm_logs
 mkdir -p "$SAVE_TMP"
@@ -85,6 +88,7 @@ python "$REPO/analysis/region_ablation.py" \
     --epochs    15 \
     --batch-size 4 \
     --save-root "$SAVE_TMP" \
-    --out       "$OUT"
+    --out       "$OUT" \
+    --resume    "$PARTIAL"
 
 echo ">>> Done. Output written to $OUT"
