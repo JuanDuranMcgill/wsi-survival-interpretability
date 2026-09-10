@@ -2,8 +2,8 @@
 #SBATCH --job-name=ablation_blca
 #SBATCH --account=def-senger_gpu
 #SBATCH --gres=gpu:a100:1
-#SBATCH --cpus-per-task=8
-#SBATCH --mem=64G
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=128G
 #SBATCH --time=24:00:00
 #SBATCH --output=/scratch/sorkwos/slurm_logs/ablation_blca_%j.out
 #SBATCH --error=/scratch/sorkwos/slurm_logs/ablation_blca_%j.err

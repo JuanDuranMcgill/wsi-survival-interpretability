@@ -470,10 +470,13 @@ def oob_cindex_ablated(model, loader, device, zeroed_region, renormalize):
 
 def run_ablation(dataset, num_regions, region_names, rounds, train_frac,
                  batch_size, epochs, save_root, cohort, out_path, lr=3e-5,
-                 resume_path=None):
+                 resume_path=None, round_start=1, round_end=None):
     os.makedirs(save_root, exist_ok=True)
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"Device: {device}")
+
+    if round_end is None:
+        round_end = rounds
 
     N = len(dataset)
     idx = np.arange(N)
@@ -483,25 +486,29 @@ def run_ablation(dataset, num_regions, region_names, rounds, train_frac,
     # Per-region per-round results: list of dicts
     per_region_rounds = {r: [] for r in range(num_regions)}
     baseline_rounds = []
-    completed_rounds = 0
+    last_completed_round = 0  # actual round number (not count)
 
     # ── Resume from partial state ─────────────────────────────────────────────
     if resume_path and os.path.exists(resume_path):
         try:
             with open(resume_path) as f:
                 state = json.load(f)
-            completed_rounds = int(state.get("completed_rounds", 0))
+            # Support both new key (last_completed_round) and old key (completed_rounds)
+            last_completed_round = int(
+                state.get("last_completed_round",
+                          state.get("completed_rounds", 0))
+            )
             baseline_rounds = list(state.get("baseline_rounds", []))
             for k, v in state.get("per_region_rounds", {}).items():
                 per_region_rounds[int(k)] = list(v)
-            print(f">>> Resuming from {resume_path}: {completed_rounds} rounds already done "
-                  f"(skipping rounds 1–{completed_rounds}, starting from round {completed_rounds+1})")
+            print(f">>> Resuming from {resume_path}: last completed round={last_completed_round} "
+                  f"(this job covers rounds {round_start}–{round_end})")
         except Exception as ex:
             print(f">>> WARNING: could not load resume file ({ex}), starting from scratch")
-            completed_rounds = 0
+            last_completed_round = 0
 
-    for rnd in range(1, rounds + 1):
-        if rnd <= completed_rounds:
+    for rnd in range(round_start, round_end + 1):
+        if rnd <= last_completed_round:
             print(f"\n=== Round {rnd}/{rounds} === [SKIP — already done]")
             continue
         t0 = time.time()
@@ -537,12 +544,12 @@ def run_ablation(dataset, num_regions, region_names, rounds, train_frac,
         train_loader = DataLoader(
             torch.utils.data.Subset(dataset, train_idx.tolist()),
             batch_size=batch_size, shuffle=True,
-            num_workers=4, prefetch_factor=2, collate_fn=collate_bags,
+            num_workers=2, collate_fn=collate_bags,
         )
         oob_loader = DataLoader(
             torch.utils.data.Subset(dataset, oob_idx.tolist()),
             batch_size=1, shuffle=False,
-            num_workers=2, collate_fn=collate_bags,
+            num_workers=1, collate_fn=collate_bags,
         )
 
         # ── Train ─────────────────────────────────────────────────────────────
@@ -612,10 +619,12 @@ def run_ablation(dataset, num_regions, region_names, rounds, train_frac,
         print(f"  Round {rnd} time: {time.time()-t0:.0f}s")
 
         # ── Incremental save after every completed round ───────────────────────
+        last_completed_round = rnd
         if resume_path:
             partial_state = {
                 "cohort": cohort,
-                "completed_rounds": rnd,
+                "last_completed_round": rnd,
+                "completed_rounds": rnd,  # kept for backward compat
                 "baseline_rounds": baseline_rounds,
                 "per_region_rounds": {str(k): v for k, v in per_region_rounds.items()},
                 "region_names": region_names,
@@ -728,6 +737,12 @@ def main():
                     help="Path to a partial-state JSON written by a previous interrupted run. "
                          "Rounds already present are skipped; the file is updated after each "
                          "new round completes, so cancellation only loses the in-progress round.")
+    ap.add_argument("--round-start", type=int, default=1,
+                    help="First round to run (inclusive). Use with --round-end to run a subset "
+                         "of rounds in parallel. Seeds are based on the actual round number so "
+                         "results are identical to a sequential run.")
+    ap.add_argument("--round-end", type=int, default=None,
+                    help="Last round to run (inclusive). Defaults to --rounds.")
     args = ap.parse_args()
 
     # ── Paths ─────────────────────────────────────────────────────────────────
@@ -780,6 +795,8 @@ def main():
         out_path=args.out,
         lr=args.lr,
         resume_path=args.resume,
+        round_start=args.round_start,
+        round_end=args.round_end,
     )
 
 
