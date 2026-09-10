@@ -63,7 +63,10 @@ def region_of(name: str) -> str:
 
 def load(radiomics_csv, oob_npz):
     d = np.load(oob_npz, allow_pickle=True)
-    y = pd.Series(np.asarray(d["mean_risk"], float),
+    # Accept either key name ("mean_risk" from oob_risk_*.npz aggregates or
+    # "risk" from patient_error_*_oob.npz per-patient outputs).
+    risk_key = "mean_risk" if "mean_risk" in d else "risk"
+    y = pd.Series(np.asarray(d[risk_key], float),
                   index=[str(p) for p in d["patient_ids"]]).dropna()
 
     X = pd.read_csv(radiomics_csv, index_col=0)
