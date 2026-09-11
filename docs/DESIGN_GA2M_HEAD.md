@@ -64,17 +64,64 @@ constant can move freely between main effects and interactions, and any function
 of `h_r` alone can move from `f_rs` into `f_r`. Without fixing this, the
 per-region attributions are arbitrary and the entire purpose is lost.
 
-Enforce, per training batch:
+The constraint is the standard functional-ANOVA one:
 
-1. Centre each main effect: subtract its batch mean from `f_r` outputs.
-2. Centre each interaction to have zero batch mean, **and** zero conditional
-   mean with respect to each of its two marginals. In practice, after computing
-   the pairwise term for a batch, subtract its mean, then subtract the mean
-   within bins of `f_r` and of `f_s`. GAMI-Net calls this the marginal clarity
-   constraint; a simpler batch-level double-centering is sufficient here.
-3. Carry a single global intercept absorbing the removed constants.
+```
+E[f_r(h_r)] = 0          for every region r
+E[f_rs | h_r] = 0        and   E[f_rs | h_s] = 0      for every pair
+```
+
+Note the conditioning is on the **inputs** `h_r`, not on the main-effect outputs
+`f_r`. An earlier version of this section said to bin by `f_r`, which is wrong:
+`f_r` is a many-to-one function of `h_r` and it moves during training, so
+conditioning on it is both a weaker constraint and a non-stationary one, and it
+couples the centering to the quantity it is supposed to identify.
+
+**For this bilinear parameterisation the constraint has an exact closed form.**
+No binning, no iteration. Write `u_r = A_r h_r` and `v_r = B_r h_r`, so that
+
+```
+f_rs = <u_r, v_s> + <u_s, v_r>
+```
+
+Centre the *projections* across the batch, `ũ_r = u_r − ū_r` and
+`ṽ_r = v_r − v̄_r`. Then expanding the product gives a decomposition in which
+every piece has a home:
+
+```
+<u_r,v_s> + <u_s,v_r>
+  = <ũ_r,ṽ_s> + <ũ_s,ṽ_r>          -> pure interaction, f_rs
+  + <ũ_r,v̄_s> + <ū_s,ṽ_r>          -> main effect in r, add to f_r
+  + <ū_r,ṽ_s> + <ũ_s,v̄_r>          -> main effect in s, add to f_s
+  + <ū_r,v̄_s> + <ū_s,v̄_r>          -> constant, add to the intercept
+```
+
+The interaction term then satisfies `E[f_rs | h_r] = <ũ_r, E[ṽ_s]> = 0` exactly
+when `h_r` and `h_s` are independent, and the total is preserved by
+construction, so the existing sum-preservation check still passes.
+
+**Reassigning the removed pieces is not optional.** Dropping them instead of
+adding them to `f_r`, `f_s` and the intercept breaks sum preservation and throws
+away real main-effect signal that the bilinear term was carrying.
+
+**Residual dependence.** Region embeddings from the same slide are not
+independent, so `E[ṽ_s | h_r] ≠ 0` exactly and a little leakage remains. If the
+synthetic test with correlated regions shows this matters, residualise within
+the batch: regress `ṽ_s` on `ũ_r` linearly and subtract the fit, moving the
+removed component into `f_r` as above. Iterating conditional-mean removal, as in
+backfitting, is the general-purpose alternative but is unnecessary here given
+the closed form.
+
+Main effects are then centred by subtracting their batch mean, with the constant
+going to the intercept.
 
 Record the centering in the output so it is reproducible.
+
+**Synthetic acceptance criterion.** After this fix, recovery of a ground truth
+lying inside the model's functional form should give Pearson `r > 0.9` against
+both the true main effect and the true interaction, not merely correct total and
+correct sparsity pattern. Anything near zero or negative means the orthogonality
+is still broken.
 
 **Heredity constraint (optional, GAMI-Net style).** Only allow an interaction
 `f_rs` if both `f_r` and `f_s` are non-negligible. Simplifies the reported
