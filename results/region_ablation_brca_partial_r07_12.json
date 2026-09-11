@@ -1,0 +1,681 @@
+{
+  "cohort": "brca",
+  "n_rounds": 20,
+  "epochs_per_round": 15,
+  "train_frac": 0.8,
+  "n_slides": 1060,
+  "num_regions": 9,
+  "region_names": [
+    "Adipose tissue (fat)",
+    "Blood vessels (vasculature)",
+    "Ductal carcinoma in situ (DCIS)",
+    "Fibrous desmoplastic stroma",
+    "Invasive breast carcinoma (tumor cells)",
+    "Muscle tissue (smooth or skeletal muscle)",
+    "Necrosis or hemorrhage",
+    "Normal breast glands and lobules (TDLU)",
+    "Tumor-infiltrating lymphocytes (immune infiltrates)"
+  ],
+  "ablation_method": "Region r's embedding is zeroed after per-region processing (projection + graph-diffusion + attention pooling) and before cross-region self-attention, so region r also does not participate in other regions' cross-region attention. After cross-region LayerNorm, position r is zeroed again. no_renorm: original normalised weights kept (w still sums to 1, region r contributes w[r]*0=0). renorm: w[r] forced to 0 and remaining weights renormalised to sum to 1.",
+  "evaluation": "out-of-bag (OOB) patients only; in-sample c-index is not reported",
+  "baseline_cindex": {
+    "mean": 0.6149618081169156,
+    "sd": 0.035551662092210695,
+    "se": 0.014513905272293941,
+    "ci95": [
+      0.5865145537832195,
+      0.6434090624506117
+    ],
+    "n_rounds": 6
+  },
+  "per_region": {
+    "Adipose tissue (fat)": {
+      "delta_no_renorm": {
+        "mean": -0.009085500696362528,
+        "sd": 0.005964175271197195,
+        "se": 0.0024348643584931016,
+        "ci95": [
+          -0.013857834839009008,
+          -0.004313166553716049
+        ],
+        "n_rounds": 6
+      },
+      "delta_renorm": {
+        "mean": -0.009085500696362528,
+        "sd": 0.005964175271197195,
+        "se": 0.0024348643584931016,
+        "ci95": [
+          -0.013857834839009008,
+          -0.004313166553716049
+        ],
+        "n_rounds": 6
+      },
+      "rounds": [
+        {
+          "round": 7,
+          "baseline": 0.5989963237439458,
+          "ablated_no_renorm": 0.582482348135613,
+          "ablated_renorm": 0.582482348135613,
+          "delta_no_renorm": -0.016513975608332898,
+          "delta_renorm": -0.016513975608332898
+        },
+        {
+          "round": 8,
+          "baseline": 0.6241181004327978,
+          "ablated_no_renorm": 0.6162921681389696,
+          "ablated_renorm": 0.6162921681389696,
+          "delta_no_renorm": -0.00782593229382822,
+          "delta_renorm": -0.00782593229382822
+        },
+        {
+          "round": 9,
+          "baseline": 0.5768159665815734,
+          "ablated_no_renorm": 0.5666047806915758,
+          "ablated_renorm": 0.5666047806915758,
+          "delta_no_renorm": -0.010211185889997587,
+          "delta_renorm": -0.010211185889997587
+        },
+        {
+          "round": 10,
+          "baseline": 0.6228691821490135,
+          "ablated_no_renorm": 0.6081848943369725,
+          "ablated_renorm": 0.6081848943369725,
+          "delta_no_renorm": -0.014684287812041008,
+          "delta_renorm": -0.014684287812041008
+        },
+        {
+          "round": 11,
+          "baseline": 0.6769423558897243,
+          "ablated_no_renorm": 0.6759398496240602,
+          "ablated_renorm": 0.6759398496240602,
+          "delta_no_renorm": -0.001002506265664116,
+          "delta_renorm": -0.001002506265664116
+        },
+        {
+          "round": 12,
+          "baseline": 0.5900289199044386,
+          "ablated_no_renorm": 0.5857538035961273,
+          "ablated_renorm": 0.5857538035961273,
+          "delta_no_renorm": -0.004275116308311344,
+          "delta_renorm": -0.004275116308311344
+        }
+      ]
+    },
+    "Blood vessels (vasculature)": {
+      "delta_no_renorm": {
+        "mean": 0.0020181953784515483,
+        "sd": 0.0038311597372895066,
+        "se": 0.0015640644132424238,
+        "ci95": [
+          -0.001047370871503602,
+          0.005083761628406699
+        ],
+        "n_rounds": 6
+      },
+      "delta_renorm": {
+        "mean": 0.0020181953784515483,
+        "sd": 0.0038311597372895066,
+        "se": 0.0015640644132424238,
+        "ci95": [
+          -0.001047370871503602,
+          0.005083761628406699
+        ],
+        "n_rounds": 6
+      },
+      "rounds": [
+        {
+          "round": 7,
+          "baseline": 0.5989963237439458,
+          "ablated_no_renorm": 0.6034895255879092,
+          "ablated_renorm": 0.6034895255879092,
+          "delta_no_renorm": 0.004493201843963401,
+          "delta_renorm": 0.004493201843963401
+        },
+        {
+          "round": 8,
+          "baseline": 0.6241181004327978,
+          "ablated_no_renorm": 0.6258967214086678,
+          "ablated_renorm": 0.6258967214086678,
+          "delta_no_renorm": 0.0017786209758700045,
+          "delta_renorm": 0.0017786209758700045
+        },
+        {
+          "round": 9,
+          "baseline": 0.5768159665815734,
+          "ablated_no_renorm": 0.5784984915293572,
+          "ablated_renorm": 0.5784984915293572,
+          "delta_no_renorm": 0.001682524947783759,
+          "delta_renorm": 0.001682524947783759
+        },
+        {
+          "round": 10,
+          "baseline": 0.6228691821490135,
+          "ablated_no_renorm": 0.6191661878311945,
+          "ablated_renorm": 0.6191661878311945,
+          "delta_no_renorm": -0.003702994317819064,
+          "delta_renorm": -0.003702994317819064
+        },
+        {
+          "round": 11,
+          "baseline": 0.6769423558897243,
+          "ablated_no_renorm": 0.6771929824561403,
+          "ablated_renorm": 0.6771929824561403,
+          "delta_no_renorm": 0.00025062656641605674,
+          "delta_renorm": 0.00025062656641605674
+        },
+        {
+          "round": 12,
+          "baseline": 0.5900289199044386,
+          "ablated_no_renorm": 0.5976361121589338,
+          "ablated_renorm": 0.5976361121589338,
+          "delta_no_renorm": 0.007607192254495132,
+          "delta_renorm": 0.007607192254495132
+        }
+      ]
+    },
+    "Ductal carcinoma in situ (DCIS)": {
+      "delta_no_renorm": {
+        "mean": 0.0010913466352486985,
+        "sd": 0.014455883671089608,
+        "se": 0.005901589795866805,
+        "ci95": [
+          -0.010475769364650238,
+          0.012658462635147636
+        ],
+        "n_rounds": 6
+      },
+      "delta_renorm": {
+        "mean": 0.0010913466352486985,
+        "sd": 0.014455883671089608,
+        "se": 0.005901589795866805,
+        "ci95": [
+          -0.010475769364650238,
+          0.012658462635147636
+        ],
+        "n_rounds": 6
+      },
+      "rounds": [
+        {
+          "round": 7,
+          "baseline": 0.5989963237439458,
+          "ablated_no_renorm": 0.5956701873139989,
+          "ablated_renorm": 0.5956701873139989,
+          "delta_no_renorm": -0.0033261364299469465,
+          "delta_renorm": -0.0033261364299469465
+        },
+        {
+          "round": 8,
+          "baseline": 0.6241181004327978,
+          "ablated_no_renorm": 0.6314104464338649,
+          "ablated_renorm": 0.6314104464338649,
+          "delta_no_renorm": 0.007292346001067096,
+          "delta_renorm": 0.007292346001067096
+        },
+        {
+          "round": 9,
+          "baseline": 0.5768159665815734,
+          "ablated_no_renorm": 0.5693316314690183,
+          "ablated_renorm": 0.5693316314690183,
+          "delta_no_renorm": -0.007484335112555085,
+          "delta_renorm": -0.007484335112555085
+        },
+        {
+          "round": 10,
+          "baseline": 0.6228691821490135,
+          "ablated_no_renorm": 0.6201877035050757,
+          "ablated_renorm": 0.6201877035050757,
+          "delta_no_renorm": -0.0026814786439378624,
+          "delta_renorm": -0.0026814786439378624
+        },
+        {
+          "round": 11,
+          "baseline": 0.6769423558897243,
+          "ablated_no_renorm": 0.662781954887218,
+          "ablated_renorm": 0.662781954887218,
+          "delta_no_renorm": -0.014160401002506262,
+          "delta_renorm": -0.014160401002506262
+        },
+        {
+          "round": 12,
+          "baseline": 0.5900289199044386,
+          "ablated_no_renorm": 0.6169370049038099,
+          "ablated_renorm": 0.6169370049038099,
+          "delta_no_renorm": 0.02690808499937125,
+          "delta_renorm": 0.02690808499937125
+        }
+      ]
+    },
+    "Fibrous desmoplastic stroma": {
+      "delta_no_renorm": {
+        "mean": 6.941701256359585e-05,
+        "sd": 0.006432980954566425,
+        "se": 0.002626253477288333,
+        "ci95": [
+          -0.005078039802921537,
+          0.005216873828048728
+        ],
+        "n_rounds": 6
+      },
+      "delta_renorm": {
+        "mean": 6.941701256359585e-05,
+        "sd": 0.006432980954566425,
+        "se": 0.002626253477288333,
+        "ci95": [
+          -0.005078039802921537,
+          0.005216873828048728
+        ],
+        "n_rounds": 6
+      },
+      "rounds": [
+        {
+          "round": 7,
+          "baseline": 0.5989963237439458,
+          "ablated_no_renorm": 0.5948532415241874,
+          "ablated_renorm": 0.5948532415241874,
+          "delta_no_renorm": -0.004143082219758454,
+          "delta_renorm": -0.004143082219758454
+        },
+        {
+          "round": 8,
+          "baseline": 0.6241181004327978,
+          "ablated_no_renorm": 0.6205015711151953,
+          "ablated_renorm": 0.6205015711151953,
+          "delta_no_renorm": -0.0036165293176024793,
+          "delta_renorm": -0.0036165293176024793
+        },
+        {
+          "round": 9,
+          "baseline": 0.5768159665815734,
+          "ablated_no_renorm": 0.585228591320492,
+          "ablated_renorm": 0.585228591320492,
+          "delta_no_renorm": 0.008412624738918573,
+          "delta_renorm": 0.008412624738918573
+        },
+        {
+          "round": 10,
+          "baseline": 0.6228691821490135,
+          "ablated_no_renorm": 0.6174423801315202,
+          "ablated_renorm": 0.6174423801315202,
+          "delta_no_renorm": -0.0054268020174933485,
+          "delta_renorm": -0.0054268020174933485
+        },
+        {
+          "round": 11,
+          "baseline": 0.6769423558897243,
+          "ablated_no_renorm": 0.6851503759398496,
+          "ablated_renorm": 0.6851503759398496,
+          "delta_no_renorm": 0.008208020050125331,
+          "delta_renorm": 0.008208020050125331
+        },
+        {
+          "round": 12,
+          "baseline": 0.5900289199044386,
+          "ablated_no_renorm": 0.5870111907456306,
+          "ablated_renorm": 0.5870111907456306,
+          "delta_no_renorm": -0.003017729158808047,
+          "delta_renorm": -0.003017729158808047
+        }
+      ]
+    },
+    "Invasive breast carcinoma (tumor cells)": {
+      "delta_no_renorm": {
+        "mean": -0.0006926392860574504,
+        "sd": 0.01079482667092659,
+        "se": 0.0044069695342594944,
+        "ci95": [
+          -0.00933029957320606,
+          0.007945021001091158
+        ],
+        "n_rounds": 6
+      },
+      "delta_renorm": {
+        "mean": -0.0006926392860574504,
+        "sd": 0.01079482667092659,
+        "se": 0.0044069695342594944,
+        "ci95": [
+          -0.00933029957320606,
+          0.007945021001091158
+        ],
+        "n_rounds": 6
+      },
+      "rounds": [
+        {
+          "round": 7,
+          "baseline": 0.5989963237439458,
+          "ablated_no_renorm": 0.5975374919764253,
+          "ablated_renorm": 0.5975374919764253,
+          "delta_no_renorm": -0.0014588317675205964,
+          "delta_renorm": -0.0014588317675205964
+        },
+        {
+          "round": 8,
+          "baseline": 0.6241181004327978,
+          "ablated_no_renorm": 0.620975870042094,
+          "ablated_renorm": 0.620975870042094,
+          "delta_no_renorm": -0.0031422303907038263,
+          "delta_renorm": -0.0031422303907038263
+        },
+        {
+          "round": 9,
+          "baseline": 0.5768159665815734,
+          "ablated_no_renorm": 0.597006265954978,
+          "ablated_renorm": 0.597006265954978,
+          "delta_no_renorm": 0.020190299373404552,
+          "delta_renorm": 0.020190299373404552
+        },
+        {
+          "round": 10,
+          "baseline": 0.6228691821490135,
+          "ablated_no_renorm": 0.6139947647321714,
+          "ablated_renorm": 0.6139947647321714,
+          "delta_no_renorm": -0.00887441741684214,
+          "delta_renorm": -0.00887441741684214
+        },
+        {
+          "round": 11,
+          "baseline": 0.6769423558897243,
+          "ablated_no_renorm": 0.675250626566416,
+          "ablated_renorm": 0.675250626566416,
+          "delta_no_renorm": -0.0016917293233082997,
+          "delta_renorm": -0.0016917293233082997
+        },
+        {
+          "round": 12,
+          "baseline": 0.5900289199044386,
+          "ablated_no_renorm": 0.5808499937130642,
+          "ablated_renorm": 0.5808499937130642,
+          "delta_no_renorm": -0.009178926191374392,
+          "delta_renorm": -0.009178926191374392
+        }
+      ]
+    },
+    "Muscle tissue (smooth or skeletal muscle)": {
+      "delta_no_renorm": {
+        "mean": -0.007479400528968135,
+        "sd": 0.01228083279653991,
+        "se": 0.005013628994659961,
+        "ci95": [
+          -0.017306113358501657,
+          0.0023473123005653884
+        ],
+        "n_rounds": 6
+      },
+      "delta_renorm": {
+        "mean": -0.007479400528968135,
+        "sd": 0.01228083279653991,
+        "se": 0.005013628994659961,
+        "ci95": [
+          -0.017306113358501657,
+          0.0023473123005653884
+        ],
+        "n_rounds": 6
+      },
+      "rounds": [
+        {
+          "round": 7,
+          "baseline": 0.5989963237439458,
+          "ablated_no_renorm": 0.6090330863044874,
+          "ablated_renorm": 0.6090330863044874,
+          "delta_no_renorm": 0.010036762560541534,
+          "delta_renorm": 0.010036762560541534
+        },
+        {
+          "round": 8,
+          "baseline": 0.6241181004327978,
+          "ablated_no_renorm": 0.6242366751645224,
+          "ablated_renorm": 0.6242366751645224,
+          "delta_no_renorm": 0.00011857473172460775,
+          "delta_renorm": 0.00011857473172460775
+        },
+        {
+          "round": 9,
+          "baseline": 0.5768159665815734,
+          "ablated_no_renorm": 0.566140635878394,
+          "ablated_renorm": 0.566140635878394,
+          "delta_no_renorm": -0.010675330703179386,
+          "delta_renorm": -0.010675330703179386
+        },
+        {
+          "round": 10,
+          "baseline": 0.6228691821490135,
+          "ablated_no_renorm": 0.6035880738045074,
+          "ablated_renorm": 0.6035880738045074,
+          "delta_no_renorm": -0.019281108344506137,
+          "delta_renorm": -0.019281108344506137
+        },
+        {
+          "round": 11,
+          "baseline": 0.6769423558897243,
+          "ablated_no_renorm": 0.6741228070175439,
+          "ablated_renorm": 0.6741228070175439,
+          "delta_no_renorm": -0.0028195488721803885,
+          "delta_renorm": -0.0028195488721803885
+        },
+        {
+          "round": 12,
+          "baseline": 0.5900289199044386,
+          "ablated_no_renorm": 0.5677731673582296,
+          "ablated_renorm": 0.5677731673582296,
+          "delta_no_renorm": -0.02225575254620904,
+          "delta_renorm": -0.02225575254620904
+        }
+      ]
+    },
+    "Necrosis or hemorrhage": {
+      "delta_no_renorm": {
+        "mean": -0.004731530274797446,
+        "sd": 0.011558232955500385,
+        "se": 0.004718628844866115,
+        "ci95": [
+          -0.013980042810735033,
+          0.00451698226114014
+        ],
+        "n_rounds": 6
+      },
+      "delta_renorm": {
+        "mean": -0.004731530274797446,
+        "sd": 0.011558232955500385,
+        "se": 0.004718628844866115,
+        "ci95": [
+          -0.013980042810735033,
+          0.00451698226114014
+        ],
+        "n_rounds": 6
+      },
+      "rounds": [
+        {
+          "round": 7,
+          "baseline": 0.5989963237439458,
+          "ablated_no_renorm": 0.6052401237089339,
+          "ablated_renorm": 0.6052401237089339,
+          "delta_no_renorm": 0.006243799964988028,
+          "delta_renorm": 0.006243799964988028
+        },
+        {
+          "round": 8,
+          "baseline": 0.6241181004327978,
+          "ablated_no_renorm": 0.6181893638465643,
+          "ablated_renorm": 0.6181893638465643,
+          "delta_no_renorm": -0.005928736586233496,
+          "delta_renorm": -0.005928736586233496
+        },
+        {
+          "round": 9,
+          "baseline": 0.5768159665815734,
+          "ablated_no_renorm": 0.5588883731724298,
+          "ablated_renorm": 0.5588883731724298,
+          "delta_no_renorm": -0.017927593409143627,
+          "delta_renorm": -0.017927593409143627
+        },
+        {
+          "round": 10,
+          "baseline": 0.6228691821490135,
+          "ablated_no_renorm": 0.6212730639085744,
+          "ablated_renorm": 0.6212730639085744,
+          "delta_no_renorm": -0.0015961182404391483,
+          "delta_renorm": -0.0015961182404391483
+        },
+        {
+          "round": 11,
+          "baseline": 0.6769423558897243,
+          "ablated_no_renorm": 0.6588972431077694,
+          "ablated_renorm": 0.6588972431077694,
+          "delta_no_renorm": -0.018045112781954864,
+          "delta_renorm": -0.018045112781954864
+        },
+        {
+          "round": 12,
+          "baseline": 0.5900289199044386,
+          "ablated_no_renorm": 0.598893499308437,
+          "ablated_renorm": 0.598893499308437,
+          "delta_no_renorm": 0.00886457940399843,
+          "delta_renorm": 0.00886457940399843
+        }
+      ]
+    },
+    "Normal breast glands and lobules (TDLU)": {
+      "delta_no_renorm": {
+        "mean": -0.000571508390036409,
+        "sd": 0.0037705888449026184,
+        "se": 0.001539336449973606,
+        "ci95": [
+          -0.0035886078319846766,
+          0.0024455910519118585
+        ],
+        "n_rounds": 6
+      },
+      "delta_renorm": {
+        "mean": -0.000571508390036409,
+        "sd": 0.0037705888449026184,
+        "se": 0.001539336449973606,
+        "ci95": [
+          -0.0035886078319846766,
+          0.0024455910519118585
+        ],
+        "n_rounds": 6
+      },
+      "rounds": [
+        {
+          "round": 7,
+          "baseline": 0.5989963237439458,
+          "ablated_no_renorm": 0.5940946490050767,
+          "ablated_renorm": 0.5940946490050767,
+          "delta_no_renorm": -0.004901674738869155,
+          "delta_renorm": -0.004901674738869155
+        },
+        {
+          "round": 8,
+          "baseline": 0.6241181004327978,
+          "ablated_no_renorm": 0.6250074109207328,
+          "ablated_renorm": 0.6250074109207328,
+          "delta_no_renorm": 0.0008893104879349467,
+          "delta_renorm": 0.0008893104879349467
+        },
+        {
+          "round": 9,
+          "baseline": 0.5768159665815734,
+          "ablated_no_renorm": 0.5784404734277094,
+          "ablated_renorm": 0.5784404734277094,
+          "delta_no_renorm": 0.0016245068461360201,
+          "delta_renorm": 0.0016245068461360201
+        },
+        {
+          "round": 10,
+          "baseline": 0.6228691821490135,
+          "ablated_no_renorm": 0.6279129157888016,
+          "ablated_renorm": 0.6279129157888016,
+          "delta_no_renorm": 0.0050437336397880506,
+          "delta_renorm": 0.0050437336397880506
+        },
+        {
+          "round": 11,
+          "baseline": 0.6769423558897243,
+          "ablated_no_renorm": 0.6729949874686717,
+          "ablated_renorm": 0.6729949874686717,
+          "delta_no_renorm": -0.003947368421052588,
+          "delta_renorm": -0.003947368421052588
+        },
+        {
+          "round": 12,
+          "baseline": 0.5900289199044386,
+          "ablated_no_renorm": 0.5878913617502829,
+          "ablated_renorm": 0.5878913617502829,
+          "delta_no_renorm": -0.0021375581541557276,
+          "delta_renorm": -0.0021375581541557276
+        }
+      ]
+    },
+    "Tumor-infiltrating lymphocytes (immune infiltrates)": {
+      "delta_no_renorm": {
+        "mean": -0.001700014148691309,
+        "sd": 0.00548052073157949,
+        "se": 0.0022374132195190867,
+        "ci95": [
+          -0.006085344058948719,
+          0.0026853157615661007
+        ],
+        "n_rounds": 6
+      },
+      "delta_renorm": {
+        "mean": -0.001700014148691309,
+        "sd": 0.00548052073157949,
+        "se": 0.0022374132195190867,
+        "ci95": [
+          -0.006085344058948719,
+          0.0026853157615661007
+        ],
+        "n_rounds": 6
+      },
+      "rounds": [
+        {
+          "round": 7,
+          "baseline": 0.5989963237439458,
+          "ablated_no_renorm": 0.5997549162630565,
+          "ablated_renorm": 0.5997549162630565,
+          "delta_no_renorm": 0.0007585925191107012,
+          "delta_renorm": 0.0007585925191107012
+        },
+        {
+          "round": 8,
+          "baseline": 0.6241181004327978,
+          "ablated_no_renorm": 0.6300468370190312,
+          "ablated_renorm": 0.6300468370190312,
+          "delta_no_renorm": 0.005928736586233385,
+          "delta_renorm": 0.005928736586233385
+        },
+        {
+          "round": 9,
+          "baseline": 0.5768159665815734,
+          "ablated_no_renorm": 0.5773381294964028,
+          "ablated_renorm": 0.5773381294964028,
+          "delta_no_renorm": 0.0005221629148294271,
+          "delta_renorm": 0.0005221629148294271
+        },
+        {
+          "round": 10,
+          "baseline": 0.6228691821490135,
+          "ablated_no_renorm": 0.6210815297197216,
+          "ablated_renorm": 0.6210815297197216,
+          "delta_no_renorm": -0.0017876524292919083,
+          "delta_renorm": -0.0017876524292919083
+        },
+        {
+          "round": 11,
+          "baseline": 0.6769423558897243,
+          "ablated_no_renorm": 0.6673558897243108,
+          "ablated_renorm": 0.6673558897243108,
+          "delta_no_renorm": -0.009586466165413476,
+          "delta_renorm": -0.009586466165413476
+        },
+        {
+          "round": 12,
+          "baseline": 0.5900289199044386,
+          "ablated_no_renorm": 0.5839934615868226,
+          "ablated_renorm": 0.5839934615868226,
+          "delta_no_renorm": -0.006035458317615983,
+          "delta_renorm": -0.006035458317615983
+        }
+      ]
+    }
+  }
+}

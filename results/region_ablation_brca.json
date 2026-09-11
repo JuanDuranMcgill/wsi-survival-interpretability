@@ -1,0 +1,1689 @@
+{
+  "cohort": "brca",
+  "n_rounds": 20,
+  "epochs_per_round": 15,
+  "train_frac": 0.8,
+  "num_regions": 9,
+  "region_names": [
+    "Adipose tissue (fat)",
+    "Blood vessels (vasculature)",
+    "Ductal carcinoma in situ (DCIS)",
+    "Fibrous desmoplastic stroma",
+    "Invasive breast carcinoma (tumor cells)",
+    "Muscle tissue (smooth or skeletal muscle)",
+    "Necrosis or hemorrhage",
+    "Normal breast glands and lobules (TDLU)",
+    "Tumor-infiltrating lymphocytes (immune infiltrates)"
+  ],
+  "ablation_method": "Region r's embedding is zeroed after per-region processing (projection + graph-diffusion + attention pooling) and before cross-region self-attention, so region r also does not participate in other regions' cross-region attention. After cross-region LayerNorm, position r is zeroed again. no_renorm: original normalised weights kept (w still sums to 1, region r contributes w[r]*0=0). renorm: w[r] forced to 0 and remaining weights renormalised to sum to 1.",
+  "evaluation": "out-of-bag (OOB) patients only; in-sample c-index is not reported",
+  "note": "Rounds run in parallel shards (1-6, 7-12, 13-16, 17-20) and merged.",
+  "baseline_cindex": {
+    "mean": 0.6190279340067333,
+    "sd": 0.03136474761824182,
+    "se": 0.0070133707771513325,
+    "ci95": [
+      0.6052817272835167,
+      0.6327741407299499
+    ],
+    "n_rounds": 20
+  },
+  "per_region": {
+    "Adipose tissue (fat)": {
+      "delta_no_renorm": {
+        "mean": -0.009445384143785231,
+        "sd": 0.006222648664838381,
+        "se": 0.0013914265414676926,
+        "ci95": [
+          -0.01217258016506191,
+          -0.006718188122508554
+        ],
+        "n_rounds": 20
+      },
+      "delta_renorm": {
+        "mean": -0.009445384143785231,
+        "sd": 0.006222648664838381,
+        "se": 0.0013914265414676926,
+        "ci95": [
+          -0.01217258016506191,
+          -0.006718188122508554
+        ],
+        "n_rounds": 20
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "baseline": 0.6233,
+          "ablated_no_renorm": 0.6189,
+          "ablated_renorm": 0.6189,
+          "delta_no_renorm": -0.0045,
+          "delta_renorm": -0.0045
+        },
+        {
+          "round": 2,
+          "baseline": 0.6085,
+          "ablated_no_renorm": 0.6002,
+          "ablated_renorm": 0.6002,
+          "delta_no_renorm": -0.0082,
+          "delta_renorm": -0.0082
+        },
+        {
+          "round": 3,
+          "baseline": 0.5603,
+          "ablated_no_renorm": 0.5516,
+          "ablated_renorm": 0.5516,
+          "delta_no_renorm": -0.0087,
+          "delta_renorm": -0.0087
+        },
+        {
+          "round": 4,
+          "baseline": 0.6584,
+          "ablated_no_renorm": 0.6466,
+          "ablated_renorm": 0.6466,
+          "delta_no_renorm": -0.0118,
+          "delta_renorm": -0.0118
+        },
+        {
+          "round": 5,
+          "baseline": 0.6219,
+          "ablated_no_renorm": 0.6133,
+          "ablated_renorm": 0.6133,
+          "delta_no_renorm": -0.0085,
+          "delta_renorm": -0.0085
+        },
+        {
+          "round": 6,
+          "baseline": 0.5777,
+          "ablated_no_renorm": 0.5707,
+          "ablated_renorm": 0.5707,
+          "delta_no_renorm": -0.007,
+          "delta_renorm": -0.007
+        },
+        {
+          "round": 7,
+          "baseline": 0.5989963237439458,
+          "ablated_no_renorm": 0.582482348135613,
+          "ablated_renorm": 0.582482348135613,
+          "delta_no_renorm": -0.016513975608332898,
+          "delta_renorm": -0.016513975608332898
+        },
+        {
+          "round": 8,
+          "baseline": 0.6241181004327978,
+          "ablated_no_renorm": 0.6162921681389696,
+          "ablated_renorm": 0.6162921681389696,
+          "delta_no_renorm": -0.00782593229382822,
+          "delta_renorm": -0.00782593229382822
+        },
+        {
+          "round": 9,
+          "baseline": 0.5768159665815734,
+          "ablated_no_renorm": 0.5666047806915758,
+          "ablated_renorm": 0.5666047806915758,
+          "delta_no_renorm": -0.010211185889997587,
+          "delta_renorm": -0.010211185889997587
+        },
+        {
+          "round": 10,
+          "baseline": 0.6228691821490135,
+          "ablated_no_renorm": 0.6081848943369725,
+          "ablated_renorm": 0.6081848943369725,
+          "delta_no_renorm": -0.014684287812041008,
+          "delta_renorm": -0.014684287812041008
+        },
+        {
+          "round": 11,
+          "baseline": 0.6769423558897243,
+          "ablated_no_renorm": 0.6759398496240602,
+          "ablated_renorm": 0.6759398496240602,
+          "delta_no_renorm": -0.001002506265664116,
+          "delta_renorm": -0.001002506265664116
+        },
+        {
+          "round": 12,
+          "baseline": 0.5900289199044386,
+          "ablated_no_renorm": 0.5857538035961273,
+          "ablated_renorm": 0.5857538035961273,
+          "delta_no_renorm": -0.004275116308311344,
+          "delta_renorm": -0.004275116308311344
+        },
+        {
+          "round": 13,
+          "baseline": 0.6624328285295554,
+          "ablated_no_renorm": 0.6408681694465769,
+          "ablated_renorm": 0.6408681694465769,
+          "delta_no_renorm": -0.021564659082978554,
+          "delta_renorm": -0.021564659082978554
+        },
+        {
+          "round": 14,
+          "baseline": 0.6475220009263548,
+          "ablated_no_renorm": 0.6417653675643485,
+          "ablated_renorm": 0.6417653675643485,
+          "delta_no_renorm": -0.005756633362006269,
+          "delta_renorm": -0.005756633362006269
+        },
+        {
+          "round": 15,
+          "baseline": 0.6063001080343435,
+          "ablated_no_renorm": 0.5857735827599931,
+          "ablated_renorm": 0.5857735827599931,
+          "delta_no_renorm": -0.020526525274350393,
+          "delta_renorm": -0.020526525274350393
+        },
+        {
+          "round": 16,
+          "baseline": 0.6006661969124335,
+          "ablated_no_renorm": 0.5915059893664724,
+          "ablated_renorm": 0.5915059893664724,
+          "delta_no_renorm": -0.009160207545961141,
+          "delta_renorm": -0.009160207545961141
+        },
+        {
+          "round": 17,
+          "baseline": 0.6509174003629277,
+          "ablated_no_renorm": 0.6525304119900531,
+          "ablated_renorm": 0.6525304119900531,
+          "delta_no_renorm": 0.0016130116271254602,
+          "delta_renorm": 0.0016130116271254602
+        },
+        {
+          "round": 18,
+          "baseline": 0.6252230390407537,
+          "ablated_no_renorm": 0.6189422596531297,
+          "ablated_renorm": 0.6189422596531297,
+          "delta_no_renorm": -0.006280779387624058,
+          "delta_renorm": -0.006280779387624058
+        },
+        {
+          "round": 19,
+          "baseline": 0.6476014760147601,
+          "ablated_no_renorm": 0.6289106369324563,
+          "ablated_renorm": 0.6289106369324563,
+          "delta_no_renorm": -0.018690839082303845,
+          "delta_renorm": -0.018690839082303845
+        },
+        {
+          "round": 20,
+          "baseline": 0.6000247816120439,
+          "ablated_no_renorm": 0.5946967350226132,
+          "ablated_renorm": 0.5946967350226132,
+          "delta_no_renorm": -0.005328046589430646,
+          "delta_renorm": -0.005328046589430646
+        }
+      ]
+    },
+    "Blood vessels (vasculature)": {
+      "delta_no_renorm": {
+        "mean": -0.0006318616956709009,
+        "sd": 0.004901142475634739,
+        "se": 0.0010959287742930883,
+        "ci95": [
+          -0.0027798820932853543,
+          0.0015161587019435522
+        ],
+        "n_rounds": 20
+      },
+      "delta_renorm": {
+        "mean": -0.0006318616956709009,
+        "sd": 0.004901142475634739,
+        "se": 0.0010959287742930883,
+        "ci95": [
+          -0.0027798820932853543,
+          0.0015161587019435522
+        ],
+        "n_rounds": 20
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "baseline": 0.6233,
+          "ablated_no_renorm": 0.6235,
+          "ablated_renorm": 0.6235,
+          "delta_no_renorm": 0.0001,
+          "delta_renorm": 0.0001
+        },
+        {
+          "round": 2,
+          "baseline": 0.6085,
+          "ablated_no_renorm": 0.6122,
+          "ablated_renorm": 0.6122,
+          "delta_no_renorm": 0.0037,
+          "delta_renorm": 0.0037
+        },
+        {
+          "round": 3,
+          "baseline": 0.5603,
+          "ablated_no_renorm": 0.5581,
+          "ablated_renorm": 0.5581,
+          "delta_no_renorm": -0.0022,
+          "delta_renorm": -0.0022
+        },
+        {
+          "round": 4,
+          "baseline": 0.6584,
+          "ablated_no_renorm": 0.6512,
+          "ablated_renorm": 0.6512,
+          "delta_no_renorm": -0.0072,
+          "delta_renorm": -0.0072
+        },
+        {
+          "round": 5,
+          "baseline": 0.6219,
+          "ablated_no_renorm": 0.6202,
+          "ablated_renorm": 0.6202,
+          "delta_no_renorm": -0.0017,
+          "delta_renorm": -0.0017
+        },
+        {
+          "round": 6,
+          "baseline": 0.5777,
+          "ablated_no_renorm": 0.5816,
+          "ablated_renorm": 0.5816,
+          "delta_no_renorm": 0.0039,
+          "delta_renorm": 0.0039
+        },
+        {
+          "round": 7,
+          "baseline": 0.5989963237439458,
+          "ablated_no_renorm": 0.6034895255879092,
+          "ablated_renorm": 0.6034895255879092,
+          "delta_no_renorm": 0.004493201843963401,
+          "delta_renorm": 0.004493201843963401
+        },
+        {
+          "round": 8,
+          "baseline": 0.6241181004327978,
+          "ablated_no_renorm": 0.6258967214086678,
+          "ablated_renorm": 0.6258967214086678,
+          "delta_no_renorm": 0.0017786209758700045,
+          "delta_renorm": 0.0017786209758700045
+        },
+        {
+          "round": 9,
+          "baseline": 0.5768159665815734,
+          "ablated_no_renorm": 0.5784984915293572,
+          "ablated_renorm": 0.5784984915293572,
+          "delta_no_renorm": 0.001682524947783759,
+          "delta_renorm": 0.001682524947783759
+        },
+        {
+          "round": 10,
+          "baseline": 0.6228691821490135,
+          "ablated_no_renorm": 0.6191661878311945,
+          "ablated_renorm": 0.6191661878311945,
+          "delta_no_renorm": -0.003702994317819064,
+          "delta_renorm": -0.003702994317819064
+        },
+        {
+          "round": 11,
+          "baseline": 0.6769423558897243,
+          "ablated_no_renorm": 0.6771929824561403,
+          "ablated_renorm": 0.6771929824561403,
+          "delta_no_renorm": 0.00025062656641605674,
+          "delta_renorm": 0.00025062656641605674
+        },
+        {
+          "round": 12,
+          "baseline": 0.5900289199044386,
+          "ablated_no_renorm": 0.5976361121589338,
+          "ablated_renorm": 0.5976361121589338,
+          "delta_no_renorm": 0.007607192254495132,
+          "delta_renorm": 0.007607192254495132
+        },
+        {
+          "round": 13,
+          "baseline": 0.6624328285295554,
+          "ablated_no_renorm": 0.6656431014027496,
+          "ablated_renorm": 0.6656431014027496,
+          "delta_no_renorm": 0.0032102728731941976,
+          "delta_renorm": 0.0032102728731941976
+        },
+        {
+          "round": 14,
+          "baseline": 0.6475220009263548,
+          "ablated_no_renorm": 0.6444120955468802,
+          "ablated_renorm": 0.6444120955468802,
+          "delta_no_renorm": -0.0031099053794746423,
+          "delta_renorm": -0.0031099053794746423
+        },
+        {
+          "round": 15,
+          "baseline": 0.6063001080343435,
+          "ablated_no_renorm": 0.6030022175470517,
+          "ablated_renorm": 0.6030022175470517,
+          "delta_no_renorm": -0.003297890487291788,
+          "delta_renorm": -0.003297890487291788
+        },
+        {
+          "round": 16,
+          "baseline": 0.6006661969124335,
+          "ablated_no_renorm": 0.59778361411825,
+          "ablated_renorm": 0.59778361411825,
+          "delta_no_renorm": -0.002882582794183519,
+          "delta_renorm": -0.002882582794183519
+        },
+        {
+          "round": 17,
+          "baseline": 0.6509174003629277,
+          "ablated_no_renorm": 0.653874588345991,
+          "ablated_renorm": 0.653874588345991,
+          "delta_no_renorm": 0.002957187983063325,
+          "delta_renorm": 0.002957187983063325
+        },
+        {
+          "round": 18,
+          "baseline": 0.6252230390407537,
+          "ablated_no_renorm": 0.610448932981229,
+          "ablated_renorm": 0.610448932981229,
+          "delta_no_renorm": -0.014774106059524672,
+          "delta_renorm": -0.014774106059524672
+        },
+        {
+          "round": 19,
+          "baseline": 0.6476014760147601,
+          "ablated_no_renorm": 0.6441520936948499,
+          "ablated_renorm": 0.6441520936948499,
+          "delta_no_renorm": -0.0034493823199102103,
+          "delta_renorm": -0.0034493823199102103
+        },
+        {
+          "round": 20,
+          "baseline": 0.6000247816120439,
+          "ablated_no_renorm": 0.6000247816120439,
+          "ablated_renorm": 0.6000247816120439,
+          "delta_no_renorm": 0.0,
+          "delta_renorm": 0.0
+        }
+      ]
+    },
+    "Ductal carcinoma in situ (DCIS)": {
+      "delta_no_renorm": {
+        "mean": -0.005761280997465879,
+        "sd": 0.012398999466683228,
+        "se": 0.0027725005660487333,
+        "ci95": [
+          -0.011195382106921396,
+          -0.0003271798880103618
+        ],
+        "n_rounds": 20
+      },
+      "delta_renorm": {
+        "mean": -0.005761280997465879,
+        "sd": 0.012398999466683228,
+        "se": 0.0027725005660487333,
+        "ci95": [
+          -0.011195382106921396,
+          -0.0003271798880103618
+        ],
+        "n_rounds": 20
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "baseline": 0.6233,
+          "ablated_no_renorm": 0.6087,
+          "ablated_renorm": 0.6087,
+          "delta_no_renorm": -0.0147,
+          "delta_renorm": -0.0147
+        },
+        {
+          "round": 2,
+          "baseline": 0.6085,
+          "ablated_no_renorm": 0.6035,
+          "ablated_renorm": 0.6035,
+          "delta_no_renorm": -0.005,
+          "delta_renorm": -0.005
+        },
+        {
+          "round": 3,
+          "baseline": 0.5603,
+          "ablated_no_renorm": 0.5531,
+          "ablated_renorm": 0.5531,
+          "delta_no_renorm": -0.0073,
+          "delta_renorm": -0.0073
+        },
+        {
+          "round": 4,
+          "baseline": 0.6584,
+          "ablated_no_renorm": 0.6492,
+          "ablated_renorm": 0.6492,
+          "delta_no_renorm": -0.0093,
+          "delta_renorm": -0.0093
+        },
+        {
+          "round": 5,
+          "baseline": 0.6219,
+          "ablated_no_renorm": 0.6194,
+          "ablated_renorm": 0.6194,
+          "delta_no_renorm": -0.0024,
+          "delta_renorm": -0.0024
+        },
+        {
+          "round": 6,
+          "baseline": 0.5777,
+          "ablated_no_renorm": 0.576,
+          "ablated_renorm": 0.576,
+          "delta_no_renorm": -0.0016,
+          "delta_renorm": -0.0016
+        },
+        {
+          "round": 7,
+          "baseline": 0.5989963237439458,
+          "ablated_no_renorm": 0.5956701873139989,
+          "ablated_renorm": 0.5956701873139989,
+          "delta_no_renorm": -0.0033261364299469465,
+          "delta_renorm": -0.0033261364299469465
+        },
+        {
+          "round": 8,
+          "baseline": 0.6241181004327978,
+          "ablated_no_renorm": 0.6314104464338649,
+          "ablated_renorm": 0.6314104464338649,
+          "delta_no_renorm": 0.007292346001067096,
+          "delta_renorm": 0.007292346001067096
+        },
+        {
+          "round": 9,
+          "baseline": 0.5768159665815734,
+          "ablated_no_renorm": 0.5693316314690183,
+          "ablated_renorm": 0.5693316314690183,
+          "delta_no_renorm": -0.007484335112555085,
+          "delta_renorm": -0.007484335112555085
+        },
+        {
+          "round": 10,
+          "baseline": 0.6228691821490135,
+          "ablated_no_renorm": 0.6201877035050757,
+          "ablated_renorm": 0.6201877035050757,
+          "delta_no_renorm": -0.0026814786439378624,
+          "delta_renorm": -0.0026814786439378624
+        },
+        {
+          "round": 11,
+          "baseline": 0.6769423558897243,
+          "ablated_no_renorm": 0.662781954887218,
+          "ablated_renorm": 0.662781954887218,
+          "delta_no_renorm": -0.014160401002506262,
+          "delta_renorm": -0.014160401002506262
+        },
+        {
+          "round": 12,
+          "baseline": 0.5900289199044386,
+          "ablated_no_renorm": 0.6169370049038099,
+          "ablated_renorm": 0.6169370049038099,
+          "delta_no_renorm": 0.02690808499937125,
+          "delta_renorm": 0.02690808499937125
+        },
+        {
+          "round": 13,
+          "baseline": 0.6624328285295554,
+          "ablated_no_renorm": 0.6434503454532766,
+          "ablated_renorm": 0.6434503454532766,
+          "delta_no_renorm": -0.01898248307627881,
+          "delta_renorm": -0.01898248307627881
+        },
+        {
+          "round": 14,
+          "baseline": 0.6475220009263548,
+          "ablated_no_renorm": 0.6415006947660954,
+          "ablated_renorm": 0.6415006947660954,
+          "delta_no_renorm": -0.006021306160259421,
+          "delta_renorm": -0.006021306160259421
+        },
+        {
+          "round": 15,
+          "baseline": 0.6063001080343435,
+          "ablated_no_renorm": 0.5815659293796555,
+          "ablated_renorm": 0.5815659293796555,
+          "delta_no_renorm": -0.024734178654688077,
+          "delta_renorm": -0.024734178654688077
+        },
+        {
+          "round": 16,
+          "baseline": 0.6006661969124335,
+          "ablated_no_renorm": 0.6004099673307284,
+          "ablated_renorm": 0.6004099673307284,
+          "delta_no_renorm": -0.0002562295817051252,
+          "delta_renorm": -0.0002562295817051252
+        },
+        {
+          "round": 17,
+          "baseline": 0.6509174003629277,
+          "ablated_no_renorm": 0.6204718059009342,
+          "ablated_renorm": 0.6204718059009342,
+          "delta_no_renorm": -0.030445594461993464,
+          "delta_renorm": -0.030445594461993464
+        },
+        {
+          "round": 18,
+          "baseline": 0.6252230390407537,
+          "ablated_no_renorm": 0.635928912996931,
+          "ablated_renorm": 0.635928912996931,
+          "delta_no_renorm": 0.010705873956177281,
+          "delta_renorm": 0.010705873956177281
+        },
+        {
+          "round": 19,
+          "baseline": 0.6476014760147601,
+          "ablated_no_renorm": 0.638215947376865,
+          "ablated_renorm": 0.638215947376865,
+          "delta_no_renorm": -0.009385528637895102,
+          "delta_renorm": -0.009385528637895102
+        },
+        {
+          "round": 20,
+          "baseline": 0.6000247816120439,
+          "ablated_no_renorm": 0.5976705284678768,
+          "ablated_renorm": 0.5976705284678768,
+          "delta_no_renorm": -0.00235425314416704,
+          "delta_renorm": -0.00235425314416704
+        }
+      ]
+    },
+    "Fibrous desmoplastic stroma": {
+      "delta_no_renorm": {
+        "mean": -0.00012575006635901696,
+        "sd": 0.004989203468095836,
+        "se": 0.001115619810823999,
+        "ci95": [
+          -0.002312364895574055,
+          0.0020608647628560213
+        ],
+        "n_rounds": 20
+      },
+      "delta_renorm": {
+        "mean": -0.00012575006635901696,
+        "sd": 0.004989203468095836,
+        "se": 0.001115619810823999,
+        "ci95": [
+          -0.002312364895574055,
+          0.0020608647628560213
+        ],
+        "n_rounds": 20
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "baseline": 0.6233,
+          "ablated_no_renorm": 0.6202,
+          "ablated_renorm": 0.6202,
+          "delta_no_renorm": -0.0032,
+          "delta_renorm": -0.0032
+        },
+        {
+          "round": 2,
+          "baseline": 0.6085,
+          "ablated_no_renorm": 0.607,
+          "ablated_renorm": 0.607,
+          "delta_no_renorm": -0.0015,
+          "delta_renorm": -0.0015
+        },
+        {
+          "round": 3,
+          "baseline": 0.5603,
+          "ablated_no_renorm": 0.5623,
+          "ablated_renorm": 0.5623,
+          "delta_no_renorm": 0.002,
+          "delta_renorm": 0.002
+        },
+        {
+          "round": 4,
+          "baseline": 0.6584,
+          "ablated_no_renorm": 0.6513,
+          "ablated_renorm": 0.6513,
+          "delta_no_renorm": -0.0071,
+          "delta_renorm": -0.0071
+        },
+        {
+          "round": 5,
+          "baseline": 0.6219,
+          "ablated_no_renorm": 0.6145,
+          "ablated_renorm": 0.6145,
+          "delta_no_renorm": -0.0074,
+          "delta_renorm": -0.0074
+        },
+        {
+          "round": 6,
+          "baseline": 0.5777,
+          "ablated_no_renorm": 0.5774,
+          "ablated_renorm": 0.5774,
+          "delta_no_renorm": -0.0003,
+          "delta_renorm": -0.0003
+        },
+        {
+          "round": 7,
+          "baseline": 0.5989963237439458,
+          "ablated_no_renorm": 0.5948532415241874,
+          "ablated_renorm": 0.5948532415241874,
+          "delta_no_renorm": -0.004143082219758454,
+          "delta_renorm": -0.004143082219758454
+        },
+        {
+          "round": 8,
+          "baseline": 0.6241181004327978,
+          "ablated_no_renorm": 0.6205015711151953,
+          "ablated_renorm": 0.6205015711151953,
+          "delta_no_renorm": -0.0036165293176024793,
+          "delta_renorm": -0.0036165293176024793
+        },
+        {
+          "round": 9,
+          "baseline": 0.5768159665815734,
+          "ablated_no_renorm": 0.585228591320492,
+          "ablated_renorm": 0.585228591320492,
+          "delta_no_renorm": 0.008412624738918573,
+          "delta_renorm": 0.008412624738918573
+        },
+        {
+          "round": 10,
+          "baseline": 0.6228691821490135,
+          "ablated_no_renorm": 0.6174423801315202,
+          "ablated_renorm": 0.6174423801315202,
+          "delta_no_renorm": -0.0054268020174933485,
+          "delta_renorm": -0.0054268020174933485
+        },
+        {
+          "round": 11,
+          "baseline": 0.6769423558897243,
+          "ablated_no_renorm": 0.6851503759398496,
+          "ablated_renorm": 0.6851503759398496,
+          "delta_no_renorm": 0.008208020050125331,
+          "delta_renorm": 0.008208020050125331
+        },
+        {
+          "round": 12,
+          "baseline": 0.5900289199044386,
+          "ablated_no_renorm": 0.5870111907456306,
+          "ablated_renorm": 0.5870111907456306,
+          "delta_no_renorm": -0.003017729158808047,
+          "delta_renorm": -0.003017729158808047
+        },
+        {
+          "round": 13,
+          "baseline": 0.6624328285295554,
+          "ablated_no_renorm": 0.66306092539605,
+          "ablated_renorm": 0.66306092539605,
+          "delta_no_renorm": 0.0006280968664945652,
+          "delta_renorm": 0.0006280968664945652
+        },
+        {
+          "round": 14,
+          "baseline": 0.6475220009263548,
+          "ablated_no_renorm": 0.6545358300800636,
+          "ablated_renorm": 0.6545358300800636,
+          "delta_no_renorm": 0.007013829153708739,
+          "delta_renorm": 0.007013829153708739
+        },
+        {
+          "round": 15,
+          "baseline": 0.6063001080343435,
+          "ablated_no_renorm": 0.612895889008927,
+          "ablated_renorm": 0.612895889008927,
+          "delta_no_renorm": 0.006595780974583465,
+          "delta_renorm": 0.006595780974583465
+        },
+        {
+          "round": 16,
+          "baseline": 0.6006661969124335,
+          "ablated_no_renorm": 0.5986163602587918,
+          "ablated_renorm": 0.5986163602587918,
+          "delta_no_renorm": -0.002049836653641668,
+          "delta_renorm": -0.002049836653641668
+        },
+        {
+          "round": 17,
+          "baseline": 0.6509174003629277,
+          "ablated_no_renorm": 0.6467504536595201,
+          "ablated_renorm": 0.6467504536595201,
+          "delta_no_renorm": -0.004166946703407559,
+          "delta_renorm": -0.004166946703407559
+        },
+        {
+          "round": 18,
+          "baseline": 0.6252230390407537,
+          "ablated_no_renorm": 0.6300763685675541,
+          "ablated_renorm": 0.6300763685675541,
+          "delta_no_renorm": 0.004853329526800398,
+          "delta_renorm": 0.004853329526800398
+        },
+        {
+          "round": 19,
+          "baseline": 0.6476014760147601,
+          "ablated_no_renorm": 0.6468795122733836,
+          "ablated_renorm": 0.6468795122733836,
+          "delta_no_renorm": -0.0007219637413765634,
+          "delta_renorm": -0.0007219637413765634
+        },
+        {
+          "round": 20,
+          "baseline": 0.6000247816120439,
+          "ablated_no_renorm": 0.6024409887863206,
+          "ablated_renorm": 0.6024409887863206,
+          "delta_no_renorm": 0.0024162071742767077,
+          "delta_renorm": 0.0024162071742767077
+        }
+      ]
+    },
+    "Invasive breast carcinoma (tumor cells)": {
+      "delta_no_renorm": {
+        "mean": -0.0003159975881722388,
+        "sd": 0.007263187953396099,
+        "se": 0.0016240981997151251,
+        "ci95": [
+          -0.003499230059613884,
+          0.002867234883269406
+        ],
+        "n_rounds": 20
+      },
+      "delta_renorm": {
+        "mean": -0.0003159975881722388,
+        "sd": 0.007263187953396099,
+        "se": 0.0016240981997151251,
+        "ci95": [
+          -0.003499230059613884,
+          0.002867234883269406
+        ],
+        "n_rounds": 20
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "baseline": 0.6233,
+          "ablated_no_renorm": 0.6284,
+          "ablated_renorm": 0.6284,
+          "delta_no_renorm": 0.005,
+          "delta_renorm": 0.005
+        },
+        {
+          "round": 2,
+          "baseline": 0.6085,
+          "ablated_no_renorm": 0.6109,
+          "ablated_renorm": 0.6109,
+          "delta_no_renorm": 0.0025,
+          "delta_renorm": 0.0025
+        },
+        {
+          "round": 3,
+          "baseline": 0.5603,
+          "ablated_no_renorm": 0.5542,
+          "ablated_renorm": 0.5542,
+          "delta_no_renorm": -0.0061,
+          "delta_renorm": -0.0061
+        },
+        {
+          "round": 4,
+          "baseline": 0.6584,
+          "ablated_no_renorm": 0.6543,
+          "ablated_renorm": 0.6543,
+          "delta_no_renorm": -0.0041,
+          "delta_renorm": -0.0041
+        },
+        {
+          "round": 5,
+          "baseline": 0.6219,
+          "ablated_no_renorm": 0.6184,
+          "ablated_renorm": 0.6184,
+          "delta_no_renorm": -0.0034,
+          "delta_renorm": -0.0034
+        },
+        {
+          "round": 6,
+          "baseline": 0.5777,
+          "ablated_no_renorm": 0.5718,
+          "ablated_renorm": 0.5718,
+          "delta_no_renorm": -0.0058,
+          "delta_renorm": -0.0058
+        },
+        {
+          "round": 7,
+          "baseline": 0.5989963237439458,
+          "ablated_no_renorm": 0.5975374919764253,
+          "ablated_renorm": 0.5975374919764253,
+          "delta_no_renorm": -0.0014588317675205964,
+          "delta_renorm": -0.0014588317675205964
+        },
+        {
+          "round": 8,
+          "baseline": 0.6241181004327978,
+          "ablated_no_renorm": 0.620975870042094,
+          "ablated_renorm": 0.620975870042094,
+          "delta_no_renorm": -0.0031422303907038263,
+          "delta_renorm": -0.0031422303907038263
+        },
+        {
+          "round": 9,
+          "baseline": 0.5768159665815734,
+          "ablated_no_renorm": 0.597006265954978,
+          "ablated_renorm": 0.597006265954978,
+          "delta_no_renorm": 0.020190299373404552,
+          "delta_renorm": 0.020190299373404552
+        },
+        {
+          "round": 10,
+          "baseline": 0.6228691821490135,
+          "ablated_no_renorm": 0.6139947647321714,
+          "ablated_renorm": 0.6139947647321714,
+          "delta_no_renorm": -0.00887441741684214,
+          "delta_renorm": -0.00887441741684214
+        },
+        {
+          "round": 11,
+          "baseline": 0.6769423558897243,
+          "ablated_no_renorm": 0.675250626566416,
+          "ablated_renorm": 0.675250626566416,
+          "delta_no_renorm": -0.0016917293233082997,
+          "delta_renorm": -0.0016917293233082997
+        },
+        {
+          "round": 12,
+          "baseline": 0.5900289199044386,
+          "ablated_no_renorm": 0.5808499937130642,
+          "ablated_renorm": 0.5808499937130642,
+          "delta_no_renorm": -0.009178926191374392,
+          "delta_renorm": -0.009178926191374392
+        },
+        {
+          "round": 13,
+          "baseline": 0.6624328285295554,
+          "ablated_no_renorm": 0.666131621187801,
+          "ablated_renorm": 0.666131621187801,
+          "delta_no_renorm": 0.0036987926582455755,
+          "delta_renorm": 0.0036987926582455755
+        },
+        {
+          "round": 14,
+          "baseline": 0.6475220009263548,
+          "ablated_no_renorm": 0.6497055515119433,
+          "ablated_renorm": 0.6497055515119433,
+          "delta_no_renorm": 0.0021835505855885007,
+          "delta_renorm": 0.0021835505855885007
+        },
+        {
+          "round": 15,
+          "baseline": 0.6063001080343435,
+          "ablated_no_renorm": 0.6157388980496958,
+          "ablated_renorm": 0.6157388980496958,
+          "delta_no_renorm": 0.009438790015352305,
+          "delta_renorm": 0.009438790015352305
+        },
+        {
+          "round": 16,
+          "baseline": 0.6006661969124335,
+          "ablated_no_renorm": 0.59778361411825,
+          "ablated_renorm": 0.59778361411825,
+          "delta_no_renorm": -0.002882582794183519,
+          "delta_renorm": -0.002882582794183519
+        },
+        {
+          "round": 17,
+          "baseline": 0.6509174003629277,
+          "ablated_no_renorm": 0.6460111566637543,
+          "ablated_renorm": 0.6460111566637543,
+          "delta_no_renorm": -0.004906243699173363,
+          "delta_renorm": -0.004906243699173363
+        },
+        {
+          "round": 18,
+          "baseline": 0.6252230390407537,
+          "ablated_no_renorm": 0.6217257868817357,
+          "ablated_renorm": 0.6217257868817357,
+          "delta_no_renorm": -0.0034972521590179717,
+          "delta_renorm": -0.0034972521590179717
+        },
+        {
+          "round": 19,
+          "baseline": 0.6476014760147601,
+          "ablated_no_renorm": 0.6427081662120969,
+          "ablated_renorm": 0.6427081662120969,
+          "delta_no_renorm": -0.004893309802663226,
+          "delta_renorm": -0.004893309802663226
+        },
+        {
+          "round": 20,
+          "baseline": 0.6000247816120439,
+          "ablated_no_renorm": 0.6106189207607955,
+          "ablated_renorm": 0.6106189207607955,
+          "delta_no_renorm": 0.010594139148751625,
+          "delta_renorm": 0.010594139148751625
+        }
+      ]
+    },
+    "Muscle tissue (smooth or skeletal muscle)": {
+      "delta_no_renorm": {
+        "mean": -0.00670659095428944,
+        "sd": 0.010410100522818825,
+        "se": 0.002327769242162899,
+        "ci95": [
+          -0.011269018668928722,
+          -0.0021441632396501584
+        ],
+        "n_rounds": 20
+      },
+      "delta_renorm": {
+        "mean": -0.00670659095428944,
+        "sd": 0.010410100522818825,
+        "se": 0.002327769242162899,
+        "ci95": [
+          -0.011269018668928722,
+          -0.0021441632396501584
+        ],
+        "n_rounds": 20
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "baseline": 0.6233,
+          "ablated_no_renorm": 0.6083,
+          "ablated_renorm": 0.6083,
+          "delta_no_renorm": -0.0151,
+          "delta_renorm": -0.0151
+        },
+        {
+          "round": 2,
+          "baseline": 0.6085,
+          "ablated_no_renorm": 0.6134,
+          "ablated_renorm": 0.6134,
+          "delta_no_renorm": 0.0049,
+          "delta_renorm": 0.0049
+        },
+        {
+          "round": 3,
+          "baseline": 0.5603,
+          "ablated_no_renorm": 0.5549,
+          "ablated_renorm": 0.5549,
+          "delta_no_renorm": -0.0055,
+          "delta_renorm": -0.0055
+        },
+        {
+          "round": 4,
+          "baseline": 0.6584,
+          "ablated_no_renorm": 0.6505,
+          "ablated_renorm": 0.6505,
+          "delta_no_renorm": -0.0079,
+          "delta_renorm": -0.0079
+        },
+        {
+          "round": 5,
+          "baseline": 0.6219,
+          "ablated_no_renorm": 0.622,
+          "ablated_renorm": 0.622,
+          "delta_no_renorm": 0.0002,
+          "delta_renorm": 0.0002
+        },
+        {
+          "round": 6,
+          "baseline": 0.5777,
+          "ablated_no_renorm": 0.5765,
+          "ablated_renorm": 0.5765,
+          "delta_no_renorm": -0.0012,
+          "delta_renorm": -0.0012
+        },
+        {
+          "round": 7,
+          "baseline": 0.5989963237439458,
+          "ablated_no_renorm": 0.6090330863044874,
+          "ablated_renorm": 0.6090330863044874,
+          "delta_no_renorm": 0.010036762560541534,
+          "delta_renorm": 0.010036762560541534
+        },
+        {
+          "round": 8,
+          "baseline": 0.6241181004327978,
+          "ablated_no_renorm": 0.6242366751645224,
+          "ablated_renorm": 0.6242366751645224,
+          "delta_no_renorm": 0.00011857473172460775,
+          "delta_renorm": 0.00011857473172460775
+        },
+        {
+          "round": 9,
+          "baseline": 0.5768159665815734,
+          "ablated_no_renorm": 0.566140635878394,
+          "ablated_renorm": 0.566140635878394,
+          "delta_no_renorm": -0.010675330703179386,
+          "delta_renorm": -0.010675330703179386
+        },
+        {
+          "round": 10,
+          "baseline": 0.6228691821490135,
+          "ablated_no_renorm": 0.6035880738045074,
+          "ablated_renorm": 0.6035880738045074,
+          "delta_no_renorm": -0.019281108344506137,
+          "delta_renorm": -0.019281108344506137
+        },
+        {
+          "round": 11,
+          "baseline": 0.6769423558897243,
+          "ablated_no_renorm": 0.6741228070175439,
+          "ablated_renorm": 0.6741228070175439,
+          "delta_no_renorm": -0.0028195488721803885,
+          "delta_renorm": -0.0028195488721803885
+        },
+        {
+          "round": 12,
+          "baseline": 0.5900289199044386,
+          "ablated_no_renorm": 0.5677731673582296,
+          "ablated_renorm": 0.5677731673582296,
+          "delta_no_renorm": -0.02225575254620904,
+          "delta_renorm": -0.02225575254620904
+        },
+        {
+          "round": 13,
+          "baseline": 0.6624328285295554,
+          "ablated_no_renorm": 0.6385651476027636,
+          "ablated_renorm": 0.6385651476027636,
+          "delta_no_renorm": -0.023867680926791812,
+          "delta_renorm": -0.023867680926791812
+        },
+        {
+          "round": 14,
+          "baseline": 0.6475220009263548,
+          "ablated_no_renorm": 0.6525507840931648,
+          "ablated_renorm": 0.6525507840931648,
+          "delta_no_renorm": 0.005028783166809991,
+          "delta_renorm": 0.005028783166809991
+        },
+        {
+          "round": 15,
+          "baseline": 0.6063001080343435,
+          "ablated_no_renorm": 0.5807130266674247,
+          "ablated_renorm": 0.5807130266674247,
+          "delta_no_renorm": -0.025587081366918785,
+          "delta_renorm": -0.025587081366918785
+        },
+        {
+          "round": 16,
+          "baseline": 0.6006661969124335,
+          "ablated_no_renorm": 0.607328166036769,
+          "ablated_renorm": 0.607328166036769,
+          "delta_no_renorm": 0.006661969124335476,
+          "delta_renorm": 0.006661969124335476
+        },
+        {
+          "round": 17,
+          "baseline": 0.6509174003629277,
+          "ablated_no_renorm": 0.6479602123798642,
+          "ablated_renorm": 0.6479602123798642,
+          "delta_no_renorm": -0.0029571879830634362,
+          "delta_renorm": -0.0029571879830634362
+        },
+        {
+          "round": 18,
+          "baseline": 0.6252230390407537,
+          "ablated_no_renorm": 0.6138748126472058,
+          "ablated_renorm": 0.6138748126472058,
+          "delta_no_renorm": -0.011348226393547933,
+          "delta_renorm": -0.011348226393547933
+        },
+        {
+          "round": 19,
+          "baseline": 0.6476014760147601,
+          "ablated_no_renorm": 0.6437510027274186,
+          "ablated_renorm": 0.6437510027274186,
+          "delta_no_renorm": -0.0038504732873415604,
+          "delta_renorm": -0.0038504732873415604
+        },
+        {
+          "round": 20,
+          "baseline": 0.6000247816120439,
+          "ablated_no_renorm": 0.5912892633665819,
+          "ablated_renorm": 0.5912892633665819,
+          "delta_no_renorm": -0.008735518245461926,
+          "delta_renorm": -0.008735518245461926
+        }
+      ]
+    },
+    "Necrosis or hemorrhage": {
+      "delta_no_renorm": {
+        "mean": 0.0035223273591789006,
+        "sd": 0.01046897496146961,
+        "se": 0.0023409339668589288,
+        "ci95": [
+          -0.0010659032158645996,
+          0.008110557934222402
+        ],
+        "n_rounds": 20
+      },
+      "delta_renorm": {
+        "mean": 0.0035223273591789006,
+        "sd": 0.01046897496146961,
+        "se": 0.0023409339668589288,
+        "ci95": [
+          -0.0010659032158645996,
+          0.008110557934222402
+        ],
+        "n_rounds": 20
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "baseline": 0.6233,
+          "ablated_no_renorm": 0.628,
+          "ablated_renorm": 0.628,
+          "delta_no_renorm": 0.0047,
+          "delta_renorm": 0.0047
+        },
+        {
+          "round": 2,
+          "baseline": 0.6085,
+          "ablated_no_renorm": 0.6171,
+          "ablated_renorm": 0.6171,
+          "delta_no_renorm": 0.0086,
+          "delta_renorm": 0.0086
+        },
+        {
+          "round": 3,
+          "baseline": 0.5603,
+          "ablated_no_renorm": 0.5618,
+          "ablated_renorm": 0.5618,
+          "delta_no_renorm": 0.0015,
+          "delta_renorm": 0.0015
+        },
+        {
+          "round": 4,
+          "baseline": 0.6584,
+          "ablated_no_renorm": 0.6649,
+          "ablated_renorm": 0.6649,
+          "delta_no_renorm": 0.0065,
+          "delta_renorm": 0.0065
+        },
+        {
+          "round": 5,
+          "baseline": 0.6219,
+          "ablated_no_renorm": 0.6228,
+          "ablated_renorm": 0.6228,
+          "delta_no_renorm": 0.0009,
+          "delta_renorm": 0.0009
+        },
+        {
+          "round": 6,
+          "baseline": 0.5777,
+          "ablated_no_renorm": 0.5696,
+          "ablated_renorm": 0.5696,
+          "delta_no_renorm": -0.0081,
+          "delta_renorm": -0.0081
+        },
+        {
+          "round": 7,
+          "baseline": 0.5989963237439458,
+          "ablated_no_renorm": 0.6052401237089339,
+          "ablated_renorm": 0.6052401237089339,
+          "delta_no_renorm": 0.006243799964988028,
+          "delta_renorm": 0.006243799964988028
+        },
+        {
+          "round": 8,
+          "baseline": 0.6241181004327978,
+          "ablated_no_renorm": 0.6181893638465643,
+          "ablated_renorm": 0.6181893638465643,
+          "delta_no_renorm": -0.005928736586233496,
+          "delta_renorm": -0.005928736586233496
+        },
+        {
+          "round": 9,
+          "baseline": 0.5768159665815734,
+          "ablated_no_renorm": 0.5588883731724298,
+          "ablated_renorm": 0.5588883731724298,
+          "delta_no_renorm": -0.017927593409143627,
+          "delta_renorm": -0.017927593409143627
+        },
+        {
+          "round": 10,
+          "baseline": 0.6228691821490135,
+          "ablated_no_renorm": 0.6212730639085744,
+          "ablated_renorm": 0.6212730639085744,
+          "delta_no_renorm": -0.0015961182404391483,
+          "delta_renorm": -0.0015961182404391483
+        },
+        {
+          "round": 11,
+          "baseline": 0.6769423558897243,
+          "ablated_no_renorm": 0.6588972431077694,
+          "ablated_renorm": 0.6588972431077694,
+          "delta_no_renorm": -0.018045112781954864,
+          "delta_renorm": -0.018045112781954864
+        },
+        {
+          "round": 12,
+          "baseline": 0.5900289199044386,
+          "ablated_no_renorm": 0.598893499308437,
+          "ablated_renorm": 0.598893499308437,
+          "delta_no_renorm": 0.00886457940399843,
+          "delta_renorm": 0.00886457940399843
+        },
+        {
+          "round": 13,
+          "baseline": 0.6624328285295554,
+          "ablated_no_renorm": 0.6727615325563543,
+          "ablated_renorm": 0.6727615325563543,
+          "delta_no_renorm": 0.010328704026798863,
+          "delta_renorm": 0.010328704026798863
+        },
+        {
+          "round": 14,
+          "baseline": 0.6475220009263548,
+          "ablated_no_renorm": 0.6456692913385826,
+          "ablated_renorm": 0.6456692913385826,
+          "delta_no_renorm": -0.0018527095877721722,
+          "delta_renorm": -0.0018527095877721722
+        },
+        {
+          "round": 15,
+          "baseline": 0.6063001080343435,
+          "ablated_no_renorm": 0.6102234605106044,
+          "ablated_renorm": 0.6102234605106044,
+          "delta_no_renorm": 0.003923352476260855,
+          "delta_renorm": 0.003923352476260855
+        },
+        {
+          "round": 16,
+          "baseline": 0.6006661969124335,
+          "ablated_no_renorm": 0.6145666517199411,
+          "ablated_renorm": 0.6145666517199411,
+          "delta_no_renorm": 0.013900454807507567,
+          "delta_renorm": 0.013900454807507567
+        },
+        {
+          "round": 17,
+          "baseline": 0.6509174003629277,
+          "ablated_no_renorm": 0.6589152496807581,
+          "ablated_renorm": 0.6589152496807581,
+          "delta_no_renorm": 0.00799784931783043,
+          "delta_renorm": 0.00799784931783043
+        },
+        {
+          "round": 18,
+          "baseline": 0.6252230390407537,
+          "ablated_no_renorm": 0.63707087288559,
+          "ablated_renorm": 0.63707087288559,
+          "delta_no_renorm": 0.01184783384483623,
+          "delta_renorm": 0.01184783384483623
+        },
+        {
+          "round": 19,
+          "baseline": 0.6476014760147601,
+          "ablated_no_renorm": 0.6617198780683459,
+          "ablated_renorm": 0.6617198780683459,
+          "delta_no_renorm": 0.014118402053585721,
+          "delta_renorm": 0.014118402053585721
+        },
+        {
+          "round": 20,
+          "baseline": 0.6000247816120439,
+          "ablated_no_renorm": 0.6244966235053591,
+          "ablated_renorm": 0.6244966235053591,
+          "delta_no_renorm": 0.024471841893315194,
+          "delta_renorm": 0.024471841893315194
+        }
+      ]
+    },
+    "Normal breast glands and lobules (TDLU)": {
+      "delta_no_renorm": {
+        "mean": 0.0003275983972528391,
+        "sd": 0.007556494901954801,
+        "se": 0.0016896836272401543,
+        "ci95": [
+          -0.002984181512137863,
+          0.0036393783066435417
+        ],
+        "n_rounds": 20
+      },
+      "delta_renorm": {
+        "mean": 0.0003275983972528391,
+        "sd": 0.007556494901954801,
+        "se": 0.0016896836272401543,
+        "ci95": [
+          -0.002984181512137863,
+          0.0036393783066435417
+        ],
+        "n_rounds": 20
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "baseline": 0.6233,
+          "ablated_no_renorm": 0.6177,
+          "ablated_renorm": 0.6177,
+          "delta_no_renorm": -0.0056,
+          "delta_renorm": -0.0056
+        },
+        {
+          "round": 2,
+          "baseline": 0.6085,
+          "ablated_no_renorm": 0.5984,
+          "ablated_renorm": 0.5984,
+          "delta_no_renorm": -0.01,
+          "delta_renorm": -0.01
+        },
+        {
+          "round": 3,
+          "baseline": 0.5603,
+          "ablated_no_renorm": 0.5647,
+          "ablated_renorm": 0.5647,
+          "delta_no_renorm": 0.0043,
+          "delta_renorm": 0.0043
+        },
+        {
+          "round": 4,
+          "baseline": 0.6584,
+          "ablated_no_renorm": 0.6637,
+          "ablated_renorm": 0.6637,
+          "delta_no_renorm": 0.0053,
+          "delta_renorm": 0.0053
+        },
+        {
+          "round": 5,
+          "baseline": 0.6219,
+          "ablated_no_renorm": 0.6205,
+          "ablated_renorm": 0.6205,
+          "delta_no_renorm": -0.0014,
+          "delta_renorm": -0.0014
+        },
+        {
+          "round": 6,
+          "baseline": 0.5777,
+          "ablated_no_renorm": 0.5965,
+          "ablated_renorm": 0.5965,
+          "delta_no_renorm": 0.0188,
+          "delta_renorm": 0.0188
+        },
+        {
+          "round": 7,
+          "baseline": 0.5989963237439458,
+          "ablated_no_renorm": 0.5940946490050767,
+          "ablated_renorm": 0.5940946490050767,
+          "delta_no_renorm": -0.004901674738869155,
+          "delta_renorm": -0.004901674738869155
+        },
+        {
+          "round": 8,
+          "baseline": 0.6241181004327978,
+          "ablated_no_renorm": 0.6250074109207328,
+          "ablated_renorm": 0.6250074109207328,
+          "delta_no_renorm": 0.0008893104879349467,
+          "delta_renorm": 0.0008893104879349467
+        },
+        {
+          "round": 9,
+          "baseline": 0.5768159665815734,
+          "ablated_no_renorm": 0.5784404734277094,
+          "ablated_renorm": 0.5784404734277094,
+          "delta_no_renorm": 0.0016245068461360201,
+          "delta_renorm": 0.0016245068461360201
+        },
+        {
+          "round": 10,
+          "baseline": 0.6228691821490135,
+          "ablated_no_renorm": 0.6279129157888016,
+          "ablated_renorm": 0.6279129157888016,
+          "delta_no_renorm": 0.0050437336397880506,
+          "delta_renorm": 0.0050437336397880506
+        },
+        {
+          "round": 11,
+          "baseline": 0.6769423558897243,
+          "ablated_no_renorm": 0.6729949874686717,
+          "ablated_renorm": 0.6729949874686717,
+          "delta_no_renorm": -0.003947368421052588,
+          "delta_renorm": -0.003947368421052588
+        },
+        {
+          "round": 12,
+          "baseline": 0.5900289199044386,
+          "ablated_no_renorm": 0.5878913617502829,
+          "ablated_renorm": 0.5878913617502829,
+          "delta_no_renorm": -0.0021375581541557276,
+          "delta_renorm": -0.0021375581541557276
+        },
+        {
+          "round": 13,
+          "baseline": 0.6624328285295554,
+          "ablated_no_renorm": 0.6760415939702701,
+          "ablated_renorm": 0.6760415939702701,
+          "delta_no_renorm": 0.013608765440714654,
+          "delta_renorm": 0.013608765440714654
+        },
+        {
+          "round": 14,
+          "baseline": 0.6475220009263548,
+          "ablated_no_renorm": 0.6536094752861774,
+          "ablated_renorm": 0.6536094752861774,
+          "delta_no_renorm": 0.006087474359822598,
+          "delta_renorm": 0.006087474359822598
+        },
+        {
+          "round": 15,
+          "baseline": 0.6063001080343435,
+          "ablated_no_renorm": 0.609711718883266,
+          "ablated_renorm": 0.609711718883266,
+          "delta_no_renorm": 0.0034116108489224972,
+          "delta_renorm": 0.0034116108489224972
+        },
+        {
+          "round": 16,
+          "baseline": 0.6006661969124335,
+          "ablated_no_renorm": 0.5934277112292614,
+          "ablated_renorm": 0.5934277112292614,
+          "delta_no_renorm": -0.007238485683172091,
+          "delta_renorm": -0.007238485683172091
+        },
+        {
+          "round": 17,
+          "baseline": 0.6509174003629277,
+          "ablated_no_renorm": 0.6532697089858189,
+          "ablated_renorm": 0.6532697089858189,
+          "delta_no_renorm": 0.0023523086228912637,
+          "delta_renorm": 0.0023523086228912637
+        },
+        {
+          "round": 18,
+          "baseline": 0.6252230390407537,
+          "ablated_no_renorm": 0.6125187352794234,
+          "ablated_renorm": 0.6125187352794234,
+          "delta_no_renorm": -0.01270430376133036,
+          "delta_renorm": -0.01270430376133036
+        },
+        {
+          "round": 19,
+          "baseline": 0.6476014760147601,
+          "ablated_no_renorm": 0.6454355847906306,
+          "ablated_renorm": 0.6454355847906306,
+          "delta_no_renorm": -0.002165891224129579,
+          "delta_renorm": -0.002165891224129579
+        },
+        {
+          "round": 20,
+          "baseline": 0.6000247816120439,
+          "ablated_no_renorm": 0.5952543212936001,
+          "ablated_renorm": 0.5952543212936001,
+          "delta_no_renorm": -0.004770460318443748,
+          "delta_renorm": -0.004770460318443748
+        }
+      ]
+    },
+    "Tumor-infiltrating lymphocytes (immune infiltrates)": {
+      "delta_no_renorm": {
+        "mean": -0.0013596852722051376,
+        "sd": 0.007987341736787324,
+        "se": 0.001786023908297769,
+        "ci95": [
+          -0.004860292132468765,
+          0.0021409215880584895
+        ],
+        "n_rounds": 20
+      },
+      "delta_renorm": {
+        "mean": -0.0013596852722051376,
+        "sd": 0.007987341736787324,
+        "se": 0.001786023908297769,
+        "ci95": [
+          -0.004860292132468765,
+          0.0021409215880584895
+        ],
+        "n_rounds": 20
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "baseline": 0.6233,
+          "ablated_no_renorm": 0.6096,
+          "ablated_renorm": 0.6096,
+          "delta_no_renorm": -0.0138,
+          "delta_renorm": -0.0138
+        },
+        {
+          "round": 2,
+          "baseline": 0.6085,
+          "ablated_no_renorm": 0.5967,
+          "ablated_renorm": 0.5967,
+          "delta_no_renorm": -0.0118,
+          "delta_renorm": -0.0118
+        },
+        {
+          "round": 3,
+          "baseline": 0.5603,
+          "ablated_no_renorm": 0.567,
+          "ablated_renorm": 0.567,
+          "delta_no_renorm": 0.0067,
+          "delta_renorm": 0.0067
+        },
+        {
+          "round": 4,
+          "baseline": 0.6584,
+          "ablated_no_renorm": 0.6487,
+          "ablated_renorm": 0.6487,
+          "delta_no_renorm": -0.0097,
+          "delta_renorm": -0.0097
+        },
+        {
+          "round": 5,
+          "baseline": 0.6219,
+          "ablated_no_renorm": 0.627,
+          "ablated_renorm": 0.627,
+          "delta_no_renorm": 0.0051,
+          "delta_renorm": 0.0051
+        },
+        {
+          "round": 6,
+          "baseline": 0.5777,
+          "ablated_no_renorm": 0.5756,
+          "ablated_renorm": 0.5756,
+          "delta_no_renorm": -0.0021,
+          "delta_renorm": -0.0021
+        },
+        {
+          "round": 7,
+          "baseline": 0.5989963237439458,
+          "ablated_no_renorm": 0.5997549162630565,
+          "ablated_renorm": 0.5997549162630565,
+          "delta_no_renorm": 0.0007585925191107012,
+          "delta_renorm": 0.0007585925191107012
+        },
+        {
+          "round": 8,
+          "baseline": 0.6241181004327978,
+          "ablated_no_renorm": 0.6300468370190312,
+          "ablated_renorm": 0.6300468370190312,
+          "delta_no_renorm": 0.005928736586233385,
+          "delta_renorm": 0.005928736586233385
+        },
+        {
+          "round": 9,
+          "baseline": 0.5768159665815734,
+          "ablated_no_renorm": 0.5773381294964028,
+          "ablated_renorm": 0.5773381294964028,
+          "delta_no_renorm": 0.0005221629148294271,
+          "delta_renorm": 0.0005221629148294271
+        },
+        {
+          "round": 10,
+          "baseline": 0.6228691821490135,
+          "ablated_no_renorm": 0.6210815297197216,
+          "ablated_renorm": 0.6210815297197216,
+          "delta_no_renorm": -0.0017876524292919083,
+          "delta_renorm": -0.0017876524292919083
+        },
+        {
+          "round": 11,
+          "baseline": 0.6769423558897243,
+          "ablated_no_renorm": 0.6673558897243108,
+          "ablated_renorm": 0.6673558897243108,
+          "delta_no_renorm": -0.009586466165413476,
+          "delta_renorm": -0.009586466165413476
+        },
+        {
+          "round": 12,
+          "baseline": 0.5900289199044386,
+          "ablated_no_renorm": 0.5839934615868226,
+          "ablated_renorm": 0.5839934615868226,
+          "delta_no_renorm": -0.006035458317615983,
+          "delta_renorm": -0.006035458317615983
+        },
+        {
+          "round": 13,
+          "baseline": 0.6624328285295554,
+          "ablated_no_renorm": 0.6606881150115151,
+          "ablated_renorm": 0.6606881150115151,
+          "delta_no_renorm": -0.0017447135180402862,
+          "delta_renorm": -0.0017447135180402862
+        },
+        {
+          "round": 14,
+          "baseline": 0.6475220009263548,
+          "ablated_no_renorm": 0.6486468603189307,
+          "ablated_renorm": 0.6486468603189307,
+          "delta_no_renorm": 0.0011248593925758943,
+          "delta_renorm": 0.0011248593925758943
+        },
+        {
+          "round": 15,
+          "baseline": 0.6063001080343435,
+          "ablated_no_renorm": 0.6209131745038949,
+          "ablated_renorm": 0.6209131745038949,
+          "delta_no_renorm": 0.014613066469551406,
+          "delta_renorm": 0.014613066469551406
+        },
+        {
+          "round": 16,
+          "baseline": 0.6006661969124335,
+          "ablated_no_renorm": 0.6104029210172315,
+          "ablated_renorm": 0.6104029210172315,
+          "delta_no_renorm": 0.009736724104797978,
+          "delta_renorm": 0.009736724104797978
+        },
+        {
+          "round": 17,
+          "baseline": 0.6509174003629277,
+          "ablated_no_renorm": 0.6540090059815847,
+          "ablated_renorm": 0.6540090059815847,
+          "delta_no_renorm": 0.0030916056186570673,
+          "delta_renorm": 0.0030916056186570673
+        },
+        {
+          "round": 18,
+          "baseline": 0.6252230390407537,
+          "ablated_no_renorm": 0.610020698022982,
+          "ablated_renorm": 0.610020698022982,
+          "delta_no_renorm": -0.015202341017771737,
+          "delta_renorm": -0.015202341017771737
+        },
+        {
+          "round": 19,
+          "baseline": 0.6476014760147601,
+          "ablated_no_renorm": 0.6496069308519172,
+          "ablated_renorm": 0.6496069308519172,
+          "delta_no_renorm": 0.0020054548371570835,
+          "delta_renorm": 0.0020054548371570835
+        },
+        {
+          "round": 20,
+          "baseline": 0.6000247816120439,
+          "ablated_no_renorm": 0.5950065051731616,
+          "ablated_renorm": 0.5950065051731616,
+          "delta_no_renorm": -0.0050182764388823076,
+          "delta_renorm": -0.0050182764388823076
+        }
+      ]
+    }
+  }
+}

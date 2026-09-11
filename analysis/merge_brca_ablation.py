@@ -53,11 +53,23 @@ for path in PARTIALS:
     if region_names is None:
         region_names = state["region_names"]
     n_regions = len(region_names)
-    for ri in range(n_regions):
-        per_region_all.setdefault(ri, []).extend(state["per_region_rounds"][str(ri)])
-    all_baseline_rounds.extend(state["baseline_rounds"])
-    last = state.get("last_completed_round", state.get("completed_rounds", "?"))
-    print(f"Loaded {path}  ({len(state['baseline_rounds'])} rounds, last={last})")
+
+    if "per_region_rounds" in state:
+        # Intermediate partial format: per_region_rounds[str(ri)] = list of round dicts
+        for ri in range(n_regions):
+            per_region_all.setdefault(ri, []).extend(state["per_region_rounds"][str(ri)])
+        rounds_this = state["baseline_rounds"]
+        last = state.get("last_completed_round", state.get("completed_rounds", "?"))
+    else:
+        # Final format written by run_ablation: per_region[name]["rounds"]
+        for ri, rname in enumerate(region_names):
+            per_region_all.setdefault(ri, []).extend(state["per_region"][rname]["rounds"])
+        # Reconstruct baseline_rounds from per_region[first_region]["rounds"]
+        rounds_this = [r["baseline"] for r in state["per_region"][region_names[0]]["rounds"]]
+        last = max(r["round"] for r in state["per_region"][region_names[0]]["rounds"])
+
+    all_baseline_rounds.extend(rounds_this)
+    print(f"Loaded {path}  ({len(rounds_this)} rounds, last={last})")
 
 # Sort each region's rounds by round number and check coverage
 for ri in per_region_all:
