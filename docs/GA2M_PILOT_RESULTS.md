@@ -152,19 +152,75 @@ headline" does not happen.
 
 ---
 
-## 4. Attribution validity — the actual point of building GA²M (Section 4.3)
+## 4. Attribution validity (Section 4.3)
 
-This is the comparison that matters more than the accuracy numbers above,
-and it's mixed in an informative way.
+Two versions of this comparison exist. **The self-consistency test (4a) is
+the decisive one** — it asks whether GA²M's own attribution agrees with
+GA²M's own behavior, using nothing from the original architecture. The
+cross-model comparison (4b) against the *original* architecture's separate
+ablation study is a different question (does GA²M's attribution agree with
+a different model's ablation?) and should not drive the proceed/stop
+decision, per direct instruction — it's kept below only as context for how
+the two framings differ.
+
+### 4a. Self-consistency — GA²M's own exact ablation vs. GA²M's own main effect (comparison 3, decisive)
+
+For each pilot round and each region r, recomputed OOB c-index with every
+term touching r dropped (`ablated_risk = risk − main_effects[:,r] −
+interactions[:,r,:].sum(1)`, using only what's already saved in the pilot's
+`.npz` files — no model, no GPU). `delta_r = baseline_cindex − ablated_cindex_r`,
+averaged across the 10 rounds, Spearman'd against GA²M's own mean
+`|main effect|` per region. Sanity check first: reconstructing risk from
+`intercept + main_effects + interactions` and recomputing c-index from
+scratch matched the saved values to ~1e-6 (float32 rounding) in all 20
+rounds — the saved data is internally consistent.
+
+| | Spearman ρ | p | Pearson r | p |
+|---|---|---|---|---|
+| BLCA | +0.381 | 0.352 | +0.657 | 0.077 |
+| BRCA | −0.250 | 0.516 | −0.310 | 0.417 |
+
+**Neither cohort clears significance.** This is materially weaker than the
+cross-model framing below — on its own terms, GA²M's main-effect magnitude
+does not reliably predict what GA²M's own ablation says matters, in either
+cohort, at 10 rounds. BRCA's self-consistency is actually negative (weak,
+non-significant). This is the honest answer to "does the architecture do
+what it was built for": **not yet demonstrated, at this round count.**
+Full data (per-region deltas, per-round detail): `results/ga2m_self_ablation.json`.
+
+**Interaction sparsity (same data):** the L1 penalty (λ_int=1e-3) drove
+**0 of 28 pairs (BLCA)** and **0 of 36 pairs (BRCA)** below 5% of that
+cohort's max pair magnitude — every interaction pair stayed active, nothing
+got pruned. Section 4.5's "which pairs survive the L1 penalty" has nothing
+to report at this λ; the full run likely needs a materially stronger
+λ_int if pair-level sparsity is meant to be informative.
+
+**Necrosis check** (Section 4.5's specific speculation — "high attention, no
+independent contribution"):
+
+| | main-effect rank | interaction-involvement rank | interactions > main effect? |
+|---|---|---|---|
+| BLCA (Necrosis) | 2/8 | 2/8 | No — identical rank, high in both |
+| BRCA (Necrosis or hemorrhage) | 2/9 | **1/9** | Mildly yes — top interaction region, still rank-2 main effect |
+
+Necrosis is not a region with a small main effect hidden behind large
+interactions in either cohort — it has a *large* main effect (rank 2 of 8-9)
+in both. BRCA shows a mild version of the hypothesized split (necrosis is
+the single most interaction-heavy region, edging out its own high main
+effect); BLCA shows no split at all.
+
+### 4b. Cross-model comparison (context only, not decisive)
 
 **Reference:** `results/weight_vs_ablation.json` (already committed, from the
-existing 20-round region-ablation study) reports the *current* architecture's
-fusion-weight-vs-ablation Spearman correlation: **ρ = −0.69 (BLCA)**, **ρ =
-+0.03 (BRCA)** — i.e. the fusion weight tells you nothing about, or actively
-misleads about, what ablation says matters. This was the entire motivation
-for Section 1's redesign.
+existing 20-round region-ablation study of the *original* architecture)
+reports that architecture's fusion-weight-vs-ablation Spearman correlation:
+**ρ = −0.69 (BLCA)**, **ρ = +0.03 (BRCA)** — the fusion weight tells you
+nothing about, or actively misleads about, what ablation says matters. This
+was the motivation for Section 1's redesign.
 
-**GA²M main-effect magnitude vs. the same ablation deltas:**
+**GA²M main-effect magnitude vs. the *original model's* ablation deltas**
+(20 rounds, different model than the 10-round GA²M pilot — not a paired
+comparison):
 
 ### BLCA
 
@@ -197,25 +253,27 @@ for Section 1's redesign.
 
 **Spearman ρ = −0.067 (p=0.865), Pearson r = −0.119 (p=0.760).**
 
-**Reading:** BLCA shows a real, meaningful flip — strongly backwards (−0.69)
-to moderately positive (+0.67 to +0.73) — in the direction the whole GA²M
-redesign was for. BRCA shows no improvement — indistinguishable from zero
-before and after. Adipose (previously flagged as "high importance, low
-fusion-weight rank" — the motivating anomaly) now ranks 3rd/8 by GA²M main
-effect in BLCA and 5th/9 in BRCA — mid-pack, not obviously resolved either
-way; worth a closer look once full-run data exists.
+**Reading, with 4a's caveat in mind:** against the *original* model's
+ablation, BLCA looks like a real flip (−0.69 → +0.67/+0.73) and BRCA looks
+flat (+0.03 → −0.07). But 4a shows that against **GA²M's own** ablation, BLCA
+drops to a non-significant +0.38 and BRCA goes to −0.25. The cross-model
+version is the more flattering framing and the self-consistency version is
+the more honest one — **go with 4a for the actual decision.** This section
+is retained because it's what the fusion-weight comparison was originally
+run against, and the gap between the two versions is itself informative
+(some of the apparent BLCA improvement is specific to which ablation study
+it's compared against, not a property of GA²M alone).
 
-**Caveats, stated plainly:**
+**Caveats on this cross-model version specifically:**
 - The ablation reference used 20 rounds of the *original* architecture; GA²M
-  used 10 rounds of itself. Not a strictly paired comparison — a like-for-like
-  version needs GA²M's own exact-ablation (Section 3: "c-index recomputed
-  with all terms containing region r dropped," not yet computed for GA²M).
+  used 10 rounds of itself — not a paired comparison, unlike 4a which is
+  fully self-contained.
 - n=8 (BLCA) / n=9 (BRCA) regions is a small sample for a correlation test —
-  wide CIs, low power. Treat the BLCA Spearman p=0.071 as suggestive, not
-  conclusive, and don't over-read either sign at this n.
+  wide CIs, low power, in both 4a and 4b.
 - Ten rounds is not the full ensemble the paper would report from.
 
-Full data: `results/ga2m_attribution_vs_ablation.json`.
+Full data: `results/ga2m_attribution_vs_ablation.json` (4b) and
+`results/ga2m_self_ablation.json` (4a, the decisive one).
 
 ---
 
@@ -238,17 +296,23 @@ though that is not a guarantee for a much larger batch.
 
 ## 6. Open questions for whoever decides on the full run
 
-1. Given neither cohort cleanly satisfies the stop rule, and BLCA shows the
-   hoped-for attribution improvement while BRCA shows neither an accuracy nor
-   an interpretability case for GA²M — is 100 rounds/cohort still the right
-   next step, or would it be better to look harder at *why* BRCA differs
-   (region count, patient count, class balance, something about DCIS/necrosis
-   dominating main effects) before spending ~107 GPU-hours on it specifically?
-2. Should the attribution-vs-ablation comparison be redone with GA²M's own
-   exact-ablation (dropping all terms touching region r) rather than reusing
-   the original architecture's ablation study, before drawing conclusions
-   about BLCA's ρ=+0.67?
-3. Worth deciding now: full run at rank=16 as speced, or is it worth a quick
+1. **Self-consistency (4a) — the decisive test — does not clear significance
+   in either cohort at 10 rounds** (BLCA ρ=+0.38 p=0.35, BRCA ρ=−0.25
+   p=0.52), and the stop rule doesn't cleanly resolve either. Neither cohort
+   makes a clear case to proceed on the numbers alone. Is 100 rounds/cohort
+   still the right next step given this, or does the small-n (8-9 regions)
+   noise mean this needs a fundamentally larger signal to ever resolve, full
+   run or not?
+2. λ_int=1e-3 produced zero interaction sparsity (0/28, 0/36 pairs near
+   zero) in the pilot. Worth increasing λ_int materially before the full run
+   if Section 4.5's pruning/heredity analysis is meant to say anything —
+   tuning this now is cheap; discovering it's still all-dense after 100
+   rounds is not.
+3. Section 4.5's "necrosis: high attention, no independent contribution"
+   speculation isn't borne out — necrosis has a large main effect in both
+   cohorts, not a small one. Worth revisiting that framing before the full
+   run's writeup leans on it.
+4. Worth deciding now: full run at rank=16 as speced, or is it worth a quick
    rank sensitivity check first given the pilot's small-n region correlation
    is noisy either way?
 
@@ -264,9 +328,11 @@ though that is not a guarantee for a much larger batch.
 | Diagnostic scripts from the debugging chain | `model/debug_ga2m_*.py` |
 | Reference synthetic test (other session) | `analysis/ga2m_reference_synthetic.py` |
 | Pilot aggregation script | `model/aggregate_pilot_results.py` |
-| Attribution-vs-ablation script | `model/ga2m_attribution_vs_ablation.py` |
+| Self-ablation script (decisive, comparison 3) | `model/ga2m_self_ablation.py` |
+| Attribution-vs-ablation script (cross-model, context only) | `model/ga2m_attribution_vs_ablation.py` |
 | SLURM: pilots | `slurm/trillium/ga2m_pilot_{blca,brca}.sh`, `ga2m_pilot_brca_round.sh` |
 | SLURM: validation/debug jobs | `slurm/trillium/ga2m_*_check.sh` |
 | Pilot stop-rule summary (JSON, no patient data) | `results/ga2m_pilot_stop_rule.json` |
-| Attribution-vs-ablation (JSON, no patient data) | `results/ga2m_attribution_vs_ablation.json` |
+| Self-ablation results (JSON, decisive) | `results/ga2m_self_ablation.json` |
+| Attribution-vs-ablation (JSON, cross-model, context only) | `results/ga2m_attribution_vs_ablation.json` |
 | Raw per-round pilot output (patient-level, NOT in git) | `/scratch/sorkwos/ga2m_pilot/` |

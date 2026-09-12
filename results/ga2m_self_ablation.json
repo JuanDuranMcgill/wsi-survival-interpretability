@@ -1,0 +1,324 @@
+{
+  "blca": {
+    "cohort": "blca",
+    "region_names": [
+      "Perivesical adipose tissue (extravesical fat)",
+      "Invasive urothelial carcinoma (tumor)",
+      "Normal urothelium (benign mucosa)",
+      "Inflammatory infiltrates (immune cells)",
+      "Lamina propria (fibrovascular stroma)",
+      "Blood vessels (vasculature)",
+      "Muscularis propria (detrusor muscle)",
+      "Necrosis"
+    ],
+    "n_rounds": 10,
+    "mean_abs_main_effect": [
+      0.8781017661094666,
+      1.02643620967865,
+      0.6878628730773926,
+      0.7448337078094482,
+      0.6311613917350769,
+      0.6758484244346619,
+      0.7470989227294922,
+      0.9185928702354431
+    ],
+    "own_ablation_mean_delta": [
+      0.007723494576657763,
+      0.01721518466997505,
+      0.00314190019977677,
+      0.00295049750129589,
+      -0.0010228015691989278,
+      -0.001058170689186355,
+      -0.0009009046203401483,
+      -0.0032965098276861783
+    ],
+    "own_ablation_std_delta": [
+      0.006984478951048227,
+      0.012220246720043754,
+      0.010336365302654846,
+      0.008750228574798223,
+      0.008863929013042364,
+      0.00845763405027178,
+      0.012932603620544653,
+      0.014987699208661512
+    ],
+    "spearman_rho_self_consistency": 0.38095238095238104,
+    "spearman_p": 0.35181255311756476,
+    "pearson_r_self_consistency": 0.6567398341552114,
+    "pearson_p": 0.07686960844093124,
+    "pair_mean_abs_interaction": {
+      "Perivesical adipose tissue (extravesical fat)__Invasive urothelial carcinoma (tumor)": 0.16348902881145477,
+      "Perivesical adipose tissue (extravesical fat)__Normal urothelium (benign mucosa)": 0.1385633647441864,
+      "Perivesical adipose tissue (extravesical fat)__Inflammatory infiltrates (immune cells)": 0.15412314236164093,
+      "Perivesical adipose tissue (extravesical fat)__Lamina propria (fibrovascular stroma)": 0.14680205285549164,
+      "Perivesical adipose tissue (extravesical fat)__Blood vessels (vasculature)": 0.1498129516839981,
+      "Perivesical adipose tissue (extravesical fat)__Muscularis propria (detrusor muscle)": 0.15953582525253296,
+      "Perivesical adipose tissue (extravesical fat)__Necrosis": 0.15718531608581543,
+      "Invasive urothelial carcinoma (tumor)__Normal urothelium (benign mucosa)": 0.15726238489151,
+      "Invasive urothelial carcinoma (tumor)__Inflammatory infiltrates (immune cells)": 0.16321219503879547,
+      "Invasive urothelial carcinoma (tumor)__Lamina propria (fibrovascular stroma)": 0.171534463763237,
+      "Invasive urothelial carcinoma (tumor)__Blood vessels (vasculature)": 0.15917445719242096,
+      "Invasive urothelial carcinoma (tumor)__Muscularis propria (detrusor muscle)": 0.1707272082567215,
+      "Invasive urothelial carcinoma (tumor)__Necrosis": 0.17889639735221863,
+      "Normal urothelium (benign mucosa)__Inflammatory infiltrates (immune cells)": 0.14107318222522736,
+      "Normal urothelium (benign mucosa)__Lamina propria (fibrovascular stroma)": 0.13565661013126373,
+      "Normal urothelium (benign mucosa)__Blood vessels (vasculature)": 0.13134661316871643,
+      "Normal urothelium (benign mucosa)__Muscularis propria (detrusor muscle)": 0.15213946998119354,
+      "Normal urothelium (benign mucosa)__Necrosis": 0.14816762506961823,
+      "Inflammatory infiltrates (immune cells)__Lamina propria (fibrovascular stroma)": 0.14238999783992767,
+      "Inflammatory infiltrates (immune cells)__Blood vessels (vasculature)": 0.14039984345436096,
+      "Inflammatory infiltrates (immune cells)__Muscularis propria (detrusor muscle)": 0.15863052010536194,
+      "Inflammatory infiltrates (immune cells)__Necrosis": 0.16837550699710846,
+      "Lamina propria (fibrovascular stroma)__Blood vessels (vasculature)": 0.13872714340686798,
+      "Lamina propria (fibrovascular stroma)__Muscularis propria (detrusor muscle)": 0.1554926037788391,
+      "Lamina propria (fibrovascular stroma)__Necrosis": 0.15428930521011353,
+      "Blood vessels (vasculature)__Muscularis propria (detrusor muscle)": 0.1529049128293991,
+      "Blood vessels (vasculature)__Necrosis": 0.15165457129478455,
+      "Muscularis propria (detrusor muscle)__Necrosis": 0.1732892096042633
+    },
+    "n_pairs_near_zero_5pct": 0,
+    "n_pairs_total": 28,
+    "near_zero_threshold": 0.008944819867610932,
+    "necrosis_check": {
+      "region_name": "Necrosis",
+      "main_effect_rank": 2,
+      "interaction_rank": 2,
+      "mean_abs_main_effect": 0.9185928702354431,
+      "total_interaction_involvement": 1.1318579316139221,
+      "ranks_higher_in_interactions": false
+    },
+    "sanity_check_saved_vs_recomputed": [
+      {
+        "round": 1,
+        "saved_oob_cindex": 0.6425952045133991,
+        "recomputed_oob_cindex": 0.6425646095184296,
+        "max_risk_recon_diff": 9.5367431640625e-07
+      },
+      {
+        "round": 2,
+        "saved_oob_cindex": 0.5589392209110519,
+        "recomputed_oob_cindex": 0.5588571428571428,
+        "max_risk_recon_diff": 1.9073486328125e-06
+      },
+      {
+        "round": 3,
+        "saved_oob_cindex": 0.6029594800165952,
+        "recomputed_oob_cindex": 0.6028516057585825,
+        "max_risk_recon_diff": 9.5367431640625e-07
+      },
+      {
+        "round": 4,
+        "saved_oob_cindex": 0.543332064458825,
+        "recomputed_oob_cindex": 0.5431111111111111,
+        "max_risk_recon_diff": 1.9073486328125e-06
+      },
+      {
+        "round": 5,
+        "saved_oob_cindex": 0.636461126005362,
+        "recomputed_oob_cindex": 0.6361927775540341,
+        "max_risk_recon_diff": 1.9073486328125e-06
+      },
+      {
+        "round": 6,
+        "saved_oob_cindex": 0.595917225950783,
+        "recomputed_oob_cindex": 0.5958846584546472,
+        "max_risk_recon_diff": 1.430511474609375e-06
+      },
+      {
+        "round": 7,
+        "saved_oob_cindex": 0.6101037889208453,
+        "recomputed_oob_cindex": 0.6103603603603603,
+        "max_risk_recon_diff": 1.430511474609375e-06
+      },
+      {
+        "round": 8,
+        "saved_oob_cindex": 0.5926602710522308,
+        "recomputed_oob_cindex": 0.5926546784516915,
+        "max_risk_recon_diff": 1.9073486328125e-06
+      },
+      {
+        "round": 9,
+        "saved_oob_cindex": 0.5950360082304527,
+        "recomputed_oob_cindex": 0.5952135872362326,
+        "max_risk_recon_diff": 9.5367431640625e-07
+      },
+      {
+        "round": 10,
+        "saved_oob_cindex": 0.5689839572192513,
+        "recomputed_oob_cindex": 0.5687418164504225,
+        "max_risk_recon_diff": 1.9073486328125e-06
+      }
+    ],
+    "input_directory": "/scratch/sorkwos/ga2m_pilot/blca/",
+    "endpoint": "PFI",
+    "lam_int": 0.001,
+    "note": "Self-consistency test (DESIGN_GA2M_HEAD.md Section 4.3, comparison 3): GA2M own exact ablation (all terms touching region r dropped) vs GA2M own mean |main effect|, from the same 10-round pilot. This is the decisive test per instruction -- the cross-model comparison against the original architecture ablation study (results/ga2m_attribution_vs_ablation.json) is a different question."
+  },
+  "brca": {
+    "cohort": "brca",
+    "region_names": [
+      "Adipose tissue (fat)",
+      "Blood vessels (vasculature)",
+      "Ductal carcinoma in situ (DCIS)",
+      "Fibrous desmoplastic stroma",
+      "Invasive breast carcinoma (tumor cells)",
+      "Muscle tissue (smooth or skeletal muscle)",
+      "Necrosis or hemorrhage",
+      "Normal breast glands and lobules (TDLU)",
+      "Tumor-infiltrating lymphocytes (immune infiltrates)"
+    ],
+    "n_rounds": 10,
+    "mean_abs_main_effect": [
+      0.942686915397644,
+      0.8081923127174377,
+      1.398002028465271,
+      0.8156663179397583,
+      0.8338292241096497,
+      0.8673588037490845,
+      1.3564248085021973,
+      1.0911983251571655,
+      1.0111085176467896
+    ],
+    "own_ablation_mean_delta": [
+      0.008728792799428753,
+      0.013847621139734317,
+      0.0026258676667238025,
+      -0.0024565583257758704,
+      0.0029797770629880873,
+      0.002129662309512026,
+      -0.0003840495411385092,
+      0.0005442789702618689,
+      -0.0009674294136771012
+    ],
+    "own_ablation_std_delta": [
+      0.006512579660838209,
+      0.009540731086431603,
+      0.015764208512008528,
+      0.007483806916501283,
+      0.006604195580966517,
+      0.00887988825857902,
+      0.015978007558006983,
+      0.005793496054140409,
+      0.010205737260992657
+    ],
+    "spearman_rho_self_consistency": -0.25,
+    "spearman_p": 0.5164895523012263,
+    "pearson_r_self_consistency": -0.3096498564778719,
+    "pearson_p": 0.41744036545412205,
+    "pair_mean_abs_interaction": {
+      "Adipose tissue (fat)__Blood vessels (vasculature)": 0.16813403367996216,
+      "Adipose tissue (fat)__Ductal carcinoma in situ (DCIS)": 0.23064333200454712,
+      "Adipose tissue (fat)__Fibrous desmoplastic stroma": 0.1768350452184677,
+      "Adipose tissue (fat)__Invasive breast carcinoma (tumor cells)": 0.18868854641914368,
+      "Adipose tissue (fat)__Muscle tissue (smooth or skeletal muscle)": 0.18582290410995483,
+      "Adipose tissue (fat)__Necrosis or hemorrhage": 0.2551335394382477,
+      "Adipose tissue (fat)__Normal breast glands and lobules (TDLU)": 0.20649001002311707,
+      "Adipose tissue (fat)__Tumor-infiltrating lymphocytes (immune infiltrates)": 0.18660123646259308,
+      "Blood vessels (vasculature)__Ductal carcinoma in situ (DCIS)": 0.21843190491199493,
+      "Blood vessels (vasculature)__Fibrous desmoplastic stroma": 0.17275844514369965,
+      "Blood vessels (vasculature)__Invasive breast carcinoma (tumor cells)": 0.18334482610225677,
+      "Blood vessels (vasculature)__Muscle tissue (smooth or skeletal muscle)": 0.16891007125377655,
+      "Blood vessels (vasculature)__Necrosis or hemorrhage": 0.23982055485248566,
+      "Blood vessels (vasculature)__Normal breast glands and lobules (TDLU)": 0.1899363398551941,
+      "Blood vessels (vasculature)__Tumor-infiltrating lymphocytes (immune infiltrates)": 0.1828441470861435,
+      "Ductal carcinoma in situ (DCIS)__Fibrous desmoplastic stroma": 0.23347564041614532,
+      "Ductal carcinoma in situ (DCIS)__Invasive breast carcinoma (tumor cells)": 0.24732257425785065,
+      "Ductal carcinoma in situ (DCIS)__Muscle tissue (smooth or skeletal muscle)": 0.23573057353496552,
+      "Ductal carcinoma in situ (DCIS)__Necrosis or hemorrhage": 0.3248384892940521,
+      "Ductal carcinoma in situ (DCIS)__Normal breast glands and lobules (TDLU)": 0.2717476189136505,
+      "Ductal carcinoma in situ (DCIS)__Tumor-infiltrating lymphocytes (immune infiltrates)": 0.23705646395683289,
+      "Fibrous desmoplastic stroma__Invasive breast carcinoma (tumor cells)": 0.18837714195251465,
+      "Fibrous desmoplastic stroma__Muscle tissue (smooth or skeletal muscle)": 0.1787426769733429,
+      "Fibrous desmoplastic stroma__Necrosis or hemorrhage": 0.2387431263923645,
+      "Fibrous desmoplastic stroma__Normal breast glands and lobules (TDLU)": 0.2021729052066803,
+      "Fibrous desmoplastic stroma__Tumor-infiltrating lymphocytes (immune infiltrates)": 0.19763705134391785,
+      "Invasive breast carcinoma (tumor cells)__Muscle tissue (smooth or skeletal muscle)": 0.19188429415225983,
+      "Invasive breast carcinoma (tumor cells)__Necrosis or hemorrhage": 0.26010438799858093,
+      "Invasive breast carcinoma (tumor cells)__Normal breast glands and lobules (TDLU)": 0.21325264871120453,
+      "Invasive breast carcinoma (tumor cells)__Tumor-infiltrating lymphocytes (immune infiltrates)": 0.2081841379404068,
+      "Muscle tissue (smooth or skeletal muscle)__Necrosis or hemorrhage": 0.26365548372268677,
+      "Muscle tissue (smooth or skeletal muscle)__Normal breast glands and lobules (TDLU)": 0.19906564056873322,
+      "Muscle tissue (smooth or skeletal muscle)__Tumor-infiltrating lymphocytes (immune infiltrates)": 0.18743668496608734,
+      "Necrosis or hemorrhage__Normal breast glands and lobules (TDLU)": 0.283770889043808,
+      "Necrosis or hemorrhage__Tumor-infiltrating lymphocytes (immune infiltrates)": 0.26894479990005493,
+      "Normal breast glands and lobules (TDLU)__Tumor-infiltrating lymphocytes (immune infiltrates)": 0.21791373193264008
+    },
+    "n_pairs_near_zero_5pct": 0,
+    "n_pairs_total": 36,
+    "near_zero_threshold": 0.016241924464702608,
+    "necrosis_check": {
+      "region_name": "Necrosis or hemorrhage",
+      "main_effect_rank": 2,
+      "interaction_rank": 1,
+      "mean_abs_main_effect": 1.3564248085021973,
+      "total_interaction_involvement": 2.1350112706422806,
+      "ranks_higher_in_interactions": true
+    },
+    "sanity_check_saved_vs_recomputed": [
+      {
+        "round": 1,
+        "saved_oob_cindex": 0.566769069873848,
+        "recomputed_oob_cindex": 0.5668781476878801,
+        "max_risk_recon_diff": 3.814697265625e-06
+      },
+      {
+        "round": 2,
+        "saved_oob_cindex": 0.6097112117780294,
+        "recomputed_oob_cindex": 0.6096317280453257,
+        "max_risk_recon_diff": 2.384185791015625e-06
+      },
+      {
+        "round": 3,
+        "saved_oob_cindex": 0.6003251591925214,
+        "recomputed_oob_cindex": 0.6002848809604558,
+        "max_risk_recon_diff": 2.86102294921875e-06
+      },
+      {
+        "round": 4,
+        "saved_oob_cindex": 0.5457095118749254,
+        "recomputed_oob_cindex": 0.5456770957726296,
+        "max_risk_recon_diff": 2.86102294921875e-06
+      },
+      {
+        "round": 5,
+        "saved_oob_cindex": 0.5832531280076997,
+        "recomputed_oob_cindex": 0.5833383494853428,
+        "max_risk_recon_diff": 3.814697265625e-06
+      },
+      {
+        "round": 6,
+        "saved_oob_cindex": 0.6040565744482437,
+        "recomputed_oob_cindex": 0.6042298421584635,
+        "max_risk_recon_diff": 2.384185791015625e-06
+      },
+      {
+        "round": 7,
+        "saved_oob_cindex": 0.5107952179860822,
+        "recomputed_oob_cindex": 0.5108042145365795,
+        "max_risk_recon_diff": 2.86102294921875e-06
+      },
+      {
+        "round": 8,
+        "saved_oob_cindex": 0.5828964820312007,
+        "recomputed_oob_cindex": 0.5828593098217671,
+        "max_risk_recon_diff": 2.86102294921875e-06
+      },
+      {
+        "round": 9,
+        "saved_oob_cindex": 0.6618199872331371,
+        "recomputed_oob_cindex": 0.662075819963084,
+        "max_risk_recon_diff": 3.814697265625e-06
+      },
+      {
+        "round": 10,
+        "saved_oob_cindex": 0.5970950242081317,
+        "recomputed_oob_cindex": 0.5971865514826057,
+        "max_risk_recon_diff": 3.814697265625e-06
+      }
+    ],
+    "input_directory": "/scratch/sorkwos/ga2m_pilot/brca/",
+    "endpoint": "PFI",
+    "lam_int": 0.001,
+    "note": "Self-consistency test (DESIGN_GA2M_HEAD.md Section 4.3, comparison 3): GA2M own exact ablation (all terms touching region r dropped) vs GA2M own mean |main effect|, from the same 10-round pilot. This is the decisive test per instruction -- the cross-model comparison against the original architecture ablation study (results/ga2m_attribution_vs_ablation.json) is a different question."
+  }
+}
