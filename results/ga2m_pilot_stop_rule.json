@@ -1,0 +1,208 @@
+{
+  "blca": {
+    "cohort": "BLCA",
+    "n_rounds": 10,
+    "rounds": [
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/blca/round_1.npz",
+        "oob_cindex": 0.6425952045133991,
+        "train_cindex": 0.9889245857287792,
+        "wall_time_sec": 1779.0215013027191,
+        "n_oob": 161,
+        "seed": 1
+      },
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/blca/round_10.npz",
+        "oob_cindex": 0.5589392209110519,
+        "train_cindex": 0.9883261329166284,
+        "wall_time_sec": 2349.3803515434265,
+        "n_oob": 176,
+        "seed": 10
+      },
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/blca/round_2.npz",
+        "oob_cindex": 0.6029594800165952,
+        "train_cindex": 0.9892111168651821,
+        "wall_time_sec": 2329.521656036377,
+        "n_oob": 165,
+        "seed": 2
+      },
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/blca/round_3.npz",
+        "oob_cindex": 0.543332064458825,
+        "train_cindex": 0.9853483228897899,
+        "wall_time_sec": 2238.3837366104126,
+        "n_oob": 173,
+        "seed": 3
+      },
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/blca/round_4.npz",
+        "oob_cindex": 0.636461126005362,
+        "train_cindex": 0.9894512897792749,
+        "wall_time_sec": 2370.292649269104,
+        "n_oob": 173,
+        "seed": 4
+      },
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/blca/round_5.npz",
+        "oob_cindex": 0.595917225950783,
+        "train_cindex": 0.9899403239556692,
+        "wall_time_sec": 2313.773184776306,
+        "n_oob": 164,
+        "seed": 5
+      },
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/blca/round_6.npz",
+        "oob_cindex": 0.6101037889208453,
+        "train_cindex": 0.9882947841558198,
+        "wall_time_sec": 2350.337550640106,
+        "n_oob": 172,
+        "seed": 6
+      },
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/blca/round_7.npz",
+        "oob_cindex": 0.5926602710522308,
+        "train_cindex": 0.9902478017585932,
+        "wall_time_sec": 2335.2961626052856,
+        "n_oob": 162,
+        "seed": 7
+      },
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/blca/round_8.npz",
+        "oob_cindex": 0.5950360082304527,
+        "train_cindex": 0.9876089949518128,
+        "wall_time_sec": 2359.5263166427612,
+        "n_oob": 168,
+        "seed": 8
+      },
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/blca/round_9.npz",
+        "oob_cindex": 0.5689839572192513,
+        "train_cindex": 0.9898651972842665,
+        "wall_time_sec": 2405.442632675171,
+        "n_oob": 176,
+        "seed": 9
+      }
+    ],
+    "mean_oob_cindex": 0.5946988347278797,
+    "std_oob_cindex": 0.029879769048870953,
+    "mean_train_cindex": 0.9887218550285818,
+    "std_train_cindex": 0.0013744499104004315,
+    "overfitting_gap": 0.39402302030070213,
+    "mean_wall_time_sec": 2283.097574210167,
+    "target_cindex": 0.62,
+    "input_directory": "/scratch/sorkwos/ga2m_pilot/blca/round_*.npz",
+    "endpoint": "PFI",
+    "epochs_per_round": 30,
+    "seed_offset_range": [
+      0,
+      9
+    ],
+    "ga2m_rank": 16,
+    "lam_int": 0.001,
+    "note": "Pilot run (10 rounds), not the full ~100-round ensemble. Stop-rule decision per DESIGN_GA2M_HEAD.md Section 2 not yet resolved -- see docs/GA2M_PILOT_RESULTS.md."
+  },
+  "brca": {
+    "cohort": "BRCA",
+    "n_rounds": 10,
+    "rounds": [
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/brca/job_0/round_1.npz",
+        "oob_cindex": 0.566769069873848,
+        "train_cindex": 0.9924080457262533,
+        "wall_time_sec": 3593.8142704963684,
+        "n_oob": 474,
+        "seed": 1
+      },
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/brca/job_1/round_1.npz",
+        "oob_cindex": 0.6097112117780294,
+        "train_cindex": 0.992592287748467,
+        "wall_time_sec": 4410.102671384811,
+        "n_oob": 461,
+        "seed": 2
+      },
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/brca/job_2/round_1.npz",
+        "oob_cindex": 0.6003251591925214,
+        "train_cindex": 0.991476549910949,
+        "wall_time_sec": 4389.1872317790985,
+        "n_oob": 483,
+        "seed": 3
+      },
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/brca/job_3/round_1.npz",
+        "oob_cindex": 0.5457095118749254,
+        "train_cindex": 0.9895640624258811,
+        "wall_time_sec": 4336.552663803101,
+        "n_oob": 470,
+        "seed": 4
+      },
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/brca/job_4/round_1.npz",
+        "oob_cindex": 0.5832531280076997,
+        "train_cindex": 0.9914666918108529,
+        "wall_time_sec": 3340.7900869846344,
+        "n_oob": 479,
+        "seed": 5
+      },
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/brca/job_5/round_1.npz",
+        "oob_cindex": 0.6040565744482437,
+        "train_cindex": 0.9912986309846082,
+        "wall_time_sec": 3391.3669350147247,
+        "n_oob": 465,
+        "seed": 6
+      },
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/brca/job_6/round_1.npz",
+        "oob_cindex": 0.5107952179860822,
+        "train_cindex": 0.9936799087625927,
+        "wall_time_sec": 3953.673814535141,
+        "n_oob": 488,
+        "seed": 7
+      },
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/brca/job_7/round_1.npz",
+        "oob_cindex": 0.5828964820312007,
+        "train_cindex": 0.9919738140077123,
+        "wall_time_sec": 3221.0873816013336,
+        "n_oob": 471,
+        "seed": 8
+      },
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/brca/job_8/round_1.npz",
+        "oob_cindex": 0.6618199872331371,
+        "train_cindex": 0.9910146473556805,
+        "wall_time_sec": 3708.1349091529846,
+        "n_oob": 462,
+        "seed": 9
+      },
+      {
+        "path": "/scratch/sorkwos/ga2m_pilot/brca/job_9/round_1.npz",
+        "oob_cindex": 0.5970950242081317,
+        "train_cindex": 0.989019569567127,
+        "wall_time_sec": 4217.348877429962,
+        "n_oob": 468,
+        "seed": 10
+      }
+    ],
+    "mean_oob_cindex": 0.5862431366633819,
+    "std_oob_cindex": 0.03825014898883304,
+    "mean_train_cindex": 0.9914494208300123,
+    "std_train_cindex": 0.0013094550165714315,
+    "overfitting_gap": 0.4052062841666304,
+    "mean_wall_time_sec": 3856.205884218216,
+    "target_cindex": 0.61,
+    "input_directory": "/scratch/sorkwos/ga2m_pilot/brca/job_*/round_1.npz",
+    "endpoint": "PFI",
+    "epochs_per_round": 30,
+    "seed_offset_range": [
+      0,
+      9
+    ],
+    "ga2m_rank": 16,
+    "lam_int": 0.001,
+    "note": "Pilot run (10 rounds), not the full ~100-round ensemble. Stop-rule decision per DESIGN_GA2M_HEAD.md Section 2 not yet resolved -- see docs/GA2M_PILOT_RESULTS.md."
+  }
+}

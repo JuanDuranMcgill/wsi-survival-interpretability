@@ -1,0 +1,116 @@
+{
+  "blca": {
+    "cohort": "blca",
+    "region_names": [
+      "Perivesical adipose tissue (extravesical fat)",
+      "Invasive urothelial carcinoma (tumor)",
+      "Normal urothelium (benign mucosa)",
+      "Inflammatory infiltrates (immune cells)",
+      "Lamina propria (fibrovascular stroma)",
+      "Blood vessels (vasculature)",
+      "Muscularis propria (detrusor muscle)",
+      "Necrosis"
+    ],
+    "ga2m_mean_abs_main_effect": [
+      0.8781017661094666,
+      1.02643620967865,
+      0.6878628730773926,
+      0.7448337078094482,
+      0.6311613917350769,
+      0.6758484244346619,
+      0.7470989227294922,
+      0.9185928702354431
+    ],
+    "ga2m_std_abs_main_effect": [
+      0.6870688796043396,
+      0.8410163521766663,
+      0.5859638452529907,
+      0.5907571315765381,
+      0.5354985594749451,
+      0.5531653761863708,
+      0.6103042364120483,
+      0.7476091384887695
+    ],
+    "ablation_importance": [
+      0.009771226200721525,
+      0.009639185138646403,
+      0.002276935326744449,
+      0.004389871970972601,
+      -3.0045534890736637e-05,
+      -0.0017650726113866816,
+      0.000845582443835886,
+      0.0010982091775721546
+    ],
+    "spearman_rho": 0.6666666666666669,
+    "spearman_p": 0.07098765432098751,
+    "pearson_r": 0.7296169976548157,
+    "pearson_p": 0.03993793607859825,
+    "caveat": "ablation study used 20 original-model rounds; GA2M pilot used 10 GA2M rounds -- not a strictly paired comparison, first look only",
+    "ga2m_input_directory": "/scratch/sorkwos/ga2m_pilot/blca/",
+    "ga2m_n_rounds": 10,
+    "ablation_reference_file": "results/region_ablation_blca.json",
+    "ablation_n_rounds": 20,
+    "fusion_weight_baseline_rho": -0.6904761904761906,
+    "fusion_weight_baseline_source": "results/weight_vs_ablation.json",
+    "endpoint": "PFI"
+  },
+  "brca": {
+    "cohort": "brca",
+    "region_names": [
+      "Adipose tissue (fat)",
+      "Blood vessels (vasculature)",
+      "Ductal carcinoma in situ (DCIS)",
+      "Fibrous desmoplastic stroma",
+      "Invasive breast carcinoma (tumor cells)",
+      "Muscle tissue (smooth or skeletal muscle)",
+      "Necrosis or hemorrhage",
+      "Normal breast glands and lobules (TDLU)",
+      "Tumor-infiltrating lymphocytes (immune infiltrates)"
+    ],
+    "ga2m_mean_abs_main_effect": [
+      0.942686915397644,
+      0.8081923127174377,
+      1.398002028465271,
+      0.8156663179397583,
+      0.8338292241096497,
+      0.8673588037490845,
+      1.3564248085021973,
+      1.0911983251571655,
+      1.0111085176467896
+    ],
+    "ga2m_std_abs_main_effect": [
+      0.821112334728241,
+      0.656076967716217,
+      1.1234450340270996,
+      0.6336928606033325,
+      0.6914716958999634,
+      0.723903238773346,
+      1.1363426446914673,
+      0.9911250472068787,
+      0.7975418567657471
+    ],
+    "ablation_importance": [
+      0.009445384143785231,
+      0.0006318616956709009,
+      0.005761280997465879,
+      0.00012575006635901696,
+      0.0003159975881722388,
+      0.00670659095428944,
+      -0.0035223273591789006,
+      -0.0003275983972528391,
+      0.0013596852722051376
+    ],
+    "spearman_rho": -0.06666666666666667,
+    "spearman_p": 0.8646897846262037,
+    "pearson_r": -0.11895876151349144,
+    "pearson_p": 0.7604988745301594,
+    "caveat": "ablation study used 20 original-model rounds; GA2M pilot used 10 GA2M rounds -- not a strictly paired comparison, first look only",
+    "ga2m_input_directory": "/scratch/sorkwos/ga2m_pilot/brca/",
+    "ga2m_n_rounds": 10,
+    "ablation_reference_file": "results/region_ablation_brca.json",
+    "ablation_n_rounds": 20,
+    "fusion_weight_baseline_rho": 0.03333333333333333,
+    "fusion_weight_baseline_source": "results/weight_vs_ablation.json",
+    "endpoint": "PFI"
+  }
+}
