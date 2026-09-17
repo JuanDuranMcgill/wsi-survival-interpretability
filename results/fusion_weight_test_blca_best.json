@@ -4,6 +4,9 @@
   "n_regions": 8,
   "uniform_weight": 0.125,
   "epoch_selection": "best",
+  "expected_epochs": 30,
+  "n_rounds_excluded_incomplete": 0,
+  "excluded_rounds": [],
   "npz_glob": "/Users/juan/wsi-transfer/blca/rounds/job_*/round_*/epoch_*.npz",
   "n_files_used": 102,
   "per_region": {
