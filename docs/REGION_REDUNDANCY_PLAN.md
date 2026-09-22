@@ -37,7 +37,8 @@ regions' pooled embeddings?
 
 - Reduce each region to `k` principal components (default 16), fit within the
   training fold only.
-- Ridge-regress the other regions' components onto region r's components.
+- Standardise those components, then ridge-regress the other regions' onto
+  region r's, with the penalty chosen by inner cross-validation.
 - Report out-of-fold R², averaged over r's components weighted by the variance
   each explains. High R² means region r is redundant given the others.
 
@@ -56,6 +57,23 @@ slide-level technical signature rather than shared tissue content.
 Also reported, because it is easier to explain than a cross-validated R²: the
 mean absolute correlation between each pair of regions on their leading
 components.
+
+### Why the penalty is tuned rather than fixed
+
+The first version used a fixed ridge penalty on unstandardised components. It
+passed a synthetic test and failed on real data: the permutation null came back
+at -0.30 in BRCA and -0.61 in BLCA instead of zero. The cause is not the shuffle
+but the estimator. Out-of-fold R2 is pulled negative when the training fold is
+small relative to the predictor count, and BLCA has roughly 290 training
+patients against 112 predictor components. Reproducing the null on purely
+independent data at each cohort's shape gives -0.605 (BLCA) and -0.302 (BRCA),
+matching the observed values almost exactly.
+
+The synthetic test had passed because its ratio was more forgiving, and because
+its null of -0.16 was read as near enough to zero. It was not. Standardising the
+predictors and tuning the penalty by inner cross-validation returns the null to
+0.000 at both real cohort shapes while a deliberately duplicated region still
+reads 0.88. The acceptance test now runs at the real shape for that reason.
 
 ## How to read the result, including what it cannot settle
 
