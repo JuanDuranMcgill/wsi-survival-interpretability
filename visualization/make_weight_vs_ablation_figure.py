@@ -33,6 +33,13 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from scipy.stats import spearmanr
 
+# Font sizes and marker geometry. --slide swaps in the larger set: a paper
+# figure is read at arm's length, a projected one from the back of a room.
+FS = {"label": 9.5, "title": 10.5, "tick": 8.5, "annot": 8.2,
+      "ms": 7, "mew": 1.6, "elw": 0.9, "cap": 2.0}
+FS_SLIDE = {"label": 15, "title": 17, "tick": 13, "annot": 13,
+            "ms": 12, "mew": 2.4, "elw": 1.6, "cap": 4.0}
+
 SERIES_1 = "#2a78d6"
 TEXT_PRIMARY = "#0b0b0b"
 TEXT_SECONDARY = "#52514e"
@@ -84,11 +91,11 @@ def panel(ax, cohort, results_root, title):
 
     for q in pts:
         ax.errorbar(q["w"], q["d"], yerr=[[q["d"] - q["lo"]], [q["hi"] - q["d"]]],
-                    fmt="none", ecolor=TEXT_SECONDARY, elinewidth=0.9,
-                    capsize=2.0, zorder=2, alpha=0.85)
-        ax.plot(q["w"], q["d"], "o", ms=7,
+                    fmt="none", ecolor=TEXT_SECONDARY, elinewidth=FS["elw"],
+                    capsize=FS["cap"], zorder=2, alpha=0.85)
+        ax.plot(q["w"], q["d"], "o", ms=FS["ms"],
                 mfc=SERIES_1 if q["sig"] else "white",
-                mec=SERIES_1, mew=1.6, zorder=3)
+                mec=SERIES_1, mew=FS["mew"], zorder=3)
 
     # Greedy label declutter: place each label right of its point, but when two
     # points are close in data space push the labels apart vertically and, if
@@ -117,14 +124,15 @@ def panel(ax, cohort, results_root, title):
                 dy -= 11
         placed.append((cx, cy))
         ax.annotate(q["label"], (q["w"], q["d"]), textcoords="offset points",
-                    xytext=(dx, dy), ha=ha, fontsize=8.2, color=TEXT_PRIMARY)
+                    xytext=(dx, dy), ha=ha, fontsize=FS["annot"], color=TEXT_PRIMARY)
 
-    ax.set_xlabel("Region fusion weight (%)", fontsize=9.5, color=TEXT_PRIMARY)
-    ax.set_ylabel("Change in c-index when ablated (pp)", fontsize=9.5,
+    ax.set_xlabel("Region fusion weight (%)", fontsize=FS["label"],
+                  color=TEXT_PRIMARY)
+    ax.set_ylabel("Change in c-index when ablated (pp)", fontsize=FS["label"],
                   color=TEXT_PRIMARY)
     ax.set_title(f"{title}    Spearman $\\rho$ = {rho:+.2f}, $p$ = {p:.2f}",
-                 fontsize=10.5, color=TEXT_PRIMARY, loc="left", pad=8)
-    ax.tick_params(labelsize=8.5, colors=TEXT_SECONDARY, length=0)
+                 fontsize=FS["title"], color=TEXT_PRIMARY, loc="left", pad=8)
+    ax.tick_params(labelsize=FS["tick"], colors=TEXT_SECONDARY, length=0)
     ax.grid(True, color=GRID, lw=0.6, zorder=0)
     ax.set_axisbelow(True)
     for side in ("top", "right"):
@@ -143,7 +151,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--results-root", default="results")
     ap.add_argument("--out", default="Figures/fig_weight_vs_ablation.pdf")
+    ap.add_argument("--slide", action="store_true",
+                    help="larger type and a squarer canvas, for projection")
+    ap.add_argument("--dpi", type=int, default=220)
     args = ap.parse_args()
+
+    if args.slide:
+        FS.update(FS_SLIDE)
 
     plt.rcParams.update({
         "font.family": "sans-serif",
@@ -151,7 +165,8 @@ def main():
         "figure.facecolor": "white", "axes.facecolor": "white", "pdf.fonttype": 42,
     })
 
-    fig, axes = plt.subplots(1, 2, figsize=(11.0, 4.3))
+    fig, axes = plt.subplots(1, 2,
+                             figsize=(12.6, 7.0) if args.slide else (11.0, 4.3))
     out = {}
     for ax, (c, t) in zip(axes, [("blca", "(a) TCGA-BLCA"), ("brca", "(b) TCGA-BRCA")]):
         rho, p, u = panel(ax, c, args.results_root, t)
@@ -159,12 +174,14 @@ def main():
         print(f"[{c}] weight vs ablation: rho = {rho:+.3f}, p = {p:.3f}, "
               f"uniform = {u:.2f}%")
 
-    fig.tight_layout(w_pad=3.0)
+    fig.tight_layout(w_pad=4.0 if args.slide else 3.0)
     os.makedirs(os.path.dirname(os.path.abspath(args.out)) or ".", exist_ok=True)
     fig.savefig(args.out, bbox_inches="tight")
-    fig.savefig(os.path.splitext(args.out)[0] + ".png", dpi=220, bbox_inches="tight")
-    with open(os.path.join(args.results_root, "weight_vs_ablation.json"), "w") as f:
-        json.dump(out, f, indent=2)
+    fig.savefig(os.path.splitext(args.out)[0] + ".png", dpi=args.dpi,
+                bbox_inches="tight")
+    if not args.slide:
+        with open(os.path.join(args.results_root, "weight_vs_ablation.json"), "w") as f:
+            json.dump(out, f, indent=2)
     print(f"wrote {args.out}")
 
 
