@@ -179,6 +179,11 @@ def main():
                     help="the model used DX1 slides only; match that")
     ap.add_argument("--oob-npz", default=None,
                     help="restrict to the modelled patients listed in this file")
+    ap.add_argument("--patients-file", default=None,
+                    help="restrict to the patients in this text file, one TCGA "
+                         "barcode per line; results/modelled_patients_{cohort}.txt "
+                         "is committed for this, since the oob_risk .npz files "
+                         "are gitignored and absent on the cluster")
     ap.add_argument("--thresholds", default="0.3,0.4,0.5,0.6,0.7")
     ap.add_argument("--min-tiles", type=int, default=10,
                     help="tiles a compartment needs on a slide to count as "
@@ -196,8 +201,13 @@ def main():
     if not paths:
         raise SystemExit(f"no files match {args.pattern} in {args.jsonl_dir}")
 
-    if args.oob_npz:
+    keep = None
+    if args.patients_file:
+        with open(args.patients_file) as f:
+            keep = {ln.strip()[:12] for ln in f if ln.strip()}
+    elif args.oob_npz:
         keep = {str(p) for p in np.load(args.oob_npz, allow_pickle=True)["patient_ids"]}
+    if keep is not None:
         seen, sel = set(), []
         for p in paths:                  # one slide per patient, first wins,
             c = os.path.basename(p)[:12] # as in the dataset builder
