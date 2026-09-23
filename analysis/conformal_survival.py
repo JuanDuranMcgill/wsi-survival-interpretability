@@ -226,7 +226,7 @@ def ipcw_coverage(t, lpb, Geval, x=None):
 
 # ── Driver ───────────────────────────────────────────────────────────────────
 
-def run(t, e, x, groups, alpha, c0s, n_reps, cens, seed, fracs=(0.5, 0.25, 0.25)):
+def run(t, e, x, groups, alpha, c0s, n_reps, cens, seed, fracs=(0.5, 0.25, 0.25), n_boot=0):
     rng = np.random.default_rng(seed)
     n = len(t)
     Geval = KMCensoring().fit(t, e)                            # for evaluation, full data
@@ -252,6 +252,35 @@ def run(t, e, x, groups, alpha, c0s, n_reps, cens, seed, fracs=(0.5, 0.25, 0.25)
     groups = dict(groups)
     groups["model risk tertile"] = np.array(["low", "mid", "high"])[tert]
 
+    # Patient-level bootstrap for the Cox-censoring coverage estimates. Patients
+    # are resampled with replacement; each pooled test record is weighted by how
+    # often its patient was drawn, and the evaluation censoring model is refitted
+    # on the resample. The bounds themselves are held fixed, so the interval
+    # reflects which patients were observed and the censoring model's fit, not a
+    # rerun of the conformal procedure. A separate generator leaves the point
+    # estimates unchanged.
+    brng = np.random.default_rng(seed + 1)
+    boot_w, boot_G = [], []
+    for _ in range(n_boot):
+        draw = brng.integers(0, n, n)
+        cnt = np.bincount(draw, minlength=n).astype(float)
+        boot_w.append(cnt[idx])
+        boot_G.append(CoxCensoring().fit(t[draw], e[draw], x[draw]))
+
+    def boot_cov(bounds, msk=None):
+        """Bootstrap draws of the Cox-censoring coverage on the records in msk."""
+        msk = np.ones(len(idx), bool) if msk is None else msk
+        ti, xi, bi = t[idx][msk], x[idx][msk], bounds[msk]
+        hit = (ti >= bi).astype(float)
+        out = np.empty(n_boot)
+        for b in range(n_boot):
+            w = boot_w[b][msk]
+            out[b] = np.sum(w * hit / boot_G[b].surv(xi, bi, left=True)) / np.sum(w)
+        return out
+
+    def ci(draws):
+        return [float(np.nanquantile(draws, 0.025)), float(np.nanquantile(draws, 0.975))]
+
     summary = {}
     for c0 in c0s:
         L = {m: np.concatenate(pooled[c0][m]) for m in pooled[c0]}
@@ -267,10 +296,12 @@ def run(t, e, x, groups, alpha, c0s, n_reps, cens, seed, fracs=(0.5, 0.25, 0.25)
                 "median_bound_days": float(np.median(L[m])),
                 "frac_bound_positive": float(np.mean(L[m] > 0)),
             }
+            if n_boot and m in ("lpb", "lpb_flat"):
+                methods[m]["coverage_cox_censoring_boot_95ci"] = ci(boot_cov(L[m]))
         sub = {}
         for gname, labels in groups.items():
             lab = labels if gname == "model risk tertile" else np.asarray(labels)[idx]
-            rows = {}
+            rows, draws = {}, {}
             for level in pd.unique(lab):
                 if pd.isna(level):
                     continue
@@ -285,6 +316,21 @@ def run(t, e, x, groups, alpha, c0s, n_reps, cens, seed, fracs=(0.5, 0.25, 0.25)
                         t[idx][msk], L["lpb"][msk], Geval_x, x[idx][msk]),
                     "median_bound_days": float(np.median(L["lpb"][msk])),
                 }
+                if n_boot:
+                    draws[str(level)] = boot_cov(L["lpb"], msk)
+                    rows[str(level)]["coverage_cox_censoring_boot_95ci"] = ci(draws[str(level)])
+                    rows[str(level)]["boot_frac_below_target"] = float(
+                        np.mean(draws[str(level)] < 1 - alpha))
+            # contrast between the two ends of each grouping, on the same resamples
+            pairs = {"stage": ("III-IV", "I-II"), "nodal status": ("N+", "N0"),
+                     "T category": ("T2-T4", "T1"), "model risk tertile": ("high", "low")}
+            if n_boot and gname in pairs and all(k in draws for k in pairs[gname]):
+                hi, lo = pairs[gname]
+                dd = draws[hi] - draws[lo]
+                rows[f"difference {hi} minus {lo}"] = {
+                    "estimate": rows[hi]["coverage_ipcw_cox_censoring"]
+                    - rows[lo]["coverage_ipcw_cox_censoring"],
+                    "boot_95ci": ci(dd)}
             sub[gname] = rows
         rho = pd.Series(x[idx]).corr(pd.Series(L["lpb"]), method="spearman")
         summary[f"{c0:.0f}"] = {"horizon_c0_days": float(c0), "methods": methods,
@@ -331,6 +377,8 @@ def main():
     ap.add_argument("--reps", type=int, default=200)
     ap.add_argument("--censoring", default="km,cox")
     ap.add_argument("--seed", type=int, default=20260908)
+    ap.add_argument("--boot", type=int, default=1000,
+                    help="patient-level bootstrap resamples for coverage intervals")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
@@ -343,12 +391,15 @@ def main():
     rep = {"cohort": args.cohort, "n_patients": int(len(t)), "n_events": int(e.sum()),
            "alpha": args.alpha, "target_coverage": 1 - args.alpha, "reps": args.reps,
            "splits": "train 50% / calibration 25% / test 25%, repeated",
+           "bootstrap": (f"{args.boot} patient-level resamples, Cox-censoring estimates only; "
+                         "censoring model refitted per resample, bounds held fixed"),
            "method": ("fixed-cutoff conformalized survival analysis (Candes, Lei & Ren "
                       "2023) with censoring times imputed for patients who progressed "
                       "(Sesia & Svetnik 2025); weighted split conformal"),
            "by_censoring_model": {}}
     for cens in args.censoring.split(","):
-        res = run(t, e, x, groups, args.alpha, c0s, args.reps, cens, args.seed)
+        res = run(t, e, x, groups, args.alpha, c0s, args.reps, cens, args.seed,
+                  n_boot=args.boot if cens == "cox" else 0)
         rep["by_censoring_model"][cens] = res
         for c0, v in res.items():
             m = v["methods"]

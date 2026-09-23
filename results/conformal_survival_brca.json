@@ -6,6 +6,7 @@
   "target_coverage": 0.9,
   "reps": 200,
   "splits": "train 50% / calibration 25% / test 25%, repeated",
+  "bootstrap": "1000 patient-level resamples, Cox-censoring estimates only; censoring model refitted per resample, bounds held fixed",
   "method": "fixed-cutoff conformalized survival analysis (Candes, Lei & Ren 2023) with censoring times imputed for patients who progressed (Sesia & Svetnik 2025); weighted split conformal",
   "by_censoring_model": {
     "km": {
@@ -641,7 +642,11 @@
               1.0124853725954837
             ],
             "median_bound_days": 446.5,
-            "frac_bound_positive": 1.0
+            "frac_bound_positive": 1.0,
+            "coverage_cox_censoring_boot_95ci": [
+              0.9385402935212853,
+              0.9655460027890688
+            ]
           },
           "lpb_uncal": {
             "coverage_ipcw_pooled": 0.9546931003910343,
@@ -663,7 +668,11 @@
               1.0128375496087496
             ],
             "median_bound_days": 446.5,
-            "frac_bound_positive": 1.0
+            "frac_bound_positive": 1.0,
+            "coverage_cox_censoring_boot_95ci": [
+              0.9392026613708373,
+              0.9662509566505078
+            ]
           },
           "lpb_naive": {
             "coverage_ipcw_pooled": 0.9787718112642205,
@@ -683,13 +692,30 @@
               "n_patients": 794,
               "coverage_ipcw": 0.9885642314587348,
               "coverage_ipcw_cox_censoring": 0.9867420426989466,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.9640776112710842,
+                1.0087329926932294
+              ],
+              "boot_frac_below_target": 0.0
             },
             "III-IV": {
               "n_patients": 253,
               "coverage_ipcw": 0.8477221833226103,
               "coverage_ipcw_cox_censoring": 0.848744052366227,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.776882772548461,
+                0.9157247705992446
+              ],
+              "boot_frac_below_target": 0.919
+            },
+            "difference III-IV minus I-II": {
+              "estimate": -0.13799799033271964,
+              "boot_95ci": [
+                -0.219542065115779,
+                -0.05627630179483854
+              ]
             }
           },
           "nodal status": {
@@ -697,13 +723,30 @@
               "n_patients": 537,
               "coverage_ipcw": 0.9646056894205617,
               "coverage_ipcw_cox_censoring": 0.9633951303696142,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.9258377512569592,
+                0.9970087974489803
+              ],
+              "boot_frac_below_target": 0.0
             },
             "N0": {
               "n_patients": 510,
               "coverage_ipcw": 0.9441826941862643,
               "coverage_ipcw_cox_censoring": 0.9431220508179289,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.9038075386018108,
+                0.9779319556149509
+              ],
+              "boot_frac_below_target": 0.018
+            },
+            "difference N+ minus N0": {
+              "estimate": 0.020273079551685336,
+              "boot_95ci": [
+                -0.04616061794346597,
+                0.09007631082949832
+              ]
             }
           },
           "T category": {
@@ -711,13 +754,30 @@
               "n_patients": 270,
               "coverage_ipcw": 1.0380627744864763,
               "coverage_ipcw_cox_censoring": 1.0250475980937848,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.9718852469961992,
+                1.0788156113307223
+              ],
+              "boot_frac_below_target": 0.0
             },
             "T2-T4": {
               "n_patients": 777,
               "coverage_ipcw": 0.9254985697255561,
               "coverage_ipcw_cox_censoring": 0.9285139792207274,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.9043102000105734,
+                0.9509211704695865
+              ],
+              "boot_frac_below_target": 0.012
+            },
+            "difference T2-T4 minus T1": {
+              "estimate": -0.09653361887305734,
+              "boot_95ci": [
+                -0.16583473133774648,
+                -0.02778943525394401
+              ]
             }
           },
           "source site": {
@@ -725,91 +785,166 @@
               "n_patients": 123,
               "coverage_ipcw": 0.9515592978187756,
               "coverage_ipcw_cox_censoring": 0.9466247324834779,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.8485569904009278,
+                1.0363154861259734
+              ],
+              "boot_frac_below_target": 0.168
             },
             "BH": {
               "n_patients": 142,
               "coverage_ipcw": 1.1095911739057196,
               "coverage_ipcw_cox_censoring": 1.0942128964404838,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                1.021853708357752,
+                1.1613251953787824
+              ],
+              "boot_frac_below_target": 0.0
             },
             "EW": {
               "n_patients": 43,
               "coverage_ipcw": 1.0429209098670589,
               "coverage_ipcw_cox_censoring": 1.0459855085089398,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.8954720892537001,
+                1.1822302382128507
+              ],
+              "boot_frac_below_target": 0.03
             },
             "B6": {
               "n_patients": 50,
               "coverage_ipcw": 1.2507332574649248,
               "coverage_ipcw_cox_censoring": 1.252872953317542,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                1.1777447009349646,
+                1.3108849932334419
+              ],
+              "boot_frac_below_target": 0.0
             },
             "A8": {
               "n_patients": 74,
               "coverage_ipcw": 0.7426200302270676,
               "coverage_ipcw_cox_censoring": 0.7471650825242568,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.6127203099324993,
+                0.8847018361767504
+              ],
+              "boot_frac_below_target": 0.989
             },
             "AN": {
               "n_patients": 32,
               "coverage_ipcw": 0.0,
               "coverage_ipcw_cox_censoring": 0.0,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.0,
+                0.0
+              ],
+              "boot_frac_below_target": 1.0
             },
             "AR": {
               "n_patients": 70,
               "coverage_ipcw": 1.178584559615456,
               "coverage_ipcw_cox_censoring": 1.1687278718399576,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                1.0761685158350833,
+                1.2497774452811743
+              ],
+              "boot_frac_below_target": 0.0
             },
             "D8": {
               "n_patients": 78,
               "coverage_ipcw": 0.8363418389804186,
               "coverage_ipcw_cox_censoring": 0.842906897421729,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.6963595508668912,
+                0.9733397224952914
+              ],
+              "boot_frac_below_target": 0.785
             },
             "A2": {
               "n_patients": 100,
               "coverage_ipcw": 1.1966959330813944,
               "coverage_ipcw_cox_censoring": 1.1944426344673724,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                1.1166518581103562,
+                1.260791683301407
+              ],
+              "boot_frac_below_target": 0.0
             },
             "E9": {
               "n_patients": 62,
               "coverage_ipcw": 0.9202830041154638,
               "coverage_ipcw_cox_censoring": 0.9302667723957668,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.7809336265817988,
+                1.0773611163611314
+              ],
+              "boot_frac_below_target": 0.332
             },
             "A7": {
               "n_patients": 42,
               "coverage_ipcw": 0.7241304804728838,
               "coverage_ipcw_cox_censoring": 0.7392683627213268,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.5354968262989935,
+                0.939869722210777
+              ],
+              "boot_frac_below_target": 0.926
             },
             "C8": {
               "n_patients": 46,
               "coverage_ipcw": 0.22922821738802648,
               "coverage_ipcw_cox_censoring": 0.2370111491850992,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.0965922276739067,
+                0.38066550922434766
+              ],
+              "boot_frac_below_target": 1.0
             },
             "E2": {
               "n_patients": 90,
               "coverage_ipcw": 1.0869000804879907,
               "coverage_ipcw_cox_censoring": 1.0906482207049648,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.9924743083501114,
+                1.1854637665173662
+              ],
+              "boot_frac_below_target": 0.0
             },
             "AO": {
               "n_patients": 47,
               "coverage_ipcw": 1.2016875998979981,
               "coverage_ipcw_cox_censoring": 1.1889948537410118,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                1.1006826204589721,
+                1.2673503374899733
+              ],
+              "boot_frac_below_target": 0.0
             },
             "AC": {
               "n_patients": 48,
               "coverage_ipcw": 0.8899586631830991,
               "coverage_ipcw_cox_censoring": 0.8916621611546943,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.7255155592083713,
+                1.0464469969590735
+              ],
+              "boot_frac_below_target": 0.542
             }
           },
           "model risk tertile": {
@@ -817,19 +952,41 @@
               "n_patients": 385,
               "coverage_ipcw": 1.0416177205672674,
               "coverage_ipcw_cox_censoring": 1.01282910647246,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.9677410641431307,
+                1.05530613759553
+              ],
+              "boot_frac_below_target": 0.0
             },
             "mid": {
               "n_patients": 414,
               "coverage_ipcw": 0.9604205710832355,
               "coverage_ipcw_cox_censoring": 0.9559591172632549,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.905758652580074,
+                1.0035020870328593
+              ],
+              "boot_frac_below_target": 0.016
             },
             "high": {
               "n_patients": 381,
               "coverage_ipcw": 0.8630118259300797,
               "coverage_ipcw_cox_censoring": 0.8924726549444396,
-              "median_bound_days": 446.5
+              "median_bound_days": 446.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.8441541149785913,
+                0.9420884120256755
+              ],
+              "boot_frac_below_target": 0.621
+            },
+            "difference high minus low": {
+              "estimate": -0.12035645152802033,
+              "boot_95ci": [
+                -0.1967397592006436,
+                -0.04270268709897152
+              ]
             }
           }
         },
@@ -847,7 +1004,11 @@
               1.0166536863583995
             ],
             "median_bound_days": 791.0,
-            "frac_bound_positive": 1.0
+            "frac_bound_positive": 1.0,
+            "coverage_cox_censoring_boot_95ci": [
+              0.8932776455154241,
+              0.9347480668686925
+            ]
           },
           "lpb_uncal": {
             "coverage_ipcw_pooled": 0.9178104110369599,
@@ -869,7 +1030,11 @@
               1.0023904288092962
             ],
             "median_bound_days": 791.0,
-            "frac_bound_positive": 1.0
+            "frac_bound_positive": 1.0,
+            "coverage_cox_censoring_boot_95ci": [
+              0.8784022513467581,
+              0.9226045332725366
+            ]
           },
           "lpb_naive": {
             "coverage_ipcw_pooled": 0.9802893282560149,
@@ -889,13 +1054,30 @@
               "n_patients": 794,
               "coverage_ipcw": 0.9650418530281046,
               "coverage_ipcw_cox_censoring": 0.9566523728844651,
-              "median_bound_days": 791.0
+              "median_bound_days": 791.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.9232190784233276,
+                0.989146351897966
+              ],
+              "boot_frac_below_target": 0.002
             },
             "III-IV": {
               "n_patients": 253,
               "coverage_ipcw": 0.7907026712264472,
               "coverage_ipcw_cox_censoring": 0.7870641714592902,
-              "median_bound_days": 790.0
+              "median_bound_days": 790.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.6910128098131623,
+                0.8826447422114757
+              ],
+              "boot_frac_below_target": 0.992
+            },
+            "difference III-IV minus I-II": {
+              "estimate": -0.16958820142517494,
+              "boot_95ci": [
+                -0.2913844857375914,
+                -0.04742859176671376
+              ]
             }
           },
           "nodal status": {
@@ -903,13 +1085,30 @@
               "n_patients": 537,
               "coverage_ipcw": 0.8924144357010059,
               "coverage_ipcw_cox_censoring": 0.8839626107425186,
-              "median_bound_days": 791.0
+              "median_bound_days": 791.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.8279200923557728,
+                0.9322568013803464
+              ],
+              "boot_frac_below_target": 0.734
             },
             "N0": {
               "n_patients": 510,
               "coverage_ipcw": 0.955372435101189,
               "coverage_ipcw_cox_censoring": 0.9493971261222833,
-              "median_bound_days": 791.0
+              "median_bound_days": 791.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.8936365997766591,
+                1.0048409500037416
+              ],
+              "boot_frac_below_target": 0.042
+            },
+            "difference N+ minus N0": {
+              "estimate": -0.06543451537976475,
+              "boot_95ci": [
+                -0.16975601322773265,
+                0.03177759294570486
+              ]
             }
           },
           "T category": {
@@ -917,13 +1116,30 @@
               "n_patients": 270,
               "coverage_ipcw": 1.0553889737449904,
               "coverage_ipcw_cox_censoring": 1.024414546112986,
-              "median_bound_days": 791.0
+              "median_bound_days": 791.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.9388443650556016,
+                1.1083154735786431
+              ],
+              "boot_frac_below_target": 0.004
             },
             "T2-T4": {
               "n_patients": 777,
               "coverage_ipcw": 0.8768106462546897,
               "coverage_ipcw_cox_censoring": 0.8778614630491955,
-              "median_bound_days": 790.0
+              "median_bound_days": 790.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.839043005812948,
+                0.9138179187764596
+              ],
+              "boot_frac_below_target": 0.889
+            },
+            "difference T2-T4 minus T1": {
+              "estimate": -0.14655308306379056,
+              "boot_95ci": [
+                -0.26236912724603384,
+                -0.02965340867690383
+              ]
             }
           },
           "source site": {
@@ -931,91 +1147,166 @@
               "n_patients": 123,
               "coverage_ipcw": 0.8254842582493525,
               "coverage_ipcw_cox_censoring": 0.8079497690572239,
-              "median_bound_days": 791.0
+              "median_bound_days": 791.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.6572885351522735,
+                0.9437985718839034
+              ],
+              "boot_frac_below_target": 0.899
             },
             "BH": {
               "n_patients": 142,
               "coverage_ipcw": 1.2665938052977082,
               "coverage_ipcw_cox_censoring": 1.2323307636123215,
-              "median_bound_days": 791.0
+              "median_bound_days": 791.0,
+              "coverage_cox_censoring_boot_95ci": [
+                1.1112072255457226,
+                1.343189133516273
+              ],
+              "boot_frac_below_target": 0.0
             },
             "EW": {
               "n_patients": 43,
               "coverage_ipcw": 0.7180949857718825,
               "coverage_ipcw_cox_censoring": 0.7202463044666197,
-              "median_bound_days": 790.0
+              "median_bound_days": 790.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.5019589892733803,
+                0.9636414940199485
+              ],
+              "boot_frac_below_target": 0.926
             },
             "B6": {
               "n_patients": 50,
               "coverage_ipcw": 1.5330696607393985,
               "coverage_ipcw_cox_censoring": 1.5272644756998905,
-              "median_bound_days": 790.0
+              "median_bound_days": 790.0,
+              "coverage_cox_censoring_boot_95ci": [
+                1.3604463265071325,
+                1.6925867325177049
+              ],
+              "boot_frac_below_target": 0.0
             },
             "A8": {
               "n_patients": 74,
               "coverage_ipcw": 0.6461912035775653,
               "coverage_ipcw_cox_censoring": 0.6573067019876776,
-              "median_bound_days": 791.0
+              "median_bound_days": 791.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.4664444491982525,
+                0.83762991611887
+              ],
+              "boot_frac_below_target": 0.998
             },
             "AN": {
               "n_patients": 32,
               "coverage_ipcw": 0.0,
               "coverage_ipcw_cox_censoring": 0.0,
-              "median_bound_days": 790.0
+              "median_bound_days": 790.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.0,
+                0.0
+              ],
+              "boot_frac_below_target": 1.0
             },
             "AR": {
               "n_patients": 70,
               "coverage_ipcw": 1.538258234871328,
               "coverage_ipcw_cox_censoring": 1.5081941884096877,
-              "median_bound_days": 791.0
+              "median_bound_days": 791.0,
+              "coverage_cox_censoring_boot_95ci": [
+                1.3606361327506942,
+                1.6542824900099729
+              ],
+              "boot_frac_below_target": 0.0
             },
             "D8": {
               "n_patients": 78,
               "coverage_ipcw": 0.24111766550765162,
               "coverage_ipcw_cox_censoring": 0.24362703471464273,
-              "median_bound_days": 785.0
+              "median_bound_days": 785.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.13877222059833216,
+                0.3635987464456898
+              ],
+              "boot_frac_below_target": 1.0
             },
             "A2": {
               "n_patients": 100,
               "coverage_ipcw": 1.1442169672629208,
               "coverage_ipcw_cox_censoring": 1.1325909354794166,
-              "median_bound_days": 791.0
+              "median_bound_days": 791.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.9720764274307426,
+                1.2696911677053313
+              ],
+              "boot_frac_below_target": 0.003
             },
             "E9": {
               "n_patients": 62,
               "coverage_ipcw": 1.034134371141429,
               "coverage_ipcw_cox_censoring": 1.056696548975682,
-              "median_bound_days": 780.0
+              "median_bound_days": 780.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.8658256140837549,
+                1.2680105348950887
+              ],
+              "boot_frac_below_target": 0.06
             },
             "A7": {
               "n_patients": 42,
               "coverage_ipcw": 0.5882647307456539,
               "coverage_ipcw_cox_censoring": 0.6101069791743668,
-              "median_bound_days": 762.0
+              "median_bound_days": 762.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.38064653071800786,
+                0.8699677396305057
+              ],
+              "boot_frac_below_target": 0.984
             },
             "C8": {
               "n_patients": 46,
               "coverage_ipcw": 0.14541448577112345,
               "coverage_ipcw_cox_censoring": 0.1552247526956147,
-              "median_bound_days": 762.0
+              "median_bound_days": 762.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.03075342433328248,
+                0.2937506986581628
+              ],
+              "boot_frac_below_target": 1.0
             },
             "E2": {
               "n_patients": 90,
               "coverage_ipcw": 1.1118473493366767,
               "coverage_ipcw_cox_censoring": 1.1186652584068213,
-              "median_bound_days": 791.0
+              "median_bound_days": 791.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.9599435218217545,
+                1.2824565962883208
+              ],
+              "boot_frac_below_target": 0.004
             },
             "AO": {
               "n_patients": 47,
               "coverage_ipcw": 1.4879360389575447,
               "coverage_ipcw_cox_censoring": 1.456618508992345,
-              "median_bound_days": 791.0
+              "median_bound_days": 791.0,
+              "coverage_cox_censoring_boot_95ci": [
+                1.2676504167584235,
+                1.6446740567697802
+              ],
+              "boot_frac_below_target": 0.0
             },
             "AC": {
               "n_patients": 48,
               "coverage_ipcw": 0.5021746201503703,
               "coverage_ipcw_cox_censoring": 0.5018127896362216,
-              "median_bound_days": 790.0
+              "median_bound_days": 790.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.3100996660347024,
+                0.701777903343586
+              ],
+              "boot_frac_below_target": 1.0
             }
           },
           "model risk tertile": {
@@ -1023,19 +1314,41 @@
               "n_patients": 385,
               "coverage_ipcw": 1.0990216803399628,
               "coverage_ipcw_cox_censoring": 1.0320463156429012,
-              "median_bound_days": 791.0
+              "median_bound_days": 791.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.968335784268323,
+                1.0936843392743347
+              ],
+              "boot_frac_below_target": 0.0
             },
             "mid": {
               "n_patients": 414,
               "coverage_ipcw": 0.8889921126698256,
               "coverage_ipcw_cox_censoring": 0.881842450309747,
-              "median_bound_days": 791.0
+              "median_bound_days": 791.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.8051300909201405,
+                0.9552842360879361
+              ],
+              "boot_frac_below_target": 0.704
             },
             "high": {
               "n_patients": 381,
               "coverage_ipcw": 0.7822606575904976,
               "coverage_ipcw_cox_censoring": 0.8340118606335855,
-              "median_bound_days": 740.0
+              "median_bound_days": 740.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.77058565995909,
+                0.8998853669061689
+              ],
+              "boot_frac_below_target": 0.975
+            },
+            "difference high minus low": {
+              "estimate": -0.1980344550093157,
+              "boot_95ci": [
+                -0.2977354067856155,
+                -0.09559179513882232
+              ]
             }
           }
         },
@@ -1053,7 +1366,11 @@
               1.0535337082854814
             ],
             "median_bound_days": 874.5,
-            "frac_bound_positive": 0.9984351145038168
+            "frac_bound_positive": 0.9984351145038168,
+            "coverage_cox_censoring_boot_95ci": [
+              0.8856009440952964,
+              0.9335774349672612
+            ]
           },
           "lpb_uncal": {
             "coverage_ipcw_pooled": 0.9126851015921201,
@@ -1075,7 +1392,11 @@
               0.9929549420962062
             ],
             "median_bound_days": 921.0,
-            "frac_bound_positive": 1.0
+            "frac_bound_positive": 1.0,
+            "coverage_cox_censoring_boot_95ci": [
+              0.8650040604572165,
+              0.9110147658318987
+            ]
           },
           "lpb_naive": {
             "coverage_ipcw_pooled": 1.0107025863116743,
@@ -1095,13 +1416,30 @@
               "n_patients": 794,
               "coverage_ipcw": 0.9749703440714405,
               "coverage_ipcw_cox_censoring": 0.9512618519138851,
-              "median_bound_days": 886.0
+              "median_bound_days": 886.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.9134880261299453,
+                0.9863755895105654
+              ],
+              "boot_frac_below_target": 0.007
             },
             "III-IV": {
               "n_patients": 253,
               "coverage_ipcw": 0.7986738512411782,
               "coverage_ipcw_cox_censoring": 0.7843129713208524,
-              "median_bound_days": 846.0
+              "median_bound_days": 846.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.6950677599974869,
+                0.8771281525782822
+              ],
+              "boot_frac_below_target": 0.995
+            },
+            "difference III-IV minus I-II": {
+              "estimate": -0.1669488805930327,
+              "boot_95ci": [
+                -0.2806720067026858,
+                -0.04666626100304506
+              ]
             }
           },
           "nodal status": {
@@ -1109,13 +1447,30 @@
               "n_patients": 537,
               "coverage_ipcw": 0.9192396446072806,
               "coverage_ipcw_cox_censoring": 0.8964716920879426,
-              "median_bound_days": 877.0
+              "median_bound_days": 877.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.840126432805412,
+                0.9492241982188486
+              ],
+              "boot_frac_below_target": 0.561
             },
             "N0": {
               "n_patients": 510,
               "coverage_ipcw": 0.9465335035053545,
               "coverage_ipcw_cox_censoring": 0.9264548880703419,
-              "median_bound_days": 871.0
+              "median_bound_days": 871.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.8638035933569989,
+                0.9837790703305298
+              ],
+              "boot_frac_below_target": 0.193
+            },
+            "difference N+ minus N0": {
+              "estimate": -0.02998319598239929,
+              "boot_95ci": [
+                -0.1320956696876495,
+                0.07266883666416875
+              ]
             }
           },
           "T category": {
@@ -1123,13 +1478,30 @@
               "n_patients": 270,
               "coverage_ipcw": 1.0881075162041223,
               "coverage_ipcw_cox_censoring": 1.0335998662999428,
-              "median_bound_days": 976.0
+              "median_bound_days": 976.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.940389349878767,
+                1.1268958506062208
+              ],
+              "boot_frac_below_target": 0.003
             },
             "T2-T4": {
               "n_patients": 777,
               "coverage_ipcw": 0.8781347723454371,
               "coverage_ipcw_cox_censoring": 0.8682320586082509,
-              "median_bound_days": 837.0
+              "median_bound_days": 837.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.8273906977675932,
+                0.9081907604715245
+              ],
+              "boot_frac_below_target": 0.946
+            },
+            "difference T2-T4 minus T1": {
+              "estimate": -0.1653678076916919,
+              "boot_95ci": [
+                -0.288245848981021,
+                -0.04253489602559723
+              ]
             }
           },
           "source site": {
@@ -1137,91 +1509,166 @@
               "n_patients": 123,
               "coverage_ipcw": 0.8099809700847929,
               "coverage_ipcw_cox_censoring": 0.7807493075630768,
-              "median_bound_days": 921.5
+              "median_bound_days": 921.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.6342186703589425,
+                0.9198011464311722
+              ],
+              "boot_frac_below_target": 0.959
             },
             "BH": {
               "n_patients": 142,
               "coverage_ipcw": 1.2308174288328553,
               "coverage_ipcw_cox_censoring": 1.1757349611597194,
-              "median_bound_days": 1023.0
+              "median_bound_days": 1023.0,
+              "coverage_cox_censoring_boot_95ci": [
+                1.0380632682601054,
+                1.3104990177022124
+              ],
+              "boot_frac_below_target": 0.0
             },
             "EW": {
               "n_patients": 43,
               "coverage_ipcw": 0.5963019636548446,
               "coverage_ipcw_cox_censoring": 0.5985156279544463,
-              "median_bound_days": 855.0
+              "median_bound_days": 855.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.4244701454635901,
+                0.7973086418640103
+              ],
+              "boot_frac_below_target": 0.998
             },
             "B6": {
               "n_patients": 50,
               "coverage_ipcw": 1.631840700657211,
               "coverage_ipcw_cox_censoring": 1.5962912981556197,
-              "median_bound_days": 883.0
+              "median_bound_days": 883.0,
+              "coverage_cox_censoring_boot_95ci": [
+                1.405924303111483,
+                1.8037202853899377
+              ],
+              "boot_frac_below_target": 0.0
             },
             "A8": {
               "n_patients": 74,
               "coverage_ipcw": 0.5633389332133417,
               "coverage_ipcw_cox_censoring": 0.5717414002395415,
-              "median_bound_days": 858.5
+              "median_bound_days": 858.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.41377321754866025,
+                0.7293880423110659
+              ],
+              "boot_frac_below_target": 1.0
             },
             "AN": {
               "n_patients": 32,
               "coverage_ipcw": 0.0,
               "coverage_ipcw_cox_censoring": 0.0,
-              "median_bound_days": 825.0
+              "median_bound_days": 825.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.0,
+                0.0
+              ],
+              "boot_frac_below_target": 1.0
             },
             "AR": {
               "n_patients": 70,
               "coverage_ipcw": 1.7219304266101203,
               "coverage_ipcw_cox_censoring": 1.6514455736494624,
-              "median_bound_days": 947.0
+              "median_bound_days": 947.0,
+              "coverage_cox_censoring_boot_95ci": [
+                1.4752962941971373,
+                1.8101318606097174
+              ],
+              "boot_frac_below_target": 0.0
             },
             "D8": {
               "n_patients": 78,
               "coverage_ipcw": 0.33805741235150966,
               "coverage_ipcw_cox_censoring": 0.33960462207052666,
-              "median_bound_days": 793.0
+              "median_bound_days": 793.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.22373516711995947,
+                0.4638445562682863
+              ],
+              "boot_frac_below_target": 1.0
             },
             "A2": {
               "n_patients": 100,
               "coverage_ipcw": 1.237204594450287,
               "coverage_ipcw_cox_censoring": 1.1968610078641848,
-              "median_bound_days": 907.5
+              "median_bound_days": 907.5,
+              "coverage_cox_censoring_boot_95ci": [
+                1.0315790082298295,
+                1.3528859708022571
+              ],
+              "boot_frac_below_target": 0.0
             },
             "E9": {
               "n_patients": 62,
               "coverage_ipcw": 0.9169429962692829,
               "coverage_ipcw_cox_censoring": 0.9323761647053006,
-              "median_bound_days": 795.0
+              "median_bound_days": 795.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.7595426011247034,
+                1.12334543185683
+              ],
+              "boot_frac_below_target": 0.362
             },
             "A7": {
               "n_patients": 42,
               "coverage_ipcw": 0.5719970252995502,
               "coverage_ipcw_cox_censoring": 0.5890480160252336,
-              "median_bound_days": 729.0
+              "median_bound_days": 729.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.40442704075116925,
+                0.7841431231223499
+              ],
+              "boot_frac_below_target": 1.0
             },
             "C8": {
               "n_patients": 46,
               "coverage_ipcw": 0.21874446447045467,
               "coverage_ipcw_cox_censoring": 0.22678125027849116,
-              "median_bound_days": 701.0
+              "median_bound_days": 701.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.12077014304805284,
+                0.34799679560916114
+              ],
+              "boot_frac_below_target": 1.0
             },
             "E2": {
               "n_patients": 90,
               "coverage_ipcw": 1.014783466314781,
               "coverage_ipcw_cox_censoring": 1.0140849518981294,
-              "median_bound_days": 873.0
+              "median_bound_days": 873.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.8502066369653739,
+                1.1775628217663316
+              ],
+              "boot_frac_below_target": 0.078
             },
             "AO": {
               "n_patients": 47,
               "coverage_ipcw": 1.6102858453476512,
               "coverage_ipcw_cox_censoring": 1.54471920319283,
-              "median_bound_days": 968.0
+              "median_bound_days": 968.0,
+              "coverage_cox_censoring_boot_95ci": [
+                1.3052652198912467,
+                1.76737264572895
+              ],
+              "boot_frac_below_target": 0.0
             },
             "AC": {
               "n_patients": 48,
               "coverage_ipcw": 0.5370198331105147,
               "coverage_ipcw_cox_censoring": 0.5355985192607313,
-              "median_bound_days": 824.0
+              "median_bound_days": 824.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.3419086705161436,
+                0.7355153884691621
+              ],
+              "boot_frac_below_target": 0.998
             }
           },
           "model risk tertile": {
@@ -1229,19 +1676,41 @@
               "n_patients": 385,
               "coverage_ipcw": 1.1169057095772572,
               "coverage_ipcw_cox_censoring": 1.0185024425972675,
-              "median_bound_days": 1128.5
+              "median_bound_days": 1128.5,
+              "coverage_cox_censoring_boot_95ci": [
+                0.9412617107813073,
+                1.0937931771491831
+              ],
+              "boot_frac_below_target": 0.001
             },
             "mid": {
               "n_patients": 414,
               "coverage_ipcw": 0.8784724297800146,
               "coverage_ipcw_cox_censoring": 0.869548842846166,
-              "median_bound_days": 863.0
+              "median_bound_days": 863.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.7956794812561491,
+                0.9430195783630864
+              ],
+              "boot_frac_below_target": 0.805
             },
             "high": {
               "n_patients": 381,
               "coverage_ipcw": 0.8028723213849934,
               "coverage_ipcw_cox_censoring": 0.8453064254467265,
-              "median_bound_days": 621.0
+              "median_bound_days": 621.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.7940383092237062,
+                0.8976281604611087
+              ],
+              "boot_frac_below_target": 0.981
+            },
+            "difference high minus low": {
+              "estimate": -0.173196017150541,
+              "boot_95ci": [
+                -0.2615195133297965,
+                -0.0745647118607404
+              ]
             }
           }
         },
