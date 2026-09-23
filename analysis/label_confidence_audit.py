@@ -328,6 +328,9 @@ def main():
     print(f"[{args.cohort}] {head}")
     for c in classes:
         v = per_class[c]
+        if not v["n_tiles"]:             # never anyone's top choice; itself a finding
+            print(f"[{args.cohort}] {c[:36]:36} {'0.0%':>6}   no tile assigned")
+            continue
         line = (f"{c[:36]:36} {v['share_of_tiles']:6.1%} "
                 f"{v['top1_quantiles']['q50']:7.2f} {v['frac_near_tie']:6.1%} "
                 f"{v['frac_top1_below_half']:6.1%}")
