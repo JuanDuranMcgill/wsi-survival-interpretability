@@ -1,0 +1,809 @@
+{
+  "cohort": "blca",
+  "n_patients": 378,
+  "n_events": 163,
+  "alpha": 0.1,
+  "target_coverage": 0.9,
+  "reps": 200,
+  "splits": "train 50% / calibration 25% / test 25%, repeated",
+  "method": "fixed-cutoff conformalized survival analysis (Candes, Lei & Ren 2023) with censoring times imputed for patients who progressed (Sesia & Svetnik 2025); weighted split conformal",
+  "by_censoring_model": {
+    "km": {
+      "214": {
+        "horizon_c0_days": 214.5,
+        "methods": {
+          "lpb": {
+            "coverage_ipcw_pooled": 0.9158422589435623,
+            "coverage_ipcw_pooled_cox_censoring": 0.914807838829945,
+            "coverage_ipcw_rep_mean": 0.9158422589435624,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.8417504104891345,
+              0.9947499804953055
+            ],
+            "median_bound_days": 143.0,
+            "frac_bound_positive": 1.0
+          },
+          "lpb_uncal": {
+            "coverage_ipcw_pooled": 0.8919063249757849,
+            "coverage_ipcw_pooled_cox_censoring": 0.8910794311126035,
+            "coverage_ipcw_rep_mean": 0.8919063249757851,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.8111407420104467,
+              0.9713247062462106
+            ],
+            "median_bound_days": 166.0,
+            "frac_bound_positive": 1.0
+          },
+          "lpb_flat": {
+            "coverage_ipcw_pooled": 0.896847356145038,
+            "coverage_ipcw_pooled_cox_censoring": 0.8963840296122679,
+            "coverage_ipcw_rep_mean": 0.8968473561450377,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.812467156742792,
+              0.9770092027438624
+            ],
+            "median_bound_days": 144.0,
+            "frac_bound_positive": 1.0
+          },
+          "lpb_naive": {
+            "coverage_ipcw_pooled": 0.9653972813948544,
+            "coverage_ipcw_pooled_cox_censoring": 0.9639457360628171,
+            "coverage_ipcw_rep_mean": 0.9653972813948545,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.8823215552216157,
+              1.0195787074046365
+            ],
+            "median_bound_days": 105.0,
+            "frac_bound_positive": 0.999
+          }
+        },
+        "subgroups": {
+          "stage": {
+            "III-IV": {
+              "n_patients": 258,
+              "coverage_ipcw": 0.8899249671714193,
+              "coverage_ipcw_cox_censoring": 0.8896216850727066,
+              "median_bound_days": 139.0
+            },
+            "I-II": {
+              "n_patients": 120,
+              "coverage_ipcw": 0.9708765607388556,
+              "coverage_ipcw_cox_censoring": 0.9682895991590997,
+              "median_bound_days": 150.5
+            }
+          },
+          "nodal status": {
+            "N0": {
+              "n_patients": 256,
+              "coverage_ipcw": 0.9465096539410041,
+              "coverage_ipcw_cox_censoring": 0.9447941059679181,
+              "median_bound_days": 146.0
+            },
+            "N+": {
+              "n_patients": 122,
+              "coverage_ipcw": 0.8506740445739982,
+              "coverage_ipcw_cox_censoring": 0.8510870211617517,
+              "median_bound_days": 135.0
+            }
+          },
+          "source site": {
+            "other": {
+              "n_patients": 212,
+              "coverage_ipcw": 0.8896038160782044,
+              "coverage_ipcw_cox_censoring": 0.8886078221657331,
+              "median_bound_days": 142.0
+            },
+            "FD": {
+              "n_patients": 48,
+              "coverage_ipcw": 0.8980060132550451,
+              "coverage_ipcw_cox_censoring": 0.898618219195459,
+              "median_bound_days": 132.5
+            },
+            "DK": {
+              "n_patients": 36,
+              "coverage_ipcw": 1.026603929928015,
+              "coverage_ipcw_cox_censoring": 1.025946840985242,
+              "median_bound_days": 140.5
+            },
+            "ZF": {
+              "n_patients": 31,
+              "coverage_ipcw": 0.9998778159520005,
+              "coverage_ipcw_cox_censoring": 0.9965856420392271,
+              "median_bound_days": 157.0
+            },
+            "XF": {
+              "n_patients": 51,
+              "coverage_ipcw": 0.9134504858871045,
+              "coverage_ipcw_cox_censoring": 0.9118420549584103,
+              "median_bound_days": 147.75
+            }
+          },
+          "model risk tertile": {
+            "high": {
+              "n_patients": 145,
+              "coverage_ipcw": 0.8813239147364014,
+              "coverage_ipcw_cox_censoring": 0.8856732514856062,
+              "median_bound_days": 106.0
+            },
+            "mid": {
+              "n_patients": 168,
+              "coverage_ipcw": 0.9000218656915318,
+              "coverage_ipcw_cox_censoring": 0.8990955327898477,
+              "median_bound_days": 144.0
+            },
+            "low": {
+              "n_patients": 147,
+              "coverage_ipcw": 0.9656111521376016,
+              "coverage_ipcw_cox_censoring": 0.9591541593396525,
+              "median_bound_days": 175.75
+            }
+          }
+        },
+        "spearman_risk_vs_bound": -0.8732052688846696
+      },
+      "432": {
+        "horizon_c0_days": 431.5,
+        "methods": {
+          "lpb": {
+            "coverage_ipcw_pooled": 0.9058058939800153,
+            "coverage_ipcw_pooled_cox_censoring": 0.9047058405491875,
+            "coverage_ipcw_rep_mean": 0.9058058939800153,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.7876556842518326,
+              0.9947211621408236
+            ],
+            "median_bound_days": 151.0,
+            "frac_bound_positive": 1.0
+          },
+          "lpb_uncal": {
+            "coverage_ipcw_pooled": 0.890681601703615,
+            "coverage_ipcw_pooled_cox_censoring": 0.8897873201330738,
+            "coverage_ipcw_rep_mean": 0.890681601703615,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.8118896568762991,
+              0.9716165364163686
+            ],
+            "median_bound_days": 166.0,
+            "frac_bound_positive": 1.0
+          },
+          "lpb_flat": {
+            "coverage_ipcw_pooled": 0.8968018685436705,
+            "coverage_ipcw_pooled_cox_censoring": 0.8963379517585973,
+            "coverage_ipcw_rep_mean": 0.8968018685436705,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.812467156742792,
+              0.9770092027438624
+            ],
+            "median_bound_days": 144.0,
+            "frac_bound_positive": 1.0
+          },
+          "lpb_naive": {
+            "coverage_ipcw_pooled": 0.9653234804029407,
+            "coverage_ipcw_pooled_cox_censoring": 0.963810342026314,
+            "coverage_ipcw_rep_mean": 0.9653234804029408,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.87838227191133,
+              1.0242102254710328
+            ],
+            "median_bound_days": 104.0,
+            "frac_bound_positive": 0.9986315789473684
+          }
+        },
+        "subgroups": {
+          "stage": {
+            "III-IV": {
+              "n_patients": 258,
+              "coverage_ipcw": 0.8778558103014467,
+              "coverage_ipcw_cox_censoring": 0.8775237752414669,
+              "median_bound_days": 146.0
+            },
+            "I-II": {
+              "n_patients": 120,
+              "coverage_ipcw": 0.9651567456775448,
+              "coverage_ipcw_cox_censoring": 0.9624258368634773,
+              "median_bound_days": 159.0
+            }
+          },
+          "nodal status": {
+            "N0": {
+              "n_patients": 256,
+              "coverage_ipcw": 0.9387709118305176,
+              "coverage_ipcw_cox_censoring": 0.9369705518412901,
+              "median_bound_days": 156.0
+            },
+            "N+": {
+              "n_patients": 122,
+              "coverage_ipcw": 0.8357552310476981,
+              "coverage_ipcw_cox_censoring": 0.8361433290534691,
+              "median_bound_days": 142.0
+            }
+          },
+          "source site": {
+            "other": {
+              "n_patients": 212,
+              "coverage_ipcw": 0.883079722635186,
+              "coverage_ipcw_cox_censoring": 0.8820007173863851,
+              "median_bound_days": 149.0
+            },
+            "FD": {
+              "n_patients": 48,
+              "coverage_ipcw": 0.8907040665802776,
+              "coverage_ipcw_cox_censoring": 0.8912381707543547,
+              "median_bound_days": 140.0
+            },
+            "DK": {
+              "n_patients": 36,
+              "coverage_ipcw": 1.0087397964387532,
+              "coverage_ipcw_cox_censoring": 1.0080140520042074,
+              "median_bound_days": 148.0
+            },
+            "ZF": {
+              "n_patients": 31,
+              "coverage_ipcw": 0.9818790271382993,
+              "coverage_ipcw_cox_censoring": 0.9784916104091086,
+              "median_bound_days": 163.0
+            },
+            "XF": {
+              "n_patients": 51,
+              "coverage_ipcw": 0.8966376510830381,
+              "coverage_ipcw_cox_censoring": 0.8950664310907198,
+              "median_bound_days": 155.0
+            }
+          },
+          "model risk tertile": {
+            "high": {
+              "n_patients": 145,
+              "coverage_ipcw": 0.8686810803279832,
+              "coverage_ipcw_cox_censoring": 0.8731416037574761,
+              "median_bound_days": 111.0
+            },
+            "mid": {
+              "n_patients": 168,
+              "coverage_ipcw": 0.8957228188975153,
+              "coverage_ipcw_cox_censoring": 0.8947841990137102,
+              "median_bound_days": 147.0
+            },
+            "low": {
+              "n_patients": 147,
+              "coverage_ipcw": 0.9524585125851673,
+              "coverage_ipcw_cox_censoring": 0.9457084090329281,
+              "median_bound_days": 187.0
+            }
+          }
+        },
+        "spearman_risk_vs_bound": -0.7200644633624519
+      },
+      "794": {
+        "horizon_c0_days": 793.5,
+        "methods": {
+          "lpb": {
+            "coverage_ipcw_pooled": 0.9120229200887326,
+            "coverage_ipcw_pooled_cox_censoring": 0.910856764467258,
+            "coverage_ipcw_rep_mean": 0.9120229200887325,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.7884630825656461,
+              1.0037209456487135
+            ],
+            "median_bound_days": 145.0,
+            "frac_bound_positive": 0.9999473684210526
+          },
+          "lpb_uncal": {
+            "coverage_ipcw_pooled": 0.8906940162815169,
+            "coverage_ipcw_pooled_cox_censoring": 0.8897977298713289,
+            "coverage_ipcw_rep_mean": 0.8906940162815169,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.8118896568762991,
+              0.9716165364163686
+            ],
+            "median_bound_days": 166.0,
+            "frac_bound_positive": 1.0
+          },
+          "lpb_flat": {
+            "coverage_ipcw_pooled": 0.8968018685436705,
+            "coverage_ipcw_pooled_cox_censoring": 0.8963379517585973,
+            "coverage_ipcw_rep_mean": 0.8968018685436705,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.812467156742792,
+              0.9770092027438624
+            ],
+            "median_bound_days": 144.0,
+            "frac_bound_positive": 1.0
+          },
+          "lpb_naive": {
+            "coverage_ipcw_pooled": 0.9653374225441695,
+            "coverage_ipcw_pooled_cox_censoring": 0.9638222160900781,
+            "coverage_ipcw_rep_mean": 0.9653374225441698,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.87838227191133,
+              1.0242102254710328
+            ],
+            "median_bound_days": 104.0,
+            "frac_bound_positive": 0.9986315789473684
+          }
+        },
+        "subgroups": {
+          "stage": {
+            "III-IV": {
+              "n_patients": 258,
+              "coverage_ipcw": 0.8849648901342846,
+              "coverage_ipcw_cox_censoring": 0.8845326092054893,
+              "median_bound_days": 142.0
+            },
+            "I-II": {
+              "n_patients": 120,
+              "coverage_ipcw": 0.9694795324381663,
+              "coverage_ipcw_cox_censoring": 0.9667550241279959,
+              "median_bound_days": 155.0
+            }
+          },
+          "nodal status": {
+            "N0": {
+              "n_patients": 256,
+              "coverage_ipcw": 0.9414456142124294,
+              "coverage_ipcw_cox_censoring": 0.9395963256148983,
+              "median_bound_days": 150.0
+            },
+            "N+": {
+              "n_patients": 122,
+              "coverage_ipcw": 0.849499695075877,
+              "coverage_ipcw_cox_censoring": 0.849785197028523,
+              "median_bound_days": 137.0
+            }
+          },
+          "source site": {
+            "other": {
+              "n_patients": 212,
+              "coverage_ipcw": 0.8913113917217032,
+              "coverage_ipcw_cox_censoring": 0.8901654445393599,
+              "median_bound_days": 145.0
+            },
+            "FD": {
+              "n_patients": 48,
+              "coverage_ipcw": 0.8995181137777732,
+              "coverage_ipcw_cox_censoring": 0.8999393061999518,
+              "median_bound_days": 135.0
+            },
+            "DK": {
+              "n_patients": 36,
+              "coverage_ipcw": 1.0041624173423476,
+              "coverage_ipcw_cox_censoring": 1.0033741331689556,
+              "median_bound_days": 144.0
+            },
+            "ZF": {
+              "n_patients": 31,
+              "coverage_ipcw": 0.9888084973305459,
+              "coverage_ipcw_cox_censoring": 0.9854200861096784,
+              "median_bound_days": 160.0
+            },
+            "XF": {
+              "n_patients": 51,
+              "coverage_ipcw": 0.8991359738814615,
+              "coverage_ipcw_cox_censoring": 0.8975035973320272,
+              "median_bound_days": 149.0
+            }
+          },
+          "model risk tertile": {
+            "high": {
+              "n_patients": 145,
+              "coverage_ipcw": 0.8770276251167405,
+              "coverage_ipcw_cox_censoring": 0.881207897729936,
+              "median_bound_days": 103.0
+            },
+            "mid": {
+              "n_patients": 168,
+              "coverage_ipcw": 0.9043625885608643,
+              "coverage_ipcw_cox_censoring": 0.9034227587700213,
+              "median_bound_days": 141.0
+            },
+            "low": {
+              "n_patients": 147,
+              "coverage_ipcw": 0.9541704536968232,
+              "coverage_ipcw_cox_censoring": 0.9475013238714507,
+              "median_bound_days": 183.0
+            }
+          }
+        },
+        "spearman_risk_vs_bound": -0.6670661560306546
+      }
+    },
+    "cox": {
+      "214": {
+        "horizon_c0_days": 214.5,
+        "methods": {
+          "lpb": {
+            "coverage_ipcw_pooled": 0.9159060491462166,
+            "coverage_ipcw_pooled_cox_censoring": 0.914874259130473,
+            "coverage_ipcw_rep_mean": 0.9159060491462168,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.8417504104891345,
+              0.9947499804953055
+            ],
+            "median_bound_days": 143.0,
+            "frac_bound_positive": 1.0
+          },
+          "lpb_uncal": {
+            "coverage_ipcw_pooled": 0.8919063249757849,
+            "coverage_ipcw_pooled_cox_censoring": 0.8910794311126035,
+            "coverage_ipcw_rep_mean": 0.8919063249757851,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.8111407420104467,
+              0.9713247062462106
+            ],
+            "median_bound_days": 166.0,
+            "frac_bound_positive": 1.0
+          },
+          "lpb_flat": {
+            "coverage_ipcw_pooled": 0.896847356145038,
+            "coverage_ipcw_pooled_cox_censoring": 0.8963840296122679,
+            "coverage_ipcw_rep_mean": 0.8968473561450377,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.812467156742792,
+              0.9770092027438624
+            ],
+            "median_bound_days": 144.0,
+            "frac_bound_positive": 1.0
+          },
+          "lpb_naive": {
+            "coverage_ipcw_pooled": 0.9653972813948544,
+            "coverage_ipcw_pooled_cox_censoring": 0.9639457360628171,
+            "coverage_ipcw_rep_mean": 0.9653972813948545,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.8823215552216157,
+              1.0195787074046365
+            ],
+            "median_bound_days": 105.0,
+            "frac_bound_positive": 0.999
+          }
+        },
+        "subgroups": {
+          "stage": {
+            "III-IV": {
+              "n_patients": 258,
+              "coverage_ipcw": 0.8899899126805411,
+              "coverage_ipcw_cox_censoring": 0.8896900902446987,
+              "median_bound_days": 139.0
+            },
+            "I-II": {
+              "n_patients": 120,
+              "coverage_ipcw": 0.9709378976958023,
+              "coverage_ipcw_cox_censoring": 0.9683518046668111,
+              "median_bound_days": 151.0
+            }
+          },
+          "nodal status": {
+            "N0": {
+              "n_patients": 256,
+              "coverage_ipcw": 0.9465732783676046,
+              "coverage_ipcw_cox_censoring": 0.9448597296815496,
+              "median_bound_days": 146.0
+            },
+            "N+": {
+              "n_patients": 122,
+              "coverage_ipcw": 0.8507381870507671,
+              "coverage_ipcw_cox_censoring": 0.8511551342094346,
+              "median_bound_days": 135.0
+            }
+          },
+          "source site": {
+            "other": {
+              "n_patients": 212,
+              "coverage_ipcw": 0.8895661709960526,
+              "coverage_ipcw_cox_censoring": 0.8885720785949385,
+              "median_bound_days": 142.0
+            },
+            "FD": {
+              "n_patients": 48,
+              "coverage_ipcw": 0.8985254846956984,
+              "coverage_ipcw_cox_censoring": 0.8991446043600745,
+              "median_bound_days": 133.0
+            },
+            "DK": {
+              "n_patients": 36,
+              "coverage_ipcw": 1.02669842299418,
+              "coverage_ipcw_cox_censoring": 1.0260461449750287,
+              "median_bound_days": 141.0
+            },
+            "ZF": {
+              "n_patients": 31,
+              "coverage_ipcw": 0.9999161436325594,
+              "coverage_ipcw_cox_censoring": 0.9966238307658746,
+              "median_bound_days": 158.0
+            },
+            "XF": {
+              "n_patients": 51,
+              "coverage_ipcw": 0.9135034116580624,
+              "coverage_ipcw_cox_censoring": 0.9118968206935087,
+              "median_bound_days": 148.0
+            }
+          },
+          "model risk tertile": {
+            "high": {
+              "n_patients": 145,
+              "coverage_ipcw": 0.8816032525457309,
+              "coverage_ipcw_cox_censoring": 0.8859623362752084,
+              "median_bound_days": 106.0
+            },
+            "mid": {
+              "n_patients": 168,
+              "coverage_ipcw": 0.8999174251267701,
+              "coverage_ipcw_cox_censoring": 0.8989908747606982,
+              "median_bound_days": 144.0
+            },
+            "low": {
+              "n_patients": 147,
+              "coverage_ipcw": 0.9656289649687719,
+              "coverage_ipcw_cox_censoring": 0.9591703996695801,
+              "median_bound_days": 176.0
+            }
+          }
+        },
+        "spearman_risk_vs_bound": -0.8716790534819294
+      },
+      "432": {
+        "horizon_c0_days": 431.5,
+        "methods": {
+          "lpb": {
+            "coverage_ipcw_pooled": 0.9051596805180856,
+            "coverage_ipcw_pooled_cox_censoring": 0.9040505706195197,
+            "coverage_ipcw_rep_mean": 0.9051596805180857,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.7876556842518326,
+              0.9947211621408236
+            ],
+            "median_bound_days": 151.0,
+            "frac_bound_positive": 1.0
+          },
+          "lpb_uncal": {
+            "coverage_ipcw_pooled": 0.890681601703615,
+            "coverage_ipcw_pooled_cox_censoring": 0.8897873201330738,
+            "coverage_ipcw_rep_mean": 0.890681601703615,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.8118896568762991,
+              0.9716165364163686
+            ],
+            "median_bound_days": 166.0,
+            "frac_bound_positive": 1.0
+          },
+          "lpb_flat": {
+            "coverage_ipcw_pooled": 0.8968018685436705,
+            "coverage_ipcw_pooled_cox_censoring": 0.8963379517585973,
+            "coverage_ipcw_rep_mean": 0.8968018685436705,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.812467156742792,
+              0.9770092027438624
+            ],
+            "median_bound_days": 144.0,
+            "frac_bound_positive": 1.0
+          },
+          "lpb_naive": {
+            "coverage_ipcw_pooled": 0.9653234804029407,
+            "coverage_ipcw_pooled_cox_censoring": 0.963810342026314,
+            "coverage_ipcw_rep_mean": 0.9653234804029408,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.87838227191133,
+              1.0242102254710328
+            ],
+            "median_bound_days": 104.0,
+            "frac_bound_positive": 0.9986315789473684
+          }
+        },
+        "subgroups": {
+          "stage": {
+            "III-IV": {
+              "n_patients": 258,
+              "coverage_ipcw": 0.8769524448438152,
+              "coverage_ipcw_cox_censoring": 0.8766153959844754,
+              "median_bound_days": 147.0
+            },
+            "I-II": {
+              "n_patients": 120,
+              "coverage_ipcw": 0.9650565838888814,
+              "coverage_ipcw_cox_censoring": 0.9623080341672543,
+              "median_bound_days": 159.0
+            }
+          },
+          "nodal status": {
+            "N0": {
+              "n_patients": 256,
+              "coverage_ipcw": 0.9382302268704591,
+              "coverage_ipcw_cox_censoring": 0.9364153337302583,
+              "median_bound_days": 156.0
+            },
+            "N+": {
+              "n_patients": 122,
+              "coverage_ipcw": 0.8348847695192917,
+              "coverage_ipcw_cox_censoring": 0.8352754490092007,
+              "median_bound_days": 142.0
+            }
+          },
+          "source site": {
+            "other": {
+              "n_patients": 212,
+              "coverage_ipcw": 0.8825050264028201,
+              "coverage_ipcw_cox_censoring": 0.8814112001034767,
+              "median_bound_days": 149.0
+            },
+            "FD": {
+              "n_patients": 48,
+              "coverage_ipcw": 0.8893041941580558,
+              "coverage_ipcw_cox_censoring": 0.889836691314796,
+              "median_bound_days": 140.0
+            },
+            "DK": {
+              "n_patients": 36,
+              "coverage_ipcw": 1.0119163987912232,
+              "coverage_ipcw_cox_censoring": 1.011199755385603,
+              "median_bound_days": 148.0
+            },
+            "ZF": {
+              "n_patients": 31,
+              "coverage_ipcw": 0.9798301894595799,
+              "coverage_ipcw_cox_censoring": 0.9764420888502201,
+              "median_bound_days": 164.0
+            },
+            "XF": {
+              "n_patients": 51,
+              "coverage_ipcw": 0.894628186603533,
+              "coverage_ipcw_cox_censoring": 0.8930471940949192,
+              "median_bound_days": 156.0
+            }
+          },
+          "model risk tertile": {
+            "high": {
+              "n_patients": 145,
+              "coverage_ipcw": 0.8684983690511374,
+              "coverage_ipcw_cox_censoring": 0.87293939759111,
+              "median_bound_days": 111.0
+            },
+            "mid": {
+              "n_patients": 168,
+              "coverage_ipcw": 0.8951587102059396,
+              "coverage_ipcw_cox_censoring": 0.8942224841754691,
+              "median_bound_days": 148.0
+            },
+            "low": {
+              "n_patients": 147,
+              "coverage_ipcw": 0.9512732608773982,
+              "coverage_ipcw_cox_censoring": 0.9445130515412061,
+              "median_bound_days": 187.0
+            }
+          }
+        },
+        "spearman_risk_vs_bound": -0.72733053421821
+      },
+      "794": {
+        "horizon_c0_days": 793.5,
+        "methods": {
+          "lpb": {
+            "coverage_ipcw_pooled": 0.9097427026908121,
+            "coverage_ipcw_pooled_cox_censoring": 0.9085770959595342,
+            "coverage_ipcw_rep_mean": 0.9097427026908121,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.7825300134803502,
+              1.0037530824140792
+            ],
+            "median_bound_days": 146.0,
+            "frac_bound_positive": 0.9999473684210526
+          },
+          "lpb_uncal": {
+            "coverage_ipcw_pooled": 0.8906940162815169,
+            "coverage_ipcw_pooled_cox_censoring": 0.8897977298713289,
+            "coverage_ipcw_rep_mean": 0.8906940162815169,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.8118896568762991,
+              0.9716165364163686
+            ],
+            "median_bound_days": 166.0,
+            "frac_bound_positive": 1.0
+          },
+          "lpb_flat": {
+            "coverage_ipcw_pooled": 0.8968018685436705,
+            "coverage_ipcw_pooled_cox_censoring": 0.8963379517585973,
+            "coverage_ipcw_rep_mean": 0.8968018685436705,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.812467156742792,
+              0.9770092027438624
+            ],
+            "median_bound_days": 144.0,
+            "frac_bound_positive": 1.0
+          },
+          "lpb_naive": {
+            "coverage_ipcw_pooled": 0.9653374225441695,
+            "coverage_ipcw_pooled_cox_censoring": 0.9638222160900781,
+            "coverage_ipcw_rep_mean": 0.9653374225441698,
+            "coverage_ipcw_rep_2.5_97.5": [
+              0.87838227191133,
+              1.0242102254710328
+            ],
+            "median_bound_days": 104.0,
+            "frac_bound_positive": 0.9986315789473684
+          }
+        },
+        "subgroups": {
+          "stage": {
+            "III-IV": {
+              "n_patients": 258,
+              "coverage_ipcw": 0.8823022541011473,
+              "coverage_ipcw_cox_censoring": 0.8818781739535476,
+              "median_bound_days": 142.0
+            },
+            "I-II": {
+              "n_patients": 120,
+              "coverage_ipcw": 0.9680113652639998,
+              "coverage_ipcw_cox_censoring": 0.9652711573685968,
+              "median_bound_days": 156.0
+            }
+          },
+          "nodal status": {
+            "N0": {
+              "n_patients": 256,
+              "coverage_ipcw": 0.9393870306006391,
+              "coverage_ipcw_cox_censoring": 0.9375317653668134,
+              "median_bound_days": 151.0
+            },
+            "N+": {
+              "n_patients": 122,
+              "coverage_ipcw": 0.84674850588243,
+              "coverage_ipcw_cox_censoring": 0.8470484234690664,
+              "median_bound_days": 138.0
+            }
+          },
+          "source site": {
+            "other": {
+              "n_patients": 212,
+              "coverage_ipcw": 0.8898079167359866,
+              "coverage_ipcw_cox_censoring": 0.8886625825499509,
+              "median_bound_days": 145.0
+            },
+            "FD": {
+              "n_patients": 48,
+              "coverage_ipcw": 0.8928530985907855,
+              "coverage_ipcw_cox_censoring": 0.8932858890446113,
+              "median_bound_days": 136.0
+            },
+            "DK": {
+              "n_patients": 36,
+              "coverage_ipcw": 1.002109534352669,
+              "coverage_ipcw_cox_censoring": 1.0013282128270318,
+              "median_bound_days": 145.0
+            },
+            "ZF": {
+              "n_patients": 31,
+              "coverage_ipcw": 0.9891772943741454,
+              "coverage_ipcw_cox_censoring": 0.9857833845626297,
+              "median_bound_days": 160.0
+            },
+            "XF": {
+              "n_patients": 51,
+              "coverage_ipcw": 0.8959669346663878,
+              "coverage_ipcw_cox_censoring": 0.8943238899651699,
+              "median_bound_days": 151.0
+            }
+          },
+          "model risk tertile": {
+            "high": {
+              "n_patients": 145,
+              "coverage_ipcw": 0.8764686647244693,
+              "coverage_ipcw_cox_censoring": 0.8806679118558828,
+              "median_bound_days": 104.0
+            },
+            "mid": {
+              "n_patients": 168,
+              "coverage_ipcw": 0.9013121406914293,
+              "coverage_ipcw_cox_censoring": 0.9003741403591171,
+              "median_bound_days": 142.0
+            },
+            "low": {
+              "n_patients": 147,
+              "coverage_ipcw": 0.950954669094098,
+              "coverage_ipcw_cox_censoring": 0.9442666266075951,
+              "median_bound_days": 183.0
+            }
+          }
+        },
+        "spearman_risk_vs_bound": -0.6671702705534033
+      }
+    }
+  },
+  "caveat": "Coverage on real data is estimated by inverse probability of censoring weighting, reported under a marginal Kaplan-Meier and a Cox censoring model; each estimate is only as good as its censoring model, and TCGA follow-up varies by contributing site. In simulation with patient-dependent censoring the bounds held at 0.90 while the marginal estimate read 3 to 4 points low. The out-of-bag risk scores are a symmetric function of the whole cohort, which keeps patients exchangeable, but the guarantee is approximate rather than exact, as for other bootstrap-based conformal constructions."
+}
