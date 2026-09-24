@@ -74,13 +74,13 @@ COHORT_CONFIG = {
             {
                 "label":  "Necrosis or hemorrhage",
                 "short":  "Necrosis",
-                "weight": 0.117,
+                "weight": 0.125,   # results/fusion_weight_test_brca_last.json
                 "color":  (220, 38, 38, 170),    # red
             },
             {
                 "label":  "Ductal carcinoma in situ (DCIS)",
                 "short":  "DCIS",
-                "weight": 0.113,
+                "weight": 0.117,   # results/fusion_weight_test_brca_last.json
                 "color":  (37, 99, 235, 170),    # blue
             },
         ],
