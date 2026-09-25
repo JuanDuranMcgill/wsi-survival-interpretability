@@ -1,0 +1,14 @@
+{
+  "cohort": "blca",
+  "planted_region": "Lamina propria (fibrovascular stroma)",
+  "planted_index": 4,
+  "direction": "random",
+  "seed": 7,
+  "beta": 0.8263278460708534,
+  "oracle_cindex": 0.7502571598722322,
+  "target_cindex": 0.75,
+  "censored_fraction": 0.5725593667546174,
+  "n_events": 162,
+  "n_patients": 379,
+  "planted_presence_rate": 1.0
+}

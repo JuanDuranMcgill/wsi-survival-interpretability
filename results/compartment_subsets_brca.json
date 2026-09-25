@@ -1,0 +1,446 @@
+{
+  "cohort": "brca",
+  "reference": "full",
+  "configs": {
+    "drop=Adipose": {
+      "kept_regions": [
+        "Blood vessels (vasculature)",
+        "Ductal carcinoma in situ (DCIS)",
+        "Fibrous desmoplastic stroma",
+        "Invasive breast carcinoma (tumor cells)",
+        "Muscle tissue (smooth or skeletal muscle)",
+        "Necrosis or hemorrhage",
+        "Normal breast glands and lobules (TDLU)",
+        "Tumor-infiltrating lymphocytes (immune infiltrates)"
+      ],
+      "n_regions": 8,
+      "n_rounds": 9,
+      "n_paired_rounds": 9,
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.600793318966652,
+          "sd": 0.04160728509602113,
+          "se": 0.013869095032007043,
+          "ci95": [
+            0.5736098927039182,
+            0.6279767452293858
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": -0.012505854722136105,
+          "sd": 0.02181473944336001,
+          "se": 0.0072715798144533375,
+          "ci95": [
+            -0.026758151158464645,
+            0.0017464417141924357
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.2222222222222222
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.5840686841975642,
+          "sd": 0.04013667835275232,
+          "se": 0.013378892784250774,
+          "ci95": [
+            0.5578460543404327,
+            0.6102913140546957
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": -0.00506020666736948,
+          "sd": 0.013632619638830612,
+          "se": 0.00454420654627687,
+          "ci95": [
+            -0.013966851498072147,
+            0.003846438163333186
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.4444444444444444
+      }
+    },
+    "drop=Necrosis": {
+      "kept_regions": [
+        "Adipose tissue (fat)",
+        "Blood vessels (vasculature)",
+        "Ductal carcinoma in situ (DCIS)",
+        "Fibrous desmoplastic stroma",
+        "Invasive breast carcinoma (tumor cells)",
+        "Muscle tissue (smooth or skeletal muscle)",
+        "Normal breast glands and lobules (TDLU)",
+        "Tumor-infiltrating lymphocytes (immune infiltrates)"
+      ],
+      "n_regions": 8,
+      "n_rounds": 9,
+      "n_paired_rounds": 9,
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.609147356042524,
+          "sd": 0.03338859505092786,
+          "se": 0.01112953168364262,
+          "ci95": [
+            0.5873334739425845,
+            0.6309612381424635
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": -0.0041518176462639455,
+          "sd": 0.012882305380170154,
+          "se": 0.004294101793390051,
+          "ci95": [
+            -0.012568257161308447,
+            0.004264621868780556
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.4444444444444444
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.5852205597772,
+          "sd": 0.03210607974462782,
+          "se": 0.010702026581542607,
+          "ci95": [
+            0.5642445876773765,
+            0.6061965318770235
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": -0.003908331087733795,
+          "sd": 0.00970126000226438,
+          "se": 0.0032337533340881263,
+          "ci95": [
+            -0.010246487622546523,
+            0.002429825447078932
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.2222222222222222
+      }
+    },
+    "full": {
+      "kept_regions": [
+        "Adipose tissue (fat)",
+        "Blood vessels (vasculature)",
+        "Ductal carcinoma in situ (DCIS)",
+        "Fibrous desmoplastic stroma",
+        "Invasive breast carcinoma (tumor cells)",
+        "Muscle tissue (smooth or skeletal muscle)",
+        "Necrosis or hemorrhage",
+        "Normal breast glands and lobules (TDLU)",
+        "Tumor-infiltrating lymphocytes (immune infiltrates)"
+      ],
+      "n_regions": 9,
+      "n_rounds": 10,
+      "n_paired_rounds": 10,
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.6109927219058952,
+          "sd": 0.03430086310691368,
+          "se": 0.010846885312748687,
+          "ci95": [
+            0.5897328266929077,
+            0.6322526171188826
+          ],
+          "n_rounds": 10
+        }
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.5879191196292803,
+          "sd": 0.03192622007527478,
+          "se": 0.010095957251766065,
+          "ci95": [
+            0.5681310434158189,
+            0.6077071958427418
+          ],
+          "n_rounds": 10
+        }
+      }
+    },
+    "keep=Adipose": {
+      "kept_regions": [
+        "Adipose tissue (fat)"
+      ],
+      "n_regions": 1,
+      "n_rounds": 10,
+      "n_paired_rounds": 10,
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.6407007448021282,
+          "sd": 0.03982796555126232,
+          "se": 0.012594708571271263,
+          "ci95": [
+            0.6160151160024365,
+            0.66538637360182
+          ],
+          "n_rounds": 10
+        },
+        "delta_vs_full": {
+          "mean": 0.029708022896233144,
+          "sd": 0.02108487197376769,
+          "se": 0.006667621961015592,
+          "ci95": [
+            0.016639483852642585,
+            0.0427765619398237
+          ],
+          "n_rounds": 10
+        },
+        "frac_rounds_at_least_full": 1.0
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.6115156484402776,
+          "sd": 0.042302126234644466,
+          "se": 0.01337710687694389,
+          "ci95": [
+            0.5852965189614676,
+            0.6377347779190876
+          ],
+          "n_rounds": 10
+        },
+        "delta_vs_full": {
+          "mean": 0.023596528810997296,
+          "sd": 0.023787137913044876,
+          "se": 0.007522153482176609,
+          "ci95": [
+            0.008853107985931143,
+            0.03833994963606345
+          ],
+          "n_rounds": 10
+        },
+        "frac_rounds_at_least_full": 0.7
+      }
+    },
+    "keep=Adipose+Muscle tissue": {
+      "kept_regions": [
+        "Adipose tissue (fat)",
+        "Muscle tissue (smooth or skeletal muscle)"
+      ],
+      "n_regions": 2,
+      "n_rounds": 9,
+      "n_paired_rounds": 9,
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.6278460289520109,
+          "sd": 0.0331661934295119,
+          "se": 0.011055397809837301,
+          "ci95": [
+            0.6061774492447298,
+            0.649514608659292
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": 0.014546855263222932,
+          "sd": 0.01668182810725942,
+          "se": 0.005560609369086473,
+          "ci95": [
+            0.003648060899813444,
+            0.02544564962663242
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.8888888888888888
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.602255847289859,
+          "sd": 0.041728887095645276,
+          "se": 0.013909629031881759,
+          "ci95": [
+            0.5749929743873707,
+            0.6295187201923473
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": 0.013126956424925241,
+          "sd": 0.030786278750697414,
+          "se": 0.010262092916899139,
+          "ci95": [
+            -0.006986745692197071,
+            0.03324065854204755
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.6666666666666666
+      }
+    },
+    "keep=Adipose+Muscle tissue+Blood vessels": {
+      "kept_regions": [
+        "Adipose tissue (fat)",
+        "Blood vessels (vasculature)",
+        "Muscle tissue (smooth or skeletal muscle)"
+      ],
+      "n_regions": 3,
+      "n_rounds": 9,
+      "n_paired_rounds": 9,
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.6228969332730131,
+          "sd": 0.04180674214225079,
+          "se": 0.013935580714083596,
+          "ci95": [
+            0.5955831950734093,
+            0.6502106714726169
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": 0.009597759584225115,
+          "sd": 0.023463037436456485,
+          "se": 0.007821012478818829,
+          "ci95": [
+            -0.005731424874259788,
+            0.02492694404271002
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.7777777777777778
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.5977900801024796,
+          "sd": 0.047028023760060975,
+          "se": 0.015676007920020326,
+          "ci95": [
+            0.5670651045792398,
+            0.6285150556257194
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": 0.008661189237545738,
+          "sd": 0.028516847329932076,
+          "se": 0.009505615776644025,
+          "ci95": [
+            -0.009969817684676552,
+            0.02729219615976803
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.5555555555555556
+      }
+    },
+    "keep=Invasive breast+Necrosis+Adipose": {
+      "kept_regions": [
+        "Adipose tissue (fat)",
+        "Invasive breast carcinoma (tumor cells)",
+        "Necrosis or hemorrhage"
+      ],
+      "n_regions": 3,
+      "n_rounds": 9,
+      "n_paired_rounds": 9,
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.6094367066877935,
+          "sd": 0.04487847075783011,
+          "se": 0.014959490252610036,
+          "ci95": [
+            0.5801161057926778,
+            0.6387573075829092
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": -0.003862467000994537,
+          "sd": 0.02676105300924107,
+          "se": 0.008920351003080357,
+          "ci95": [
+            -0.021346354967032036,
+            0.013621420965042963
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.5555555555555556
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.5900622463265546,
+          "sd": 0.0494508354833454,
+          "se": 0.0164836118277818,
+          "ci95": [
+            0.5577543671441022,
+            0.6223701255090069
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": 0.0009333554616209142,
+          "sd": 0.030314839901718345,
+          "se": 0.010104946633906115,
+          "ci95": [
+            -0.01887233994083507,
+            0.020739050864076902
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.4444444444444444
+      }
+    },
+    "keep=Normal breast+Necrosis+Ductal carcinoma": {
+      "kept_regions": [
+        "Ductal carcinoma in situ (DCIS)",
+        "Necrosis or hemorrhage",
+        "Normal breast glands and lobules (TDLU)"
+      ],
+      "n_regions": 3,
+      "n_rounds": 9,
+      "n_paired_rounds": 9,
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.5917914246181885,
+          "sd": 0.041223637693623104,
+          "se": 0.013741212564541035,
+          "ci95": [
+            0.5648586479916881,
+            0.6187242012446889
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": -0.021507749070599554,
+          "sd": 0.026280581140463975,
+          "se": 0.008760193713487992,
+          "ci95": [
+            -0.03867772874903602,
+            -0.0043377693921630885
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.2222222222222222
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.5756545456472509,
+          "sd": 0.04044955163128655,
+          "se": 0.013483183877095517,
+          "ci95": [
+            0.5492275052481437,
+            0.6020815860463582
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": -0.013474345217682808,
+          "sd": 0.019518467043753752,
+          "se": 0.00650615568125125,
+          "ci95": [
+            -0.026226410352935256,
+            -0.0007222800824303582
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.2222222222222222
+      }
+    }
+  },
+  "reading": "delta is configuration minus full model on the same out-of-bag patients, round by round; negative means the configuration is worse. 'last_epoch' involves no epoch selection and is the unbiased comparison. Keep-sets chosen from this cohort's own Shapley ranking carry some selection optimism; pre-specified sets and the bottom-ranked control do not."
+}

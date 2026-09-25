@@ -1,0 +1,14 @@
+{
+  "cohort": "brca",
+  "planted_region": "Fibrous desmoplastic stroma",
+  "planted_index": 3,
+  "direction": "random",
+  "seed": 7,
+  "beta": 1.0360396654559736,
+  "oracle_cindex": 0.7505228067995942,
+  "target_cindex": 0.75,
+  "censored_fraction": 0.8688679245283019,
+  "n_events": 139,
+  "n_patients": 1060,
+  "planted_presence_rate": 0.9990566037735849
+}

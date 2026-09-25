@@ -1,0 +1,443 @@
+{
+  "cohort": "blca",
+  "reference": "full",
+  "configs": {
+    "drop=Necrosis": {
+      "kept_regions": [
+        "Perivesical adipose tissue (extravesical fat)",
+        "Invasive urothelial carcinoma (tumor)",
+        "Normal urothelium (benign mucosa)",
+        "Inflammatory infiltrates (immune cells)",
+        "Lamina propria (fibrovascular stroma)",
+        "Blood vessels (vasculature)",
+        "Muscularis propria (detrusor muscle)"
+      ],
+      "n_regions": 7,
+      "n_rounds": 9,
+      "n_paired_rounds": 9,
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.6010191483085112,
+          "sd": 0.024802587055700268,
+          "se": 0.008267529018566757,
+          "ci95": [
+            0.5848147914321203,
+            0.6172235051849021
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": -0.007316669749283615,
+          "sd": 0.013235782764717246,
+          "se": 0.004411927588239082,
+          "ci95": [
+            -0.015964047822232215,
+            0.0013307083236649862
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.2222222222222222
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.59456735023208,
+          "sd": 0.027685244628360573,
+          "se": 0.009228414876120191,
+          "ci95": [
+            0.5764796570748844,
+            0.6126550433892756
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": -0.007969622044694412,
+          "sd": 0.013885368449382214,
+          "se": 0.004628456149794072,
+          "ci95": [
+            -0.017041396098290792,
+            0.001102152008901968
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.2222222222222222
+      }
+    },
+    "drop=Perivesical adipose": {
+      "kept_regions": [
+        "Invasive urothelial carcinoma (tumor)",
+        "Normal urothelium (benign mucosa)",
+        "Inflammatory infiltrates (immune cells)",
+        "Lamina propria (fibrovascular stroma)",
+        "Blood vessels (vasculature)",
+        "Muscularis propria (detrusor muscle)",
+        "Necrosis"
+      ],
+      "n_regions": 7,
+      "n_rounds": 9,
+      "n_paired_rounds": 9,
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.6033933239145585,
+          "sd": 0.023065247034499282,
+          "se": 0.007688415678166427,
+          "ci95": [
+            0.5883240291853523,
+            0.6184626186437646
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": -0.0049424941432363685,
+          "sd": 0.0062721429355874535,
+          "se": 0.0020907143118624846,
+          "ci95": [
+            -0.009040294194486837,
+            -0.0008446940919858989
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.2222222222222222
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.5984632203309261,
+          "sd": 0.023955052870977062,
+          "se": 0.00798501762365902,
+          "ci95": [
+            0.5828125857885544,
+            0.6141138548732978
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": -0.004073751945848457,
+          "sd": 0.005346209673140225,
+          "se": 0.0017820698910467417,
+          "ci95": [
+            -0.007566608932300071,
+            -0.0005808949593968439
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.2222222222222222
+      }
+    },
+    "full": {
+      "kept_regions": [
+        "Perivesical adipose tissue (extravesical fat)",
+        "Invasive urothelial carcinoma (tumor)",
+        "Normal urothelium (benign mucosa)",
+        "Inflammatory infiltrates (immune cells)",
+        "Lamina propria (fibrovascular stroma)",
+        "Blood vessels (vasculature)",
+        "Muscularis propria (detrusor muscle)",
+        "Necrosis"
+      ],
+      "n_regions": 8,
+      "n_rounds": 10,
+      "n_paired_rounds": 10,
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.6103654238401677,
+          "sd": 0.022479826082229013,
+          "se": 0.007108745182430327,
+          "ci95": [
+            0.5964322832826042,
+            0.6242985643977311
+          ],
+          "n_rounds": 10
+        }
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.6051041495201831,
+          "sd": 0.0250159235118918,
+          "se": 0.007910729607013634,
+          "ci95": [
+            0.5895991194904364,
+            0.6206091795499298
+          ],
+          "n_rounds": 10
+        }
+      }
+    },
+    "keep=Blood vessels+Muscularis+Lamina": {
+      "kept_regions": [
+        "Lamina propria (fibrovascular stroma)",
+        "Blood vessels (vasculature)",
+        "Muscularis propria (detrusor muscle)"
+      ],
+      "n_regions": 3,
+      "n_rounds": 9,
+      "n_paired_rounds": 9,
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.5901481045786888,
+          "sd": 0.018859800886587175,
+          "se": 0.0062866002955290585,
+          "ci95": [
+            0.5778263679994519,
+            0.6024698411579258
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": -0.01818771347910591,
+          "sd": 0.012289112200117799,
+          "se": 0.0040963707333726,
+          "ci95": [
+            -0.026216600116516206,
+            -0.010158826841695614
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.1111111111111111
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.5780105020520021,
+          "sd": 0.024799461136434147,
+          "se": 0.00826648704547805,
+          "ci95": [
+            0.5618081874428651,
+            0.5942128166611391
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": -0.024526470224772414,
+          "sd": 0.009113743228364158,
+          "se": 0.0030379144094547193,
+          "ci95": [
+            -0.030480782467303666,
+            -0.018572157982241162
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.0
+      }
+    },
+    "keep=Invasive urothelial": {
+      "kept_regions": [
+        "Invasive urothelial carcinoma (tumor)"
+      ],
+      "n_regions": 1,
+      "n_rounds": 10,
+      "n_paired_rounds": 10,
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.6010462039521162,
+          "sd": 0.02662044441672481,
+          "se": 0.008418123668276293,
+          "ci95": [
+            0.5845466815622946,
+            0.6175457263419377
+          ],
+          "n_rounds": 10
+        },
+        "delta_vs_full": {
+          "mean": -0.00931921988805141,
+          "sd": 0.030351918397998258,
+          "se": 0.009598119349324351,
+          "ci95": [
+            -0.02813153381272714,
+            0.009493094036624319
+          ],
+          "n_rounds": 10
+        },
+        "frac_rounds_at_least_full": 0.5
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.5916845909423767,
+          "sd": 0.020722849759879473,
+          "se": 0.006553140485069252,
+          "ci95": [
+            0.578840435591641,
+            0.6045287462931124
+          ],
+          "n_rounds": 10
+        },
+        "delta_vs_full": {
+          "mean": -0.013419558577806334,
+          "sd": 0.02867888730915633,
+          "se": 0.00906906046562315,
+          "ci95": [
+            -0.03119491709042771,
+            0.00435579993481504
+          ],
+          "n_rounds": 10
+        },
+        "frac_rounds_at_least_full": 0.3
+      }
+    },
+    "keep=Invasive urothelial+Necrosis+Perivesical adipose": {
+      "kept_regions": [
+        "Perivesical adipose tissue (extravesical fat)",
+        "Invasive urothelial carcinoma (tumor)",
+        "Necrosis"
+      ],
+      "n_regions": 3,
+      "n_rounds": 9,
+      "n_paired_rounds": 9,
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.6126743864579974,
+          "sd": 0.019352744411289025,
+          "se": 0.006450914803763009,
+          "ci95": [
+            0.6000305934426219,
+            0.625318179473373
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": 0.00433856840020266,
+          "sd": 0.016384024301680202,
+          "se": 0.005461341433893401,
+          "ci95": [
+            -0.006365660810228406,
+            0.015042797610633726
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.6666666666666666
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.5993042179197794,
+          "sd": 0.02251172304433337,
+          "se": 0.007503907681444457,
+          "ci95": [
+            0.5845965588641483,
+            0.6140118769754105
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": -0.003232754356995154,
+          "sd": 0.013173537389710782,
+          "se": 0.004391179129903594,
+          "ci95": [
+            -0.011839465451606197,
+            0.00537395673761589
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.4444444444444444
+      }
+    },
+    "keep=Invasive urothelial+Perivesical adipose": {
+      "kept_regions": [
+        "Perivesical adipose tissue (extravesical fat)",
+        "Invasive urothelial carcinoma (tumor)"
+      ],
+      "n_regions": 2,
+      "n_rounds": 9,
+      "n_paired_rounds": 9,
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.613220914818261,
+          "sd": 0.02562034127683078,
+          "se": 0.008540113758943592,
+          "ci95": [
+            0.5964822918507315,
+            0.6299595377857905
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": 0.004885096760466285,
+          "sd": 0.020544812086268426,
+          "se": 0.006848270695422809,
+          "ci95": [
+            -0.00853751380256242,
+            0.01830770732349499
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.6666666666666666
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.6015395349206312,
+          "sd": 0.018850842368424093,
+          "se": 0.006283614122808031,
+          "ci95": [
+            0.5892236512399275,
+            0.6138554186013349
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": -0.0009974373561433393,
+          "sd": 0.01813739491997639,
+          "se": 0.006045798306658797,
+          "ci95": [
+            -0.012847202037194581,
+            0.010852327324907903
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.5555555555555556
+      }
+    },
+    "keep=Invasive urothelial+Perivesical adipose+Inflammatory": {
+      "kept_regions": [
+        "Perivesical adipose tissue (extravesical fat)",
+        "Invasive urothelial carcinoma (tumor)",
+        "Inflammatory infiltrates (immune cells)"
+      ],
+      "n_regions": 3,
+      "n_rounds": 9,
+      "n_paired_rounds": 9,
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.6122564583947657,
+          "sd": 0.019595573497249275,
+          "se": 0.006531857832416425,
+          "ci95": [
+            0.5994540170432295,
+            0.6250588997463019
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": 0.003920640336970914,
+          "sd": 0.018716057583800978,
+          "se": 0.0062386858612669925,
+          "ci95": [
+            -0.008307183951112391,
+            0.016148464625054218
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.5555555555555556
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.598763793088076,
+          "sd": 0.02143314545835296,
+          "se": 0.007144381819450987,
+          "ci95": [
+            0.5847608047219521,
+            0.6127667814541999
+          ],
+          "n_rounds": 9
+        },
+        "delta_vs_full": {
+          "mean": -0.00377317918869856,
+          "sd": 0.013833253241368982,
+          "se": 0.004611084413789661,
+          "ci95": [
+            -0.012810904639726296,
+            0.005264546262329176
+          ],
+          "n_rounds": 9
+        },
+        "frac_rounds_at_least_full": 0.3333333333333333
+      }
+    }
+  },
+  "reading": "delta is configuration minus full model on the same out-of-bag patients, round by round; negative means the configuration is worse. 'last_epoch' involves no epoch selection and is the unbiased comparison. Keep-sets chosen from this cohort's own Shapley ranking carry some selection optimism; pre-specified sets and the bottom-ranked control do not."
+}

@@ -1,0 +1,14 @@
+{
+  "cohort": "blca",
+  "planted_region": "Necrosis",
+  "planted_index": 7,
+  "direction": "random",
+  "seed": 7,
+  "beta": 1.1063718705790961,
+  "oracle_cindex": 0.7500264774412201,
+  "target_cindex": 0.75,
+  "censored_fraction": 0.5699208443271768,
+  "n_events": 163,
+  "n_patients": 379,
+  "planted_presence_rate": 1.0
+}
