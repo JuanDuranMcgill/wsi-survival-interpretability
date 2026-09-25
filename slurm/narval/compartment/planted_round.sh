@@ -21,6 +21,7 @@
 set -euo pipefail
 : "${COHORT:?}"; : "${PLANTED:?}"; : "${MODELS:?}"; : "${ROUNDS_DIR:?}"
 : "${ROUND_START:?}"; : "${ROUND_END:?}"
+BATCH_SIZE="${BATCH_SIZE:-16}"
 
 case "$MODELS" in
   *,*) echo "ABORT: MODELS='$MODELS' contains a comma — this defeats the whole" \
@@ -39,6 +40,7 @@ echo ">>> Torch: $(python -c 'import torch; print(torch.__version__)')  CUDA: $(
 
 python analysis/planted_signal.py --cohort "$COHORT" --planted "$PLANTED" \
   --models "$MODELS" --rounds-dir "$ROUNDS_DIR" \
-  --round-start "$ROUND_START" --round-end "$ROUND_END"
+  --round-start "$ROUND_START" --round-end "$ROUND_END" \
+  --batch-size "$BATCH_SIZE"
 
 echo ">>> planted $COHORT/$PLANTED model=$MODELS rounds $ROUND_START-$ROUND_END finished at $(date)"
