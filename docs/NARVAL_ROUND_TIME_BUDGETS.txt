@@ -1,0 +1,46 @@
+Why the single-round Narval jobs ask for 10h (BLCA ABMIL) and 12h (BRCA ABMIL)
+==============================================================================
+
+These numbers came from observed per-round pace on Narval, not the original
+Trillium-based estimates in docs/COMPARTMENT_EXPERIMENTS_STATUS.md (which
+turned out to be way off for the ABMIL model — see that doc's 2026-09-27
+status update for the full comparison).
+
+BLCA planted ABMIL -> 10h per round
+-----------------------------------
+Job pl_blca_necr_abmil (job 3986493, requested 8h, rounds 2-10) only got
+through rounds 2 and 3 before hitting its wall. Same for
+pl_blca_lam_abmil (3986494). That's 2 rounds in 8h -> ~4h/round actual.
+
+10h = ~2.5x that observed rate. The margin is there because per-round time
+isn't constant: each round draws a different OOB/train split (different
+seed), so patient counts and tile counts per batch vary round to round, and
+Narval GPU nodes are shared, so wall-clock time also depends on whatever else
+is running on the same node. After already once under-provisioning (8h
+wasn't enough), the fix was to size for the slow case, not the average case.
+
+BRCA planted ABMIL -> 12h per round
+------------------------------------
+Three jobs gave three separate data points here, all with a 24h budget:
+  - pl_brca_necr_abmil_b (rounds 7-10): completed rounds 7,8,9 -> ~8h/round
+  - pl_brca_fib_abmil_a  (rounds 2-6):  completed rounds 2-5   -> ~6h/round
+  - pl_brca_fib_abmil_b  (rounds 7-10): completed rounds 7,8,9 -> ~8h/round
+So BRCA ABMIL runs at roughly 6-8h/round (BRCA is the bigger cohort, 1060
+patients vs. BLCA's 379, which is the likely reason it's slower than BLCA
+ABMIL despite being the same model).
+
+12h is deliberately less margin over the observed range (~1.5-2x the top end
+of 6-8h) than BLCA's 2.5x, because BRCA ABMIL is already the slowest thing in
+this batch — stacking the same 2.5x multiplier on top of an already-large
+per-round time would mean asking for an unnecessarily huge wall-time request,
+which can itself hurt how quickly the job gets slotted in by the scheduler's
+backfill logic. 12h still comfortably covers the worst round observed so far
+(8h) with room to spare.
+
+General approach
+-----------------
+Every one of these is a single round per job (not a multi-round range), so
+a request that's too short just means resubmitting that one round — nothing
+upstream is lost, since every script here skips rounds already written to
+disk. The 10h/12h numbers are meant to make that resubmission unnecessary in
+the common case, not to be an exact prediction.
