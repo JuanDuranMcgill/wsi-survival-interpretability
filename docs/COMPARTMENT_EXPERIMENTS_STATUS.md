@@ -148,3 +148,77 @@ B (to pick up the now-complete round-1s) and C (first time, once every
 planting has enough rounds), then commit the refreshed aggregate JSONs and any
 new per-round files — same exclusions as always: no `*_local.npz`,
 `planted_feature.npz`, or `synthetic_labels.npz`.
+
+## Status update (2026-09-27) — Narval progress, and what's still open
+
+Everything above was picked up on Narval starting 2026-09-25. Two things came
+out of that run worth recording here:
+
+- **Real per-round timing on Narval is much slower than this doc's original
+  Trillium-based estimates** for the ABMIL model specifically: BLCA planted
+  ABMIL ran at ~4h/round on Narval (vs. the ~2000-2100s/round quoted above),
+  and BRCA planted ABMIL at ~6-8h/round (vs. ~1-3.4h/round). Whatever cluster
+  picks up the remaining work, size job wall-time off these numbers, not the
+  original Trillium ones.
+- **New OOM failure mode**: the graph model's attention layers and the
+  `drop=`-style subset configs (7 of 8 regions, close to the full model's
+  footprint) can use nearly the entire 40GB card. Two BLCA planted-graph jobs
+  and 2 BLCA subset `drop=` configs OOM'd at the default `--batch-size 16` on
+  Narval; both `slurm/narval/compartment/planted_round.sh` and
+  `slurm/trillium/planted_signal_round.sh` (also
+  `compartment_subsets_round.sh`) now accept an optional `BATCH_SIZE`
+  override (default 16) for exactly this — pass `BATCH_SIZE=4` if it recurs.
+
+### Done (on Narval, committed to this repo's `results/` once copied back)
+
+- BRCA subsets round-1 gap — all 6 configs (see issue #2 above).
+- BLCA planted graph gap — Necrosis rounds 8-10, Lamina rounds 5-10 (issue #3).
+
+### Still outstanding as of this writing
+
+Queued and running on Narval right now, **and available to run on Trillium in
+parallel if you start a session there** — whichever cluster gets to a given
+round/config first wins; the other side's run on the same round is simply
+wasted compute, not a correctness problem (every script skips rounds already
+on disk). One job per round/config, matching the one-model-per-job
+convention from issue #1:
+
+```bash
+# BLCA subsets round 1, the 2 configs that OOM'd (drop= configs, wider region set)
+sbatch --export=COHORT=blca,ROUNDS_DIR=/scratch/sorkwos/subsets_blca,ROUND_START=1,ROUND_END=1,CONFIG="drop=Necrosis",BATCH_SIZE=4 \
+  slurm/trillium/compartment_subsets_round.sh
+sbatch --export=COHORT=blca,ROUNDS_DIR=/scratch/sorkwos/subsets_blca,ROUND_START=1,ROUND_END=1,CONFIG="drop=Perivesical adipose",BATCH_SIZE=4 \
+  slurm/trillium/compartment_subsets_round.sh
+
+# BLCA planted ABMIL, Necrosis — rounds 4-10 (rounds 1-3 already done)
+for r in 4 5 6 7 8 9 10; do
+  sbatch --export=COHORT=blca,PLANTED=Necrosis,MODELS=abmil,ROUNDS_DIR=/scratch/sorkwos/planted_blca_necrosis,ROUND_START=$r,ROUND_END=$r \
+    slurm/trillium/planted_signal_round.sh
+done
+
+# BLCA planted ABMIL, Lamina — rounds 4-10 (rounds 1-3 already done)
+for r in 4 5 6 7 8 9 10; do
+  sbatch --export=COHORT=blca,PLANTED=Lamina,MODELS=abmil,ROUNDS_DIR=/scratch/sorkwos/planted_blca_lamina,ROUND_START=$r,ROUND_END=$r \
+    slurm/trillium/planted_signal_round.sh
+done
+
+# BRCA planted graph — both plantings, round 10 only (rounds 1-9 already done)
+sbatch --export=COHORT=brca,PLANTED=Necrosis,MODELS=graph,ROUNDS_DIR=/scratch/sorkwos/planted_brca_necrosis,ROUND_START=10,ROUND_END=10 \
+  slurm/trillium/planted_signal_round.sh
+sbatch --export=COHORT=brca,PLANTED=Fibrous,MODELS=graph,ROUNDS_DIR=/scratch/sorkwos/planted_brca_fibrous,ROUND_START=10,ROUND_END=10 \
+  slurm/trillium/planted_signal_round.sh
+
+# BRCA planted ABMIL, Necrosis — round 10 only (rounds 1-9 already done)
+sbatch --export=COHORT=brca,PLANTED=Necrosis,MODELS=abmil,ROUNDS_DIR=/scratch/sorkwos/planted_brca_necrosis,ROUND_START=10,ROUND_END=10 \
+  slurm/trillium/planted_signal_round.sh
+
+# BRCA planted ABMIL, Fibrous — rounds 6 and 10 only (1-5, 7-9 already done)
+sbatch --export=COHORT=brca,PLANTED=Fibrous,MODELS=abmil,ROUNDS_DIR=/scratch/sorkwos/planted_brca_fibrous,ROUND_START=6,ROUND_END=6 \
+  slurm/trillium/planted_signal_round.sh
+sbatch --export=COHORT=brca,PLANTED=Fibrous,MODELS=abmil,ROUNDS_DIR=/scratch/sorkwos/planted_brca_fibrous,ROUND_START=10,ROUND_END=10 \
+  slurm/trillium/planted_signal_round.sh
+```
+
+If you decide to keep only one cluster running, cancel the other side's
+matching jobs first (`squeue -u sorkwos` on that cluster) to avoid paying for
+duplicate GPU-hours — but running both is safe, just wasteful.
