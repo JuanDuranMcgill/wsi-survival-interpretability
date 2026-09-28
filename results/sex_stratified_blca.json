@@ -1,0 +1,32 @@
+{
+  "cohort": "blca",
+  "coding": "TCGA gender, 1 = female, 0 = male",
+  "boot": 2000,
+  "groups": {
+    "female": {
+      "n_patients": 97,
+      "n_events": 45,
+      "cindex": 0.5944111776447106,
+      "cindex_boot_95ci": [
+        0.5072205357457006,
+        0.685014076524447
+      ]
+    },
+    "male": {
+      "n_patients": 282,
+      "n_events": 118,
+      "cindex": 0.6309067688378033,
+      "cindex_boot_95ci": [
+        0.5770947588407735,
+        0.6831610891679558
+      ]
+    }
+  },
+  "female_minus_male": {
+    "estimate": -0.03649559119309265,
+    "boot_95ci": [
+      -0.13731896085967224,
+      0.06989105275286714
+    ]
+  }
+}

@@ -138,6 +138,8 @@ def main():
     ap.add_argument("--graph-epochs", type=int, default=15)
     ap.add_argument("--graph-lr", type=float, default=3e-5)
     abmil.add_train_args(ap)
+    ap.add_argument("--attributions", action="store_true",
+                    help="also record gradient x input and integrated gradients per compartment")
     ap.add_argument("--save-root", default=None)
     ap.add_argument("--aggregate", action="store_true")
     ap.add_argument("--out", default=None)
@@ -177,11 +179,13 @@ def main():
     gargs = Namespace(train_frac=args.train_frac, batch_size=args.batch_size,
                       num_workers=args.num_workers, save_root=save_root,
                       epochs=args.graph_epochs, lr=args.graph_lr,
-                      rounds_dir=os.path.join(args.rounds_dir, "graph"))
+                      rounds_dir=os.path.join(args.rounds_dir, "graph"),
+                      attributions=args.attributions)
     aargs = Namespace(**{k: getattr(args, k.replace("-", "_")) for k in
                          ["epochs", "train_frac", "batch_size", "lr", "weight_decay",
                           "max_train_tiles", "in_dim", "num_workers"]},
-                      rounds_dir=os.path.join(args.rounds_dir, "abmil"))
+                      rounds_dir=os.path.join(args.rounds_dir, "abmil"),
+                      attributions=args.attributions)
     os.makedirs(gargs.rounds_dir, exist_ok=True)
     os.makedirs(aargs.rounds_dir, exist_ok=True)
     set_seed(1337)
@@ -218,6 +222,9 @@ def aggregate(args, names, models):
         ranks = {"weight_or_attention": [rank_of(x[wkey], r) for x in recs],
                  "deletion": [rank_of(x["deletion_delta"], r, higher_is_more=False) for x in recs],
                  "shapley": [rank_of(x["phi_perf"], r) for x in recs]}
+        for key in ("attr_grad_x_input", "attr_integrated_gradients"):
+            if all(key in x for x in recs):
+                ranks[key.replace("attr_", "")] = [rank_of(x[key], r) for x in recs]
         phi = np.array([x["phi_perf"] for x in recs])
         tot = np.abs(phi).sum(1)
         out["models"][model] = {
@@ -242,7 +249,9 @@ def aggregate(args, names, models):
         pr = m["planted_rank"]
         print(f"[{args.cohort}] {model:6} baseline {m['baseline_cindex']['mean']:.3f} | planted ranked first by "
               f"weight/attention {pr['weight_or_attention']['frac_rounds_first']:.0%}, deletion "
-              f"{pr['deletion']['frac_rounds_first']:.0%}, Shapley {pr['shapley']['frac_rounds_first']:.0%} "
+              f"{pr['deletion']['frac_rounds_first']:.0%}, Shapley {pr['shapley']['frac_rounds_first']:.0%}"
+              + "".join(f", {k} {pr[k]['frac_rounds_first']:.0%}" for k in ("grad_x_input", "integrated_gradients") if k in pr)
+              + " "
               f"| Shapley share {m['planted_shapley_share']['mean']:.0%}")
     print(f"[{args.cohort}] wrote {out_path}")
 

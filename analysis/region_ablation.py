@@ -110,7 +110,10 @@ class MultiRegionDataset(Dataset):
                     if fn.endswith(".pt") and "DX1" in fn and not fn.endswith("_A.pt"):
                         candidates.append(fn)
 
-        for slide_name in candidates:
+        # Sorted so the patient order, and hence every bootstrap split, is the
+        # same on every filesystem. Runs before 2026-09-28 used the unsorted
+        # listing order, which differs between clusters.
+        for slide_name in sorted(candidates):
             case_id = slide_name[:12]
             row = surv_df.loc[surv_df["bcr_patient_barcode"] == case_id]
             if row.empty:

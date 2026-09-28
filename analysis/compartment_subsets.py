@@ -117,6 +117,7 @@ def aggregate(rounds_dir, out_path, cohort):
     configs = {}
     for d in sorted(glob.glob(os.path.join(rounds_dir, "*"))):
         recs = [json.load(open(p)) for p in sorted(glob.glob(os.path.join(d, "round_*.json")))]
+        recs = [r for r in recs if "config" in r]      # e.g. nested_subsets.py's selection/ records
         if recs:
             configs[recs[0]["config"]] = {r["round"]: r for r in recs}
     if "full" not in configs:

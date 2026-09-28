@@ -360,6 +360,9 @@ def load_cohort(oob_npz, clinical_csv):
     if "pathologic_t" in cols and set(pd.unique(X[cols["pathologic_t"]].dropna())) <= {1, 2, 3, 4}:
         tt = X.reindex(df.pid)[cols["pathologic_t"]].values
         groups["T category"] = np.where(np.isnan(tt), None, np.where(tt <= 1, "T1", "T2-T4"))
+    if "gender" in cols:
+        sx = X.reindex(df.pid)[cols["gender"]].values
+        groups["sex"] = np.where(pd.isna(sx), None, np.where(sx == 1, "female", "male")).astype(object)
     site = df.pid.str[5:7]
     top = site.value_counts()
     groups["source site"] = np.where(site.isin(top[top >= 25].index), site, "other").astype(object)

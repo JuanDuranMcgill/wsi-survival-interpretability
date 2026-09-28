@@ -303,6 +303,9 @@ def run_round(dataset, R, rnd, args, device):
         "local_interaction_mean_in_risk_sd": (I_loc.mean(axis=2) / risk_sd).tolist(),
         "seconds": round(time.time() - t0, 1),
     }
+    if getattr(args, "attributions", False):
+        from attribution_methods import graph_attributions
+        rec.update(graph_attributions(model, E, device))
     ids = [case_id(dataset.samples[i]) for i in oob_idx]
     np.savez_compressed(os.path.join(args.rounds_dir, f"round_{rnd:03d}_local.npz"),
                         patient_ids=np.array(ids), times=times, events=events,

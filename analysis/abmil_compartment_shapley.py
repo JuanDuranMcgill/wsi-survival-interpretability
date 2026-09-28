@@ -226,6 +226,9 @@ def run_round(dataset, rnd, args, device):
         "per_patient_n": len(per_patient),
         "seconds": round(time.time() - t0, 1),
     }
+    if getattr(args, "attributions", False):
+        from attribution_methods import abmil_attributions
+        rec.update(abmil_attributions(model, oob_loader, device, R))
     with open(os.path.join(args.rounds_dir, f"round_{rnd:03d}.json"), "w") as f:
         json.dump(rec, f)
     if str(device).startswith("cuda"):

@@ -1,0 +1,21 @@
+{
+  "cohort": "brca",
+  "coding": "TCGA gender, 1 = female, 0 = male",
+  "boot": 2000,
+  "groups": {
+    "female": {
+      "n_patients": 1048,
+      "n_events": 138,
+      "cindex": 0.6052111799561677,
+      "cindex_boot_95ci": [
+        0.5470714157328316,
+        0.6629114740986622
+      ]
+    },
+    "male": {
+      "n_patients": 12,
+      "n_events": 1,
+      "note": "fewer than 20 events; concordance not estimated"
+    }
+  }
+}

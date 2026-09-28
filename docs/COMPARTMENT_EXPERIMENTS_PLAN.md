@@ -137,3 +137,94 @@ python analysis/region_shapley_graph.py --cohort brca --aggregate --rounds-dir /
 
 Commit the aggregate JSONs and the `round_*.json` files (copy them to
 `results/shapley_graph_{cohort}/`). This script writes no patient-level files.
+
+## Reviewer-driven runs (2026-09-28)
+
+All scripts below were tested end to end on synthetic data. The dataset now
+sorts slides by name (`region_ablation.MultiRegionDataset`), so patient order
+and every split are the same on every cluster from here on; runs before this
+date used filesystem order. Run every experiment's rounds on one cluster.
+
+### E. Gradient attributions in the planted-signal test
+
+`planted_signal.py --attributions` adds gradient x input and integrated
+gradients per compartment to every round, for both models, so the planted test
+compares weights / attention, deletion, Shapley and two gradient methods on the
+same models. Fresh directories (do not reuse the earlier planted runs):
+
+```bash
+for P in "blca Necrosis necrosis" "blca Lamina lamina" "brca Necrosis necrosis" "brca Fibrous fibrous"; do set -- $P
+  python analysis/planted_signal.py --cohort $1 --planted $2 --models graph --attributions \
+    --rounds-dir /scratch/$USER/planted_attr_$1_$3 --round-start 1 --round-end 10
+  python analysis/planted_signal.py --cohort $1 --planted $2 --models abmil --attributions \
+    --rounds-dir /scratch/$USER/planted_attr_$1_$3 --round-start 1 --round-end 10
+done
+# one model per job; after all rounds, per planting:
+python analysis/planted_signal.py --cohort blca --planted Necrosis --models graph,abmil --aggregate \
+  --rounds-dir /scratch/$USER/planted_attr_blca_necrosis --out results/planted_attr_blca_necrosis.json
+```
+Start one graph job per planting first and launch the rest once
+`planted_feature.npz` exists in that directory. Check on round 1:
+`ig_completeness_gap_in_risk_sd` (graph) below ~0.05 and
+`ig_completeness_gap_max_abs` (ABMIL) small.
+
+### F. Shapley with whole sites held out: `analysis/region_shapley_sites.py`
+
+20 rounds per cohort; each round holds out whole TCGA source sites (>= 20% of
+patients, >= 20 events) and trains on the rest. Held-out sites are recorded in
+`split_XXX.json`.
+
+```bash
+python analysis/region_shapley_sites.py --cohort blca --rounds-dir /scratch/$USER/shapley_sites_blca --round-start 1 --round-end 20
+python analysis/region_shapley_sites.py --cohort brca --rounds-dir /scratch/$USER/shapley_sites_brca --round-start 1 --round-end 20
+python analysis/region_shapley_sites.py --cohort blca --aggregate --rounds-dir /scratch/$USER/shapley_sites_blca --out results/region_shapley_sites_blca.json
+python analysis/region_shapley_sites.py --cohort brca --aggregate --rounds-dir /scratch/$USER/shapley_sites_brca --out results/region_shapley_sites_brca.json
+```
+Commit the aggregates, `round_*.json` and `split_*.json`, not the
+`*_local.npz`.
+
+### G. Nested subset selection: `analysis/nested_subsets.py`
+
+10 rounds per cohort. Each round ranks compartments by Shapley value on an
+inner hold-out of its own in-bag patients, then trains full, top-1, top-2 and
+top-3 on the in-bag set and evaluates on out-of-bag patients. About five
+trainings per round.
+
+```bash
+python analysis/nested_subsets.py --cohort blca --rounds-dir /scratch/$USER/nested_blca --round-start 1 --round-end 10
+python analysis/nested_subsets.py --cohort brca --rounds-dir /scratch/$USER/nested_brca --round-start 1 --round-end 10
+python analysis/compartment_subsets.py --cohort blca --aggregate --rounds-dir /scratch/$USER/nested_blca --out results/nested_subsets_blca.json
+python analysis/compartment_subsets.py --cohort brca --aggregate --rounds-dir /scratch/$USER/nested_brca --out results/nested_subsets_brca.json
+```
+Commit the aggregates, every config's `round_*.json` and `selection/round_*.json`.
+
+### H. Tiles for pathologist labelling: `preprocessing/export_label_tiles.py`
+
+CPU only; needs the classifier JSONL and the WSIs (OpenSlide), so it runs where
+they live. 25 tiles per predicted class per cohort (200 BLCA, 225 BRCA).
+
+```bash
+python preprocessing/export_label_tiles.py --cohort blca --jsonl-dir /home/sorkwos/links/scratch/blca_jsons \
+  --svs-root /home/sorkwos/links/scratch/TCGA-BLCA-p2 --svs-root /home/sorkwos/links/scratch/TCGA-BLCA/WSI/output_folder1 \
+  --patients-file results/modelled_patients_blca.txt --out /scratch/$USER/label_tiles_blca
+python preprocessing/export_label_tiles.py --cohort brca --jsonl-dir /home/sorkwos/links/scratch/brca_jsons \
+  --svs-root /home/sorkwos/links/scratch/TCGA-BRCA-1 --svs-root /home/sorkwos/links/scratch/TCGA-BRCA-2 \
+  --svs-root /home/sorkwos/links/scratch/TCGA-BRCA-3 --svs-root /home/sorkwos/links/scratch/TCGA-BRCA-4 \
+  --svs-root /home/sorkwos/links/scratch/TCGA-BRCA-5 --svs-root /home/sorkwos/links/scratch/TCGA-BRCA-new \
+  --patients-file results/modelled_patients_brca.txt --out /scratch/$USER/label_tiles_brca
+```
+Do not commit the tiles, the sheets or `key.csv`. Send Juan the two
+`labelling_sheet.xlsx` files (with their `tiles/` folders); keep `key.csv`
+until the pathologists return their sheets, then run
+`analysis/label_agreement.py`.
+
+### I. External cohort (CPTAC-BRCA): plan only
+
+Not run. Needs, in order: CPTAC-BRCA diagnostic slides and matching outcome
+data from the CPTAC data portals; tiling, CONCH classification with the same
+nine classes and prompt, and UNI-2 embedding with the existing preprocessing
+scripts; a PFI-equivalent endpoint, which CPTAC may not provide at the same
+definition; then the region-fusion model trained on all of TCGA-BRCA and
+evaluated on CPTAC, with the Shapley analysis on the CPTAC patients. Weeks of
+data work before any GPU time; treat as future work unless the data are already
+available.

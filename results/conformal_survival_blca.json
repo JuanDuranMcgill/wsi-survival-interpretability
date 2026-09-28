@@ -87,6 +87,20 @@
               "median_bound_days": 135.0
             }
           },
+          "sex": {
+            "male": {
+              "n_patients": 281,
+              "coverage_ipcw": 0.9238359743384968,
+              "coverage_ipcw_cox_censoring": 0.9227572493807299,
+              "median_bound_days": 143.0
+            },
+            "female": {
+              "n_patients": 97,
+              "coverage_ipcw": 0.8930223016860807,
+              "coverage_ipcw_cox_censoring": 0.8921143602622648,
+              "median_bound_days": 143.0
+            }
+          },
           "source site": {
             "other": {
               "n_patients": 212,
@@ -219,6 +233,20 @@
               "median_bound_days": 142.0
             }
           },
+          "sex": {
+            "male": {
+              "n_patients": 281,
+              "coverage_ipcw": 0.9145536064156331,
+              "coverage_ipcw_cox_censoring": 0.9133981743796873,
+              "median_bound_days": 151.0
+            },
+            "female": {
+              "n_patients": 97,
+              "coverage_ipcw": 0.880833473269612,
+              "coverage_ipcw_cox_censoring": 0.8798915112067316,
+              "median_bound_days": 150.0
+            }
+          },
           "source site": {
             "other": {
               "n_patients": 212,
@@ -349,6 +377,20 @@
               "coverage_ipcw": 0.849499695075877,
               "coverage_ipcw_cox_censoring": 0.849785197028523,
               "median_bound_days": 137.0
+            }
+          },
+          "sex": {
+            "male": {
+              "n_patients": 281,
+              "coverage_ipcw": 0.9228051295892631,
+              "coverage_ipcw_cox_censoring": 0.9215889353336826,
+              "median_bound_days": 145.0
+            },
+            "female": {
+              "n_patients": 97,
+              "coverage_ipcw": 0.8812425447829985,
+              "coverage_ipcw_cox_censoring": 0.880219236315207,
+              "median_bound_days": 145.0
             }
           },
           "source site": {
@@ -525,6 +567,30 @@
                 -0.184439908495455,
                 -0.009133765969710621
               ]
+            }
+          },
+          "sex": {
+            "male": {
+              "n_patients": 281,
+              "coverage_ipcw": 0.9239018238519484,
+              "coverage_ipcw_cox_censoring": 0.9228261729603823,
+              "median_bound_days": 143.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.8880940302615362,
+                0.9586239443585779
+              ],
+              "boot_frac_below_target": 0.1
+            },
+            "female": {
+              "n_patients": 97,
+              "coverage_ipcw": 0.8930802130974538,
+              "coverage_ipcw_cox_censoring": 0.8921736343585811,
+              "median_bound_days": 143.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.8161810432478672,
+                0.9585520571549312
+              ],
+              "boot_frac_below_target": 0.586
             }
           },
           "source site": {
@@ -748,6 +814,30 @@
               ]
             }
           },
+          "sex": {
+            "male": {
+              "n_patients": 281,
+              "coverage_ipcw": 0.9141398206000412,
+              "coverage_ipcw_cox_censoring": 0.912973656596253,
+              "median_bound_days": 151.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.8787740197342202,
+                0.9482337971861827
+              ],
+              "boot_frac_below_target": 0.235
+            },
+            "female": {
+              "n_patients": 97,
+              "coverage_ipcw": 0.8795237399432837,
+              "coverage_ipcw_cox_censoring": 0.8785775045252588,
+              "median_bound_days": 150.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.8014547525788313,
+                0.9436762579507497
+              ],
+              "boot_frac_below_target": 0.723
+            }
+          },
           "source site": {
             "other": {
               "n_patients": 212,
@@ -967,6 +1057,30 @@
                 -0.17713405962031345,
                 -0.012688359951897847
               ]
+            }
+          },
+          "sex": {
+            "male": {
+              "n_patients": 281,
+              "coverage_ipcw": 0.9203033426682359,
+              "coverage_ipcw_cox_censoring": 0.9190873832530232,
+              "median_bound_days": 146.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.8866780290949323,
+                0.9518436257308814
+              ],
+              "boot_frac_below_target": 0.124
+            },
+            "female": {
+              "n_patients": 97,
+              "coverage_ipcw": 0.8795948501604145,
+              "coverage_ipcw_cox_censoring": 0.8785729871125708,
+              "median_bound_days": 146.0,
+              "coverage_cox_censoring_boot_95ci": [
+                0.8042283844721345,
+                0.944495768218138
+              ],
+              "boot_frac_below_target": 0.733
             }
           },
           "source site": {
