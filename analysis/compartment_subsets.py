@@ -130,10 +130,17 @@ def aggregate(rounds_dir, out_path, cohort):
                        "Shapley ranking carry some selection optimism; pre-specified "
                        "sets and the bottom-ranked control do not.")}
     for cfg, rr in configs.items():
-        common = sorted(set(rr) & set(full))
+        # A round is paired only if it used the same out-of-bag patients as the
+        # full model's round. Rounds run on a different cluster can list the
+        # patients in a different order and so draw a different split for the
+        # same seed; the out-of-bag event count exposes that.
+        shared = sorted(set(rr) & set(full))
+        common = [k for k in shared if rr[k]["n_oob"] == full[k]["n_oob"]
+                  and rr[k]["oob_events"] == full[k]["oob_events"]]
         entry = {"kept_regions": next(iter(rr.values()))["kept_regions"],
                  "n_regions": next(iter(rr.values()))["n_regions"],
-                 "n_rounds": len(rr), "n_paired_rounds": len(common)}
+                 "n_rounds": len(rr), "n_paired_rounds": len(common),
+                 "rounds_unpaired_split_mismatch": [k for k in shared if k not in common]}
         for which in ("best_epoch", "last_epoch"):
             key = f"cindex_{which}"
             entry[which] = {"cindex": summarise([r[key] for r in rr.values()])}

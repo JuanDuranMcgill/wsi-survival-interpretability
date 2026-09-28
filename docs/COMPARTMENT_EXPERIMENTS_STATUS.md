@@ -222,3 +222,26 @@ sbatch --export=COHORT=brca,PLANTED=Fibrous,MODELS=abmil,ROUNDS_DIR=/scratch/sor
 If you decide to keep only one cluster running, cancel the other side's
 matching jobs first (`squeue -u sorkwos` on that cluster) to avoid paying for
 duplicate GPU-hours — but running both is safe, just wasteful.
+
+## Note after completion: patient order differs between clusters
+
+`MultiRegionDataset` takes patients in filesystem listing order, and Narval
+lists them in a different order from Trillium. The same round seed therefore
+draws a different out-of-bag split on each cluster, visible as a different
+`oob_events` in the round files.
+
+- **B (subsets):** the round-1 runs added on Narval do not share their split
+  with Trillium's `full` round 1. The aggregate now pairs a round only when its
+  `n_oob` and `oob_events` match the full model's, and lists the excluded rounds
+  under `rounds_unpaired_split_mismatch`. Every configuration has 9 or 10
+  properly paired rounds.
+- **C (planted signal), BLCA:** rounds come from both clusters, so they use two
+  independently generated synthetic outcomes with the same design (same planted
+  compartment, same direction seed, oracle concordance 0.75). Each round is an
+  independent test of whether a measure finds the planted compartment, so
+  pooling them is valid, but graph and ABMIL are not compared round by round.
+  BRCA planted rounds show no mismatch between the two models.
+
+Any future run that must be paired with existing rounds has to run on the same
+cluster, or the dataset order has to be fixed (for example by sorting slides)
+for all runs involved.
