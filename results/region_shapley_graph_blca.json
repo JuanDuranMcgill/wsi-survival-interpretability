@@ -1,0 +1,1329 @@
+{
+  "cohort": "blca",
+  "n_rounds": 20,
+  "region_names": [
+    "Perivesical adipose tissue (extravesical fat)",
+    "Invasive urothelial carcinoma (tumor)",
+    "Normal urothelium (benign mucosa)",
+    "Inflammatory infiltrates (immune cells)",
+    "Lamina propria (fibrovascular stroma)",
+    "Blood vessels (vasculature)",
+    "Muscularis propria (detrusor muscle)",
+    "Necrosis"
+  ],
+  "removal": "region embedding zeroed after per-region encoding, before cross-region attention and again after its LayerNorm; fusion weights not renormalised (as region_ablation.py, no_renorm)",
+  "payoffs": {
+    "global": "out-of-bag concordance",
+    "local": "each patient's risk score"
+  },
+  "checks": {
+    "max_head_check_abs_diff": 9.5367431640625e-07,
+    "max_efficiency_gap": 5.551115123125783e-17,
+    "empty_coalition_cindex": {
+      "mean": 0.5,
+      "sd": 0.0,
+      "se": 0.0,
+      "ci95": [
+        0.5,
+        0.5
+      ],
+      "n_rounds": 20
+    }
+  },
+  "baseline_cindex": {
+    "mean": 0.6023196645247886,
+    "sd": 0.028506724832782823,
+    "se": 0.006374297454198372,
+    "ci95": [
+      0.5898260415145598,
+      0.6148132875350174
+    ],
+    "n_rounds": 20
+  },
+  "per_region": {
+    "Perivesical adipose tissue (extravesical fat)": {
+      "fusion_weight": {
+        "mean": 0.1238700158894062,
+        "sd": 0.0030183530400899076,
+        "se": 0.0006749242577734181,
+        "ci95": [
+          0.1225471643441703,
+          0.1251928674346421
+        ],
+        "n_rounds": 20
+      },
+      "shapley_cindex": {
+        "mean": 0.02374532198434067,
+        "sd": 0.013387713245957835,
+        "se": 0.0029935836881236078,
+        "ci95": [
+          0.0178778979556184,
+          0.029612746013062942
+        ],
+        "n_rounds": 20
+      },
+      "deletion_delta": {
+        "mean": -0.009078784579986177,
+        "sd": 0.009695077601339521,
+        "se": 0.0021678852563730773,
+        "ci95": [
+          -0.013327839682477409,
+          -0.004829729477494945
+        ],
+        "n_rounds": 20
+      },
+      "keep_only_gain": {
+        "mean": 0.07800509653728713,
+        "sd": 0.03214343222317034,
+        "se": 0.007187489948116607,
+        "ci95": [
+          0.06391761623897858,
+          0.09209257683559567
+        ],
+        "n_rounds": 20
+      },
+      "local_attribution_share": {
+        "mean": 0.1128901202586223,
+        "sd": 0.022269648591880166,
+        "se": 0.004979644808647652,
+        "ci95": [
+          0.10313001643367291,
+          0.1226502240835717
+        ],
+        "n_rounds": 20
+      },
+      "local_signed_in_risk_sd": {
+        "mean": -0.002450191489729576,
+        "sd": 0.11684106976692928,
+        "se": 0.026126457456264934,
+        "ci95": [
+          -0.05365804810400884,
+          0.048757665124549696
+        ],
+        "n_rounds": 20
+      }
+    },
+    "Invasive urothelial carcinoma (tumor)": {
+      "fusion_weight": {
+        "mean": 0.12896823100745677,
+        "sd": 0.004349565892863814,
+        "se": 0.0009725925009058054,
+        "ci95": [
+          0.12706194970568138,
+          0.13087451230923217
+        ],
+        "n_rounds": 20
+      },
+      "shapley_cindex": {
+        "mean": 0.02374580053438688,
+        "sd": 0.0174744420492863,
+        "se": 0.00390740402910849,
+        "ci95": [
+          0.01608728863733424,
+          0.03140431243143952
+        ],
+        "n_rounds": 20
+      },
+      "deletion_delta": {
+        "mean": -0.009640320416311837,
+        "sd": 0.010556226571720818,
+        "se": 0.002360444020025731,
+        "ci95": [
+          -0.014266790695562269,
+          -0.005013850137061404
+        ],
+        "n_rounds": 20
+      },
+      "keep_only_gain": {
+        "mean": 0.07627733636279208,
+        "sd": 0.039030591107934894,
+        "se": 0.008727505491934125,
+        "ci95": [
+          0.05917142559860119,
+          0.09338324712698295
+        ],
+        "n_rounds": 20
+      },
+      "local_attribution_share": {
+        "mean": 0.1607605079995503,
+        "sd": 0.03951281767746324,
+        "se": 0.008835334630936316,
+        "ci95": [
+          0.14344325212291512,
+          0.17807776387618549
+        ],
+        "n_rounds": 20
+      },
+      "local_signed_in_risk_sd": {
+        "mean": -0.09865370788133802,
+        "sd": 0.21340312062733333,
+        "se": 0.04771838843333048,
+        "ci95": [
+          -0.19218174921066578,
+          -0.005125666552010272
+        ],
+        "n_rounds": 20
+      }
+    },
+    "Normal urothelium (benign mucosa)": {
+      "fusion_weight": {
+        "mean": 0.12373375818133354,
+        "sd": 0.004065713413946246,
+        "se": 0.0009091211570616546,
+        "ci95": [
+          0.12195188071349271,
+          0.1255156356491744
+        ],
+        "n_rounds": 20
+      },
+      "shapley_cindex": {
+        "mean": 0.012994410299164516,
+        "sd": 0.012667437587836368,
+        "se": 0.002832525154713808,
+        "ci95": [
+          0.007442660995925453,
+          0.018546159602403578
+        ],
+        "n_rounds": 20
+      },
+      "deletion_delta": {
+        "mean": -0.0032474250626572053,
+        "sd": 0.00845210018729252,
+        "se": 0.001889947057142478,
+        "ci95": [
+          -0.006951721294656462,
+          0.0004568711693420514
+        ],
+        "n_rounds": 20
+      },
+      "keep_only_gain": {
+        "mean": 0.05703544161475617,
+        "sd": 0.029066818625699972,
+        "se": 0.006499538233672215,
+        "ci95": [
+          0.04429634667675863,
+          0.06977453655275372
+        ],
+        "n_rounds": 20
+      },
+      "local_attribution_share": {
+        "mean": 0.12316736530931445,
+        "sd": 0.03312835108405227,
+        "se": 0.007407724500641972,
+        "ci95": [
+          0.10864822528805618,
+          0.13768650533057272
+        ],
+        "n_rounds": 20
+      },
+      "local_signed_in_risk_sd": {
+        "mean": 0.04334113378870611,
+        "sd": 0.1656359368620738,
+        "se": 0.037037321434046026,
+        "ci95": [
+          -0.029252016222024092,
+          0.11593428379943632
+        ],
+        "n_rounds": 20
+      }
+    },
+    "Inflammatory infiltrates (immune cells)": {
+      "fusion_weight": {
+        "mean": 0.1269470199942589,
+        "sd": 0.003147863623426331,
+        "se": 0.0007038837045880075,
+        "ci95": [
+          0.1255674079332664,
+          0.12832663205525138
+        ],
+        "n_rounds": 20
+      },
+      "shapley_cindex": {
+        "mean": 0.018672139625978,
+        "sd": 0.014237988584465639,
+        "se": 0.003183711033773117,
+        "ci95": [
+          0.01243206599978269,
+          0.02491221325217331
+        ],
+        "n_rounds": 20
+      },
+      "deletion_delta": {
+        "mean": -0.006025528123575446,
+        "sd": 0.008126220056637011,
+        "se": 0.0018170780446762546,
+        "ci95": [
+          -0.009587001091140905,
+          -0.002464055156009987
+        ],
+        "n_rounds": 20
+      },
+      "keep_only_gain": {
+        "mean": 0.06904645241838406,
+        "sd": 0.03307916792212972,
+        "se": 0.007396726811301252,
+        "ci95": [
+          0.054548867868233604,
+          0.08354403696853452
+        ],
+        "n_rounds": 20
+      },
+      "local_attribution_share": {
+        "mean": 0.14055284269162435,
+        "sd": 0.03051700187750942,
+        "se": 0.006823809066759977,
+        "ci95": [
+          0.1271781769207748,
+          0.1539275084624739
+        ],
+        "n_rounds": 20
+      },
+      "local_signed_in_risk_sd": {
+        "mean": 0.05653174859411895,
+        "sd": 0.21672214558424713,
+        "se": 0.04846054497559824,
+        "ci95": [
+          -0.03845091955805361,
+          0.1515144167462915
+        ],
+        "n_rounds": 20
+      }
+    },
+    "Lamina propria (fibrovascular stroma)": {
+      "fusion_weight": {
+        "mean": 0.12322044484317303,
+        "sd": 0.003406815504120501,
+        "se": 0.0007617871054013655,
+        "ci95": [
+          0.12172734211658635,
+          0.1247135475697597
+        ],
+        "n_rounds": 20
+      },
+      "shapley_cindex": {
+        "mean": 0.006585616822885443,
+        "sd": 0.012042248569426702,
+        "se": 0.00269272864031877,
+        "ci95": [
+          0.001307868687860654,
+          0.011863364957910232
+        ],
+        "n_rounds": 20
+      },
+      "deletion_delta": {
+        "mean": -0.00041285126825545414,
+        "sd": 0.0057286927428051426,
+        "se": 0.0012809746395122017,
+        "ci95": [
+          -0.002923561561699369,
+          0.0020978590251884612
+        ],
+        "n_rounds": 20
+      },
+      "keep_only_gain": {
+        "mean": 0.0454870358752214,
+        "sd": 0.03546143559975703,
+        "se": 0.007929418058078773,
+        "ci95": [
+          0.029945376481387002,
+          0.06102869526905579
+        ],
+        "n_rounds": 20
+      },
+      "local_attribution_share": {
+        "mean": 0.11878913297711227,
+        "sd": 0.03675579804940745,
+        "se": 0.008218846300572923,
+        "ci95": [
+          0.10268019422798935,
+          0.1348980717262352
+        ],
+        "n_rounds": 20
+      },
+      "local_signed_in_risk_sd": {
+        "mean": -0.01810801278069876,
+        "sd": 0.15406494986635985,
+        "se": 0.034449970085127776,
+        "ci95": [
+          -0.0856299541475492,
+          0.04941392858615168
+        ],
+        "n_rounds": 20
+      }
+    },
+    "Blood vessels (vasculature)": {
+      "fusion_weight": {
+        "mean": 0.12040544413030148,
+        "sd": 0.003859009912741013,
+        "se": 0.0008629008490734436,
+        "ci95": [
+          0.11871415846611753,
+          0.12209672979448542
+        ],
+        "n_rounds": 20
+      },
+      "shapley_cindex": {
+        "mean": 0.002960819729843213,
+        "sd": 0.014898164882960698,
+        "se": 0.003331330941830032,
+        "ci95": [
+          -0.0035685889161436494,
+          0.009490228375830075
+        ],
+        "n_rounds": 20
+      },
+      "deletion_delta": {
+        "mean": 0.0025060083652226174,
+        "sd": 0.006386012778426315,
+        "se": 0.0014279558677743542,
+        "ci95": [
+          -0.0002927851356151166,
+          0.0053048018660603515
+        ],
+        "n_rounds": 20
+      },
+      "keep_only_gain": {
+        "mean": 0.036463248872114606,
+        "sd": 0.04249548972674371,
+        "se": 0.00950228037661429,
+        "ci95": [
+          0.0178387793339506,
+          0.05508771841027861
+        ],
+        "n_rounds": 20
+      },
+      "local_attribution_share": {
+        "mean": 0.10071939806836083,
+        "sd": 0.04133269966411744,
+        "se": 0.009242272614254933,
+        "ci95": [
+          0.08260454374442117,
+          0.1188342523923005
+        ],
+        "n_rounds": 20
+      },
+      "local_signed_in_risk_sd": {
+        "mean": -0.06207050167499277,
+        "sd": 0.1956446298202616,
+        "se": 0.04374746917108874,
+        "ci95": [
+          -0.1478155412503267,
+          0.023674537900341158
+        ],
+        "n_rounds": 20
+      }
+    },
+    "Muscularis propria (detrusor muscle)": {
+      "fusion_weight": {
+        "mean": 0.12282690331339836,
+        "sd": 0.00296957241928124,
+        "se": 0.000664016579362136,
+        "ci95": [
+          0.12152543081784858,
+          0.12412837580894814
+        ],
+        "n_rounds": 20
+      },
+      "shapley_cindex": {
+        "mean": 0.006273430165146189,
+        "sd": 0.012294123635182362,
+        "se": 0.0027490496172054586,
+        "ci95": [
+          0.0008852929154234907,
+          0.011661567414868887
+        ],
+        "n_rounds": 20
+      },
+      "deletion_delta": {
+        "mean": 0.000639391103070347,
+        "sd": 0.007318543960344332,
+        "se": 0.0016364761791650452,
+        "ci95": [
+          -0.0025681022080931417,
+          0.0038468844142338357
+        ],
+        "n_rounds": 20
+      },
+      "keep_only_gain": {
+        "mean": 0.0432683108055072,
+        "sd": 0.03313175916118931,
+        "se": 0.00740848656985707,
+        "ci95": [
+          0.02874767712858734,
+          0.05778894448242706
+        ],
+        "n_rounds": 20
+      },
+      "local_attribution_share": {
+        "mean": 0.10276509381000051,
+        "sd": 0.03320378301014015,
+        "se": 0.007424591592082597,
+        "ci95": [
+          0.08821289428951862,
+          0.11731729333048241
+        ],
+        "n_rounds": 20
+      },
+      "local_signed_in_risk_sd": {
+        "mean": -0.023101601293188227,
+        "sd": 0.10241017858516663,
+        "se": 0.02289961209043258,
+        "ci95": [
+          -0.06798484099043609,
+          0.021781638404059635
+        ],
+        "n_rounds": 20
+      }
+    },
+    "Necrosis": {
+      "fusion_weight": {
+        "mean": 0.13002818115055562,
+        "sd": 0.0026948122325163876,
+        "se": 0.0006025783338504612,
+        "ci95": [
+          0.1288471276162087,
+          0.13120923468490253
+        ],
+        "n_rounds": 20
+      },
+      "shapley_cindex": {
+        "mean": 0.007342125363043619,
+        "sd": 0.01594324173813367,
+        "se": 0.0035650172308178785,
+        "ci95": [
+          0.0003546915906405771,
+          0.014329559135446661
+        ],
+        "n_rounds": 20
+      },
+      "deletion_delta": {
+        "mean": 0.0011234547226154357,
+        "sd": 0.009082349027719157,
+        "se": 0.0020308749821359154,
+        "ci95": [
+          -0.002857060242370958,
+          0.0051039696876018295
+        ],
+        "n_rounds": 20
+      },
+      "keep_only_gain": {
+        "mean": 0.050416491160303986,
+        "sd": 0.03742066800777131,
+        "se": 0.008367515742882827,
+        "ci95": [
+          0.03401616030425365,
+          0.06681682201635433
+        ],
+        "n_rounds": 20
+      },
+      "local_attribution_share": {
+        "mean": 0.14035553888541497,
+        "sd": 0.0428080462702553,
+        "se": 0.009572170144424718,
+        "ci95": [
+          0.12159408540234251,
+          0.15911699236848742
+        ],
+        "n_rounds": 20
+      },
+      "local_signed_in_risk_sd": {
+        "mean": -0.035143450703664446,
+        "sd": 0.1477879532068704,
+        "se": 0.03304639096261203,
+        "ci95": [
+          -0.09991437699038402,
+          0.029627475583055125
+        ],
+        "n_rounds": 20
+      }
+    }
+  },
+  "pairwise_interactions_ranked": [
+    {
+      "pair": [
+        "Perivesical adipose tissue (extravesical fat)",
+        "Invasive urothelial carcinoma (tumor)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.012861555079103432,
+        "sd": 0.0073391477692813425,
+        "se": 0.0016410833309029023,
+        "ci95": [
+          -0.01607807840767312,
+          -0.009645031750533745
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.007146286563390385,
+        "sd": 0.04017785425314964,
+        "se": 0.008984041330012163,
+        "ci95": [
+          -0.024755007570214226,
+          0.010462434443433456
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Invasive urothelial carcinoma (tumor)",
+        "Inflammatory infiltrates (immune cells)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.012097571396926562,
+        "sd": 0.008545252200827901,
+        "se": 0.001910776480593087,
+        "ci95": [
+          -0.015842693298889012,
+          -0.008352449494964113
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": 0.002848665365096475,
+        "sd": 0.03778358235728218,
+        "se": 0.008448665858434469,
+        "ci95": [
+          -0.013710719717435083,
+          0.01940805044762803
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Perivesical adipose tissue (extravesical fat)",
+        "Inflammatory infiltrates (immune cells)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.011918922125576032,
+        "sd": 0.007133747602143898,
+        "se": 0.001595154457271988,
+        "ci95": [
+          -0.015045424861829129,
+          -0.008792419389322936
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": 0.008239441418035402,
+        "sd": 0.031620821064455004,
+        "se": 0.007070630540447865,
+        "ci95": [
+          -0.005618994441242413,
+          0.022097877277313216
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Perivesical adipose tissue (extravesical fat)",
+        "Necrosis"
+      ],
+      "interaction_cindex": {
+        "mean": -0.011254206143780088,
+        "sd": 0.007417431109226318,
+        "se": 0.0016585880178651713,
+        "ci95": [
+          -0.014505038658795823,
+          -0.008003373628764352
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.009823202806791591,
+        "sd": 0.03232163158321846,
+        "se": 0.0072273365363780635,
+        "ci95": [
+          -0.023988782418092595,
+          0.0043423768045094124
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Invasive urothelial carcinoma (tumor)",
+        "Necrosis"
+      ],
+      "interaction_cindex": {
+        "mean": -0.011002748801884062,
+        "sd": 0.010278971174505052,
+        "se": 0.002298447828495415,
+        "ci95": [
+          -0.015507706545735075,
+          -0.006497791058033049
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.013885507954859846,
+        "sd": 0.037180865070147395,
+        "se": 0.008313894175909706,
+        "ci95": [
+          -0.03018074053964287,
+          0.002409724629923178
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Perivesical adipose tissue (extravesical fat)",
+        "Normal urothelium (benign mucosa)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.010565769837763672,
+        "sd": 0.007036234848703224,
+        "se": 0.0015733499427353355,
+        "ci95": [
+          -0.01364953572552493,
+          -0.0074820039500024145
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.0001509008907876877,
+        "sd": 0.02831644539745799,
+        "se": 0.006331749678987711,
+        "ci95": [
+          -0.0125611302616036,
+          0.012259328480028225
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Invasive urothelial carcinoma (tumor)",
+        "Normal urothelium (benign mucosa)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.010561177690875792,
+        "sd": 0.0057385176970246345,
+        "se": 0.0012831715660632625,
+        "ci95": [
+          -0.013076193960359786,
+          -0.008046161421391798
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.003478629253150089,
+        "sd": 0.039641638089224086,
+        "se": 0.008864139750694992,
+        "ci95": [
+          -0.020852343164512274,
+          0.013895084658212098
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Inflammatory infiltrates (immune cells)",
+        "Necrosis"
+      ],
+      "interaction_cindex": {
+        "mean": -0.009035808258398963,
+        "sd": 0.008669122292050132,
+        "se": 0.001938474675028288,
+        "ci95": [
+          -0.012835218621454408,
+          -0.005236397895343518
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.00011309343902017911,
+        "sd": 0.045843126889724334,
+        "se": 0.010250834802657212,
+        "ci95": [
+          -0.020204729652228314,
+          0.019978542774187955
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Inflammatory infiltrates (immune cells)",
+        "Lamina propria (fibrovascular stroma)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.008936709673314567,
+        "sd": 0.0071943496611611805,
+        "se": 0.0016087054896258978,
+        "ci95": [
+          -0.012089772432981327,
+          -0.005783646913647807
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.005575225762860122,
+        "sd": 0.03137601779553053,
+        "se": 0.0070158908654049355,
+        "ci95": [
+          -0.019326371859053795,
+          0.008175920333333551
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Perivesical adipose tissue (extravesical fat)",
+        "Muscularis propria (detrusor muscle)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.00871013811011322,
+        "sd": 0.005738672659887165,
+        "se": 0.0012832062168127232,
+        "ci95": [
+          -0.011225222295066157,
+          -0.006195053925160282
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.0024725824095184834,
+        "sd": 0.03212454826160939,
+        "se": 0.007183267365943129,
+        "ci95": [
+          -0.016551786446767018,
+          0.01160662162773005
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Invasive urothelial carcinoma (tumor)",
+        "Lamina propria (fibrovascular stroma)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.008700951455976382,
+        "sd": 0.00718540999791816,
+        "se": 0.0016067065201551627,
+        "ci95": [
+          -0.0118500962354805,
+          -0.005551806676472263
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.013270169840332488,
+        "sd": 0.04827318245145946,
+        "se": 0.010794211745171329,
+        "ci95": [
+          -0.034426824860868295,
+          0.007886485180203318
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Perivesical adipose tissue (extravesical fat)",
+        "Blood vessels (vasculature)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.008219138128708328,
+        "sd": 0.007161479874911039,
+        "se": 0.0016013555819797771,
+        "ci95": [
+          -0.011357795069388691,
+          -0.005080481188027964
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.006764307235266384,
+        "sd": 0.020519988595196527,
+        "se": 0.004588408939637985,
+        "ci95": [
+          -0.015757588756956833,
+          0.0022289742864240658
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Normal urothelium (benign mucosa)",
+        "Inflammatory infiltrates (immune cells)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.008116517322045033,
+        "sd": 0.00605713648566013,
+        "se": 0.001354416893093023,
+        "ci95": [
+          -0.010771174432507358,
+          -0.005461860211582709
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": 0.005937090450788473,
+        "sd": 0.02569796331974812,
+        "se": 0.005746239286625296,
+        "ci95": [
+          -0.005325538550997107,
+          0.017199719452574053
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Normal urothelium (benign mucosa)",
+        "Muscularis propria (detrusor muscle)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.007763134858228315,
+        "sd": 0.00594789883848979,
+        "se": 0.001329990612615521,
+        "ci95": [
+          -0.010369916458954737,
+          -0.005156353257501894
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.006612322568453297,
+        "sd": 0.03126097719453275,
+        "se": 0.00699016700500459,
+        "ci95": [
+          -0.02031304989826229,
+          0.0070884047613556985
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Inflammatory infiltrates (immune cells)",
+        "Muscularis propria (detrusor muscle)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.007336713502169018,
+        "sd": 0.007318782608034928,
+        "se": 0.0016365295424109298,
+        "ci95": [
+          -0.010544311405294441,
+          -0.004129115599043595
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": 0.002922656379659162,
+        "sd": 0.04175420131334327,
+        "se": 0.009336523248284654,
+        "ci95": [
+          -0.01537692918697876,
+          0.02122224194629708
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Normal urothelium (benign mucosa)",
+        "Lamina propria (fibrovascular stroma)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.007106931042601796,
+        "sd": 0.006033762356720092,
+        "se": 0.001349190278970546,
+        "ci95": [
+          -0.009751343989384067,
+          -0.0044625180958195254
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.006221960062795913,
+        "sd": 0.03428481350330892,
+        "se": 0.007666317358930145,
+        "ci95": [
+          -0.021247942086298995,
+          0.00880402196070717
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Invasive urothelial carcinoma (tumor)",
+        "Blood vessels (vasculature)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.005785280054864181,
+        "sd": 0.007638928221493413,
+        "se": 0.001708116277850084,
+        "ci95": [
+          -0.009133187959450347,
+          -0.0024373721502780163
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.008414014502184493,
+        "sd": 0.041381211128857974,
+        "se": 0.009253120107539724,
+        "ci95": [
+          -0.02655012991296235,
+          0.009722100908593365
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Invasive urothelial carcinoma (tumor)",
+        "Muscularis propria (detrusor muscle)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.005627731466849825,
+        "sd": 0.007650100020185442,
+        "se": 0.001710614367980716,
+        "ci95": [
+          -0.008980535628092028,
+          -0.0022749273056076216
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.0019182822223871364,
+        "sd": 0.03359665680462384,
+        "se": 0.007512440843186978,
+        "ci95": [
+          -0.016642666275033614,
+          0.01280610183025934
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Inflammatory infiltrates (immune cells)",
+        "Blood vessels (vasculature)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.0055786820163784175,
+        "sd": 0.005899472833359132,
+        "se": 0.0013191622286804307,
+        "ci95": [
+          -0.008164239984592061,
+          -0.002993124048164773
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": 0.00315870673007886,
+        "sd": 0.03759075364678947,
+        "se": 0.008405548047966937,
+        "ci95": [
+          -0.013316167443936336,
+          0.019633580904094054
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Blood vessels (vasculature)",
+        "Necrosis"
+      ],
+      "interaction_cindex": {
+        "mean": -0.005415252319761447,
+        "sd": 0.007114196851579032,
+        "se": 0.0015907827765445698,
+        "ci95": [
+          -0.008533186561788805,
+          -0.0022973180777340904
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.02163173663661773,
+        "sd": 0.04607317746808228,
+        "se": 0.010302275675804362,
+        "ci95": [
+          -0.04182419696119428,
+          -0.0014392763120411808
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Perivesical adipose tissue (extravesical fat)",
+        "Lamina propria (fibrovascular stroma)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.005396582532256167,
+        "sd": 0.005832664318897715,
+        "se": 0.0013042233906992802,
+        "ci95": [
+          -0.007952860378026755,
+          -0.0028403046864855777
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.008205337252811296,
+        "sd": 0.02986074121840898,
+        "se": 0.006677064722289237,
+        "ci95": [
+          -0.0212923841084982,
+          0.0048817096028756085
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Normal urothelium (benign mucosa)",
+        "Necrosis"
+      ],
+      "interaction_cindex": {
+        "mean": -0.005339079124317289,
+        "sd": 0.0060915233290894715,
+        "se": 0.001362106025036988,
+        "ci95": [
+          -0.008008806933389786,
+          -0.002669351315244793
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.007769389516043046,
+        "sd": 0.039697398386479614,
+        "se": 0.008876608132205888,
+        "ci95": [
+          -0.025167541455166587,
+          0.009628762423080493
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Lamina propria (fibrovascular stroma)",
+        "Muscularis propria (detrusor muscle)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.00513732229894942,
+        "sd": 0.005779126969347104,
+        "se": 0.0012922520754062468,
+        "ci95": [
+          -0.0076701363667456635,
+          -0.0026045082311531758
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.01616871909968649,
+        "sd": 0.02713930868252789,
+        "se": 0.006068533907648261,
+        "ci95": [
+          -0.028063045558677082,
+          -0.0042743926406958975
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Lamina propria (fibrovascular stroma)",
+        "Necrosis"
+      ],
+      "interaction_cindex": {
+        "mean": -0.005027712463520821,
+        "sd": 0.007961860879911924,
+        "se": 0.001780326215487935,
+        "ci95": [
+          -0.008517151845877174,
+          -0.001538273081164468
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.020445823370737658,
+        "sd": 0.04291449243071146,
+        "se": 0.0095959722294971,
+        "ci95": [
+          -0.03925392894055198,
+          -0.0016377178009233419
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Blood vessels (vasculature)",
+        "Muscularis propria (detrusor muscle)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.0048675229010109915,
+        "sd": 0.006492270124172723,
+        "se": 0.001451715732594121,
+        "ci95": [
+          -0.007712885736895468,
+          -0.0020221600651265147
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.010032402934165924,
+        "sd": 0.026094792173295637,
+        "se": 0.005834972915821851,
+        "ci95": [
+          -0.02146894984917675,
+          0.0014041439808449036
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Lamina propria (fibrovascular stroma)",
+        "Blood vessels (vasculature)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.004767975140346796,
+        "sd": 0.006487055503637508,
+        "se": 0.00145054970799476,
+        "ci95": [
+          -0.007611052568016525,
+          -0.0019248977126770659
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.011322718254206516,
+        "sd": 0.040777428188880985,
+        "se": 0.0091181101377954,
+        "ci95": [
+          -0.0291942141242855,
+          0.00654877761587247
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Muscularis propria (detrusor muscle)",
+        "Necrosis"
+      ],
+      "interaction_cindex": {
+        "mean": -0.0044651387712567525,
+        "sd": 0.00622211019061857,
+        "se": 0.0013913061349717297,
+        "ci95": [
+          -0.007192098795801342,
+          -0.0017381787467121625
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.011504406554505516,
+        "sd": 0.04012604510075378,
+        "se": 0.008972456451350785,
+        "ci95": [
+          -0.029090421199153053,
+          0.006081608090142021
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    },
+    {
+      "pair": [
+        "Normal urothelium (benign mucosa)",
+        "Blood vessels (vasculature)"
+      ],
+      "interaction_cindex": {
+        "mean": -0.004335406676267062,
+        "sd": 0.004698851040120684,
+        "se": 0.001050695034185544,
+        "ci95": [
+          -0.006394768943270729,
+          -0.002276044409263396
+        ],
+        "n_rounds": 20
+      },
+      "interaction_local_in_risk_sd": {
+        "mean": -0.0029798051895984804,
+        "sd": 0.03684833380004575,
+        "se": 0.008239537923450543,
+        "ci95": [
+          -0.019129299519561545,
+          0.013169689140364583
+        ],
+        "n_rounds": 20
+      },
+      "ci_excludes_zero_cindex": true
+    }
+  ],
+  "agreement_across_regions": {
+    "fusion_weight_vs_shapley": {
+      "spearman_rho": 0.7380952380952381,
+      "p": 0.03655276105286081
+    },
+    "fusion_weight_vs_local_share": {
+      "spearman_rho": 0.8571428571428572,
+      "p": 0.0065300172547152905
+    },
+    "deletion_cost_vs_shapley": {
+      "spearman_rho": 0.9285714285714287,
+      "p": 0.0008629681828999767
+    },
+    "local_share_vs_shapley": {
+      "spearman_rho": 0.7380952380952381,
+      "p": 0.03655276105286081
+    }
+  },
+  "reading": "shapley_cindex is each region's exact Shapley value with out-of-bag concordance as the payoff; they sum to baseline minus the empty-model concordance of 0.5. deletion_delta is the single-region deletion from the same models, negative when the region matters. local_attribution_share is each region's share of the per-patient absolute Shapley attribution on the risk score, on the same scale as a fusion weight. A positive interaction means two regions contribute more together than the sum of their separate contributions.",
+  "graph_diffusion": true,
+  "graph_coverage_eval": {
+    "mean": 1.0,
+    "sd": 0.0,
+    "se": 0.0,
+    "ci95": [
+      1.0,
+      1.0
+    ],
+    "n_rounds": 20
+  }
+}
