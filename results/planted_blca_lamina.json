@@ -1,0 +1,167 @@
+{
+  "synthetic_outcome": {
+    "cohort": "blca",
+    "planted_region": "Lamina propria (fibrovascular stroma)",
+    "planted_index": 4,
+    "direction": "random",
+    "seed": 7,
+    "beta": 0.8263278460708534,
+    "oracle_cindex": 0.7502571598722322,
+    "target_cindex": 0.75,
+    "censored_fraction": 0.5725593667546174,
+    "n_events": 162,
+    "n_patients": 379,
+    "planted_presence_rate": 1.0
+  },
+  "models": {
+    "graph": {
+      "n_rounds": 10,
+      "baseline_cindex": {
+        "mean": 0.6550895473911548,
+        "sd": 0.02569077669181024,
+        "se": 0.0081241369204886,
+        "ci95": [
+          0.6391662390269971,
+          0.6710128557553124
+        ],
+        "n_rounds": 10
+      },
+      "planted_rank": {
+        "weight_or_attention": {
+          "mean": 2.5,
+          "frac_rounds_first": 0.3,
+          "per_round": [
+            1,
+            4,
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            6,
+            4
+          ]
+        },
+        "deletion": {
+          "mean": 1.5,
+          "frac_rounds_first": 0.6,
+          "per_round": [
+            1,
+            1,
+            2,
+            1,
+            1,
+            3,
+            1,
+            1,
+            2,
+            2
+          ]
+        },
+        "shapley": {
+          "mean": 1.1,
+          "frac_rounds_first": 0.9,
+          "per_round": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            1
+          ]
+        }
+      },
+      "planted_shapley_share": {
+        "mean": 0.27275753901317257,
+        "sd": 0.06235830379745056,
+        "se": 0.01971942710246709,
+        "ci95": [
+          0.23410746189233705,
+          0.3114076161340081
+        ],
+        "n_rounds": 10
+      },
+      "summary_file": "summary_graph.json"
+    },
+    "abmil": {
+      "n_rounds": 10,
+      "baseline_cindex": {
+        "mean": 0.6429715613842567,
+        "sd": 0.02148929664819542,
+        "se": 0.00679551227233196,
+        "ci95": [
+          0.6296523573304861,
+          0.6562907654380273
+        ],
+        "n_rounds": 10
+      },
+      "planted_rank": {
+        "weight_or_attention": {
+          "mean": 3.7,
+          "frac_rounds_first": 0.0,
+          "per_round": [
+            4,
+            3,
+            4,
+            4,
+            4,
+            3,
+            3,
+            4,
+            4,
+            4
+          ]
+        },
+        "deletion": {
+          "mean": 3.0,
+          "frac_rounds_first": 0.2,
+          "per_round": [
+            1,
+            2,
+            3,
+            4,
+            2,
+            2,
+            6,
+            5,
+            4,
+            1
+          ]
+        },
+        "shapley": {
+          "mean": 1.9,
+          "frac_rounds_first": 0.4,
+          "per_round": [
+            1,
+            2,
+            2,
+            1,
+            2,
+            2,
+            3,
+            1,
+            4,
+            1
+          ]
+        }
+      },
+      "planted_shapley_share": {
+        "mean": 0.18864367884654146,
+        "sd": 0.03121901038013672,
+        "se": 0.009872317909767109,
+        "ci95": [
+          0.16929393574339793,
+          0.20799342194968498
+        ],
+        "n_rounds": 10
+      },
+      "summary_file": "summary_abmil.json"
+    }
+  },
+  "reading": "A measure passes if it ranks the planted compartment first (rank 1 of R). 'weight_or_attention' is the fusion weight for the region-fusion model and the attention share for ABMIL. planted_shapley_share is the planted compartment's Shapley value as a fraction of the summed absolute Shapley values over compartments."
+}
