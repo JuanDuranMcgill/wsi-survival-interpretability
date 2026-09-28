@@ -112,3 +112,28 @@ files, and `synthetic_meta.json` / `summary_*.json` for the planted runs.
 
 Do not commit: any `*_local.npz`, `planted_feature.npz` or
 `synthetic_labels.npz`. These hold patient-level data.
+
+## D. Shapley with the graph diffusion on: `analysis/region_shapley_graph.py`
+
+The main model uses the k-NN graph diffusion in training only; every risk score
+in the paper, and every run of `region_ablation.py` / `region_shapley.py` and
+the experiments above, is computed without it. This reruns the Shapley analysis
+with the diffusion used in training *and* evaluation, to test whether it
+changes which compartments the model relies on. Same protocol as
+`region_shapley.py` otherwise; 20 rounds per cohort; run all rounds of a cohort
+on one cluster.
+
+Needs the precomputed graph files: `<slide>_A.pt` beside each slide's embedding
+file, or a root passed as `--adj-dir` with one subdirectory per compartment
+(named like the embedding directories). A round stops if fewer than 90% of
+compartment-slides with at least 10 tiles have a usable graph.
+
+```bash
+python analysis/region_shapley_graph.py --cohort blca --rounds-dir /scratch/$USER/shapley_graph_blca --round-start 1 --round-end 20
+python analysis/region_shapley_graph.py --cohort brca --rounds-dir /scratch/$USER/shapley_graph_brca --round-start 1 --round-end 20
+python analysis/region_shapley_graph.py --cohort blca --aggregate --rounds-dir /scratch/$USER/shapley_graph_blca --out results/region_shapley_graph_blca.json
+python analysis/region_shapley_graph.py --cohort brca --aggregate --rounds-dir /scratch/$USER/shapley_graph_brca --out results/region_shapley_graph_brca.json
+```
+
+Commit the aggregate JSONs and the `round_*.json` files (copy them to
+`results/shapley_graph_{cohort}/`). This script writes no patient-level files.
