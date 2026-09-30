@@ -245,3 +245,43 @@ draws a different out-of-bag split on each cluster, visible as a different
 Any future run that must be paired with existing rounds has to run on the same
 cluster, or the dataset order has to be fixed (for example by sorting slides)
 for all runs involved.
+
+## Status update (2026-09-30) — E moved to Narval entirely, Trillium queue unusable
+
+Trillium's queue is currently too congested to use for E. All 76 of E's
+remaining jobs (ABMIL round 1 + graph/ABMIL rounds 2-10, all 4 plantings) sat
+`PENDING` for 16+ hours without a single one starting. Checked at the time:
+fair-share priority `sshare -A def-senger -u sorkwos` = 0.077 (the lowest seen
+across this whole engagement; prior checks were 0.20, 0.11, 0.08), against
+1,234 jobs pending cluster-wide on the `compute` partition — both a bad
+priority and a very busy queue, stacking against us. All 76 jobs were
+cancelled (none had started, so nothing was lost) rather than leave them
+competing for a slot that was never going to open up in a useful time frame.
+
+**What Trillium did finish before this, already committed/available**: E's
+round-1 **graph** job for all 4 plantings (`planted_attr_<cohort>_<planting>`
+on Trillium's `/scratch`), all clean:
+
+| planting | baseline c-index | ig_completeness_gap_in_risk_sd | batch size |
+|---|---|---|---|
+| BLCA Necrosis | 0.6513 | 0.00012 | 16 |
+| BLCA Lamina | 0.6463 | 0.00013 | 16 |
+| BRCA Necrosis | 0.5903 | 0.00069 | 16 |
+| BRCA Fibrous | 0.7004 | 0.00129 | 16 |
+
+All four are comfortably under the ~0.05 threshold. ABMIL round 1 (needed for
+`ig_completeness_gap_max_abs`) never got to run before the queue stall.
+
+G (BRCA nested subsets) finished in full on Trillium — all 10 rounds,
+committed separately, not affected by this.
+
+**Ask: please run all of E fresh on Narval** — all 4 plantings, both models,
+rounds 1-10, exactly per `docs/COMPARTMENT_EXPERIMENTS_PLAN.md` section E (one
+model per job, never comma-joined through `--export`; start graph first per
+planting, launch the rest once `planted_feature.npz` exists in that
+directory). Use fresh `planted_attr_<cohort>_<planting>` directories on
+Narval's own `/scratch` — per the existing patient-order note above, Narval
+and Trillium draw different out-of-bag splits from the same round seed, so
+Trillium's completed round-1 graph runs cannot be paired with Narval's later
+rounds. Redoing round 1 on Narval is cheap regardless (~30-60 min each on
+Trillium; likely similar or faster on Narval).
