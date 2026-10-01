@@ -1,0 +1,215 @@
+{
+  "cohort": "blca",
+  "reference": "full",
+  "configs": {
+    "full": {
+      "kept_regions": [
+        "Perivesical adipose tissue (extravesical fat)",
+        "Invasive urothelial carcinoma (tumor)",
+        "Normal urothelium (benign mucosa)",
+        "Inflammatory infiltrates (immune cells)",
+        "Lamina propria (fibrovascular stroma)",
+        "Blood vessels (vasculature)",
+        "Muscularis propria (detrusor muscle)",
+        "Necrosis"
+      ],
+      "n_regions": 8,
+      "n_rounds": 10,
+      "n_paired_rounds": 10,
+      "rounds_unpaired_split_mismatch": [],
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.6165361569400472,
+          "sd": 0.025405900604616033,
+          "se": 0.00803405119184356,
+          "ci95": [
+            0.6007894166040337,
+            0.6322828972760606
+          ],
+          "n_rounds": 10
+        }
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.6061145953842554,
+          "sd": 0.02384469435495666,
+          "se": 0.007540354427222251,
+          "ci95": [
+            0.5913355007068998,
+            0.620893690061611
+          ],
+          "n_rounds": 10
+        }
+      }
+    },
+    "nested_top1": {
+      "kept_regions": [
+        "Perivesical adipose tissue (extravesical fat)"
+      ],
+      "n_regions": 1,
+      "n_rounds": 10,
+      "n_paired_rounds": 10,
+      "rounds_unpaired_split_mismatch": [],
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.5825315333652427,
+          "sd": 0.03271108635529041,
+          "se": 0.010344153762117355,
+          "ci95": [
+            0.5622569919914926,
+            0.6028060747389927
+          ],
+          "n_rounds": 10
+        },
+        "delta_vs_full": {
+          "mean": -0.03400462357480444,
+          "sd": 0.0267879893325243,
+          "se": 0.008471106022707045,
+          "ci95": [
+            -0.05060799137931025,
+            -0.017401255770298628
+          ],
+          "n_rounds": 10
+        },
+        "frac_rounds_at_least_full": 0.0
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.5687592869144509,
+          "sd": 0.03244789631420927,
+          "se": 0.010260925763388386,
+          "ci95": [
+            0.5486478724182097,
+            0.5888707014106921
+          ],
+          "n_rounds": 10
+        },
+        "delta_vs_full": {
+          "mean": -0.037355308469804574,
+          "sd": 0.024005867505480172,
+          "se": 0.007591321852554196,
+          "ci95": [
+            -0.0522342993008108,
+            -0.02247631763879835
+          ],
+          "n_rounds": 10
+        },
+        "frac_rounds_at_least_full": 0.0
+      }
+    },
+    "nested_top2": {
+      "kept_regions": [
+        "Perivesical adipose tissue (extravesical fat)",
+        "Invasive urothelial carcinoma (tumor)"
+      ],
+      "n_regions": 2,
+      "n_rounds": 10,
+      "n_paired_rounds": 10,
+      "rounds_unpaired_split_mismatch": [],
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.6108592021055798,
+          "sd": 0.030578237725585145,
+          "se": 0.009669687804693586,
+          "ci95": [
+            0.5919066140083803,
+            0.6298117902027792
+          ],
+          "n_rounds": 10
+        },
+        "delta_vs_full": {
+          "mean": -0.005676954834467218,
+          "sd": 0.017788859460648336,
+          "se": 0.005625331287228316,
+          "ci95": [
+            -0.016702604157434717,
+            0.00534869448850028
+          ],
+          "n_rounds": 10
+        },
+        "frac_rounds_at_least_full": 0.3
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.594394814432987,
+          "sd": 0.02457975514738225,
+          "se": 0.007772801059497562,
+          "ci95": [
+            0.5791601243563718,
+            0.6096295045096023
+          ],
+          "n_rounds": 10
+        },
+        "delta_vs_full": {
+          "mean": -0.011719780951268433,
+          "sd": 0.009361123497785851,
+          "se": 0.0029602471711125474,
+          "ci95": [
+            -0.017521865406649025,
+            -0.00591769649588784
+          ],
+          "n_rounds": 10
+        },
+        "frac_rounds_at_least_full": 0.1
+      }
+    },
+    "nested_top3": {
+      "kept_regions": [
+        "Perivesical adipose tissue (extravesical fat)",
+        "Invasive urothelial carcinoma (tumor)",
+        "Necrosis"
+      ],
+      "n_regions": 3,
+      "n_rounds": 10,
+      "n_paired_rounds": 10,
+      "rounds_unpaired_split_mismatch": [],
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.6148001619312942,
+          "sd": 0.026345576746198144,
+          "se": 0.008331202878875392,
+          "ci95": [
+            0.5984710042886984,
+            0.63112931957389
+          ],
+          "n_rounds": 10
+        },
+        "delta_vs_full": {
+          "mean": -0.0017359950087528996,
+          "sd": 0.021334367750580365,
+          "se": 0.0067465194531477,
+          "ci95": [
+            -0.014959173136922393,
+            0.011487183119416593
+          ],
+          "n_rounds": 10
+        },
+        "frac_rounds_at_least_full": 0.6
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.5981796887196802,
+          "sd": 0.026630266917403892,
+          "se": 0.008421229815722738,
+          "ci95": [
+            0.5816740782808636,
+            0.6146852991584968
+          ],
+          "n_rounds": 10
+        },
+        "delta_vs_full": {
+          "mean": -0.007934906664575293,
+          "sd": 0.017468783785258117,
+          "se": 0.005524114471443336,
+          "ci95": [
+            -0.01876217102860423,
+            0.002892357699453646
+          ],
+          "n_rounds": 10
+        },
+        "frac_rounds_at_least_full": 0.3
+      }
+    }
+  },
+  "reading": "delta is configuration minus full model on the same out-of-bag patients, round by round; negative means the configuration is worse. 'last_epoch' involves no epoch selection and is the unbiased comparison. Keep-sets chosen from this cohort's own Shapley ranking carry some selection optimism; pre-specified sets and the bottom-ranked control do not."
+}
