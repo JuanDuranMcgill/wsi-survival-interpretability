@@ -1,0 +1,216 @@
+{
+  "cohort": "brca",
+  "reference": "full",
+  "configs": {
+    "full": {
+      "kept_regions": [
+        "Adipose tissue (fat)",
+        "Blood vessels (vasculature)",
+        "Ductal carcinoma in situ (DCIS)",
+        "Fibrous desmoplastic stroma",
+        "Invasive breast carcinoma (tumor cells)",
+        "Muscle tissue (smooth or skeletal muscle)",
+        "Necrosis or hemorrhage",
+        "Normal breast glands and lobules (TDLU)",
+        "Tumor-infiltrating lymphocytes (immune infiltrates)"
+      ],
+      "n_regions": 9,
+      "n_rounds": 10,
+      "n_paired_rounds": 10,
+      "rounds_unpaired_split_mismatch": [],
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.6109927219058952,
+          "sd": 0.03430086310691368,
+          "se": 0.010846885312748687,
+          "ci95": [
+            0.5897328266929077,
+            0.6322526171188826
+          ],
+          "n_rounds": 10
+        }
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.5879191196292803,
+          "sd": 0.03192622007527478,
+          "se": 0.010095957251766065,
+          "ci95": [
+            0.5681310434158189,
+            0.6077071958427418
+          ],
+          "n_rounds": 10
+        }
+      }
+    },
+    "nested_top1": {
+      "kept_regions": [
+        "Normal breast glands and lobules (TDLU)"
+      ],
+      "n_regions": 1,
+      "n_rounds": 10,
+      "n_paired_rounds": 10,
+      "rounds_unpaired_split_mismatch": [],
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.5907363511983703,
+          "sd": 0.044343403722191595,
+          "se": 0.014022615496651384,
+          "ci95": [
+            0.5632520248249336,
+            0.618220677571807
+          ],
+          "n_rounds": 10
+        },
+        "delta_vs_full": {
+          "mean": -0.02025637070752485,
+          "sd": 0.03348979072241027,
+          "se": 0.010590401704519223,
+          "ci95": [
+            -0.041013558048382526,
+            0.0005008166333328283
+          ],
+          "n_rounds": 10
+        },
+        "frac_rounds_at_least_full": 0.3
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.5679786897727036,
+          "sd": 0.04307995225438445,
+          "se": 0.013623077061516034,
+          "ci95": [
+            0.5412774587321322,
+            0.594679920813275
+          ],
+          "n_rounds": 10
+        },
+        "delta_vs_full": {
+          "mean": -0.01994042985657672,
+          "sd": 0.034515995670420574,
+          "se": 0.010914916202703948,
+          "ci95": [
+            -0.041333665613876455,
+            0.0014528059007230185
+          ],
+          "n_rounds": 10
+        },
+        "frac_rounds_at_least_full": 0.3
+      }
+    },
+    "nested_top2": {
+      "kept_regions": [
+        "Adipose tissue (fat)",
+        "Normal breast glands and lobules (TDLU)"
+      ],
+      "n_regions": 2,
+      "n_rounds": 10,
+      "n_paired_rounds": 10,
+      "rounds_unpaired_split_mismatch": [],
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.5993440169012039,
+          "sd": 0.03807464232273762,
+          "se": 0.012040259083609466,
+          "ci95": [
+            0.5757451090973293,
+            0.6229429247050784
+          ],
+          "n_rounds": 10
+        },
+        "delta_vs_full": {
+          "mean": -0.011648705004691295,
+          "sd": 0.02886887814036785,
+          "se": 0.009129140841740851,
+          "ci95": [
+            -0.029541821054503363,
+            0.0062444110451207735
+          ],
+          "n_rounds": 10
+        },
+        "frac_rounds_at_least_full": 0.3
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.5819532507046411,
+          "sd": 0.034068115327476785,
+          "se": 0.010773284002411978,
+          "ci95": [
+            0.5608376140599136,
+            0.6030688873493686
+          ],
+          "n_rounds": 10
+        },
+        "delta_vs_full": {
+          "mean": -0.005965868924639228,
+          "sd": 0.01703166075962152,
+          "se": 0.0053858840335717535,
+          "ci95": [
+            -0.016522201630439864,
+            0.0045904637811614085
+          ],
+          "n_rounds": 10
+        },
+        "frac_rounds_at_least_full": 0.4
+      }
+    },
+    "nested_top3": {
+      "kept_regions": [
+        "Adipose tissue (fat)",
+        "Fibrous desmoplastic stroma",
+        "Normal breast glands and lobules (TDLU)"
+      ],
+      "n_regions": 3,
+      "n_rounds": 10,
+      "n_paired_rounds": 10,
+      "rounds_unpaired_split_mismatch": [],
+      "best_epoch": {
+        "cindex": {
+          "mean": 0.6055165911423941,
+          "sd": 0.03925492447505432,
+          "se": 0.01241349707190612,
+          "ci95": [
+            0.5811861368814581,
+            0.62984704540333
+          ],
+          "n_rounds": 10
+        },
+        "delta_vs_full": {
+          "mean": -0.005476130763501152,
+          "sd": 0.02303164081401633,
+          "se": 0.00728324432231861,
+          "ci95": [
+            -0.019751289635245625,
+            0.008799028108243323
+          ],
+          "n_rounds": 10
+        },
+        "frac_rounds_at_least_full": 0.5
+      },
+      "last_epoch": {
+        "cindex": {
+          "mean": 0.5846073861189708,
+          "sd": 0.04204893819298547,
+          "se": 0.013297041788147888,
+          "ci95": [
+            0.558545184214201,
+            0.6106695880237406
+          ],
+          "n_rounds": 10
+        },
+        "delta_vs_full": {
+          "mean": -0.003311733510309489,
+          "sd": 0.026629813478180317,
+          "se": 0.008421086425650042,
+          "ci95": [
+            -0.01981706290458357,
+            0.013193595883964591
+          ],
+          "n_rounds": 10
+        },
+        "frac_rounds_at_least_full": 0.5
+      }
+    }
+  },
+  "reading": "delta is configuration minus full model on the same out-of-bag patients, round by round; negative means the configuration is worse. 'last_epoch' involves no epoch selection and is the unbiased comparison. Keep-sets chosen from this cohort's own Shapley ranking carry some selection optimism; pre-specified sets and the bottom-ranked control do not."
+}
