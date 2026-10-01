@@ -1,0 +1,231 @@
+{
+  "synthetic_outcome": {
+    "cohort": "blca",
+    "planted_region": "Necrosis",
+    "planted_index": 7,
+    "direction": "random",
+    "seed": 7,
+    "beta": 1.1061360164294456,
+    "oracle_cindex": 0.7500264774412201,
+    "target_cindex": 0.75,
+    "censored_fraction": 0.5699208443271768,
+    "n_events": 163,
+    "n_patients": 379,
+    "planted_presence_rate": 1.0
+  },
+  "models": {
+    "graph": {
+      "n_rounds": 10,
+      "baseline_cindex": {
+        "mean": 0.6428591307906771,
+        "sd": 0.024428112677366852,
+        "se": 0.007724847499971317,
+        "ci95": [
+          0.6277184296907333,
+          0.657999831890621
+        ],
+        "n_rounds": 10
+      },
+      "planted_rank": {
+        "weight_or_attention": {
+          "mean": 2.8,
+          "frac_rounds_first": 0.4,
+          "per_round": [
+            7,
+            2,
+            1,
+            6,
+            1,
+            4,
+            3,
+            1,
+            2,
+            1
+          ]
+        },
+        "deletion": {
+          "mean": 3.9,
+          "frac_rounds_first": 0.3,
+          "per_round": [
+            1,
+            5,
+            4,
+            5,
+            2,
+            7,
+            1,
+            5,
+            1,
+            8
+          ]
+        },
+        "shapley": {
+          "mean": 3.8,
+          "frac_rounds_first": 0.2,
+          "per_round": [
+            1,
+            3,
+            4,
+            5,
+            2,
+            8,
+            2,
+            4,
+            1,
+            8
+          ]
+        },
+        "grad_x_input": {
+          "mean": 3.5,
+          "frac_rounds_first": 0.2,
+          "per_round": [
+            2,
+            3,
+            1,
+            4,
+            4,
+            6,
+            2,
+            7,
+            1,
+            5
+          ]
+        },
+        "integrated_gradients": {
+          "mean": 2.6,
+          "frac_rounds_first": 0.5,
+          "per_round": [
+            5,
+            1,
+            1,
+            4,
+            1,
+            7,
+            2,
+            3,
+            1,
+            1
+          ]
+        }
+      },
+      "planted_shapley_share": {
+        "mean": 0.15157367022150656,
+        "sd": 0.12106262224342522,
+        "se": 0.038283362580178705,
+        "ci95": [
+          0.0765382795643563,
+          0.22660906087865682
+        ],
+        "n_rounds": 10
+      },
+      "summary_file": "summary_graph.json"
+    },
+    "abmil": {
+      "n_rounds": 10,
+      "baseline_cindex": {
+        "mean": 0.6365584352013547,
+        "sd": 0.032330016529531685,
+        "se": 0.010223648902421247,
+        "ci95": [
+          0.616520083352609,
+          0.6565967870501004
+        ],
+        "n_rounds": 10
+      },
+      "planted_rank": {
+        "weight_or_attention": {
+          "mean": 7.0,
+          "frac_rounds_first": 0.0,
+          "per_round": [
+            7,
+            7,
+            7,
+            7,
+            7,
+            7,
+            7,
+            7,
+            7,
+            7
+          ]
+        },
+        "deletion": {
+          "mean": 5.9,
+          "frac_rounds_first": 0.0,
+          "per_round": [
+            8,
+            6,
+            7,
+            5,
+            3,
+            3,
+            7,
+            7,
+            8,
+            5
+          ]
+        },
+        "shapley": {
+          "mean": 5.6,
+          "frac_rounds_first": 0.0,
+          "per_round": [
+            7,
+            4,
+            7,
+            8,
+            3,
+            2,
+            7,
+            7,
+            8,
+            3
+          ]
+        },
+        "grad_x_input": {
+          "mean": 7.0,
+          "frac_rounds_first": 0.0,
+          "per_round": [
+            7,
+            6,
+            7,
+            8,
+            7,
+            8,
+            7,
+            7,
+            6,
+            7
+          ]
+        },
+        "integrated_gradients": {
+          "mean": 7.0,
+          "frac_rounds_first": 0.0,
+          "per_round": [
+            7,
+            7,
+            7,
+            7,
+            7,
+            8,
+            7,
+            7,
+            6,
+            7
+          ]
+        }
+      },
+      "planted_shapley_share": {
+        "mean": 0.10654867253937247,
+        "sd": 0.0417929788147149,
+        "se": 0.013216100325766329,
+        "ci95": [
+          0.08064511590087048,
+          0.13245222917787447
+        ],
+        "n_rounds": 10
+      },
+      "summary_file": "summary_abmil.json"
+    }
+  },
+  "reading": "A measure passes if it ranks the planted compartment first (rank 1 of R). 'weight_or_attention' is the fusion weight for the region-fusion model and the attention share for ABMIL. planted_shapley_share is the planted compartment's Shapley value as a fraction of the summed absolute Shapley values over compartments."
+}
