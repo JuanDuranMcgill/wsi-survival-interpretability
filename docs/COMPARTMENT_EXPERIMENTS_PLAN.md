@@ -228,3 +228,75 @@ definition; then the region-fusion model trained on all of TCGA-BRCA and
 evaluated on CPTAC, with the Shapley analysis on the CPTAC patients. Weeks of
 data work before any GPU time; treat as future work unless the data are already
 available.
+
+## Review-response runs (2026-10-07)
+
+All tested end to end on synthetic data. Fresh directories only; run every
+experiment's rounds on one cluster. Slides are sorted, so splits are
+reproducible. Commit the aggregates and every `round_*.json`; never commit
+`*_local.npz`, `planted_feature.npz` or `synthetic_labels.npz`.
+
+Priority order: K, L, M, N.
+
+### K. Permuted-outcome control: `analysis/permuted_outcome.py`
+
+Retrains the region-fusion model on outcomes shuffled across patients (a fresh
+shuffle per round), to test whether the fusion-weight ordering depends on the
+outcome at all. 10 rounds per cohort.
+
+```bash
+python analysis/permuted_outcome.py --cohort blca --rounds-dir /scratch/$USER/permuted_blca --round-start 1 --round-end 10
+python analysis/permuted_outcome.py --cohort brca --rounds-dir /scratch/$USER/permuted_brca --round-start 1 --round-end 10
+python analysis/permuted_outcome.py --cohort blca --aggregate --rounds-dir /scratch/$USER/permuted_blca \
+  --real-run results/shapley_blca/region_shapley_blca.json --out results/permuted_outcome_blca.json
+python analysis/permuted_outcome.py --cohort brca --aggregate --rounds-dir /scratch/$USER/permuted_brca \
+  --real-run results/shapley_brca/region_shapley_brca.json --out results/permuted_outcome_brca.json
+```
+Expected: baseline concordance near 0.5. Copy round files to `results/permuted_outcome_{cohort}/`.
+
+### L. Shapley at the last epoch: `analysis/region_shapley.py --last-epoch`
+
+The original Shapley run selects each round's epoch on the out-of-bag patients.
+This rerun records the same quantities for the last epoch too. 20 rounds per cohort.
+
+```bash
+python analysis/region_shapley.py --cohort blca --last-epoch --rounds-dir /scratch/$USER/shapley_last_blca --round-start 1 --round-end 20
+python analysis/region_shapley.py --cohort brca --last-epoch --rounds-dir /scratch/$USER/shapley_last_brca --round-start 1 --round-end 20
+python analysis/region_shapley.py --cohort blca --aggregate --rounds-dir /scratch/$USER/shapley_last_blca --out results/region_shapley_last_blca.json
+python analysis/region_shapley.py --cohort brca --aggregate --rounds-dir /scratch/$USER/shapley_last_brca --out results/region_shapley_last_brca.json
+```
+Copy round JSONs (not `*_local.npz`) to `results/shapley_last_{cohort}/`.
+
+### M. ABMIL with area-normalised attention and last epoch: `abmil_compartment_shapley.py --last-epoch`
+
+Records attention per unit of tissue (attention share divided by tile share,
+renormalised per patient) and the tile share itself, at the selected and the
+last epoch. 10 rounds per cohort.
+
+```bash
+python analysis/abmil_compartment_shapley.py --cohort blca --last-epoch --rounds-dir /scratch/$USER/abmil_v2_blca --round-start 1 --round-end 10
+python analysis/abmil_compartment_shapley.py --cohort brca --last-epoch --rounds-dir /scratch/$USER/abmil_v2_brca --round-start 1 --round-end 10
+python analysis/abmil_compartment_shapley.py --cohort blca --aggregate --rounds-dir /scratch/$USER/abmil_v2_blca --out results/abmil_shapley_v2_blca.json
+python analysis/abmil_compartment_shapley.py --cohort brca --aggregate --rounds-dir /scratch/$USER/abmil_v2_brca --out results/abmil_shapley_v2_brca.json
+```
+Copy round JSONs to `results/abmil_v2_{cohort}/`.
+
+### N. Planted outcomes with last epoch and area-normalised attention
+
+Same four plantings as before, both models, 10 rounds, with `--last-epoch
+--attributions`. One model per job.
+
+```bash
+for P in "blca Necrosis necrosis" "blca Lamina lamina" "brca Necrosis necrosis" "brca Fibrous fibrous"; do set -- $P
+  python analysis/planted_signal.py --cohort $1 --planted $2 --models graph --last-epoch --attributions \
+    --rounds-dir /scratch/$USER/planted_v3_$1_$3 --round-start 1 --round-end 10
+  python analysis/planted_signal.py --cohort $1 --planted $2 --models abmil --last-epoch --attributions \
+    --rounds-dir /scratch/$USER/planted_v3_$1_$3 --round-start 1 --round-end 10
+done
+# per planting, after all rounds:
+python analysis/planted_signal.py --cohort blca --planted Necrosis --models graph,abmil --aggregate \
+  --rounds-dir /scratch/$USER/planted_v3_blca_necrosis --out results/planted_v3_blca_necrosis.json
+```
+Start one graph job per planting first; launch the rest once
+`planted_feature.npz` exists. Copy round JSONs, `synthetic_meta.json` and
+`summary_*.json` to `results/planted_v3_<cohort>_<planting>/`.

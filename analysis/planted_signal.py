@@ -180,12 +180,12 @@ def main():
                       num_workers=args.num_workers, save_root=save_root,
                       epochs=args.graph_epochs, lr=args.graph_lr,
                       rounds_dir=os.path.join(args.rounds_dir, "graph"),
-                      attributions=args.attributions)
+                      attributions=args.attributions, last_epoch=args.last_epoch)
     aargs = Namespace(**{k: getattr(args, k.replace("-", "_")) for k in
                          ["epochs", "train_frac", "batch_size", "lr", "weight_decay",
                           "max_train_tiles", "in_dim", "num_workers"]},
                       rounds_dir=os.path.join(args.rounds_dir, "abmil"),
-                      attributions=args.attributions)
+                      attributions=args.attributions, last_epoch=args.last_epoch)
     os.makedirs(gargs.rounds_dir, exist_ok=True)
     os.makedirs(aargs.rounds_dir, exist_ok=True)
     set_seed(1337)
@@ -225,6 +225,17 @@ def aggregate(args, names, models):
         for key in ("attr_grad_x_input", "attr_integrated_gradients"):
             if all(key in x for x in recs):
                 ranks[key.replace("attr_", "")] = [rank_of(x[key], r) for x in recs]
+        extra = {"attention_area_norm": ("attention_share_area_norm", True),
+                 "weight_or_attention_last": ("fusion_weights_last" if model == "graph"
+                                              else "attention_share_last", True),
+                 "attention_area_norm_last": ("attention_share_area_norm_last", True),
+                 "deletion_last": ("deletion_delta_last", False),
+                 "shapley_last": ("phi_perf_last", True),
+                 "grad_x_input_last": ("attr_grad_x_input_last", True),
+                 "integrated_gradients_last": ("attr_integrated_gradients_last", True)}
+        for name, (key, hi) in extra.items():
+            if all(key in x for x in recs):
+                ranks[name] = [rank_of(x[key], r, higher_is_more=hi) for x in recs]
         phi = np.array([x["phi_perf"] for x in recs])
         tot = np.abs(phi).sum(1)
         out["models"][model] = {

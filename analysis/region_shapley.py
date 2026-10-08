@@ -306,6 +306,25 @@ def run_round(dataset, R, rnd, args, device):
     if getattr(args, "attributions", False):
         from attribution_methods import graph_attributions
         rec.update(graph_attributions(model, E, device))
+    if getattr(args, "last_epoch", False):
+        # the same audit on the last epoch's model, which involves no epoch selection
+        last = IPGGraphFormer(num_regions=R)
+        last.load_state_dict(torch.load(os.path.join(args.save_root, f"round_{rnd}_epoch_{args.epochs}.pt"),
+                                        map_location="cpu"))
+        last.to(device).eval()
+        E_l, T_l, Ev_l, _ = cache_region_embeddings(last, oob_loader, device)
+        tab_l = coalition_risks(last, E_l, device)
+        v_l = np.array([fast_cindex(T_l, Ev_l, tab_l[m]) for m in range(1 << R)])
+        w_l = torch.relu(last.region_weights.detach().cpu()) + 0.01
+        rec.update({"baseline_cindex_last": float(v_l[full]),
+                    "phi_perf_last": shapley_from_table(v_l, R).tolist(),
+                    "deletion_delta_last": [float(v_l[full & ~(1 << r)] - v_l[full]) for r in range(R)],
+                    "fusion_weights_last": (w_l / w_l.sum()).numpy().tolist()})
+        if getattr(args, "attributions", False):
+            from attribution_methods import graph_attributions
+            rec.update({k + "_last": val for k, val in graph_attributions(last, E_l, device).items()
+                        if k.startswith("attr_")})
+        del last
     ids = [case_id(dataset.samples[i]) for i in oob_idx]
     np.savez_compressed(os.path.join(args.rounds_dir, f"round_{rnd:03d}_local.npz"),
                         patient_ids=np.array(ids), times=times, events=events,
@@ -453,6 +472,8 @@ def main():
     ap.add_argument("--lr", type=float, default=3e-5)
     ap.add_argument("--num-workers", type=int, default=2)
     ap.add_argument("--save-root", default=None, help="temporary per-epoch checkpoints")
+    ap.add_argument("--last-epoch", action="store_true",
+                    help="also audit the last epoch's model, which involves no epoch selection")
     ap.add_argument("--aggregate", action="store_true",
                     help="summarise the round files instead of training")
     ap.add_argument("--out", default=None, help="summary JSON, with --aggregate")

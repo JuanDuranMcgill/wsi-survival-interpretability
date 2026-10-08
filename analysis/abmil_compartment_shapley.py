@@ -152,7 +152,58 @@ def train(model, train_loader, oob_loader, device, args):
         print(f"  epoch {ep}/{args.epochs}  loss={tot:.3f}  OOB c-index={c:.4f}")
     best = int(np.argmax(by_epoch))
     model.load_state_dict(states[best])
-    return best + 1, by_epoch
+    return best + 1, by_epoch, states
+
+
+def audit_pass(model, oob_loader, device, R):
+    """Coalition table, Shapley values, deletion and attention measures for one model state."""
+    model.eval()
+    A_all, H_all, T, E, R_full, NT = [], [], [], [], [], []
+    with torch.no_grad():
+        for feats_list, _, t, e, _, ntiles in oob_loader:
+            for si in range(len(feats_list)):
+                A, H = model.region_stats(feats_list[si], device)
+                A_all.append(A); H_all.append(H)
+                R_full.append(float(model.forward_bag(feats_list[si], device)))
+                NT.append(list(ntiles[si]))
+            T.extend(np.asarray(t).tolist()); E.extend(np.asarray(e).tolist())
+    A = torch.stack(A_all); H = torch.stack(H_all)
+    T, E, R_full, NT = np.array(T), np.array(E), np.array(R_full), np.array(NT, dtype=float)
+
+    table = np.zeros((1 << R, len(T)))
+    for mask in range(1 << R):
+        keep = torch.tensor([(mask >> r) & 1 == 1 for r in range(R)], device=device)
+        table[mask] = model.coalition_risk(A, H, keep).cpu().numpy()
+    full = (1 << R) - 1
+    head_check = float(np.max(np.abs(table[full] - R_full)))
+    if head_check > 1e-3:
+        raise RuntimeError(f"coalition path differs from the model by {head_check}")
+
+    v = np.array([fast_cindex(T, E, table[m]) for m in range(1 << R)])
+    phi = shapley_from_table(v, R)
+    phi_loc = shapley_from_table(table, R)                       # (R, n): payoff = patient's risk
+    absphi = np.abs(phi_loc)
+    share = absphi / np.maximum(absphi.sum(0, keepdims=True), 1e-12)
+
+    An = A.cpu().numpy()
+    att = An / np.maximum(An.sum(1, keepdims=True), 1e-30)       # (n, R) attention mass
+    present = An > 0
+    tile_share = NT / np.maximum(NT.sum(1, keepdims=True), 1)
+    # attention per unit of tissue: attention share over tile share, renormalised per patient
+    ratio = np.where(tile_share > 0, att / np.maximum(tile_share, 1e-12), 0.0)
+    att_norm = ratio / np.maximum(ratio.sum(1, keepdims=True), 1e-30)
+    from scipy.stats import spearmanr
+    per_patient = []
+    for i in range(len(T)):
+        p = present[i]
+        if p.sum() >= 3:
+            rho = spearmanr(att[i, p], share[p, i]).correlation
+            if np.isfinite(rho):
+                per_patient.append(rho)
+    return {
+        "T": T, "E": E, "v": v, "phi": phi, "table": table, "head_check": head_check,
+        "att": att, "present": present, "share": share, "tile_share": tile_share,
+        "att_norm": att_norm, "per_patient": per_patient, "full": full}
 
 
 def run_round(dataset, rnd, args, device):
@@ -166,74 +217,54 @@ def run_round(dataset, rnd, args, device):
     oob_loader = DataLoader(Subset(dataset, oob_idx.tolist()), batch_size=1, shuffle=False,
                             num_workers=1, collate_fn=collate_bags)
     model = GatedABMIL(in_dim=args.in_dim)
-    best_ep, by_epoch = train(model, train_loader, oob_loader, device, args)
-    model.eval()
+    best_ep, by_epoch, states = train(model, train_loader, oob_loader, device, args)
 
-    A_all, H_all, T, E, R_full = [], [], [], [], []
-    with torch.no_grad():
-        for feats_list, _, t, e, _, _ in oob_loader:
-            for si in range(len(feats_list)):
-                A, H = model.region_stats(feats_list[si], device)
-                A_all.append(A); H_all.append(H)
-                R_full.append(float(model.forward_bag(feats_list[si], device)))
-            T.extend(np.asarray(t).tolist()); E.extend(np.asarray(e).tolist())
-    A = torch.stack(A_all); H = torch.stack(H_all)
-    T, E, R_full = np.array(T), np.array(E), np.array(R_full)
-
-    table = np.zeros((1 << R, len(T)))
-    for mask in range(1 << R):
-        keep = torch.tensor([(mask >> r) & 1 == 1 for r in range(R)], device=device)
-        table[mask] = model.coalition_risk(A, H, keep).cpu().numpy()
-    full = (1 << R) - 1
-    head_check = float(np.max(np.abs(table[full] - R_full)))
-    if head_check > 1e-3:
-        raise RuntimeError(f"coalition path differs from the model by {head_check}")
-
-    v = np.array([fast_cindex(T, E, table[m]) for m in range(1 << R)])
-    phi = shapley_from_table(v, R)
+    P = audit_pass(model, oob_loader, device, R)
+    v, phi, full, att, present = P["v"], P["phi"], P["full"], P["att"], P["present"]
     I = interaction_from_table(v, R)
     eff_gap = float(abs(phi.sum() - (v[full] - v[0])))
-    phi_loc = shapley_from_table(table, R)                       # (R, n)
-    absphi = np.abs(phi_loc)
-    share = absphi / np.maximum(absphi.sum(0, keepdims=True), 1e-12)
-
-    An = A.cpu().numpy()
-    att = An / np.maximum(An.sum(1, keepdims=True), 1e-30)       # (n, R) attention mass
-    present = An > 0
-    from scipy.stats import spearmanr
-    per_patient = []
-    for i in range(len(T)):
-        p = present[i]
-        if p.sum() >= 3:
-            rho = spearmanr(att[i, p], share[p, i]).correlation
-            if np.isfinite(rho):
-                per_patient.append(rho)
-
     rec = {
         "round": rnd, "seed_used": int(seed_used), "best_epoch": best_ep,
         "cindex_by_epoch": by_epoch, "n_oob": int(len(oob_idx)), "oob_events": int(oob_events),
         "baseline_cindex": float(v[full]), "empty_coalition_cindex": float(v[0]),
-        "head_check_max_abs_diff": head_check, "efficiency_gap": eff_gap,
+        "head_check_max_abs_diff": P["head_check"], "efficiency_gap": eff_gap,
         "attention_share": att.mean(0).tolist(),
         "attention_share_where_present": [float(att[present[:, r], r].mean()) if present[:, r].any()
                                           else float("nan") for r in range(R)],
+        "attention_share_area_norm": P["att_norm"].mean(0).tolist(),
+        "tile_share": P["tile_share"].mean(0).tolist(),
         "presence_rate": present.mean(0).tolist(),
         "phi_perf": phi.tolist(), "interaction_perf": I.tolist(),
         "deletion_delta": [float(v[full & ~(1 << r)] - v[full]) for r in range(R)],
         "keep_only_gain": [float(v[1 << r] - v[0]) for r in range(R)],
-        "local_share_mean": share.mean(1).tolist(),
-        "per_patient_attention_vs_local_shapley_rho_mean": float(np.mean(per_patient)) if per_patient else None,
-        "per_patient_n": len(per_patient),
-        "seconds": round(time.time() - t0, 1),
+        "local_share_mean": P["share"].mean(1).tolist(),
+        "per_patient_attention_vs_local_shapley_rho_mean":
+            float(np.mean(P["per_patient"])) if P["per_patient"] else None,
+        "per_patient_n": len(P["per_patient"]),
     }
     if getattr(args, "attributions", False):
         from attribution_methods import abmil_attributions
         rec.update(abmil_attributions(model, oob_loader, device, R))
+    if getattr(args, "last_epoch", False):
+        last = GatedABMIL(in_dim=args.in_dim).to(device)
+        last.load_state_dict(states[-1])
+        L = audit_pass(last, oob_loader, device, R)
+        rec.update({
+            "baseline_cindex_last": float(L["v"][L["full"]]),
+            "phi_perf_last": L["phi"].tolist(),
+            "deletion_delta_last": [float(L["v"][L["full"] & ~(1 << r)] - L["v"][L["full"]]) for r in range(R)],
+            "attention_share_last": L["att"].mean(0).tolist(),
+            "attention_share_area_norm_last": L["att_norm"].mean(0).tolist()})
+        if getattr(args, "attributions", False):
+            from attribution_methods import abmil_attributions
+            rec.update({k + "_last": val for k, val in abmil_attributions(last, oob_loader, device, R).items()
+                        if k.startswith("attr_")})
+    rec["seconds"] = round(time.time() - t0, 1)
     with open(os.path.join(args.rounds_dir, f"round_{rnd:03d}.json"), "w") as f:
         json.dump(rec, f)
     if str(device).startswith("cuda"):
         torch.cuda.empty_cache()
-    print(f"  baseline {v[full]:.4f}, head check {head_check:.1e}, efficiency gap {eff_gap:.1e}, "
+    print(f"  baseline {v[full]:.4f}, head check {P['head_check']:.1e}, efficiency gap {eff_gap:.1e}, "
           f"{rec['seconds']:.0f}s")
     return rec
 
@@ -246,6 +277,8 @@ def aggregate(rounds_dir, region_names, out_path, cohort):
     arr = lambda k: np.array([r[k] for r in recs], dtype=float)  # noqa: E731
     att, phi, dele, keep1, share = (arr("attention_share"), arr("phi_perf"), arr("deletion_delta"),
                                     arr("keep_only_gain"), arr("local_share_mean"))
+    has_norm = all("attention_share_area_norm" in x for x in recs)
+    has_last = all("phi_perf_last" in x for x in recs)
     per_region = {nm: {"attention_share": summarise(att[:, r]),
                        "shapley_cindex": summarise(phi[:, r]),
                        "deletion_delta": summarise(dele[:, r]),
@@ -253,6 +286,17 @@ def aggregate(rounds_dir, region_names, out_path, cohort):
                        "local_attribution_share": summarise(share[:, r]),
                        "presence_rate": float(np.mean([x["presence_rate"][r] for x in recs]))}
                   for r, nm in enumerate(region_names)}
+    if has_norm:
+        an = arr("attention_share_area_norm"); ts = arr("tile_share")
+        for r, nm in enumerate(region_names):
+            per_region[nm]["attention_share_area_norm"] = summarise(an[:, r])
+            per_region[nm]["tile_share"] = summarise(ts[:, r])
+    if has_last:
+        pl, dl, al = arr("phi_perf_last"), arr("deletion_delta_last"), arr("attention_share_last")
+        for r, nm in enumerate(region_names):
+            per_region[nm]["shapley_cindex_last"] = summarise(pl[:, r])
+            per_region[nm]["deletion_delta_last"] = summarise(dl[:, r])
+            per_region[nm]["attention_share_last"] = summarise(al[:, r])
     m = lambda k: [per_region[n][k]["mean"] for n in region_names]  # noqa: E731
     sp = lambda a, b: {"spearman_rho": float(spearmanr(a, b).correlation),  # noqa: E731
                        "p": float(spearmanr(a, b).pvalue)}
@@ -272,6 +316,10 @@ def aggregate(rounds_dir, region_names, out_path, cohort):
             "attention_share_vs_shapley": sp(m("attention_share"), m("shapley_cindex")),
             "attention_share_vs_deletion_cost": sp(m("attention_share"), cost),
             "deletion_cost_vs_shapley": sp(cost, m("shapley_cindex")),
+            **({"attention_area_norm_vs_shapley": sp(m("attention_share_area_norm"), m("shapley_cindex")),
+                "tile_share_vs_attention_share": sp(m("tile_share"), m("attention_share"))} if has_norm else {}),
+            **({"attention_vs_shapley_last_epoch": sp(m("attention_share_last"), m("shapley_cindex_last"))}
+               if has_last else {}),
         },
         "per_patient_attention_vs_local_shapley": summarise(pp) if len(pp) > 1 else None,
         "reading": ("attention_share is the mean fraction of a slide's attention on each "
@@ -306,6 +354,8 @@ def add_train_args(ap):
     ap.add_argument("--max-train-tiles", type=int, default=4096)
     ap.add_argument("--in-dim", type=int, default=1536)
     ap.add_argument("--num-workers", type=int, default=2)
+    ap.add_argument("--last-epoch", action="store_true",
+                    help="also audit the last epoch's model, which involves no epoch selection")
 
 
 def main():
