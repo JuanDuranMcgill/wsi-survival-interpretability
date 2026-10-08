@@ -1,0 +1,363 @@
+{
+  "agreement": {
+    "bootstrap_blca": {
+      "n_rounds": 20,
+      "rho": 0.8095238095238096,
+      "exact_permutation_p": 0.02177579365079365,
+      "round_resampling_95": [
+        0.38095238095238104,
+        0.9047619047619048
+      ]
+    },
+    "bootstrap_brca": {
+      "n_rounds": 20,
+      "rho": -0.6,
+      "exact_permutation_p": 0.09679783950617284,
+      "round_resampling_95": [
+        -0.6833333333333333,
+        -0.06666666666666667
+      ]
+    },
+    "bootstrap_blca_minus_brca": {
+      "estimate": 1.4095238095238096,
+      "round_resampling_95": [
+        0.6523214285714286,
+        1.4833333333333334
+      ],
+      "one_sided_p_difference_le_0": 0.0
+    },
+    "graph_diffusion_blca": {
+      "n_rounds": 20,
+      "rho": 0.7380952380952381,
+      "exact_permutation_p": 0.04583333333333333,
+      "round_resampling_95": [
+        0.023809523809523815,
+        0.8095238095238096
+      ]
+    },
+    "graph_diffusion_brca": {
+      "n_rounds": 20,
+      "rho": -0.6,
+      "exact_permutation_p": 0.09679783950617284,
+      "round_resampling_95": [
+        -0.75,
+        0.03333333333333333
+      ]
+    },
+    "graph_diffusion_blca_minus_brca": {
+      "estimate": 1.3380952380952382,
+      "round_resampling_95": [
+        0.2642857142857143,
+        1.411904761904762
+      ],
+      "one_sided_p_difference_le_0": 0.003
+    },
+    "held_out_sites_blca": {
+      "n_rounds": 20,
+      "rho": 0.7619047619047621,
+      "exact_permutation_p": 0.03675595238095238,
+      "round_resampling_95": [
+        0.4047619047619048,
+        0.9047619047619048
+      ]
+    },
+    "held_out_sites_brca": {
+      "n_rounds": 20,
+      "rho": 0.03333333333333333,
+      "exact_permutation_p": 0.9483906525573192,
+      "round_resampling_95": [
+        -0.18333333333333335,
+        0.5333333333333333
+      ]
+    },
+    "held_out_sites_blca_minus_brca": {
+      "estimate": 0.7285714285714288,
+      "round_resampling_95": [
+        0.08571428571428574,
+        0.9571428571428573
+      ],
+      "one_sided_p_difference_le_0": 0.0122
+    },
+    "note": "Intervals resample rounds, not patients: they describe how stable the agreement is across retrained models on these patients."
+  },
+  "blca": {
+    "risk_vs_clinical": {
+      "n": 378,
+      "events": 163,
+      "n_clinical": 21,
+      "penalizer": 0.1,
+      "hr_per_sd_adjusted": 1.2237016517341937,
+      "hr_95": [
+        1.0542597316121547,
+        1.420376485562175
+      ],
+      "lr_chi2": 6.99001112687165,
+      "lr_p": 0.008196584419502908,
+      "risk_r2_from_clinical_in_sample": 0.1840369043107306,
+      "risk_r2_from_clinical_5fold": -0.03814437931415917,
+      "note": "Likelihood-ratio test between penalised fits with the same penaliser; approximate under the ridge penalty."
+    },
+    "site_casemix": {
+      "n_sites_modelled": 14,
+      "casemix": [
+        "pathologic_stage",
+        "pathologic_T",
+        "pathologic_N"
+      ],
+      "risk_r2_casemix": 0.0855612527140801,
+      "risk_r2_casemix_plus_site": 0.21912876392445624,
+      "risk_partial_r2_site": 0.1460650170465854,
+      "risk_site_F": 4.749908654227757,
+      "risk_site_p": 1.2658876135161556e-07,
+      "outcome_site_lr_chi2": 12.804341834129218,
+      "outcome_site_df": 13,
+      "outcome_site_p": 0.4630360312844346
+    },
+    "error_label": {
+      "n": 379,
+      "label": "error above the median",
+      "auroc_pfi_time": 0.5274109978271769,
+      "auroc_pfi_event": 0.5897682322134938,
+      "auroc_n_comparable_pairs": 0.5483174550114212,
+      "spearman_error_followup_censored": NaN,
+      "spearman_error_followup_events": 0.23723889111868135,
+      "auroc_site_5fold": 0.3674995821494234,
+      "auroc_followup_event_pairs_5fold": 0.6048944230876372,
+      "pathomic_auroc_raw": 0.5300432900432901,
+      "pathomic_auroc_within_site_centred": 0.45757575757575764,
+      "pathomic_note": "Simplified check, not a MED3pa rerun: random forest on the 30 features most associated with the label in a 60% split, AUROC on the remaining 40%, with features raw and centred within site."
+    },
+    "enrichment": {
+      "n_patients": 378,
+      "n_features": 851,
+      "n_perm": 2000,
+      "test": "univariate Cox score test; outcomes permuted jointly across patients",
+      "alpha_0.05": {
+        "observed": 119,
+        "expected_independent": 42.550000000000004,
+        "null_mean": 44.3425,
+        "null_95th": 142.04999999999995,
+        "null_99th": 202.01,
+        "perm_p": 0.07796101949025487
+      },
+      "alpha_0.01": {
+        "observed": 36,
+        "expected_independent": 8.51,
+        "null_mean": 9.6445,
+        "null_95th": 42.0,
+        "null_99th": 84.00999999999999,
+        "perm_p": 0.06296851574212893
+      },
+      "alpha_0.001": {
+        "observed": 10,
+        "expected_independent": 0.851,
+        "null_mean": 1.2675,
+        "null_95th": 7.0,
+        "null_99th": 19.00999999999999,
+        "perm_p": 0.03298350824587706
+      },
+      "adipose_only_alpha_0.05": {
+        "n_adipose_features": 104,
+        "observed_p05": 29,
+        "expected_independent": 5.2,
+        "null_mean": 5.273,
+        "null_95th": 24.0,
+        "perm_p": 0.030984507746126936
+      }
+    }
+  },
+  "brca": {
+    "risk_vs_clinical": {
+      "n": 1047,
+      "events": 139,
+      "n_clinical": 25,
+      "penalizer": 0.1,
+      "hr_per_sd_adjusted": 1.1064131302958709,
+      "hr_95": [
+        0.9732053407635287,
+        1.2578537782485866
+      ],
+      "lr_chi2": 2.3631949658260964,
+      "lr_p": 0.12422753014931716,
+      "risk_r2_from_clinical_in_sample": 0.15282444006461082,
+      "risk_r2_from_clinical_5fold": 0.018010553543799455,
+      "note": "Likelihood-ratio test between penalised fits with the same penaliser; approximate under the ridge penalty."
+    },
+    "site_casemix": {
+      "n_sites_modelled": 20,
+      "casemix": [
+        "pathologic_stage",
+        "pathologic_t",
+        "pathologic_n",
+        "breast_carcinoma_estrogen_receptor_status",
+        "breast_carcinoma_progesterone_receptor_status"
+      ],
+      "risk_r2_casemix": 0.10457087097720974,
+      "risk_r2_casemix_plus_site": 0.22590898920901925,
+      "risk_partial_r2_site": 0.13550834376387727,
+      "risk_site_F": 8.431454992420623,
+      "risk_site_p": 2.155149248061867e-22,
+      "outcome_site_lr_chi2": 10.333964974717901,
+      "outcome_site_df": 19,
+      "outcome_site_p": 0.9442207997102455
+    },
+    "error_label": {
+      "n": 1060,
+      "label": "error above the median",
+      "auroc_pfi_time": 0.501885655826819,
+      "auroc_pfi_event": 0.5207653837790824,
+      "auroc_n_comparable_pairs": 0.5062896780839741,
+      "spearman_error_followup_censored": NaN,
+      "spearman_error_followup_events": 0.14853483802291995,
+      "auroc_site_5fold": 0.47699428599945104,
+      "auroc_followup_event_pairs_5fold": 0.5541493339606971,
+      "pathomic_auroc_raw": 0.6172014260249554,
+      "pathomic_auroc_within_site_centred": 0.5987076648841354,
+      "pathomic_note": "Simplified check, not a MED3pa rerun: random forest on the 30 features most associated with the label in a 60% split, AUROC on the remaining 40%, with features raw and centred within site."
+    },
+    "enrichment": {
+      "n_patients": 1047,
+      "n_features": 875,
+      "n_perm": 2000,
+      "test": "univariate Cox score test; outcomes permuted jointly across patients",
+      "alpha_0.05": {
+        "observed": 130,
+        "expected_independent": 43.75,
+        "null_mean": 46.317,
+        "null_95th": 152.04999999999995,
+        "null_99th": 244.01999999999998,
+        "perm_p": 0.07096451774112944
+      },
+      "alpha_0.01": {
+        "observed": 43,
+        "expected_independent": 8.75,
+        "null_mean": 10.4335,
+        "null_95th": 45.0,
+        "null_99th": 110.0,
+        "perm_p": 0.05547226386806597
+      },
+      "alpha_0.001": {
+        "observed": 0,
+        "expected_independent": 0.875,
+        "null_mean": 1.504,
+        "null_95th": 7.0,
+        "null_99th": 22.0,
+        "perm_p": 1.0
+      },
+      "adipose_only_alpha_0.05": {
+        "n_adipose_features": 104,
+        "observed_p05": 11,
+        "expected_independent": 5.2,
+        "null_mean": 5.1725,
+        "null_95th": 25.0,
+        "perm_p": 0.17391304347826086
+      }
+    }
+  },
+  "extra": {
+    "planted_paired_graph": {
+      "n_rounds": 80,
+      "shapley_vs_weight": {
+        "n": 80,
+        "mean_rank_shapley": 2.2625,
+        "mean_rank_other": 3.1,
+        "wilcoxon_p": 0.007491043461724662
+      },
+      "shapley_vs_deletion": {
+        "n": 80,
+        "mean_rank_shapley": 2.2625,
+        "mean_rank_other": 2.5375,
+        "wilcoxon_p": 0.00924582196577996
+      },
+      "shapley_vs_gxi": {
+        "n": 40,
+        "mean_rank_shapley": 2.325,
+        "mean_rank_other": 4.15,
+        "wilcoxon_p": 0.00023732924587100475
+      },
+      "shapley_vs_ig": {
+        "n": 40,
+        "mean_rank_shapley": 2.325,
+        "mean_rank_other": 3.25,
+        "wilcoxon_p": 0.03890411017270737
+      }
+    },
+    "planted_paired_abmil": {
+      "n_rounds": 80,
+      "shapley_vs_weight": {
+        "n": 80,
+        "mean_rank_shapley": 3.975,
+        "mean_rank_other": 5.8625,
+        "wilcoxon_p": 2.580341259811987e-09
+      },
+      "shapley_vs_deletion": {
+        "n": 80,
+        "mean_rank_shapley": 3.975,
+        "mean_rank_other": 4.45,
+        "wilcoxon_p": 0.031413890357594204
+      },
+      "shapley_vs_gxi": {
+        "n": 40,
+        "mean_rank_shapley": 3.75,
+        "mean_rank_other": 5.575,
+        "wilcoxon_p": 0.00012074858464361697
+      },
+      "shapley_vs_ig": {
+        "n": 40,
+        "mean_rank_shapley": 3.75,
+        "mean_rank_other": 5.7,
+        "wilcoxon_p": 4.4979652719246454e-05
+      }
+    },
+    "blca_drop_necrosis_minus_drop_adipose": {
+      "n": 10,
+      "mean_pp": -0.3298352003264049,
+      "ci95_pp": [
+        -1.1907294056577196,
+        0.53105900500491
+      ]
+    },
+    "brca_drop_necrosis_minus_drop_adipose": {
+      "n": 10,
+      "mean_pp": 0.2617611544496701,
+      "ci95_pp": [
+        -1.0266541129999553,
+        1.5501764218992957
+      ]
+    },
+    "blca_weights_vs_tiles": {
+      "n_compartments": 8,
+      "rho_weight_vs_mean_tile_share": -0.38095238095238104,
+      "p1": 0.35181255311756476,
+      "rho_weight_vs_presence": -0.3504383220252313,
+      "p2": 0.3947415684688874
+    },
+    "brca_weights_vs_tiles": {
+      "n_compartments": 9,
+      "rho_weight_vs_mean_tile_share": -0.6166666666666666,
+      "p1": 0.07692880993776309,
+      "rho_weight_vs_presence": -0.7119666788018509,
+      "p2": 0.03142525586076607
+    },
+    "blca_adipose_vs_T": {
+      "feature": "adipose_H_original_firstorder_Uniformity_mean",
+      "n": 378,
+      "spearman_with_T": -0.1200579912379612,
+      "p": 0.019547871955832418,
+      "hr_unadjusted": 0.7714438092817488,
+      "p_unadjusted": 0.0005017100147942741,
+      "hr_adjusted_for_T": 0.7796359013955884,
+      "p_adjusted_for_T": 0.0010112460649461929
+    },
+    "brca_adipose_vs_T": {
+      "feature": "adipose_E_original_firstorder_InterquartileRange_std",
+      "n": 1047,
+      "spearman_with_T": -0.21633741028985215,
+      "p": 1.4869106716906551e-12,
+      "hr_unadjusted": 0.7854134632873542,
+      "p_unadjusted": 0.007633926765032275,
+      "hr_adjusted_for_T": 0.8554521090450218,
+      "p_adjusted_for_T": 0.09546993088338135
+    }
+  }
+}
