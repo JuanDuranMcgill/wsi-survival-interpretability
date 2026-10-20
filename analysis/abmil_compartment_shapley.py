@@ -192,6 +192,11 @@ def audit_pass(model, oob_loader, device, R):
     # attention per unit of tissue: attention share over tile share, renormalised per patient
     ratio = np.where(tile_share > 0, att / np.maximum(tile_share, 1e-12), 0.0)
     att_norm = ratio / np.maximum(ratio.sum(1, keepdims=True), 1e-30)
+    # the mean over all patients counts an absent compartment as zero, which penalises sparse
+    # compartments for being absent; this mean is over the patients who have the compartment
+    # (0 when no out-of-bag patient has it, so it ranks last)
+    n_present = present.sum(0)
+    att_norm_wp = np.where(n_present > 0, (att_norm * present).sum(0) / np.maximum(n_present, 1), 0.0)
     from scipy.stats import spearmanr
     per_patient = []
     for i in range(len(T)):
@@ -203,7 +208,7 @@ def audit_pass(model, oob_loader, device, R):
     return {
         "T": T, "E": E, "v": v, "phi": phi, "table": table, "head_check": head_check,
         "att": att, "present": present, "share": share, "tile_share": tile_share,
-        "att_norm": att_norm, "per_patient": per_patient, "full": full}
+        "att_norm": att_norm, "att_norm_wp": att_norm_wp, "per_patient": per_patient, "full": full}
 
 
 def run_round(dataset, rnd, args, device):
@@ -232,6 +237,7 @@ def run_round(dataset, rnd, args, device):
         "attention_share_where_present": [float(att[present[:, r], r].mean()) if present[:, r].any()
                                           else float("nan") for r in range(R)],
         "attention_share_area_norm": P["att_norm"].mean(0).tolist(),
+        "attention_share_area_norm_where_present": P["att_norm_wp"].tolist(),
         "tile_share": P["tile_share"].mean(0).tolist(),
         "presence_rate": present.mean(0).tolist(),
         "phi_perf": phi.tolist(), "interaction_perf": I.tolist(),
@@ -254,7 +260,8 @@ def run_round(dataset, rnd, args, device):
             "phi_perf_last": L["phi"].tolist(),
             "deletion_delta_last": [float(L["v"][L["full"] & ~(1 << r)] - L["v"][L["full"]]) for r in range(R)],
             "attention_share_last": L["att"].mean(0).tolist(),
-            "attention_share_area_norm_last": L["att_norm"].mean(0).tolist()})
+            "attention_share_area_norm_last": L["att_norm"].mean(0).tolist(),
+            "attention_share_area_norm_where_present_last": L["att_norm_wp"].tolist()})
         if getattr(args, "attributions", False):
             from attribution_methods import abmil_attributions
             rec.update({k + "_last": val for k, val in abmil_attributions(last, oob_loader, device, R).items()
@@ -291,6 +298,11 @@ def aggregate(rounds_dir, region_names, out_path, cohort):
         for r, nm in enumerate(region_names):
             per_region[nm]["attention_share_area_norm"] = summarise(an[:, r])
             per_region[nm]["tile_share"] = summarise(ts[:, r])
+    has_norm_wp = all("attention_share_area_norm_where_present" in x for x in recs)
+    if has_norm_wp:
+        aw = arr("attention_share_area_norm_where_present")
+        for r, nm in enumerate(region_names):
+            per_region[nm]["attention_share_area_norm_where_present"] = summarise(aw[:, r])
     if has_last:
         pl, dl, al = arr("phi_perf_last"), arr("deletion_delta_last"), arr("attention_share_last")
         for r, nm in enumerate(region_names):
@@ -318,6 +330,8 @@ def aggregate(rounds_dir, region_names, out_path, cohort):
             "deletion_cost_vs_shapley": sp(cost, m("shapley_cindex")),
             **({"attention_area_norm_vs_shapley": sp(m("attention_share_area_norm"), m("shapley_cindex")),
                 "tile_share_vs_attention_share": sp(m("tile_share"), m("attention_share"))} if has_norm else {}),
+            **({"attention_area_norm_where_present_vs_shapley":
+                sp(m("attention_share_area_norm_where_present"), m("shapley_cindex"))} if has_norm_wp else {}),
             **({"attention_vs_shapley_last_epoch": sp(m("attention_share_last"), m("shapley_cindex_last"))}
                if has_last else {}),
         },

@@ -226,6 +226,8 @@ def aggregate(args, names, models):
             if all(key in x for x in recs):
                 ranks[key.replace("attr_", "")] = [rank_of(x[key], r) for x in recs]
         extra = {"attention_area_norm": ("attention_share_area_norm", True),
+                 "attention_area_norm_where_present": ("attention_share_area_norm_where_present", True),
+                 "attention_area_norm_where_present_last": ("attention_share_area_norm_where_present_last", True),
                  "weight_or_attention_last": ("fusion_weights_last" if model == "graph"
                                               else "attention_share_last", True),
                  "attention_area_norm_last": ("attention_share_area_norm_last", True),

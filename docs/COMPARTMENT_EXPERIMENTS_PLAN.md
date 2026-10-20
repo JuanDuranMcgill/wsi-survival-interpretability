@@ -238,6 +238,17 @@ reproducible. Commit the aggregates and every `round_*.json`; never commit
 
 Priority order: K, L, M, N.
 
+Launching (2026-10-20): `bash slurm/launch_review_runs.sh narval 1` submits round 1
+of everything (10 jobs), including each planting's graph round, which writes
+`planted_feature.npz`; check the round-1 files, then `... narval 2` submits the
+remaining 150, one round per job. `trillium` in place of `narval` uses the
+Trillium headers; pick one cluster per experiment. `bash
+slurm/aggregate_review_runs.sh narval` writes the summaries and copies the round
+files into `results/`. ABMIL rounds (M, N) also record
+`attention_share_area_norm_where_present`, the area-normalised attention averaged
+over the patients who have each compartment, since the all-patient mean counts an
+absent compartment as zero.
+
 ### K. Permuted-outcome control: `analysis/permuted_outcome.py`
 
 Retrains the region-fusion model on outcomes shuffled across patients (a fresh
