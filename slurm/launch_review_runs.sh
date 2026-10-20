@@ -5,7 +5,9 @@
 #   bash slurm/launch_review_runs.sh narval 1     # round 1 of everything (timing + sanity)
 #   bash slurm/launch_review_runs.sh narval 2     # every remaining round
 #
-# Optional third argument restricts the experiments, e.g. "M N".
+# Optional third argument restricts the experiments, e.g. "M N". Experiment S
+# (Shapley with absent compartments masked out of attention, 20 rounds) runs only
+# when named: bash slurm/launch_review_runs.sh narval 1 S
 #
 # Step 1 submits round 1 of K, L and M, and round 1 of the graph model for each
 # planting, which writes that planting's planted_feature.npz before any training.
@@ -42,6 +44,7 @@ walltime() {  # experiment, cohort, model
   case "$1/$2/$3" in
     K/blca/*) echo 06:00:00 ;;  K/brca/*) echo 10:00:00 ;;
     L/blca/*) echo 08:00:00 ;;  L/brca/*) echo 12:00:00 ;;
+    S/blca/*) echo 08:00:00 ;;  S/brca/*) echo 12:00:00 ;;
     M/blca/*) echo 12:00:00 ;;  M/brca/*) echo 16:00:00 ;;
     N/blca/graph) echo 08:00:00 ;;  N/brca/graph) echo 12:00:00 ;;
     N/blca/abmil) echo 12:00:00 ;;  N/brca/abmil) echo 16:00:00 ;;
@@ -75,10 +78,11 @@ rounds() { if [ "$STEP" = 1 ]; then echo 1; else seq 2 "$1"; fi; }
 
 for exp in $EXPS; do
   case "$exp" in
-    K|L|M)
+    K|L|M|S)
       for cohort in blca brca; do
         case "$exp" in K) dir=$SCR/permuted_$cohort; n=10 ;;
                        L) dir=$SCR/shapley_last_$cohort; n=20 ;;
+                       S) dir=$SCR/shapley_masked_$cohort; n=20 ;;
                        M) dir=$SCR/abmil_v2_$cohort; n=10 ;; esac
         echo "=== $exp $cohort ($dir)"
         if [ "$STEP" = 1 ]; then fresh "$dir" || continue; else have_round1 "$dir" || continue; fi
