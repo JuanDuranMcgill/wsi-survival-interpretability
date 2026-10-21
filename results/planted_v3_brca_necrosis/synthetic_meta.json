@@ -1,0 +1,14 @@
+{
+  "cohort": "brca",
+  "planted_region": "Necrosis or hemorrhage",
+  "planted_index": 6,
+  "direction": "random",
+  "seed": 7,
+  "beta": 0.9451325360623741,
+  "oracle_cindex": 0.7499950446968345,
+  "target_cindex": 0.75,
+  "censored_fraction": 0.8688679245283019,
+  "n_events": 139,
+  "n_patients": 1060,
+  "planted_presence_rate": 0.8971698113207547
+}
