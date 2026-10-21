@@ -38,6 +38,9 @@ for exp in $EXPS; do
       L) python analysis/region_shapley.py --cohort "$cohort" --aggregate --rounds-dir "$SCR/shapley_last_$cohort" \
            --out "results/region_shapley_last_$cohort.json"
          copy_rounds "$SCR/shapley_last_$cohort" "results/shapley_last_$cohort" ;;
+      S) python analysis/region_shapley.py --cohort "$cohort" --aggregate --rounds-dir "$SCR/shapley_masked_$cohort" \
+           --out "results/region_shapley_masked_$cohort.json"
+         copy_rounds "$SCR/shapley_masked_$cohort" "results/shapley_masked_$cohort" ;;
       M) python analysis/abmil_compartment_shapley.py --cohort "$cohort" --aggregate \
            --rounds-dir "$SCR/abmil_v2_$cohort" --out "results/abmil_shapley_v2_$cohort.json"
          copy_rounds "$SCR/abmil_v2_$cohort" "results/abmil_v2_$cohort" ;;

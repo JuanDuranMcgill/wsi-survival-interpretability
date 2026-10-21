@@ -192,9 +192,13 @@ class AGTLayer(nn.Module):
 
 class IPGGraphFormer(nn.Module):
     def __init__(self, num_regions, in_dim=1536, d_model=384, agt_heads=6,
-                 agt_layers=2, gnn_hops=3, dropout=0.2):
+                 agt_layers=2, gnn_hops=3, dropout=0.2, mask_absent=False):
         super().__init__()
         self.num_regions = num_regions
+        # mask_absent: a compartment a slide lacks is masked out of cross-region
+        # attention and left out of the fusion sum, instead of entering both as a
+        # zero token. Off by default, which is the published model.
+        self.mask_absent = mask_absent
         self.d_model = d_model
         self.gnn_hops = gnn_hops
 
@@ -267,6 +271,10 @@ class IPGGraphFormer(nn.Module):
                 region_embs.append(self.forward_bag(f, p, None, ri))
             region_embs = torch.stack(region_embs)
             reg_3d = region_embs.unsqueeze(0)
+            if self.mask_absent:
+                absent = torch.tensor([f is None for f in feats_list[si]], device=device)
+                slide_embeddings.append(self.fuse_masked(reg_3d, absent.unsqueeze(0)).squeeze(0))
+                continue
             attn_out, _ = self.cross_region_attn(reg_3d, reg_3d, reg_3d, need_weights=False)
             region_embs = self.cross_region_norm(region_embs + attn_out.squeeze(0))
             w_raw = torch.relu(self.region_weights) + 0.01
@@ -274,6 +282,19 @@ class IPGGraphFormer(nn.Module):
             slide_embeddings.append((w.unsqueeze(1) * region_embs).sum(dim=0))
         H = torch.stack(slide_embeddings)
         return self.head(H).squeeze(-1)
+
+    def fuse_masked(self, X, drop):
+        """Patient embeddings (n, d) from region embeddings X (n, R, d), with the
+        regions in drop (n, R, bool) masked out of cross-region attention as keys
+        and zeroed after it, fusion weights left unnormalised as in removal. A
+        patient with every region dropped gets no key mask, to avoid an all-masked
+        softmax, and a zero embedding."""
+        kpm = drop & ~drop.all(dim=1, keepdim=True)
+        attn, _ = self.cross_region_attn(X, X, X, key_padding_mask=kpm, need_weights=False)
+        X = self.cross_region_norm(X + attn).masked_fill(drop.unsqueeze(-1), 0.0)
+        w_raw = torch.relu(self.region_weights) + 0.01
+        w = w_raw / w_raw.sum()
+        return (w.view(1, -1, 1) * X).sum(dim=1)
 
     def forward_batch_ablated(self, feats_list, pos_list, zeroed_region, renormalize):
         """Ablation forward: zero region zeroed_region before cross-region

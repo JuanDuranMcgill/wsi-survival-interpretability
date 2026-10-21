@@ -156,8 +156,14 @@ def head_risk(model, E, keep):
     """Risk with only the regions in `keep` present. E: (n, R, d) on device.
 
     Mirrors IPGGraphFormer.forward_batch_ablated with renormalize=False,
-    generalised from one removed region to any set of them.
+    generalised from one removed region to any set of them. With a model built
+    with mask_absent, removed regions are masked out of the attention instead,
+    together with the regions the slide lacks (cached as zero embeddings), which
+    is how that model was trained to see a slide without them.
     """
+    if getattr(model, "mask_absent", False):
+        drop = (~keep).view(1, -1) | (E.abs().sum(-1) == 0)
+        return model.head(model.fuse_masked(E, drop)).squeeze(-1)
     X = E.clone()
     drop = ~keep
     X[:, drop] = 0.0
@@ -227,6 +233,7 @@ def interaction_from_table(v, R):
 
 def run_round(dataset, R, rnd, args, device):
     t0 = time.time()
+    mask_absent = getattr(args, "mask_absent", False)
     train_idx, oob_idx, seed_used, oob_events = oob_split(dataset, rnd, args.train_frac)
     print(f"\n=== Round {rnd}  (seed {seed_used}, OOB n={len(oob_idx)}, "
           f"events={oob_events}) ===")
@@ -237,14 +244,14 @@ def run_round(dataset, R, rnd, args, device):
                             shuffle=False, num_workers=1, collate_fn=collate_bags)
 
     os.makedirs(args.save_root, exist_ok=True)
-    model = IPGGraphFormer(num_regions=R)
+    model = IPGGraphFormer(num_regions=R, mask_absent=mask_absent)
     train_one_round(model, train_loader, device, args.epochs, args.save_root, rnd, lr=args.lr)
     model.cpu()
     del model
 
     best_ep, best_c = 1, -1.0
     for ep in range(1, args.epochs + 1):
-        m = IPGGraphFormer(num_regions=R)
+        m = IPGGraphFormer(num_regions=R, mask_absent=mask_absent)
         m.load_state_dict(torch.load(os.path.join(args.save_root,
                                                   f"round_{rnd}_epoch_{ep}.pt"),
                                      map_location="cpu"))
@@ -255,7 +262,7 @@ def run_round(dataset, R, rnd, args, device):
         del m
     print(f"  best epoch {best_ep} (OOB c-index {best_c:.4f})")
 
-    model = IPGGraphFormer(num_regions=R)
+    model = IPGGraphFormer(num_regions=R, mask_absent=mask_absent)
     model.load_state_dict(torch.load(os.path.join(args.save_root,
                                                   f"round_{rnd}_epoch_{best_ep}.pt"),
                                      map_location="cpu"))
@@ -287,6 +294,7 @@ def run_round(dataset, R, rnd, args, device):
     rec = {
         "round": rnd, "seed_used": int(seed_used), "best_epoch": int(best_ep),
         "n_oob": int(len(oob_idx)), "oob_events": oob_events,
+        "removal": "masked" if mask_absent else "zeroed",
         "baseline_cindex": float(v_perf[full]),
         "empty_coalition_cindex": float(v_perf[0]),
         "head_check_max_abs_diff": head_check,
@@ -308,7 +316,7 @@ def run_round(dataset, R, rnd, args, device):
         rec.update(graph_attributions(model, E, device))
     if getattr(args, "last_epoch", False):
         # the same audit on the last epoch's model, which involves no epoch selection
-        last = IPGGraphFormer(num_regions=R)
+        last = IPGGraphFormer(num_regions=R, mask_absent=mask_absent)
         last.load_state_dict(torch.load(os.path.join(args.save_root, f"round_{rnd}_epoch_{args.epochs}.pt"),
                                         map_location="cpu"))
         last.to(device).eval()
@@ -395,11 +403,22 @@ def aggregate(rounds_dir, region_names, out_path, cohort):
     cost = [-x for x in means("deletion_delta")]
     rc = spearmanr(cost, means("shapley_cindex"))
 
+    # rounds written before --mask-absent existed have no "removal" field and were zeroed
+    kinds = {r.get("removal", "zeroed") for r in recs}
+    if len(kinds) > 1:
+        raise SystemExit(f"{rounds_dir} mixes removal kinds {sorted(kinds)}; aggregate them separately")
+    removal = {
+        "zeroed": ("region embedding zeroed after per-region encoding, before "
+                   "cross-region attention and again after its LayerNorm; fusion "
+                   "weights not renormalised (as region_ablation.py, no_renorm)"),
+        "masked": ("region masked out of cross-region attention as a key and zeroed "
+                   "after its LayerNorm, as the model (trained with --mask-absent) "
+                   "sees a slide that lacks it; fusion weights not renormalised"),
+    }[kinds.pop()]
+
     out = {
         "cohort": cohort, "n_rounds": len(recs), "region_names": region_names,
-        "removal": ("region embedding zeroed after per-region encoding, before "
-                    "cross-region attention and again after its LayerNorm; fusion "
-                    "weights not renormalised (as region_ablation.py, no_renorm)"),
+        "removal": removal,
         "payoffs": {"global": "out-of-bag concordance",
                     "local": "each patient's risk score"},
         "checks": {
@@ -474,6 +493,9 @@ def main():
     ap.add_argument("--save-root", default=None, help="temporary per-epoch checkpoints")
     ap.add_argument("--last-epoch", action="store_true",
                     help="also audit the last epoch's model, which involves no epoch selection")
+    ap.add_argument("--mask-absent", action="store_true",
+                    help="train and remove with absent compartments masked out of cross-region "
+                         "attention instead of entering it as zero tokens")
     ap.add_argument("--aggregate", action="store_true",
                     help="summarise the round files instead of training")
     ap.add_argument("--out", default=None, help="summary JSON, with --aggregate")
@@ -491,7 +513,8 @@ def main():
         aggregate(args.rounds_dir, region_names, args.out, args.cohort)
         return
 
-    args.save_root = args.save_root or f"/scratch/{os.environ.get('USER', 'user')}/shapley_tmp_{args.cohort}"
+    tmp = "shapley_masked_tmp" if args.mask_absent else "shapley_tmp"
+    args.save_root = args.save_root or f"/scratch/{os.environ.get('USER', 'user')}/{tmp}_{args.cohort}"
     surv = pd.read_excel(args.cdr_xlsx)
     surv = surv[surv["type"].str.contains("BLCA" if args.cohort == "blca" else "BRCA", na=False)]
     surv = surv[["bcr_patient_barcode", "PFI", "PFI.time"]].copy()

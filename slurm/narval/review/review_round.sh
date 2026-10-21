@@ -19,6 +19,8 @@
 #   L  Shapley, also at the last epoch  analysis/region_shapley.py --last-epoch
 #   M  ABMIL, area-normalised attention analysis/abmil_compartment_shapley.py --last-epoch
 #   N  planted outcomes                 analysis/planted_signal.py --last-epoch --attributions
+#   S  Shapley, absent compartments masked out of attention (branch masked-attention-shapley)
+#                                       analysis/region_shapley.py --mask-absent --last-epoch
 set -euo pipefail
 : "${EXP:?}"; : "${COHORT:?}"; : "${ROUNDS_DIR:?}"; : "${ROUND_START:?}"; : "${ROUND_END:?}"
 BATCH_SIZE="${BATCH_SIZE:-16}"
@@ -36,6 +38,7 @@ COMMON=(--cohort "$COHORT" --rounds-dir "$ROUNDS_DIR" --round-start "$ROUND_STAR
 case "$EXP" in
   K) python analysis/permuted_outcome.py "${COMMON[@]}" ;;
   L) python analysis/region_shapley.py "${COMMON[@]}" --last-epoch ;;
+  S) python analysis/region_shapley.py "${COMMON[@]}" --mask-absent --last-epoch ;;
   M) python analysis/abmil_compartment_shapley.py "${COMMON[@]}" --last-epoch ;;
   N) : "${PLANTED:?}"; : "${MODELS:?}"
      case "$MODELS" in
@@ -43,7 +46,7 @@ case "$EXP" in
      esac
      python analysis/planted_signal.py "${COMMON[@]}" --planted "$PLANTED" --models "$MODELS" \
        --last-epoch --attributions ;;
-  *) echo "ABORT: unknown EXP='$EXP' (expected K, L, M or N)" >&2; exit 1 ;;
+  *) echo "ABORT: unknown EXP='$EXP' (expected K, L, M, N or S)" >&2; exit 1 ;;
 esac
 
 echo ">>> review $EXP $COHORT ${PLANTED:-} ${MODELS:-} rounds $ROUND_START-$ROUND_END finished at $(date)"

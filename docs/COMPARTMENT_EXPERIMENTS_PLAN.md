@@ -249,6 +249,23 @@ files into `results/`. ABMIL rounds (M, N) also record
 over the patients who have each compartment, since the all-patient mean counts an
 absent compartment as zero.
 
+### S. Shapley with absent compartments masked: `region_shapley.py --mask-absent`
+
+Branch `masked-attention-shapley`. In the published model a compartment a slide
+lacks enters cross-region attention as a zero token and still enters the fusion
+sum after the LayerNorm, whereas Shapley removal zeroes it after the LayerNorm
+too, so removal is not exactly absence. With `--mask-absent` the model is trained
+with absent compartments masked out of attention (key padding mask) and left out
+of the fusion sum, and removal does the same, so removing a compartment equals
+the slide lacking it (checked on a synthetic model to 1e-5). Last-epoch audit
+included. 20 rounds per cohort, its own temp folder `shapley_masked_tmp_<cohort>`.
+
+```bash
+bash slurm/launch_review_runs.sh narval 1 S     # round 1, both cohorts
+bash slurm/launch_review_runs.sh narval 2 S     # rounds 2-20
+bash slurm/aggregate_review_runs.sh narval S
+```
+
 ### K. Permuted-outcome control: `analysis/permuted_outcome.py`
 
 Retrains the region-fusion model on outcomes shuffled across patients (a fresh
