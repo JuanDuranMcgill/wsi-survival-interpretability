@@ -39,12 +39,25 @@ grep -q "attention_share_area_norm_where_present" analysis/abmil_compartment_sha
 echo ">>> $CLUSTER step $STEP, experiments: $EXPS, commit $(git rev-parse --short HEAD)"
 
 walltime() {  # experiment, cohort, model
+  case "$CLUSTER/$1/$2/$3" in
+    # Narval: sized from docs/NARVAL_ROUND_TIME_BUDGETS.txt (ABMIL ~4h/round BLCA,
+    # 6-8h BRCA); Narval is several times slower than Trillium for these jobs
+    narval/K/blca/*) echo 06:00:00 ;;  narval/K/brca/*) echo 10:00:00 ;;
+    narval/L/blca/*) echo 08:00:00 ;;  narval/L/brca/*) echo 12:00:00 ;;
+    narval/M/blca/*) echo 12:00:00 ;;  narval/M/brca/*) echo 16:00:00 ;;
+    narval/N/blca/graph) echo 08:00:00 ;;  narval/N/brca/graph) echo 12:00:00 ;;
+    narval/N/blca/abmil) echo 12:00:00 ;;  narval/N/brca/abmil) echo 16:00:00 ;;
+  esac
+  case "$CLUSTER/$1/$2/$3" in narval/*) return ;; esac
   case "$1/$2/$3" in
-    K/blca/*) echo 06:00:00 ;;  K/brca/*) echo 10:00:00 ;;
-    L/blca/*) echo 08:00:00 ;;  L/brca/*) echo 12:00:00 ;;
-    M/blca/*) echo 12:00:00 ;;  M/brca/*) echo 16:00:00 ;;
-    N/blca/graph) echo 08:00:00 ;;  N/brca/graph) echo 12:00:00 ;;
-    N/blca/abmil) echo 12:00:00 ;;  N/brca/abmil) echo 16:00:00 ;;
+    # Trillium: revised 2026-10-20 from step-1 seconds (~2-3x observed):
+    # BLCA graph ~28 min, BRCA graph ~55 min, M blca 38 min, M brca 85 min;
+    # 81 step-2 rounds all finished under 40% of these
+    K/blca/*) echo 01:30:00 ;;  K/brca/*) echo 02:30:00 ;;
+    L/blca/*) echo 01:30:00 ;;  L/brca/*) echo 02:30:00 ;;
+    M/blca/*) echo 02:00:00 ;;  M/brca/*) echo 04:00:00 ;;
+    N/blca/graph) echo 01:30:00 ;;  N/brca/graph) echo 02:30:00 ;;
+    N/blca/abmil) echo 02:00:00 ;;  N/brca/abmil) echo 04:00:00 ;;
   esac
 }
 
