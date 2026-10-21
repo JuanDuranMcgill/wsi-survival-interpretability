@@ -11,7 +11,7 @@
     "Muscularis propria (detrusor muscle)",
     "Necrosis"
   ],
-  "removal": "region embedding zeroed after per-region encoding, before cross-region attention and again after its LayerNorm; fusion weights not renormalised (as region_ablation.py, no_renorm)",
+  "removal": "region masked out of cross-region attention as a key and zeroed after its LayerNorm, as the model (trained with --mask-absent) sees a slide that lacks it; fusion weights not renormalised",
   "payoffs": {
     "global": "out-of-bag concordance",
     "local": "each patient's risk score"
@@ -1299,19 +1299,19 @@
   "agreement_across_regions": {
     "fusion_weight_vs_shapley": {
       "spearman_rho": 0.8095238095238096,
-      "p": 0.014902667686230072
+      "p": 0.014902667686230067
     },
     "fusion_weight_vs_local_share": {
       "spearman_rho": 0.9047619047619048,
-      "p": 0.002008275505429469
+      "p": 0.0020082755054294677
     },
     "deletion_cost_vs_shapley": {
       "spearman_rho": 0.9761904761904763,
-      "p": 3.314396026200098e-05
+      "p": 3.3143960262001043e-05
     },
     "local_share_vs_shapley": {
       "spearman_rho": 0.7142857142857144,
-      "p": 0.046528232284167255
+      "p": 0.04652823228416724
     }
   },
   "reading": "shapley_cindex is each region's exact Shapley value with out-of-bag concordance as the payoff; they sum to baseline minus the empty-model concordance of 0.5. deletion_delta is the single-region deletion from the same models, negative when the region matters. local_attribution_share is each region's share of the per-patient absolute Shapley attribution on the risk score, on the same scale as a fusion weight. A positive interaction means two regions contribute more together than the sum of their separate contributions."

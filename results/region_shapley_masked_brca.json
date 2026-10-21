@@ -12,7 +12,7 @@
     "Normal breast glands and lobules (TDLU)",
     "Tumor-infiltrating lymphocytes (immune infiltrates)"
   ],
-  "removal": "region embedding zeroed after per-region encoding, before cross-region attention and again after its LayerNorm; fusion weights not renormalised (as region_ablation.py, no_renorm)",
+  "removal": "region masked out of cross-region attention as a key and zeroed after its LayerNorm, as the model (trained with --mask-absent) sees a slide that lacks it; fusion weights not renormalised",
   "payoffs": {
     "global": "out-of-bag concordance",
     "local": "each patient's risk score"
@@ -1578,19 +1578,19 @@
   "agreement_across_regions": {
     "fusion_weight_vs_shapley": {
       "spearman_rho": -0.3666666666666667,
-      "p": 0.3317398014330152
+      "p": 0.33173980143301496
     },
     "fusion_weight_vs_local_share": {
       "spearman_rho": 0.9166666666666666,
-      "p": 0.0005066190663052083
+      "p": 0.0005066190663052084
     },
     "deletion_cost_vs_shapley": {
       "spearman_rho": 0.8333333333333333,
-      "p": 0.005265691029161747
+      "p": 0.00526569102916175
     },
     "local_share_vs_shapley": {
       "spearman_rho": -0.15,
-      "p": 0.7000942309691418
+      "p": 0.7000942309691419
     }
   },
   "reading": "shapley_cindex is each region's exact Shapley value with out-of-bag concordance as the payoff; they sum to baseline minus the empty-model concordance of 0.5. deletion_delta is the single-region deletion from the same models, negative when the region matters. local_attribution_share is each region's share of the per-patient absolute Shapley attribution on the risk score, on the same scale as a fusion weight. A positive interaction means two regions contribute more together than the sum of their separate contributions."

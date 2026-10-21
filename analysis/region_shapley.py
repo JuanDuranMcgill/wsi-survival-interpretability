@@ -403,11 +403,22 @@ def aggregate(rounds_dir, region_names, out_path, cohort):
     cost = [-x for x in means("deletion_delta")]
     rc = spearmanr(cost, means("shapley_cindex"))
 
+    # rounds written before --mask-absent existed have no "removal" field and were zeroed
+    kinds = {r.get("removal", "zeroed") for r in recs}
+    if len(kinds) > 1:
+        raise SystemExit(f"{rounds_dir} mixes removal kinds {sorted(kinds)}; aggregate them separately")
+    removal = {
+        "zeroed": ("region embedding zeroed after per-region encoding, before "
+                   "cross-region attention and again after its LayerNorm; fusion "
+                   "weights not renormalised (as region_ablation.py, no_renorm)"),
+        "masked": ("region masked out of cross-region attention as a key and zeroed "
+                   "after its LayerNorm, as the model (trained with --mask-absent) "
+                   "sees a slide that lacks it; fusion weights not renormalised"),
+    }[kinds.pop()]
+
     out = {
         "cohort": cohort, "n_rounds": len(recs), "region_names": region_names,
-        "removal": ("region embedding zeroed after per-region encoding, before "
-                    "cross-region attention and again after its LayerNorm; fusion "
-                    "weights not renormalised (as region_ablation.py, no_renorm)"),
+        "removal": removal,
         "payoffs": {"global": "out-of-bag concordance",
                     "local": "each patient's risk score"},
         "checks": {
