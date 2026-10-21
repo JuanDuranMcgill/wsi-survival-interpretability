@@ -53,16 +53,19 @@ one in 85 min, against ~4 h and 6-8 h on Narval.
 > 2. Check that `/scratch/sorkwos/planted_v3_{blca_necrosis,blca_lamina,brca_necrosis,brca_fibrous}`
 >    don't exist on Narval or hold no round files. Check that the venv and the
 >    Narval data paths used by `slurm/narval/review/review_round.sh` exist.
-> 3. Step 1: `bash slurm/launch_review_runs.sh narval 1 N` submits four jobs,
->    graph round 1 per planting, each writing that planting's
->    `planted_feature.npz`. When they finish, check each `graph/round_001.json`:
->    baseline_cindex > 0.5, efficiency_gap < 1e-9, head_check_max_abs_diff < 1e-3,
->    empty_coalition_cindex = 0.5, and that `planted_feature.npz` exists. Note the
->    `seconds` field. For reference, Trillium's graph round 1 gave baselines of
->    0.651 (blca necrosis), 0.646 (blca lamina), 0.590 (brca necrosis) and 0.700
->    (brca fibrous).
-> 4. Step 2, only once step 1 passes: `bash slurm/launch_review_runs.sh narval 2 N`
->    submits 76 jobs: graph rounds 2-10 and ABMIL rounds 1-10 for each planting.
+> 3. Submit everything at once, to run unattended overnight:
+>    `bash slurm/launch_review_runs.sh narval all N` submits 80 jobs. Each
+>    planting's graph round 1 runs first and writes `planted_feature.npz`; its
+>    other 19 jobs (graph rounds 2-10, ABMIL rounds 1-10) wait on it with
+>    `--dependency=afterok` and are cancelled if it fails. Round 1 already
+>    passed on Trillium with this code. Confirm `squeue -u sorkwos` lists 80
+>    jobs, 76 of them pending on (Dependency).
+> 4. Later, check each `graph/round_001.json`: baseline_cindex > 0.5,
+>    efficiency_gap < 1e-9, head_check_max_abs_diff < 1e-3,
+>    empty_coalition_cindex = 0.5, and that `planted_feature.npz` exists. For
+>    reference, Trillium's graph round 1 gave baselines of 0.651 (blca necrosis),
+>    0.646 (blca lamina), 0.590 (brca necrosis) and 0.700 (brca fibrous). If one
+>    fails a check, cancel that planting's jobs (ask first) and report.
 > 5. When all have finished: `bash slurm/aggregate_review_runs.sh narval N`, check
 >    that each summary has n_rounds = 10 per model, and commit the aggregates and
 >    `round_*.json`. Never commit `*_local.npz`, `planted_feature.npz` or

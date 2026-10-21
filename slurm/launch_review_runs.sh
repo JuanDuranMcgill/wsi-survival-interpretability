@@ -4,6 +4,7 @@
 #
 #   bash slurm/launch_review_runs.sh narval 1     # round 1 of everything (timing + sanity)
 #   bash slurm/launch_review_runs.sh narval 2     # every remaining round
+#   bash slurm/launch_review_runs.sh narval all   # both at once, unattended
 #
 # Optional third argument restricts the experiments, e.g. "M N".
 #
@@ -14,6 +15,12 @@
 # 0.5). Step 2 submits the rest, including every ABMIL planted round, and skips any
 # piece whose round 1 is missing.
 #
+# "all" submits round 1 and the remaining rounds together; the remaining rounds of
+# each piece wait on its round 1 with --dependency=afterok, so they start only if
+# round 1 exits cleanly (and are cancelled if it fails). It cannot check the stop
+# conditions, so check the round-1 files when you are back; use it once round 1 has
+# already passed for this code on some cluster.
+#
 # Patient order is sorted since 2026-09-28, so these runs draw the same splits on
 # either cluster and can be pooled, but they do not pair with rounds from runs
 # before that date. All output goes to fresh directories for that reason.
@@ -22,11 +29,11 @@
 # docs/NARVAL_ROUND_TIME_BUDGETS.txt (ABMIL ~4h/round BLCA, 6-8h BRCA) with room
 # for the extra last-epoch audit. Revise them from the step-1 "seconds" field.
 set -euo pipefail
-CLUSTER="${1:?usage: launch_review_runs.sh narval|trillium 1|2 [\"K L M N\"]}"
-STEP="${2:?usage: launch_review_runs.sh narval|trillium 1|2 [\"K L M N\"]}"
+CLUSTER="${1:?usage: launch_review_runs.sh narval|trillium 1|2|all [\"K L M N\"]}"
+STEP="${2:?usage: launch_review_runs.sh narval|trillium 1|2|all [\"K L M N\"]}"
 EXPS="${3:-K L M N}"
 case "$CLUSTER" in narval|trillium) ;; *) echo "cluster must be narval or trillium" >&2; exit 1 ;; esac
-case "$STEP" in 1|2) ;; *) echo "step must be 1 or 2" >&2; exit 1 ;; esac
+case "$STEP" in 1|2|all) ;; *) echo "step must be 1, 2 or all" >&2; exit 1 ;; esac
 
 cd "$(dirname "$0")/.."
 SCRIPT="slurm/$CLUSTER/review/review_round.sh"
@@ -68,16 +75,19 @@ submit() {
   [ -n "$planted" ] && exports="$exports,PLANTED=$planted,MODELS=$models"
   [ -n "${BATCH_SIZE:-}" ] && exports="$exports,BATCH_SIZE=$BATCH_SIZE"
   local name="rv_${exp}_${cohort}${planted:+_$planted}${models:+_$models}_r$r"
+  local dep=()
+  [ -n "${DEP:-}" ] && dep=(--dependency="afterok:$DEP" --kill-on-invalid-dep=yes)
   local jid
   jid=$(sbatch --parsable --job-name="$name" --time="$(walltime "$exp" "$cohort" "${models:-x}")" \
-        --export="$exports" "$SCRIPT")
-  echo "  $name -> job $jid"
+        "${dep[@]}" --export="$exports" "$SCRIPT")
+  LAST_JID=$jid
+  echo "  $name -> job $jid${DEP:+ (after $DEP)}"
 }
 
 # step 1 must start from empty directories: rounds written by older code lack the
 # new fields, and the aggregate would silently drop them
 fresh() {
-  if [ "$STEP" = 1 ] && compgen -G "$1/round_*.json" > /dev/null && [ -z "${FORCE:-}" ]; then
+  if [ "$STEP" != 2 ] && compgen -G "$1/round_*.json" > /dev/null && [ -z "${FORCE:-}" ]; then
     echo "  SKIP $1: already has round files (move them aside, or FORCE=1)" >&2; return 1
   fi
 }
@@ -94,6 +104,12 @@ for exp in $EXPS; do
                        L) dir=$SCR/shapley_last_$cohort; n=20 ;;
                        M) dir=$SCR/abmil_v2_$cohort; n=10 ;; esac
         echo "=== $exp $cohort ($dir)"
+        if [ "$STEP" = all ]; then
+          fresh "$dir" || continue
+          DEP=; submit "$exp" "$cohort" "$dir" 1
+          DEP=$LAST_JID; for r in $(seq 2 $n); do submit "$exp" "$cohort" "$dir" "$r"; done; DEP=
+          continue
+        fi
         if [ "$STEP" = 1 ]; then fresh "$dir" || continue; else have_round1 "$dir" || continue; fi
         for r in $(rounds $n); do submit "$exp" "$cohort" "$dir" "$r"; done
       done ;;
@@ -102,7 +118,14 @@ for exp in $EXPS; do
         read -r cohort planted slug <<< "$p"
         dir=$SCR/planted_v3_${cohort}_$slug
         echo "=== N $cohort $planted ($dir)"
-        if [ "$STEP" = 1 ]; then
+        if [ "$STEP" = all ]; then
+          fresh "$dir/graph" || continue
+          DEP=; submit N "$cohort" "$dir" 1 "$planted" graph
+          DEP=$LAST_JID
+          for r in $(seq 2 10); do submit N "$cohort" "$dir" "$r" "$planted" graph; done
+          for r in $(seq 1 10); do submit N "$cohort" "$dir" "$r" "$planted" abmil; done
+          DEP=
+        elif [ "$STEP" = 1 ]; then
           fresh "$dir/graph" || continue
           submit N "$cohort" "$dir" 1 "$planted" graph
         else
