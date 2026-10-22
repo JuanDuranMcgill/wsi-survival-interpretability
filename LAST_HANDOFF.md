@@ -15,12 +15,10 @@ The paper is ready to submit to *Artificial Intelligence in Medicine* once the
 author has done these:
 
 1. Read the PDF once.
-2. Confirm the MICCAI workshop paper's status. It is marked `TO CONFIRM` in
-   `cover_letter.tex`; cite it if it was published.
-3. Add the affiliation postal addresses.
-4. Confirm the funder-role sentence.
-5. Choose a licence for this repo.
-6. Get approval from all co-authors.
+2. Add the affiliation postal addresses.
+3. Confirm the funder-role sentence.
+4. Choose a licence for this repo.
+5. Get approval from all co-authors.
 
 ## Decisions taken, and why
 

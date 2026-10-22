@@ -34,7 +34,7 @@ in October 2026, not the one whose title ends in "original".
 | `highlights.txt` | The 5 highlights, kept identical to the manuscript; Elsevier wants this as a separate file |
 | `cover_letter.tex` | Cover letter; compile it on its own |
 | `references.bib` | Bibliography; all 49 cited entries verified as real, metadata corrected, DOIs added |
-| `samplepaper.tex` | The earlier LNCS / MICCAI-workshop version; kept for reference |
+| `samplepaper.tex` | An earlier LNCS-format draft; kept for reference |
 | `Figures/` | Includes `fig_weight_vs_shapley.pdf`, the new main-text figure |
 
 **This repo:**
@@ -102,11 +102,6 @@ cross-reference was lost.
 **Only the author can do these:**
 
 - [ ] Read the compiled PDF once, start to finish.
-- [ ] Workshop paper: confirm whether the MICCAI 2026 workshop version was
-      published or presented, and fill in the paragraph marked
-      `TO CONFIRM` in `cover_letter.tex`. If it was published, cite it in the
-      manuscript. AIIM accepts extended conference work only if it is
-      disclosed.
 - [ ] Add full postal addresses for the four affiliations. AIIM requires
       them; they are not filled in.
 - [ ] Confirm the Funding sentence that the funders had no role in the study.
@@ -115,8 +110,7 @@ cross-reference was lost.
 
 **On submission day:**
 
-- [ ] Tag a GitHub release matching the submitted version, and update the
-      README title (it still names the workshop paper).
+- [ ] Tag a GitHub release matching the submitted version.
 - [ ] Export each figure as a separate file (Elsevier requires this).
 - [ ] Complete the competing-interests declaration in the Elsevier tool (a
       Word file).

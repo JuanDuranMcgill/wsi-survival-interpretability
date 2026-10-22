@@ -1,8 +1,7 @@
 # Multi-Scale Interpretability for Graph-Based Survival Prediction in Whole-Slide Images
 
 Code accompanying the paper:  
-**"Towards Trustworthy WSI Survival Analysis: Interpretability, Explainability, and MED3PA Reliability Profiling"**  
-MICCAI Interpretability Workshop 2026
+**"Auditing Whole-Slide Image Survival Models: Interpretability, Explainability, and Reliability Profiling"**
 
 ---
 
