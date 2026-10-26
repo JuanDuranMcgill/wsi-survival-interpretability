@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # brca_radiomic_linear_med3pa.py  — revised for AIM revision
 #
-# Changes from the MICCAI version (per docs/RUNBOOK.md Step 2):
+# Changes from the earlier version (per docs/RUNBOOK.md Step 2):
 #  2a. Error file: reads patient_error_brca_oob.npz (OOB, censoring-fixed).
 #  2b. Locked discovery/evaluation split on top-K radiomic subset.
 #  2c. Metrics: AUROC + balanced accuracy on eval set; per-profile survival c-index.

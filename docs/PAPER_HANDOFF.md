@@ -34,7 +34,7 @@ in October 2026, not the one whose title ends in "original".
 | `highlights.txt` | The 5 highlights, kept identical to the manuscript; Elsevier wants this as a separate file |
 | `cover_letter.tex` | Cover letter; compile it on its own |
 | `references.bib` | Bibliography; all 49 cited entries verified as real, metadata corrected, DOIs added |
-| `samplepaper.tex` | An earlier LNCS-format draft; kept for reference |
+| `samplepaper.tex` | Old LNCS-format draft, kept only as a reference for what the AIIM version builds on. Nothing from it goes into the manuscript or cover letter |
 | `Figures/` | Includes `fig_weight_vs_shapley.pdf`, the new main-text figure |
 
 **This repo:**

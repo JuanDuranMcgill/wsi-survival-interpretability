@@ -737,7 +737,7 @@ def write_table_captions(t1, t2):
     lines = [
         '==============================================================================',
         'PAPER FIGURES / TABLES — CAPTIONS',
-        'LNCS MICCAI Interpretability Workshop',
+        'Artificial Intelligence in Medicine submission',
         '==============================================================================',
         '',
         'NOTE ON TARGETS',

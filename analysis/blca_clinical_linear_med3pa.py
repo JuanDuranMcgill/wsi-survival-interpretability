@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # blca_clinical_linear_med3pa.py  — revised for AIM revision
 #
-# Changes from the MICCAI version (per docs/RUNBOOK.md Step 2):
+# Changes from the earlier version (per docs/RUNBOOK.md Step 2):
 #  2a. Error file: reads patient_error_blca_oob.npz (OOB, censoring-fixed).
 #      Old med3pa_error_input.npz was in-sample and censoring-defective.
 #  2b. Locked discovery/evaluation split: profiles discovered on 60%,

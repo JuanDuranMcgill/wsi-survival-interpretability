@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # brca_clinical_linear_med3pa.py  — revised for AIM revision
 #
-# Changes from the MICCAI version (per docs/RUNBOOK.md Step 2):
+# Changes from the earlier version (per docs/RUNBOOK.md Step 2):
 #  2a. Error file: reads patient_error_brca_oob.npz (OOB, censoring-fixed).
 #  2b. Locked discovery/evaluation split: profiles discovered on 60%,
 #      all reported numbers evaluated on the other 40%.
