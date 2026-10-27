@@ -86,6 +86,33 @@ in October 2026, not the one whose title ends in "original".
 Every edit was checked automatically so that no number, label, citation or
 cross-reference was lost.
 
+## Reframing applied on 2026-10-27
+
+- **Central claim:**
+  - Before: the weights matched reliance in BLCA but not BRCA.
+  - Now: the weights match what the model uses in both cohorts, but what it uses carries outcome signal only in BLCA.
+- **What the two measures are:**
+  - The concordance-payoff Shapley value is "outcome-based contribution".
+  - The label-free per-patient Shapley share (`local_attribution_share`, risk score as payoff) is "what the model uses". It is now a "Model use" column in `tab:shapley`.
+- **The performance answer is explicit:** separating compartments did not improve prediction.
+- **Novelty is narrowed.** New citations: HIPPO (`kaczmarzyk2024hippo`), `albuquerque2024characterizing`, `zhou2022feature` and DPsurv (`xing2025dpsurv`).
+- Full text and number sources: `docs/DRAFT_AIIM_REFRAMING.md`.
+
+**Linear, no-repetition pass (also 2026-10-27).** Text was moved, not deleted; every number is still in the paper.
+- **Table 1:** the "what the check changed" column moved to a new summary table, `tab:findings`, at the start of the Discussion.
+- **Results 3.2:**
+  - The main-text ablation subsection was removed because it duplicated Appendix `app:ablation`. A pointer sentence keeps the definition of "pp".
+  - `tab:weights` moved to a new appendix section, `app:weights`.
+  - The diffusion, masked-removal and last-epoch details moved to a new appendix section, `app:robust`, with one summary sentence left in the main text.
+- **Discussion, from 9 subsections to 5:**
+  - Principal findings, which now includes the clinical-variables paragraph and the summary table.
+  - Interpretability, which now includes the source-site paragraph; `sec:bounds` moved with it.
+  - Explainability and reliability.
+  - Clinical use and reporting.
+  - Limitations and future work.
+- **Two leftovers of the old framing were fixed:** the clinical-use paragraph and reporting recommendation 2.
+- **Result:** it compiles with 0 errors and no undefined or duplicated labels; the PDF is 66 pages and the main text is about 11,200 words.
+
 ## Facts looked up from `results/` (now in the paper)
 
 - **The 3 MED3pa profiles (of 159) whose concordance interval excludes the
