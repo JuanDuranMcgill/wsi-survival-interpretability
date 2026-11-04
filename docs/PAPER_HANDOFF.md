@@ -94,7 +94,7 @@ cross-reference was lost.
 - **What the two measures are:**
   - The concordance-payoff Shapley value is "outcome-based contribution".
   - The label-free per-patient Shapley share (`local_attribution_share`, risk score as payoff) is "what the model uses". It is now a "Model use" column in `tab:shapley`.
-- **The performance answer is explicit:** separating compartments did not improve prediction.
+- **Performance is context, not a goal.** The paper's aim is to understand the model's predictions, not to improve them. The model is described as performing "comparably to ABMIL", never as "did not improve prediction".
 - **Novelty is narrowed.** New citations: HIPPO (`kaczmarzyk2024hippo`), `albuquerque2024characterizing`, `zhou2022feature` and DPsurv (`xing2025dpsurv`).
 - Full text and number sources: `docs/DRAFT_AIIM_REFRAMING.md`.
 
@@ -112,6 +112,28 @@ cross-reference was lost.
   - Limitations and future work.
 - **Two leftovers of the old framing were fixed:** the clinical-use paragraph and reporting recommendation 2.
 - **Result:** it compiles with 0 errors and no undefined or duplicated labels; the PDF is 66 pages and the main text is about 11,200 words.
+
+**Proofreading pass (2026-10-27).** Three readers checked the whole paper; 79 verified fixes were applied.
+- Old-framing leftovers were removed.
+- Every number now names its cohort.
+- Pointers to moved material were repaired.
+- Undefined abbreviations are now spelled out: AUROC, PFI, ABMIL, UC, BC and E-MAD.
+- Repeated sentences were removed.
+- All Spearman p-values are now exact permutation values, as in Results 3.2:
+  - weights vs model use: 0.001 (BLCA) and 0.031 (BRCA);
+  - model use vs outcome: 0.007 (BLCA) and 0.49 (BRCA);
+  - in the robustness appendix: 0.046, 0.10, 0.022 and 0.10.
+- The abstract is a single paragraph (as in 37 of the 40 latest AIIM papers on PubMed), 245 words.
+
+**Introduction rewrite (2026-11-04).** First step of a linear rewrite in which each section does only its own job (design: `docs/superpowers/specs/2026-11-04-linear-rewrite-design.md`).
+- **New order:** context → problem → gap → hypothesis → what we did (IER audit, Table 1) → where we applied it → contributions.
+- **Hypothesis stated explicitly:** the explanations a WSI survival model reports mean what they appear to mean (compartment weights, top surrogate features, flagged subgroups); the audit tests this.
+- **No results in the Introduction any more:** the findings it used to preview are all still in Results and the Discussion.
+- **What stayed the same:** all 31 citations, Table 1 and Fig. 1 are unchanged.
+- **Length:** prose went from 1,366 to 928 words.
+- **Compile:** 0 errors and no undefined or duplicated labels; the PDF is now 65 pages.
+- **Still to do in the Discussion pass:** add "one feature extractor (UNI-2)" and "two architectures" to Limitations. They were in the Introduction's old scope sentence, which was dropped.
+- **Next:** the same rules for Methods, Results, Discussion, Conclusion and the abstract.
 
 ## Facts looked up from `results/` (now in the paper)
 
