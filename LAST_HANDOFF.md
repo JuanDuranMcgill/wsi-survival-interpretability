@@ -48,8 +48,8 @@ author has done these:
 Open the repo in Claude Code (or any assistant that can read it) and paste:
 
 ```text
-I'm finishing the paper "Auditing Whole-Slide Image Survival Models:
-Interpretability, Explainability, and Reliability Profiling" for Artificial
+I'm finishing the paper "Towards Trustworthy Explanations of Whole-Slide
+Image Survival Models: The IER Audit" for Artificial
 Intelligence in Medicine. Read LAST_HANDOFF.md and docs/PAPER_HANDOFF.md in
 this repo first. The manuscript text is in my Overleaf project
 (manuscript_aim.tex, highlights.txt, cover_letter.tex, references.bib), not in

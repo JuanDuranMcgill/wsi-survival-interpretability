@@ -1,7 +1,7 @@
 # Multi-Scale Interpretability for Graph-Based Survival Prediction in Whole-Slide Images
 
 Code accompanying the paper:  
-**"Auditing Whole-Slide Image Survival Models: Interpretability, Explainability, and Reliability Profiling"**
+**"Towards Trustworthy Explanations of Whole-Slide Image Survival Models: The IER Audit"**
 
 ---
 

@@ -6,8 +6,10 @@ left before submission.
 
 ## The paper
 
-- **Title:** "Auditing Whole-Slide Image Survival Models: Interpretability,
-  Explainability, and Reliability Profiling".
+- **Title:** "Towards Trustworthy Explanations of Whole-Slide Image Survival
+  Models: The IER Audit" (since 2026-11-05; previously "Auditing Whole-Slide
+  Image Survival Models: Interpretability, Explainability, and Reliability
+  Profiling").
 - **Target journal:** Artificial Intelligence in Medicine (Elsevier). The
   backups are Computers in Biology and Medicine and Journal of Pathology
   Informatics. Medical Image Analysis is a stretch target.
@@ -152,6 +154,20 @@ cross-reference was lost.
 - **Typo fixed:** "fea2ture" in the manuscript highlights; `highlights.txt` was already correct.
 - **Compile:** 0 errors, no undefined or duplicated labels, and the same 4 known BibTeX warnings.
 - **Fresh review:** an independent reviewer compared the old and new text, found nothing that changes a number or a result, and 15 wording fixes were applied: overstatements softened, cited work described as before, setup sentences restored, and remaining repeats cut. The live Overleaf SHA is f0ad0b3f.
+
+**Thesis carried through (2026-11-05).** One idea now runs from title to Discussion: an explanation is a hypothesis until it is checked.
+- **Title:** "Towards Trustworthy Explanations of Whole-Slide Image Survival Models: The IER Audit". The cover letter, README and LAST_HANDOFF were updated to match.
+- **Abstract:**
+  - The planted-signal sentence is shorter.
+  - New closing sentence: unchecked explanations are hypotheses, not findings, and with fewer than two hundred events per cohort, settling them needs more data.
+  - The abstract is about 249 words, under the 250-word limit.
+- **Introduction:**
+  - It now says that many models are trained and explained on single TCGA cohorts with at most a few hundred events (`chen2022pancancer`, `duran2025beyond`, `eijpe2026dimafx`).
+  - The thesis line is in the gap paragraph.
+- **Discussion:**
+  - Principal findings has a short paragraph, "Explanations are hypotheses until checked".
+  - Limitations notes that small data limits the field, not only this study, citing the same three papers.
+- **Unchanged:** no number, citation or result. The live Overleaf SHA is 630d2152, it compiles with 0 errors, and the PDF is 64 pages.
 
 ## Facts looked up from `results/` (now in the paper)
 
