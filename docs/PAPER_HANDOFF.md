@@ -132,8 +132,25 @@ cross-reference was lost.
 - **What stayed the same:** all 31 citations, Table 1 and Fig. 1 are unchanged.
 - **Length:** prose went from 1,366 to 928 words.
 - **Compile:** 0 errors and no undefined or duplicated labels; the PDF is now 65 pages.
-- **Still to do in the Discussion pass:** add "one feature extractor (UNI-2)" and "two architectures" to Limitations. They were in the Introduction's old scope sentence, which was dropped.
-- **Next:** the same rules for Methods, Results, Discussion, Conclusion and the abstract.
+- "One feature extractor (UNI-2)" and "two architectures" were in the Introduction's old scope sentence, which was dropped. Both are now in Limitations.
+
+**Rest of the paper (2026-11-04).** The same rules were applied to Methods, Results, the Discussion and the Conclusion. There were 57 edits, the main text went from 11,201 to 10,709 words, and the PDF from 65 to 63 pages. Plan: `docs/superpowers/plans/2026-11-04-linear-rewrite-rest.md`.
+- **Methods holds only methods:**
+  - The label-decisiveness result moved to Results 3.1.
+  - The logit range moved to Results 3.2.
+  - The 106-versus-100-round detail moved to Appendix `app:training`.
+  - The "why labels don't matter" argument was merged into Limitations.
+  - The MED3pa classifier definition and the source-site test design moved in from Results.
+- **Results holds only findings.**
+  - Interpretive markers went from 26 to 1, and the one left is a figure caption.
+  - The closing "central result" paragraph and the "In short" summary are gone.
+  - Section 3.1 is now "Performance Context and Tissue Labels", matching the rows of Table 1.
+- **The Discussion states the answer once.** Principal findings answers the Introduction's hypothesis: "held only in part". The later subsections give the reasons rather than restating it. The clinical-use, surrogate and recommendation-2 paragraphs no longer repeat results.
+- **Data size leads the Limitations:** event counts, and the shuffled-outcome weight ordering as a sign of what a model learns from so few events. "More events" was added to future work.
+- **The Conclusion** follows the hypothesis, then I/E/R, then the limits (under 200 events per cohort, no external validation).
+- **Unchanged:** the abstract (it already ran linearly) and every number. All 470 distinct numbers and all 53 citations are still in the paper.
+- **Typo fixed:** "fea2ture" in the manuscript highlights; `highlights.txt` was already correct.
+- **Compile:** 0 errors, no undefined or duplicated labels, and the same 4 known BibTeX warnings.
 
 ## Facts looked up from `results/` (now in the paper)
 
