@@ -151,6 +151,7 @@ cross-reference was lost.
 - **Unchanged:** the abstract (it already ran linearly) and every number. All 470 distinct numbers and all 53 citations are still in the paper.
 - **Typo fixed:** "fea2ture" in the manuscript highlights; `highlights.txt` was already correct.
 - **Compile:** 0 errors, no undefined or duplicated labels, and the same 4 known BibTeX warnings.
+- **Fresh review:** an independent reviewer compared the old and new text, found nothing that changes a number or a result, and 15 wording fixes were applied: overstatements softened, cited work described as before, setup sentences restored, and remaining repeats cut. The live Overleaf SHA is f0ad0b3f.
 
 ## Facts looked up from `results/` (now in the paper)
 
