@@ -272,7 +272,7 @@ def fig4b():
         ax.text(xs[-1] + 0.12, list(s.coverage)[-1], name, va="center", ha="left", fontsize=BASE - 0.5,
                 color=col)
     ax.axhline(0.90, color=NAVY, ls="--", lw=0.9)
-    ax.text(-0.45, 0.905, "target 0.90", fontsize=BASE - 0.5, color=NAVY, va="bottom", ha="left")
+    ax.text(1.5, 0.892, "target 0.90", fontsize=BASE - 0.5, color=NAVY, va="top", ha="center")
     ax.set_xticks(range(len(hs)))
     ax.set_xticklabels([f"cutoff {int(h):,} d" for h in hs])
     ax.set_xlim(-0.5, 2.85)
