@@ -34,7 +34,7 @@ def half_up(x, nd=0):
     """Round half away from zero, as the paper prints numbers (3.25 -> 3.3)."""
     from decimal import ROUND_HALF_UP, Decimal
     q = Decimal(1).scaleb(-nd)
-    return float(Decimal(repr(x)).quantize(q, rounding=ROUND_HALF_UP))
+    return float(Decimal(repr(float(x))).quantize(q, rounding=ROUND_HALF_UP))
 
 
 def pct_label(x):
