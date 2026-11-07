@@ -169,6 +169,28 @@ cross-reference was lost.
   - Limitations notes that small data limits the field, not only this study, citing the same three papers.
 - **Unchanged:** no number, citation or result. The live Overleaf SHA is 630d2152, it compiles with 0 errors, and the PDF is 64 pages.
 
+**New figures (2026-11-06).** Design: `docs/superpowers/specs/2026-11-06-figures-design.md`. Plan and ledger: `docs/superpowers/plans/2026-11-06-ier-figures.md`.
+- **Fig. 1 (`fig:pipeline`), the IER audit at a glance:**
+  - Top: the pipeline, real slide → tiles → compartments → encoders → one weight each → risk score.
+  - Bottom: the I, E and R panels drawn where each attaches, each with "what it seems to say", "how the audit checks it" and "passes if".
+  - It contains no findings and replaces the TikZ figure.
+- **Figs. 2–4 (`fig:zoom_interp`, `fig:zoom_explain`, `fig:zoom_reliab`):** one zoom per leg at the start of Results 3.2, 3.3 and 3.4. Panel (a) explains the check; panel (b) shows what it found.
+- **`fig:wsi_highlights` (the slide panel)** moved to Appendix `app:weights`, without its old I/E/R side boxes.
+- **Sources** are in `paper_figures/`:
+  - editable PowerPoint decks: `fig1_ier_overview.pptx` and `fig{2,3,4}_*_zoom.pptx`, built by `build_fig1.js` and `build_zooms.js`;
+  - `export.ps1` exports PDF and PNG through PowerPoint;
+  - data panels come from `visualization/make_audit_panels.py`, which reads `visualization/figure_data.py`;
+  - `tests/test_figure_data.py` (11 tests) pins every plotted number to the paper, using the paper's rounding.
+- **Images:**
+  - The H&E thumbnail is TCGA-FJ-A3ZE, cut from `combined_panel`, with a median filter to remove the old overlay dots.
+  - The compartment map comes from the FMT deck and is a different BLCA slide; the caption says so.
+  - Its per-colour legend is unknown; ask Juan if names are wanted.
+- **Size:** the text column is 390 pt (5.4 in). The figures are placed 6.3–6.4 in wide, centred into the margins, so print text stays at 6.5 pt or more. Elsevier re-sets them at 190 mm anyway.
+- **Overleaf:**
+  - The PDFs were imported from the public GitHub repo as linked files, so they refresh from the URL.
+  - The live SHA is 2a839796. It compiles with 0 errors, no undefined or duplicated labels and no float too large, and the PDF is 68 pages.
+  - Not yet checked by eye in the PDF.
+
 ## Facts looked up from `results/` (now in the paper)
 
 - **The 3 MED3pa profiles (of 159) whose concordance interval excludes the
