@@ -15,8 +15,9 @@ import figure_data as fd  # noqa: E402
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "paper_figures", "panels")
 NAVY, RED, GREEN, GREY, LGREY, INK = "#1F2A5C", "#C0392B", "#2E8B57", "#7F8C8D", "#C9CED6", "#222222"
-BASE = 7.0
-MIN_PT = 6.5
+OUTC, TEAL = "#0E7C86", "#117A65"  # outcome side of the slope chart; highlighted profiles (not a failure)
+BASE = 7.6
+MIN_PT = 7.0
 W = 3.3
 plt.rcParams.update({
     "font.family": "Calibri", "font.size": BASE, "axes.labelsize": BASE - 0.5,
@@ -104,7 +105,7 @@ def fig2b():
     hi_use, hi_out = {"DCIS", "Necrosis"}, {"Adipose", "Muscle"}
     x0, x1 = 0.36, 0.64
     for k in lr:
-        col = NAVY if k in hi_use else RED if k in hi_out else LGREY
+        col = NAVY if k in hi_use else OUTC if k in hi_out else LGREY
         lw = 1.5 if col != LGREY else 0.7
         ax.plot([x0, x1], [-lr[k], -rr[k]], color=col, lw=lw, zorder=2 if col != LGREY else 1)
         ax.scatter([x0, x1], [-lr[k], -rr[k]], s=9, color=col, zorder=3, linewidths=0)
@@ -115,11 +116,11 @@ def fig2b():
     for k, v in out:
         strong = k in hi_out
         ax.text(x1 + 0.02, -rr[k], f"{_signed(v)} pp  {k}", ha="left", va="center", fontsize=BASE - 0.5,
-                color=RED if strong else "#555555", fontweight="bold" if strong else "normal")
+                color=OUTC if strong else "#555555", fontweight="bold" if strong else "normal")
     ax.text(x0 - 0.02, 1.05, "share of what the\nmodel's score uses", ha="right", va="bottom",
             fontsize=BASE - 0.5, color=NAVY, linespacing=0.95)
-    ax.text(x1 + 0.02, 1.05, "share of concordance\n(outcome-based Shapley)", ha="left", va="bottom",
-            fontsize=BASE - 0.5, color=RED, linespacing=0.95)
+    ax.text(x1 + 0.02, 1.05, "contribution to C-index, pp\n(outcome-based Shapley)", ha="left", va="bottom",
+            fontsize=BASE - 0.5, color=OUTC, linespacing=0.95)
     ax.set_xlim(0, 1)
     ax.set_ylim(-len(use) + 0.5, 2.3)
     ax.axis("off")
@@ -141,7 +142,7 @@ def fig2b():
     ax.set_yticklabels(labels)
     ax.set_xlim(0, 60)
     ax.set_xticks([0, 20, 40, 60])
-    ax.set_xlabel("% of rounds ranking it first", labelpad=1)
+    ax.set_xlabel("% of rounds ranking the planted compartment first", labelpad=1)
     _clean(ax)
     return fig
 
@@ -175,7 +176,7 @@ def fig3b():
     ax = _axes(fig, 2.62, 0.98, left_in=1.30, right_in=0.30)
     ticks, y = [], 0.0
     for name, e in [("BLCA", b), ("BRCA", r)]:
-        for lab, v, col in [("tested", e["n_tested"], LGREY), ("p < 0.05", e["n_nominal"], GREY),
+        for lab, v, col in [("tested", e["n_tested"], LGREY), ("p < 0.05, uncorr.", e["n_nominal"], GREY),
                             ("after FDR", e["n_fdr"], RED)]:
             ax.barh(-y, v, color=col, height=0.72)
             fdr = lab == "after FDR"
@@ -187,22 +188,22 @@ def fig3b():
     ax.set_yticks([t for t, _ in ticks])
     ax.set_yticklabels([s for _, s in ticks])
     ax.set_xlim(0, 1000)
-    ax.set_xlabel("pathomic features tested against observed PFI", labelpad=1)
+    ax.set_xlabel("features (first-order and texture) vs observed PFI", labelpad=1)
     _clean(ax)
     return fig
 
 
 FOREST = [  # (cohort, arm, thr, profile, plain label); the first three are the profiles that differ
-    ("brca", "clinical", "q50", "pathologic_stage", "Stage I (q50)"),
-    ("brca", "clinical", "q70", "pathologic_stage", "Stage I (q70)"),
+    ("brca", "clinical", "q50", "pathologic_stage", "Stage I, median cut"),
+    ("brca", "clinical", "q70", "pathologic_stage", "Stage I, 70th pct cut"),
     ("brca", "clinical", "q80", "age_at_diagnosis", "Middle age band"),
     ("brca", "clinical", "q70", "pathologic_stage_UP", "Stage II or higher"),
     ("brca", "clinical", "q80", "age_at_diagnosis_UP", "Older age"),
     ("brca", "clinical", "q70", "lymph_node_examined_count_UP", "More nodes examined"),
     ("brca", "pathomic", "q50", "adipose_E_original_firstorder_InterquartileRange_std_DOWN",
-     "Fat staining, low spread"),
+     "Fat stain, low spread"),
     ("brca", "pathomic", "q80", "stroma_H_original_firstorder_MeanAbsoluteDeviation_std_UP",
-     "Stroma staining, high spread"),
+     "Stroma stain, high spread"),
 ]
 
 
@@ -215,7 +216,7 @@ def _pick(p, cohort, arm, thr, key):
 
 
 def fig4b():
-    fig = plt.figure(figsize=(W, 4.35))
+    fig = plt.figure(figsize=(W, 4.62))
     a = fd.auroc_by_arm()
 
     _title(fig, 0.02, "Is error predictable? In BRCA, yes")
@@ -238,29 +239,35 @@ def fig4b():
 
     p = fd.profiles()
     n_all, n_diff = len(p), int(p.differs.sum())
-    _title(fig, 1.22, f"Does the model perform differently there? {n_diff} of {n_all} groups")
-    ax = _axes(fig, 1.46, 1.50, left_in=1.42, right_in=0.12)
+    _title(fig, 1.22, f"Different C-index in a group? {n_diff} of {n_all} (8 BRCA shown)")
+    ax = _axes(fig, 1.46, 1.55, left_in=1.62, right_in=0.10)
     cval = p[p.cohort == "brca"].cohort_value.iloc[0]
     rows = [(_pick(p, *spec[:4]), spec[4]) for spec in FOREST]
     for i, (row, label) in enumerate(rows):
         yy = len(rows) - 1 - i
-        col = RED if row.differs else GREY
-        ax.plot([row.lo, row.hi], [yy, yy], color=col, lw=1.2)
-        ax.scatter([row.cindex], [yy], s=16, color=col, zorder=3, linewidths=0)
-        ax.text(-0.03, yy, f"{label}  ({row.n})", ha="right", va="center", fontsize=BASE - 0.5,
-                color=RED if row.differs else INK, transform=ax.get_yaxis_transform())
+        col = TEAL if row.differs else GREY
+        ax.plot([row.lo, row.hi], [yy, yy], color=col, lw=1.4 if row.differs else 1.1)
+        ax.scatter([row.cindex], [yy], s=18, color=col, zorder=3, linewidths=0)
+        ax.text(-0.03, yy, f"{label} (n = {row.n})", ha="right", va="center", fontsize=BASE - 0.5,
+                color=TEAL if row.differs else INK, fontweight="bold" if row.differs else "normal",
+                transform=ax.get_yaxis_transform())
+        if row.differs:
+            right = row.lo > cval
+            ax.text(row.lo if right else row.hi, yy + 0.40,
+                    f"[{fd.half_up(row.lo, 2):.2f}, {fd.half_up(row.hi, 2):.2f}]", ha="left" if right else "right",
+                    va="center", fontsize=BASE - 0.5, color=TEAL)
     ax.axvline(cval, color=NAVY, ls="--", lw=0.9)
-    ax.text(cval - 0.02, len(rows) - 0.32, f"all BRCA patients {fd.half_up(cval, 2):.2f}", ha="right",
+    ax.text(cval - 0.02, len(rows) + 0.30, f"BRCA overall {fd.half_up(cval, 2):.2f}", ha="right",
             va="bottom", fontsize=BASE - 0.5, color=NAVY)
     ax.set_xlim(0.0, 1.0)
-    ax.set_ylim(-0.6, len(rows) + 0.25)
+    ax.set_ylim(-0.6, len(rows) + 0.65)
     ax.set_yticks([])
     ax.set_xticks([0, 0.25, 0.5, 0.75, 1.0])
-    ax.set_xlabel("C-index inside the group (95% interval)", labelpad=1)
+    ax.set_xlabel("C-index in the group (95% interval)", labelpad=1)
     _clean(ax, left=False)
 
-    _title(fig, 3.42, "Do per-patient 90% bounds hold by stage? (BRCA)")
-    ax = _axes(fig, 3.64, 0.50, left_in=0.42, right_in=0.12)
+    _title(fig, 3.46, "Do per-patient 90% bounds hold by stage? (BRCA)")
+    ax = _axes(fig, 3.68, 0.52, left_in=0.48, right_in=0.12)
     c = fd.coverage_by_stage("brca").sort_values("horizon_days")
     hs = sorted(c.horizon_days.unique())
     for stage, col, dx in [("I-II", GREY, -0.10), ("III-IV", RED, 0.10)]:
@@ -274,11 +281,12 @@ def fig4b():
     ax.axhline(0.90, color=NAVY, ls="--", lw=0.9)
     ax.text(1.5, 0.892, "target 0.90", fontsize=BASE - 0.5, color=NAVY, va="top", ha="center")
     ax.set_xticks(range(len(hs)))
-    ax.set_xticklabels([f"cutoff {int(h):,} d" for h in hs])
+    ax.set_xticklabels([f"{int(h):,} d" for h in hs])
     ax.set_xlim(-0.5, 2.85)
     ax.set_ylim(0.65, 1.04)
     ax.set_yticks([0.7, 0.8, 0.9, 1.0])
     ax.set_ylabel("coverage", labelpad=1)
+    ax.set_xlabel("time horizon", labelpad=1)
     _clean(ax)
     return fig
 
