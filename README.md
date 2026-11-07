@@ -21,6 +21,69 @@ WSI → Tiling → CONCH (region classification) → UNI-2 (embedding)
 
 ---
 
+## Running the IER audit on your own model
+
+The audit was built on our TCGA runs, and the scripts still show it: some defaults
+point at our cluster paths and TCGA files. A packaged tool is in progress. Until
+then, most checks need only one file from your model, and the rest need a way to
+re-score it with tissue compartments removed.
+
+### 1. Export your model's held-out risk scores
+
+Write one `.npz` file with one entry per patient. The predictions must be held
+out (out-of-bag or cross-validated), never on patients the model was trained on.
+
+| Key | Content |
+|---|---|
+| `patient_ids` | patient identifiers (matched on their first 12 characters, the length of a TCGA barcode) |
+| `mean_risk` | the held-out risk score, higher meaning higher risk |
+| `pfi_time` | follow-up time |
+| `pfi_event` | 1 if the event occurred, 0 if censored |
+| `oob_count` | number of held-out predictions averaged per patient (1 for a single cross-validation) |
+
+`analysis/oob_risk.py` shows how we build this file from bootstrap rounds.
+
+### 2. Checks that need only that file and feature tables
+
+| Leg | Check | Script | Also needs |
+|---|---|---|---|
+| Context | C-index with interval; clinical-only Cox; risk added to clinical variables | `analysis/cohort_and_baseline.py` | `--clinical-csv` |
+| Context | integrated Brier score against Kaplan–Meier | `analysis/integrated_brier.py` | — |
+| E | surrogate importance (random forest on the risk score) | `analysis/*_radiomic_linear_med3pa.py` (writes `radiomic_importance.csv`) | `--radiomics-csv` |
+| E | second estimator: permutation importance | `analysis/permutation_importance.py` | `--radiomics-csv`, `--importance-csv` |
+| E | each feature against observed outcome, with false-discovery-rate control | `analysis/pathomic_vs_survival.py` | `--radiomics-csv`, `--importance-csv` |
+| R | censoring-aware error per patient | `analysis/patient_error.py` | survival table (currently the TCGA-CDR spreadsheet, `--cdr-xlsx`) |
+| R | MED3pa profiles; C-index inside each profile | `analysis/*_linear_med3pa.py`, `analysis/profile_metrics.py` | error file from the row above; feature CSV |
+| R | per-patient conformal bounds; coverage by subgroup | `analysis/conformal_survival.py` | `--clinical-csv` |
+
+Feature tables are CSV files indexed by patient ID. Pathomic feature names start
+with their compartment, for example `adipose_E_original_firstorder_Mean_mean`.
+For the subgroup coverage, the clinical table can hold `pathologic_stage`,
+`pathologic_n` and `pathologic_t`; missing columns are skipped.
+
+### 3. The interpretability check: re-score your model without compartments
+
+Exact Shapley values over compartments re-score the model with every
+combination of compartments removed (with 8 or 9 compartments, 256 or 512
+combinations). This step needs your model:
+
+- **Multiple-instance models:** removing a compartment means dropping its tiles
+  from the bag. `analysis/abmil_compartment_shapley.py` does this for ABMIL and is
+  the template to adapt. It reads one folder of tile features per compartment
+  (see `analysis/compartment_common.py`) and survival from a CSV with columns
+  `bcr_patient_barcode`, `PFI` and `PFI.time` (`--surv-csv`).
+- **Our region-fusion model:** `analysis/region_shapley.py`.
+- **Known-signal test:** `analysis/planted_signal.py` plants a signal in one
+  compartment and retrains the model, so it needs your training procedure.
+- **Tissue labels:** every tile needs a compartment label;
+  `analysis/label_confidence_audit.py` checks how decisively they were assigned.
+
+The figures in the paper are built from the outputs by
+`visualization/make_audit_panels.py`; `tests/test_figure_data.py` checks each
+plotted number against the paper.
+
+---
+
 ## Repository Structure
 
 ```
