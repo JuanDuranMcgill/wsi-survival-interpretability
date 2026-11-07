@@ -84,6 +84,12 @@ plotted number against the paper.
 
 ---
 
+## Licence
+
+MIT; see [LICENSE](LICENSE).
+
+---
+
 ## Repository Structure
 
 ```

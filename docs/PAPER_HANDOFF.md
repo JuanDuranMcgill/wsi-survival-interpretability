@@ -216,7 +216,7 @@ cross-reference was lost.
 - **Recommended order:** paper first, library during review.
 - **Venue check:** AIIM confirmed. Computers in Biology and Medicine is dropped as a backup.
 - **Paper changes:** a few text edits.
-- **Licence:** still needed.
+- **Licence:** MIT, added 2026-11-06 (`LICENSE`).
 
 **Only the author can do these:**
 
@@ -224,7 +224,7 @@ cross-reference was lost.
 - [ ] Add full postal addresses for the four affiliations. AIIM requires
       them; they are not filled in.
 - [ ] Confirm the Funding sentence that the funders had no role in the study.
-- [ ] Choose a licence for this repo. It is public and has no LICENSE file.
+- [x] Choose a licence for this repo: MIT (2026-11-06).
 - [ ] Get approval from all co-authors: Saieg, St-Jean, Enger and Vallières.
 
 **On submission day:**
