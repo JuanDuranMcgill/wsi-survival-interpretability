@@ -204,6 +204,12 @@ cross-reference was lost.
 
 ## Still to do before submission
 
+**Plan for framing the audit as a tool (2026-11-06):** see `docs/TOOL_REFRAMING_NOTES.md`.
+- **Recommended order:** paper first, library during review.
+- **Venue check:** AIIM confirmed. Computers in Biology and Medicine is dropped as a backup.
+- **Paper changes:** a few text edits.
+- **Licence:** still needed.
+
 **Only the author can do these:**
 
 - [ ] Read the compiled PDF once, start to finish.
