@@ -10,6 +10,8 @@ Read this when you have energy for it. Nothing here is urgent, and none of it ch
 
 ## 2. What "reframe as a tool" means for the paper
 
+**Done on 2026-11-06:** contributions, Methods subsection, Discussion comparison (HIPPO, xMIL, Beyond attention heatmaps, now cited) and cover letter. The abstract was left unchanged.
+
 Today the paper reads as "we audited our model". The reframed paper reads as "here is an audit any group can run on their WSI survival model; we show it on two models and two cohorts". The experiments become the demonstration.
 
 In practice this means a few text changes, not a rewrite:

@@ -169,6 +169,14 @@ cross-reference was lost.
   - Limitations notes that small data limits the field, not only this study, citing the same three papers.
 - **Unchanged:** no number, citation or result. The live Overleaf SHA is 630d2152, it compiles with 0 errors, and the PDF is 64 pages.
 
+**Audit framed as a tool (2026-11-06)**, following section 2 of `docs/TOOL_REFRAMING_NOTES.md`:
+- **Introduction:** the gap sentence now asks for a procedure "any group can run on its own model". Contribution 1 is "a reusable procedure with a reference implementation". Contribution 4 is "a demonstration of the full audit".
+- **Methods:** new subsection "Running the audit on another model" (`sec:portability`), saying what each check needs.
+- **Discussion:** new paragraph "Relation to other tools" comparing the audit with HIPPO, xMIL and "Beyond attention heatmaps" (`jamshididaji2026beyond`, added to `references.bib`; metadata checked on Crossref and arXiv). It also states the audit's limit.
+- **Cover letter:** one added sentence on the tool.
+- **Abstract and highlights:** unchanged.
+- **Compile:** 0 errors, no undefined references, 69 pages.
+
 **New figures (2026-11-06).** Design: `docs/superpowers/specs/2026-11-06-figures-design.md`. Plan and ledger: `docs/superpowers/plans/2026-11-06-ier-figures.md`.
 - **Fig. 1 (`fig:pipeline`), the IER audit at a glance:**
   - Top: the pipeline, real slide → tiles → compartments → encoders → one weight each → risk score.
