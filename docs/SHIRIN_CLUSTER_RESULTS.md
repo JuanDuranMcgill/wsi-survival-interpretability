@@ -1,8 +1,8 @@
 # Co-author's cluster analyses: results (2026-11-12)
 
 Answers to `docs/HANDOFF_SHIRIN_CLUSTER_TASKS.md`, computed on Trillium. Tasks 1 and 2
-are complete. Task 3 has the magnification counts, but the partial R-squared part
-needs a laptop-only file. Task 4 is a check and an estimate; nothing was run.
+are complete. Task 3 has the magnification counts; the partial R-squared part is left
+for Narval, where the out-of-bag risk file is. Task 4 is a check and an estimate; nothing was run.
 No existing result was overwritten.
 
 | Task | Status | Outputs |
@@ -73,10 +73,10 @@ In both cohorts, every patient with fewer than 10 pairs is censored. In BRCA tha
 8% of censored patients (75 of 921).
 
 **The MED3pa evaluation split was not rebuilt.** `discovery_eval_split` stratifies on
-the high-error label, which comes from `results/patient_error_{cohort}_oob.npz`. That
-file, like `oob_risk_{cohort}.npz`, is only on the laptop (`*.npz` is gitignored).
-`analysis/comparable_pairs.py` can be extended on the laptop: run the split with seed
-20260908, check for 151 and 424 evaluation patients, and summarise the same counts.
+the high-error label, which comes from `patient_error_{cohort}_oob.npz`. That file is
+on Narval (`/home/sorkwos/data/`), not on Trillium. `analysis/comparable_pairs.py` can
+be extended there: run the split with seed 20260908, check for 151 and 424 evaluation
+patients, and summarise the same counts.
 
 ## 3. Scan magnification by cohort and site
 
@@ -108,10 +108,13 @@ and 7 not recorded.
   MS (1), plus that one AC slide. The 7 slides with no metadata are all from site OL,
   whose other 14 slides are 40x.
 
-**The partial R-squared extension was not run.** The site analysis
-(`analysis/review_checks.py`, `site_casemix`) regresses the out-of-bag mean risk from
-`results/oob_risk_{cohort}.npz`, which is only on the laptop, so the paper's 15% / 14%
-could not be reproduced here. Because magnification is nested within site, expect
+**The partial R-squared extension was not run; it is left for Narval.** The site
+analysis (`analysis/review_checks.py`, `site_casemix`) needs the out-of-bag risk
+scores. They are in `patient_error_{cohort}_oob.npz` (field `risk`, with
+`patient_ids`, `pfi_time` and `pfi_event`) or the `_per_patient.csv` beside it. The
+MED3pa runs read these from `/home/sorkwos/data/` on Narval. Neither file is on
+Trillium: `/home/sorkwos/data/` doesn't exist, and home, scratch and project hold only
+the summary JSONs. So the paper's 15% / 14% could not be reproduced here. Because magnification is nested within site, expect
 three things:
 - magnification's partial R-squared, adjusted for case mix, can't exceed site's;
 - adding magnification will barely change site's partial R-squared once site is in the
@@ -119,14 +122,11 @@ three things:
 - what's really testable is whether magnification accounts for site's share, i.e. how
   much site adds once magnification is in the model.
 
-Use pixel size, not the tag, for this. The analysis needs the out-of-bag risk and
-per-slide magnification in one place, and neither crosses over through git:
-- the risk file is laptop-only, and `*.npz` is gitignored;
-- the counts JSON holds no per-slide values.
-
-So either copy `oob_risk_{cohort}.npz` to the cluster (Globus or scp), or extend
-`analysis/slide_magnification.py` to write a per-slide table and copy that to the
-laptop. Don't commit either file.
+Use pixel size, not the tag, for this. On Narval, reproduce the site result first,
+then add magnification. Narval needs the per-slide magnification, which the counts JSON
+doesn't hold. Either run `analysis/slide_magnification.py` there, if the slides are on
+Narval, or extend it here to write a per-slide table and copy that across. Don't commit
+the table.
 
 ## 4. Surrogate (E) and MED3pa (R) checks on ABMIL: what exists
 
