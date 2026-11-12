@@ -1,0 +1,72 @@
+{
+  "cohort": "blca",
+  "endpoint": "PFI",
+  "definition": "pair (i, j) comparable when the strictly shorter time had an event; both members charged (analysis/patient_error.py)",
+  "check_vs_patient_error_oob_json": {
+    "values_computed_saved": {
+      "n_patients": [
+        379,
+        379
+      ],
+      "n_unscored_no_comparable_pairs": [
+        6,
+        6
+      ],
+      "mean_comparable_pairs_scored": [
+        199.59249329758714,
+        199.59249329758714
+      ],
+      "min_comparable_pairs_scored": [
+        2,
+        2
+      ],
+      "n_events": [
+        163,
+        163
+      ]
+    },
+    "match": true
+  },
+  "whole_cohort": {
+    "event": {
+      "n": 163,
+      "median": 332.0,
+      "iqr": [
+        268.0,
+        343.0
+      ],
+      "min": 170,
+      "max": 372,
+      "mean": 309.28834355828224,
+      "n_zero": 0,
+      "n_lt_10": 0
+    },
+    "censored": {
+      "n": 216,
+      "median": 121.0,
+      "iqr": [
+        98.25,
+        154.0
+      ],
+      "min": 0,
+      "max": 163,
+      "mean": 111.26851851851852,
+      "n_zero": 6,
+      "n_lt_10": 22
+    },
+    "all": {
+      "n": 379,
+      "median": 161.0,
+      "iqr": [
+        114.5,
+        329.0
+      ],
+      "min": 0,
+      "max": 372,
+      "mean": 196.43271767810026,
+      "n_zero": 6,
+      "n_lt_10": 22
+    }
+  },
+  "med3pa_eval_split": "not computed: the split is stratified on the high-error label from patient_error_blca_oob.npz, which is not on this cluster"
+}

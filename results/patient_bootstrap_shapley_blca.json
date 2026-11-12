@@ -1,0 +1,56 @@
+{
+  "cohort": "blca",
+  "n_rounds": 20,
+  "n_patients": 379,
+  "n_compartments": 8,
+  "B": 1000,
+  "seed": 20261112,
+  "check_max_abs_diff_coalition_cindex": 0.0,
+  "check_max_abs_diff_local_share": 6.254128326332875e-10,
+  "paper_values": {
+    "fusion_weight_vs_shapley": 0.81,
+    "local_share_vs_shapley": 0.88,
+    "fusion_weight_vs_local_share": 0.95
+  },
+  "point": {
+    "fusion_weight_vs_shapley": 0.8095238095238096,
+    "local_share_vs_shapley": 0.880952380952381,
+    "fusion_weight_vs_local_share": 0.9523809523809524
+  },
+  "bootstrap": {
+    "fusion_weight_vs_shapley": {
+      "median": 0.6428571428571429,
+      "ci95": [
+        0.16607142857142865,
+        0.9047619047619048
+      ],
+      "n_finite": 1000
+    },
+    "local_share_vs_shapley": {
+      "median": 0.6904761904761906,
+      "ci95": [
+        0.11904761904761905,
+        0.9523809523809524
+      ],
+      "n_finite": 1000
+    },
+    "fusion_weight_vs_local_share": {
+      "median": 0.9523809523809524,
+      "ci95": [
+        0.9047619047619048,
+        0.9761904761904763
+      ],
+      "n_finite": 1000
+    }
+  },
+  "blca_minus_brca_local_share_vs_shapley": {
+    "point": 1.1476190476190478,
+    "median": 0.7904761904761906,
+    "ci95": [
+      0.01898809523809523,
+      1.4452976190476192
+    ],
+    "n_finite": 1000,
+    "fraction_of_replicates_le_0": 0.022
+  }
+}

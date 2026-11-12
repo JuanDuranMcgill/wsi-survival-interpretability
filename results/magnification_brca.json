@@ -1,0 +1,145 @@
+{
+  "cohort": "brca",
+  "n_slides": 1060,
+  "n_patients": 1060,
+  "magnification_counts": {
+    "40x": 919,
+    "20x": 134,
+    "not recorded": 7
+  },
+  "mpp_counts": {
+    "~0.25 um/px (40x)": 1002,
+    "~0.5 um/px (20x)": 51,
+    "not recorded": 7
+  },
+  "magnification_vs_mpp": {
+    "40x | ~0.25 um/px (40x)": 919,
+    "20x | ~0.25 um/px (40x)": 83,
+    "20x | ~0.5 um/px (20x)": 51,
+    "not recorded | not recorded": 7
+  },
+  "n_no_recorded_magnification": 7,
+  "n_no_slide_file": 0,
+  "n_sites": 38,
+  "n_sites_mixing_magnifications": 1,
+  "n_slides_in_mixed_sites": 48,
+  "per_site": {
+    "3C": {
+      "40x": 3
+    },
+    "4H": {
+      "40x": 1
+    },
+    "5L": {
+      "40x": 2
+    },
+    "5T": {
+      "40x": 1
+    },
+    "A1": {
+      "40x": 12
+    },
+    "A2": {
+      "40x": 100
+    },
+    "A7": {
+      "40x": 42
+    },
+    "A8": {
+      "20x": 83
+    },
+    "AC": {
+      "40x": 47,
+      "20x": 1
+    },
+    "AN": {
+      "40x": 32
+    },
+    "AO": {
+      "20x": 47
+    },
+    "AQ": {
+      "40x": 7
+    },
+    "AR": {
+      "40x": 70
+    },
+    "B6": {
+      "40x": 50
+    },
+    "BH": {
+      "40x": 142
+    },
+    "C8": {
+      "40x": 49
+    },
+    "D8": {
+      "40x": 78
+    },
+    "E2": {
+      "40x": 90
+    },
+    "E9": {
+      "40x": 62
+    },
+    "EW": {
+      "40x": 43
+    },
+    "GI": {
+      "40x": 2
+    },
+    "GM": {
+      "40x": 19
+    },
+    "HN": {
+      "20x": 2
+    },
+    "JL": {
+      "40x": 2
+    },
+    "LD": {
+      "40x": 5
+    },
+    "LL": {
+      "40x": 19
+    },
+    "LQ": {
+      "40x": 1
+    },
+    "MS": {
+      "20x": 1
+    },
+    "OK": {
+      "40x": 1
+    },
+    "OL": {
+      "40x": 14,
+      "not recorded": 7
+    },
+    "PE": {
+      "40x": 3
+    },
+    "PL": {
+      "40x": 4
+    },
+    "S3": {
+      "40x": 10
+    },
+    "UL": {
+      "40x": 1
+    },
+    "UU": {
+      "40x": 1
+    },
+    "WT": {
+      "40x": 2
+    },
+    "XX": {
+      "40x": 2
+    },
+    "Z7": {
+      "40x": 2
+    }
+  },
+  "source": "openslide.objective-power, else aperio.AppMag; mpp from openslide.mpp-x"
+}

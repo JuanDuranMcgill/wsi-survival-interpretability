@@ -1,0 +1,122 @@
+{
+  "cohort": "blca",
+  "n_slides": 379,
+  "n_patients": 379,
+  "magnification_counts": {
+    "40x": 372,
+    "20x": 7
+  },
+  "mpp_counts": {
+    "~0.25 um/px (40x)": 377,
+    "~0.5 um/px (20x)": 2
+  },
+  "magnification_vs_mpp": {
+    "40x | ~0.25 um/px (40x)": 372,
+    "20x | ~0.25 um/px (40x)": 5,
+    "20x | ~0.5 um/px (20x)": 2
+  },
+  "n_no_recorded_magnification": 0,
+  "n_no_slide_file": 0,
+  "n_sites": 32,
+  "n_sites_mixing_magnifications": 0,
+  "n_slides_in_mixed_sites": 0,
+  "per_site": {
+    "2F": {
+      "40x": 6
+    },
+    "4Z": {
+      "40x": 16
+    },
+    "5N": {
+      "40x": 1
+    },
+    "BL": {
+      "40x": 5
+    },
+    "BT": {
+      "40x": 21
+    },
+    "C4": {
+      "20x": 5
+    },
+    "CF": {
+      "40x": 22
+    },
+    "CU": {
+      "40x": 7
+    },
+    "DK": {
+      "40x": 36
+    },
+    "E5": {
+      "40x": 3
+    },
+    "E7": {
+      "40x": 22
+    },
+    "FD": {
+      "40x": 48
+    },
+    "FJ": {
+      "40x": 5
+    },
+    "FT": {
+      "40x": 2
+    },
+    "G2": {
+      "40x": 14
+    },
+    "GC": {
+      "40x": 9
+    },
+    "GD": {
+      "40x": 6
+    },
+    "GU": {
+      "40x": 11
+    },
+    "GV": {
+      "40x": 12
+    },
+    "H4": {
+      "40x": 2
+    },
+    "HQ": {
+      "20x": 2
+    },
+    "K4": {
+      "40x": 13
+    },
+    "LC": {
+      "40x": 1
+    },
+    "LT": {
+      "40x": 2
+    },
+    "PQ": {
+      "40x": 2
+    },
+    "S5": {
+      "40x": 2
+    },
+    "SY": {
+      "40x": 2
+    },
+    "UY": {
+      "40x": 15
+    },
+    "XF": {
+      "40x": 51
+    },
+    "YC": {
+      "40x": 3
+    },
+    "YF": {
+      "40x": 2
+    },
+    "ZF": {
+      "40x": 31
+    }
+  },
+  "source": "openslide.objective-power, else aperio.AppMag; mpp from openslide.mpp-x"
+}
