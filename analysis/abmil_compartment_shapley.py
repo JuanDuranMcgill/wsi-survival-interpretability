@@ -53,7 +53,7 @@ from torch.utils.data import DataLoader, Subset
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from compartment_common import build_dataset  # noqa: E402
 from region_ablation import collate_bags, cox_ph_loss, fast_cindex, set_seed  # noqa: E402
-from region_shapley import interaction_from_table, oob_split, shapley_from_table, summarise  # noqa: E402
+from region_shapley import case_id, interaction_from_table, oob_split, shapley_from_table, summarise  # noqa: E402
 
 
 class GatedABMIL(nn.Module):
@@ -251,10 +251,14 @@ def run_round(dataset, rnd, args, device):
     if getattr(args, "attributions", False):
         from attribution_methods import abmil_attributions
         rec.update(abmil_attributions(model, oob_loader, device, R))
+    # per-patient out-of-bag risk (full coalition), in oob_idx order, as region_shapley.py saves
+    local = {"patient_ids": np.array([case_id(dataset.samples[i]) for i in oob_idx]),
+             "times": P["T"], "events": P["E"], "risk_full": P["table"][full]}
     if getattr(args, "last_epoch", False):
         last = GatedABMIL(in_dim=args.in_dim).to(device)
         last.load_state_dict(states[-1])
         L = audit_pass(last, oob_loader, device, R)
+        local["risk_full_last"] = L["table"][L["full"]]
         rec.update({
             "baseline_cindex_last": float(L["v"][L["full"]]),
             "phi_perf_last": L["phi"].tolist(),
@@ -267,6 +271,7 @@ def run_round(dataset, rnd, args, device):
             rec.update({k + "_last": val for k, val in abmil_attributions(last, oob_loader, device, R).items()
                         if k.startswith("attr_")})
     rec["seconds"] = round(time.time() - t0, 1)
+    np.savez_compressed(os.path.join(args.rounds_dir, f"round_{rnd:03d}_local.npz"), **local)
     with open(os.path.join(args.rounds_dir, f"round_{rnd:03d}.json"), "w") as f:
         json.dump(rec, f)
     if str(device).startswith("cuda"):
