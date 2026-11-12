@@ -12,10 +12,17 @@ as MultiRegionDataset. Site is characters 6-7 of the barcode.
     python analysis/slide_magnification.py --svs-root /scratch/$USER --out-dir results
 
 Writes results/magnification_{blca,brca}.json (counts only; no per-slide table).
+
+    python analysis/slide_magnification.py --per-slide-csv /scratch/$USER/slide_magnification_per_slide.csv
+
+writes one row per slide (cohort, patient_id, slide, site, mpp_x, objective_power)
+instead of the JSONs, and checks it against the saved counts. Keep the CSV out of
+the repo.
 """
 from __future__ import annotations
 
 import argparse
+import csv
 import glob
 import json
 import os
@@ -40,11 +47,15 @@ def magnification(props):
     return None
 
 
-def mpp_class(props):
+def mpp_value(props):
     v = props.get("openslide.mpp-x") or props.get("aperio.MPP")
-    if v in (None, ""):
+    return None if v in (None, "") else float(v)
+
+
+def mpp_class(props):
+    m = mpp_value(props)
+    if m is None:
         return None
-    m = float(v)
     return "~0.25 um/px (40x)" if m < 0.375 else "~0.5 um/px (20x)" if m < 0.75 else f"{m:.2f} um/px"
 
 
@@ -53,7 +64,12 @@ def main():
     ap.add_argument("--svs-root", default="/scratch/sorkwos")
     ap.add_argument("--shapley-root", default="/scratch/sorkwos")
     ap.add_argument("--out-dir", default="results")
+    ap.add_argument("--per-slide-csv", default=None,
+                    help="write a per-slide table here instead of the count JSONs")
     args = ap.parse_args()
+    if args.per_slide_csv and os.path.exists(args.per_slide_csv):
+        raise SystemExit(f"{args.per_slide_csv} exists; refusing to overwrite")
+    rows, mismatches = [], []
 
     svs = {}
     for p in glob.glob(os.path.join(args.svs_root, "TCGA-*", "**", "*.svs"), recursive=True):
@@ -70,11 +86,15 @@ def main():
         missing_file = []
         for s in slides:
             if s not in svs:
-                missing_file.append(s); mag = mpp = "no slide file"
+                missing_file.append(s); mag = mpp = "no slide file"; mpp_x = power = None
             else:
                 props = openslide.OpenSlide(svs[s]).properties
-                mag = magnification(props) or "not recorded"
+                power, mpp_x = magnification(props), mpp_value(props)
+                mag = power or "not recorded"
                 mpp = mpp_class(props) or "not recorded"
+            rows.append({"cohort": cohort, "patient_id": s[:12], "slide": s, "site": s[5:7],
+                         "mpp_x": "" if mpp_x is None else mpp_x,
+                         "objective_power": power or ""})
             mags[s], mpps[s] = mag, mpp
             by_site[s[5:7]][mag] += 1
             mpp_mag[f"{mag} | {mpp}"] += 1
@@ -93,12 +113,29 @@ def main():
                "n_slides_in_mixed_sites": int(sum(sum(c.values()) for c in mixed.values())),
                "per_site": site_counts,
                "source": "openslide.objective-power, else aperio.AppMag; mpp from openslide.mpp-x"}
+        if args.per_slide_csv:
+            saved = json.load(open(os.path.join(args.out_dir, f"magnification_{cohort}.json")))
+            for key in ("n_slides", "magnification_counts", "mpp_counts", "magnification_vs_mpp"):
+                if saved[key] != out[key]:
+                    mismatches.append((cohort, key, saved[key], out[key]))
+            print(f"[{cohort}] {len(slides)} slides, mpp {out['mpp_counts']}; "
+                  f"matches results/magnification_{cohort}.json: "
+                  f"{not any(m[0] == cohort for m in mismatches)}")
+            continue
         path = os.path.join(args.out_dir, f"magnification_{cohort}.json")
         if os.path.exists(path):
             raise SystemExit(f"{path} exists; refusing to overwrite")
         json.dump(out, open(path, "w"), indent=2)
         print(f"[{cohort}] {len(slides)} slides: {out['magnification_counts']}, mpp {out['mpp_counts']}, "
               f"{len(mixed)}/{len(site_counts)} sites mix magnifications; wrote {path}")
+
+    if args.per_slide_csv:
+        with open(args.per_slide_csv, "w", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=list(rows[0]))
+            w.writeheader(); w.writerows(rows)
+        print(f"wrote {args.per_slide_csv} ({len(rows)} rows)")
+        if mismatches:
+            raise SystemExit(f"per-slide table does not reproduce the saved counts: {mismatches}")
 
 
 if __name__ == "__main__":
