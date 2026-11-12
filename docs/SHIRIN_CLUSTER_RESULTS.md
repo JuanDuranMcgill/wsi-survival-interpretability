@@ -1,17 +1,15 @@
 # Co-author's cluster analyses: results (2026-11-12)
 
 Answers to `docs/HANDOFF_SHIRIN_CLUSTER_TASKS.md`, computed on Trillium, plus the parts
-that needed the out-of-bag risk file, run on Narval. Tasks 1 and 2 are complete. Task 3 has
-the magnification counts and a reproduction of the site result. The magnification terms
-of the partial R-squared still need a per-slide table, since the slides are only on Trillium.
-Task 4 is a check and an estimate; nothing was run.
+that needed the out-of-bag risk file, run on Narval. Tasks 1 to 3 are complete. Task 4 is
+a check and an estimate; nothing was run.
 No existing result was overwritten.
 
 | Task | Status | Outputs |
 |---|---|---|
 | 1. Patient-level bootstrap of the Shapley correlations | done | `results/patient_bootstrap_shapley_{blca,brca}.json`, `analysis/patient_bootstrap_shapley.py` |
 | 2. Comparable pairs per patient | done (MED3pa evaluation split on Narval) | `results/comparable_pairs_{blca,brca}.json`, `results/comparable_pairs_{blca,brca}_med3pa_eval.json`, `analysis/comparable_pairs.py` |
-| 3. Scan magnification | counts done; site result reproduced on Narval; magnification terms wait on a per-slide table from Trillium | `results/magnification_{blca,brca}.json`, `analysis/slide_magnification.py` |
+| 3. Scan magnification | done (partial R-squared on Narval) | `results/site_magnification_r2.json`, `analysis/site_magnification_r2.py`, `results/magnification_{blca,brca}.json`, `analysis/slide_magnification.py` |
 | 4. ABMIL per-patient risks | none exist; rerun estimated, not started | — |
 
 ## 1. Patient-level bootstrap of the Shapley correlations
@@ -169,7 +167,7 @@ doesn't hold. Either run `analysis/slide_magnification.py` there, if the slides 
 Narval, or extend it here to write a per-slide table and copy that across. Don't commit
 the table.
 
-### On Narval: site result reproduced; magnification blocked on per-slide values
+### On Narval: site result reproduced, then magnification added
 
 **The site result reproduces exactly.** `site_casemix` from `analysis/review_checks.py`
 was run with `risk` from `/home/sorkwos/data/patient_error_{cohort}_oob.npz` in place of
@@ -184,16 +182,36 @@ matches `results/review_checks.json` to the last digit:
 
 So the npz `risk` is the risk score the paper used.
 
-**The magnification terms were not computed.** Narval has none of the slides. Searches
-found no DX1 `.svs` in home, scratch (`lfs find`: no `.svs` at all), `/project/def-senger`
-or `/nearline/def-senger`. The `TCGA-BLCA/WSI` and `TCGA-BRCA-*` download folders on
-scratch hold only GDC `logs/`. Next step: export a per-slide table from Trillium
-(patient ID, slide, `openslide.mpp-x`) and copy it to Narval, not to git.
+**Magnification barely matters once site is in the model.** Narval has no slides, so
+the pixel size comes from Trillium's per-slide table
+(`results/slide_magnification_per_slide.csv`, one slide per patient). Magnification is
+an indicator for ~0.5 µm/px (≥ 0.375). In BRCA, a second indicator marks the 7 slides
+with no pixel size, all from site OL. Same OLS on the standardised risk score as
+`site_casemix`. Script: `analysis/site_magnification_r2.py`. Output:
+`results/site_magnification_r2.json`.
 
-Note for that run: `site_casemix` pools sites with fewer than 10 patients into
-"other". Magnification is nested within the raw site, but not quite within the
-modelled site variable. In BLCA, HQ's 2 slides at ~0.5 µm/px fall into "other". So
-magnification may add a little beyond site there.
+| Partial R² of the risk score | BLCA (n = 378) | BRCA (n = 1047) |
+|---|---|---|
+| Site, after case mix (paper; reproduced) | 0.146 (p = 1e-7) | 0.136 (p = 2e-22) |
+| **Magnification, after case mix** | **0.000** (p = 0.97) | **0.011** (p = 0.003) |
+| **Site, after case mix and magnification** | **0.147** (p = 1e-7) | **0.127** (p = 2e-20) |
+| Magnification, after case mix and site | 0.001 (p = 0.55) | 0.002 (p = 0.39) |
+
+How to read this:
+- **BLCA:** only 2 slides are at ~0.5 µm/px, so magnification explains nothing, and
+  site's share is unchanged.
+- **BRCA:** magnification explains 1.1% of the risk score after case mix. That is
+  significant, but less than a tenth of site's share. With magnification in the
+  model, site still explains 12.7%, down from 13.6%. Once site is in, magnification
+  adds 0.2% (p = 0.39).
+- **Site's association with the risk score is not a magnification effect.** Mostly it
+  is something else about the sites.
+- **Sensitivity:** dropping BRCA's 7 slides with no pixel size (n = 1,040) gives the
+  same picture. Magnification after case mix is 0.007; site after case mix and
+  magnification is 0.128.
+- The site variable pools sites with fewer than 10 patients into "other", as
+  `site_casemix` does. So magnification isn't exactly nested in it (BLCA's 2 HQ slides
+  fall in "other"). That's why "magnification after site" is not exactly 0.
 
 ## 4. Surrogate (E) and MED3pa (R) checks on ABMIL: what exists
 

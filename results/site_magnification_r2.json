@@ -1,0 +1,119 @@
+{
+  "risk_score": "patient_error_{cohort}_oob.npz risk (out-of-bag), standardised",
+  "magnification": "openslide.mpp-x, ~0.5 um/px (20x) when >= 0.375, else ~0.25 um/px (40x)",
+  "site": "TCGA source site, sites with < 10 patients pooled as 'other' (review_checks.site_casemix)",
+  "blca": {
+    "n": 378,
+    "n_site_levels": 14,
+    "n_mpp_0.5": 2,
+    "n_mpp_missing": 0,
+    "mag_terms": [
+      "mpp_0.5"
+    ],
+    "site_given_casemix": {
+      "partial_r2": 0.1460650170465854,
+      "df": 13,
+      "F": 4.749908654227757,
+      "p": 1.2658876135161566e-07
+    },
+    "mag_given_casemix": {
+      "partial_r2": 3.336958631987043e-06,
+      "df": 1,
+      "F": 0.0012446897232092833,
+      "p": 0.9718752154597875
+    },
+    "site_given_casemix_mag": {
+      "partial_r2": 0.14689759327765084,
+      "df": 13,
+      "F": 4.768399807865185,
+      "p": 1.1672447992429864e-07
+    },
+    "mag_given_casemix_site": {
+      "partial_r2": 0.000978321552790983,
+      "df": 1,
+      "F": 0.35254065712785715,
+      "p": 0.5530513218375372
+    },
+    "check_site_given_casemix_vs_review_checks_json": {
+      "computed_saved": [
+        0.1460650170465854,
+        0.1460650170465854
+      ],
+      "match": true
+    }
+  },
+  "brca": {
+    "n": 1047,
+    "n_site_levels": 20,
+    "n_mpp_0.5": 51,
+    "n_mpp_missing": 7,
+    "mag_terms": [
+      "mpp_0.5",
+      "mpp_missing"
+    ],
+    "site_given_casemix": {
+      "partial_r2": 0.13550834376387727,
+      "df": 19,
+      "F": 8.431454992420623,
+      "p": 2.155149248060305e-22
+    },
+    "mag_given_casemix": {
+      "partial_r2": 0.011360084358026625,
+      "df": 2,
+      "F": 5.969376443963069,
+      "p": 0.002644320869255731
+    },
+    "site_given_casemix_mag": {
+      "partial_r2": 0.12717265635042072,
+      "df": 19,
+      "F": 7.821894795550482,
+      "p": 1.9254490844686912e-20
+    },
+    "mag_given_casemix_site": {
+      "partial_r2": 0.001827322252331243,
+      "df": 2,
+      "F": 0.9336404105868751,
+      "p": 0.3934556753313281
+    },
+    "check_site_given_casemix_vs_review_checks_json": {
+      "computed_saved": [
+        0.13550834376387727,
+        0.13550834376387727
+      ],
+      "match": true
+    },
+    "sensitivity_drop_missing_mpp": {
+      "n": 1040,
+      "n_site_levels": 20,
+      "n_mpp_0.5": 51,
+      "n_mpp_missing": 0,
+      "mag_terms": [
+        "mpp_0.5"
+      ],
+      "site_given_casemix": {
+        "partial_r2": 0.13347092447062187,
+        "df": 19,
+        "F": 8.228410889241829,
+        "p": 9.858676014529687e-22
+      },
+      "mag_given_casemix": {
+        "partial_r2": 0.007001548454298265,
+        "df": 1,
+        "F": 7.283596003631063,
+        "p": 0.007072246248430192
+      },
+      "site_given_casemix_mag": {
+        "partial_r2": 0.12747730138307473,
+        "df": 19,
+        "F": 7.797232445241025,
+        "p": 2.3567111793233527e-20
+      },
+      "mag_given_casemix_site": {
+        "partial_r2": 0.00013315982989242864,
+        "df": 1,
+        "F": 0.13504204968728734,
+        "p": 0.7133371849384238
+      }
+    }
+  }
+}
