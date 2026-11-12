@@ -1,0 +1,226 @@
+{
+  "cohort": "brca",
+  "endpoint": "PFI",
+  "definition": "pair (i, j) comparable when the strictly shorter time had an event; both members charged (analysis/patient_error.py)",
+  "split": "discovery_eval_split, frac_discovery 0.6, seed 20260908, stratified on the high-error label (error >= median of finite errors; unscored patients 0)",
+  "input_error_npz": "/home/sorkwos/data/patient_error_brca_oob.npz",
+  "arms": {
+    "clinical": {
+      "feature_csv": "/home/sorkwos/data/clinical_features_BRCA.csv",
+      "check_vs_reliability_json": {
+        "values_computed_saved": {
+          "error_threshold": [
+            0.36507936507936506,
+            0.36507936507936506
+          ],
+          "n_eval": [
+            424,
+            424
+          ],
+          "eval_prevalence_high_error": [
+            0.4834905660377358,
+            0.4834905660377358
+          ]
+        },
+        "eval_profiles_reproduced": [
+          20,
+          20
+        ],
+        "match": true
+      },
+      "n_eval": 424,
+      "n_eval_events": 58,
+      "pairs_in_whole_cohort": {
+        "event": {
+          "n": 58,
+          "median": 617.5,
+          "iqr": [
+            455.0,
+            871.75
+          ],
+          "min": 147,
+          "max": 994,
+          "mean": 635.8965517241379,
+          "n_zero": 0,
+          "n_lt_10": 0
+        },
+        "censored": {
+          "n": 366,
+          "median": 77.0,
+          "iqr": [
+            42.0,
+            114.0
+          ],
+          "min": 0,
+          "max": 139,
+          "mean": 73.91256830601093,
+          "n_zero": 16,
+          "n_lt_10": 26
+        },
+        "all": {
+          "n": 424,
+          "median": 84.0,
+          "iqr": [
+            44.0,
+            124.0
+          ],
+          "min": 0,
+          "max": 994,
+          "mean": 150.78773584905662,
+          "n_zero": 16,
+          "n_lt_10": 26
+        }
+      },
+      "pairs_within_eval_split": {
+        "event": {
+          "n": 58,
+          "median": 258.5,
+          "iqr": [
+            192.75,
+            352.0
+          ],
+          "min": 60,
+          "max": 400,
+          "mean": 261.0,
+          "n_zero": 0,
+          "n_lt_10": 0
+        },
+        "censored": {
+          "n": 366,
+          "median": 34.0,
+          "iqr": [
+            19.0,
+            48.0
+          ],
+          "min": 0,
+          "max": 58,
+          "mean": 32.333333333333336,
+          "n_zero": 23,
+          "n_lt_10": 38
+        },
+        "all": {
+          "n": 424,
+          "median": 36.0,
+          "iqr": [
+            20.0,
+            53.0
+          ],
+          "min": 0,
+          "max": 400,
+          "mean": 63.613207547169814,
+          "n_zero": 23,
+          "n_lt_10": 38
+        }
+      }
+    },
+    "radiomic": {
+      "feature_csv": "/home/sorkwos/data/brca/radiomics_pre_corr.csv",
+      "check_vs_reliability_json": {
+        "values_computed_saved": {
+          "error_threshold": [
+            0.36507936507936506,
+            0.36507936507936506
+          ],
+          "n_eval": [
+            424,
+            424
+          ],
+          "eval_prevalence_high_error": [
+            0.4834905660377358,
+            0.4834905660377358
+          ]
+        },
+        "eval_profiles_reproduced": [
+          14,
+          14
+        ],
+        "match": true
+      },
+      "n_eval": 424,
+      "n_eval_events": 63,
+      "pairs_in_whole_cohort": {
+        "event": {
+          "n": 63,
+          "median": 582.0,
+          "iqr": [
+            362.5,
+            809.0
+          ],
+          "min": 144,
+          "max": 1022,
+          "mean": 581.8412698412699,
+          "n_zero": 0,
+          "n_lt_10": 0
+        },
+        "censored": {
+          "n": 361,
+          "median": 63.0,
+          "iqr": [
+            38.0,
+            110.0
+          ],
+          "min": 0,
+          "max": 139,
+          "mean": 70.85041551246537,
+          "n_zero": 14,
+          "n_lt_10": 34
+        },
+        "all": {
+          "n": 424,
+          "median": 81.0,
+          "iqr": [
+            42.0,
+            124.0
+          ],
+          "min": 0,
+          "max": 1022,
+          "mean": 146.7759433962264,
+          "n_zero": 14,
+          "n_lt_10": 34
+        }
+      },
+      "pairs_within_eval_split": {
+        "event": {
+          "n": 63,
+          "median": 232.0,
+          "iqr": [
+            153.5,
+            318.0
+          ],
+          "min": 67,
+          "max": 409,
+          "mean": 234.06349206349208,
+          "n_zero": 0,
+          "n_lt_10": 0
+        },
+        "censored": {
+          "n": 361,
+          "median": 24.0,
+          "iqr": [
+            13.0,
+            47.0
+          ],
+          "min": 0,
+          "max": 63,
+          "mean": 30.02770083102493,
+          "n_zero": 14,
+          "n_lt_10": 44
+        },
+        "all": {
+          "n": 424,
+          "median": 35.0,
+          "iqr": [
+            16.0,
+            53.0
+          ],
+          "min": 0,
+          "max": 409,
+          "mean": 60.344339622641506,
+          "n_zero": 14,
+          "n_lt_10": 44
+        }
+      }
+    }
+  },
+  "n_eval_patients_in_both_arms": 156
+}

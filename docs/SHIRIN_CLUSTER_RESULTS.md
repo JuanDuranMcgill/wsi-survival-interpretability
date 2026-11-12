@@ -1,15 +1,17 @@
 # Co-author's cluster analyses: results (2026-11-12)
 
-Answers to `docs/HANDOFF_SHIRIN_CLUSTER_TASKS.md`, computed on Trillium. Tasks 1 and 2
-are complete. Task 3 has the magnification counts; the partial R-squared part is left
-for Narval, where the out-of-bag risk file is. Task 4 is a check and an estimate; nothing was run.
+Answers to `docs/HANDOFF_SHIRIN_CLUSTER_TASKS.md`, computed on Trillium, plus the parts
+that needed the out-of-bag risk file, run on Narval. Tasks 1 and 2 are complete. Task 3 has
+the magnification counts and a reproduction of the site result. The magnification terms
+of the partial R-squared still need a per-slide table, since the slides are only on Trillium.
+Task 4 is a check and an estimate; nothing was run.
 No existing result was overwritten.
 
 | Task | Status | Outputs |
 |---|---|---|
 | 1. Patient-level bootstrap of the Shapley correlations | done | `results/patient_bootstrap_shapley_{blca,brca}.json`, `analysis/patient_bootstrap_shapley.py` |
-| 2. Comparable pairs per patient | whole cohort done; MED3pa evaluation split not rebuilt | `results/comparable_pairs_{blca,brca}.json`, `analysis/comparable_pairs.py` |
-| 3. Scan magnification | counts done; partial R-squared not run | `results/magnification_{blca,brca}.json`, `analysis/slide_magnification.py` |
+| 2. Comparable pairs per patient | done (MED3pa evaluation split on Narval) | `results/comparable_pairs_{blca,brca}.json`, `results/comparable_pairs_{blca,brca}_med3pa_eval.json`, `analysis/comparable_pairs.py` |
+| 3. Scan magnification | counts done; site result reproduced on Narval; magnification terms wait on a per-slide table from Trillium | `results/magnification_{blca,brca}.json`, `analysis/slide_magnification.py` |
 | 4. ABMIL per-patient risks | none exist; rerun estimated, not started | — |
 
 ## 1. Patient-level bootstrap of the Shapley correlations
@@ -72,11 +74,50 @@ unscored patients 6 / 37, mean 199.6 / 147.8 and minimum 2 / 1 among scored pati
 In both cohorts, every patient with fewer than 10 pairs is censored. In BRCA that's
 8% of censored patients (75 of 921).
 
-**The MED3pa evaluation split was not rebuilt.** `discovery_eval_split` stratifies on
-the high-error label, which comes from `patient_error_{cohort}_oob.npz`. That file is
-on Narval (`/home/sorkwos/data/`), not on Trillium. `analysis/comparable_pairs.py` can
-be extended there: run the split with seed 20260908, check for 151 and 424 evaluation
-patients, and summarise the same counts.
+### On the MED3pa evaluation split (Narval)
+
+Rebuilt on Narval from `/home/sorkwos/data/patient_error_{blca,brca}_oob.npz` with
+`python analysis/comparable_pairs.py --med3pa-split`. Outputs:
+`results/comparable_pairs_{blca,brca}_med3pa_eval.json`.
+
+**There are two evaluation splits per cohort, not one.** The MED3pa scripts inner-join
+the error file onto their feature CSV, and `discovery_eval_split` runs on that row order.
+The clinical and radiomic CSVs order patients differently, so each arm gets a different
+split. Both have 151 (BLCA) and 424 (BRCA) evaluation patients, but they share only
+65 and 156 of them. Both are reported.
+
+Check: each rebuilt split matches its saved `reliability_{cohort}_{arm}.json` in error
+threshold, evaluation size and evaluation prevalence. Re-applying the saved evaluation
+profiles reproduces every one exactly (patients, events, comparable pairs, mean error):
+8/8 for BLCA clinical, 20/20 for BRCA clinical and 14/14 for BRCA radiomic. The BLCA
+radiomic run saved no evaluation profiles, so that split is checked only by size,
+threshold and prevalence.
+
+Pairs behind each evaluation patient's error label. The error is computed over the
+whole cohort, so these are whole-cohort counts restricted to the evaluation patients:
+
+| | n | Median | IQR | Min | Max | With 0 pairs | With < 10 pairs |
+|---|---|---|---|---|---|---|---|
+| **BLCA clinical** event | 61 | 334 | 268–343 | 170 | 371 | 0 | 0 |
+| BLCA clinical censored | 90 | 120 | 95–151 | 0 | 162 | 3 | 11 |
+| BLCA clinical all | 151 | 157 | 108–326 | 0 | 371 | 3 | 11 |
+| **BLCA radiomic** event | 62 | 332 | 259–343 | 200 | 371 | 0 | 0 |
+| BLCA radiomic censored | 89 | 121 | 101–155 | 0 | 163 | 3 | 7 |
+| BLCA radiomic all | 151 | 161 | 113–290 | 0 | 371 | 3 | 7 |
+| **BRCA clinical** event | 58 | 618 | 455–872 | 147 | 994 | 0 | 0 |
+| BRCA clinical censored | 366 | 77 | 42–114 | 0 | 139 | 16 | 26 |
+| BRCA clinical all | 424 | 84 | 44–124 | 0 | 994 | 16 | 26 |
+| **BRCA radiomic** event | 63 | 582 | 362–809 | 144 | 1022 | 0 | 0 |
+| BRCA radiomic censored | 361 | 63 | 38–110 | 0 | 139 | 14 | 34 |
+| BRCA radiomic all | 424 | 81 | 42–124 | 0 | 1022 | 14 | 34 |
+
+The split looks like the whole cohort, as stratification should make it. Every patient
+with fewer than 10 pairs is censored. Patients with 0 pairs have no error; MED3pa
+labels them low-error.
+
+The JSONs also hold counts of pairs among evaluation patients only, which is what each
+profile's c-index uses. Those are smaller: BRCA clinical censored, median 34 (IQR
+19–48), 23 with 0 and 38 with fewer than 10.
 
 ## 3. Scan magnification by cohort and site
 
@@ -127,6 +168,32 @@ then add magnification. Narval needs the per-slide magnification, which the coun
 doesn't hold. Either run `analysis/slide_magnification.py` there, if the slides are on
 Narval, or extend it here to write a per-slide table and copy that across. Don't commit
 the table.
+
+### On Narval: site result reproduced; magnification blocked on per-slide values
+
+**The site result reproduces exactly.** `site_casemix` from `analysis/review_checks.py`
+was run with `risk` from `/home/sorkwos/data/patient_error_{cohort}_oob.npz` in place of
+`oob_risk_{cohort}.npz`'s `mean_risk`. The clinical CSVs are the same-named files in
+`~/data/`, since the script's `~/wsi-transfer/features` was a Mac path. Every value
+matches `results/review_checks.json` to the last digit:
+
+| | n | Site levels (≥ 10 patients, rest "other") | R² case mix | R² case mix + site | Partial R² of site |
+|---|---|---|---|---|---|
+| BLCA | 378 | 14 | 0.0856 | 0.2191 | **0.146** |
+| BRCA | 1047 | 20 | 0.1046 | 0.2259 | **0.136** |
+
+So the npz `risk` is the risk score the paper used.
+
+**The magnification terms were not computed.** Narval has none of the slides. Searches
+found no DX1 `.svs` in home, scratch (`lfs find`: no `.svs` at all), `/project/def-senger`
+or `/nearline/def-senger`. The `TCGA-BLCA/WSI` and `TCGA-BRCA-*` download folders on
+scratch hold only GDC `logs/`. Next step: export a per-slide table from Trillium
+(patient ID, slide, `openslide.mpp-x`) and copy it to Narval, not to git.
+
+Note for that run: `site_casemix` pools sites with fewer than 10 patients into
+"other". Magnification is nested within the raw site, but not quite within the
+modelled site variable. In BLCA, HQ's 2 slides at ~0.5 µm/px fall into "other". So
+magnification may add a little beyond site there.
 
 ## 4. Surrogate (E) and MED3pa (R) checks on ABMIL: what exists
 
