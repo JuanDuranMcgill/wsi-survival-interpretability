@@ -33,7 +33,15 @@ esac
 
 REPO="$HOME/wsi-survival-interpretability"
 DATA="$HOME/data"
-OUTDIR="$REPO/results/reliability_blca_clinical_q${Q}"
+# Optional: ERROR_NPZ and TAG rerun the arm on another model's errors, e.g.
+# TAG=abmil ERROR_NPZ=~/data/patient_error_blca_abmil_oob.npz ROUND_COUNT=10 \
+#   SAVE_ROOT=/scratch/sorkwos/abmil_v3_blca writes results/reliability_abmil_blca_clinical_q${Q}.
+# ROUND_COUNT and SAVE_ROOT are only recorded in the output JSON.
+if [ -n "${TAG:-}" ] && [ -z "${ERROR_NPZ:-}" ]; then echo "ERROR: TAG=$TAG needs ERROR_NPZ"; exit 1; fi
+ERROR_NPZ="${ERROR_NPZ:-$DATA/patient_error_blca_oob.npz}"
+ROUND_COUNT="${ROUND_COUNT:-102}"
+SAVE_ROOT="${SAVE_ROOT:-$DATA/med3pa_bootstrap_intermediate}"
+OUTDIR="$REPO/results/reliability_${TAG:+${TAG}_}blca_clinical_q${Q}"
 
 module load python/3.11 scipy-stack
 source "$REPO/venv/bin/activate"
@@ -44,15 +52,15 @@ mkdir -p "$OUTDIR"
 echo "[$(date)] BLCA clinical q${Q} starting on $(hostname)"
 echo "  cpus     : $SLURM_CPUS_PER_TASK"
 echo "  mem      : $SLURM_MEM_PER_NODE MB"
-echo "  error_npz: $DATA/patient_error_blca_oob.npz"
+echo "  error_npz: $ERROR_NPZ"
 echo "  clinical : $DATA/clinical_features.csv"
 echo "  outdir   : $OUTDIR"
 
 python analysis/blca_clinical_linear_med3pa.py \
-    --error-npz             "$DATA/patient_error_blca_oob.npz" \
+    --error-npz             "$ERROR_NPZ" \
     --clinical-csv          "$DATA/clinical_features.csv" \
-    --round-count           102 \
-    --save-root             "$DATA/med3pa_bootstrap_intermediate" \
+    --round-count           "$ROUND_COUNT" \
+    --save-root             "$SAVE_ROOT" \
     --outdir                "$OUTDIR" \
     --med3pa-error-quantile "$QFLOAT" \
     --med3pa-n-runs         200 \

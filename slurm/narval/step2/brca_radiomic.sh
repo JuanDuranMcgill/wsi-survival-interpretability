@@ -37,7 +37,15 @@ esac
 
 REPO="$HOME/wsi-survival-interpretability"
 DATA="$HOME/data"
-OUTDIR="$REPO/results/reliability_brca_radiomic_q${Q}"
+# Optional: ERROR_NPZ and TAG rerun the arm on another model's errors, e.g.
+# TAG=abmil ERROR_NPZ=~/data/patient_error_brca_abmil_oob.npz ROUND_COUNT=10 \
+#   SAVE_ROOT=/scratch/sorkwos/abmil_v3_brca writes results/reliability_abmil_brca_radiomic_q${Q}.
+# ROUND_COUNT and SAVE_ROOT are only recorded in the output JSON.
+if [ -n "${TAG:-}" ] && [ -z "${ERROR_NPZ:-}" ]; then echo "ERROR: TAG=$TAG needs ERROR_NPZ"; exit 1; fi
+ERROR_NPZ="${ERROR_NPZ:-$DATA/patient_error_brca_oob.npz}"
+ROUND_COUNT="${ROUND_COUNT:-106}"
+SAVE_ROOT="${SAVE_ROOT:-$DATA/med3pa_bootstrap_intermediate_BRCA}"
+OUTDIR="$REPO/results/reliability_${TAG:+${TAG}_}brca_radiomic_q${Q}"
 
 module load python/3.11 scipy-stack
 source "$REPO/venv/bin/activate"
@@ -48,15 +56,15 @@ mkdir -p "$OUTDIR"
 echo "[$(date)] BRCA radiomic q${Q} starting on $(hostname)"
 echo "  cpus        : $SLURM_CPUS_PER_TASK"
 echo "  mem         : $SLURM_MEM_PER_NODE MB"
-echo "  error_npz   : $DATA/patient_error_brca_oob.npz"
+echo "  error_npz   : $ERROR_NPZ"
 echo "  radiomics   : $DATA/brca/radiomics_pre_corr.csv"
 echo "  outdir      : $OUTDIR"
 
 python analysis/brca_radiomic_linear_med3pa.py \
-    --error-npz             "$DATA/patient_error_brca_oob.npz" \
+    --error-npz             "$ERROR_NPZ" \
     --radiomics-csv         "$DATA/brca/radiomics_pre_corr.csv" \
-    --round-count           106 \
-    --save-root             "$DATA/med3pa_bootstrap_intermediate_BRCA" \
+    --round-count           "$ROUND_COUNT" \
+    --save-root             "$SAVE_ROOT" \
     --outdir                "$OUTDIR" \
     --med3pa-error-quantile "$QFLOAT" \
     --n-jobs                14 \
