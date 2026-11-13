@@ -1,0 +1,26 @@
+feature,mean_importance,std_importance,ci_lo,ci_hi,rank,median_rank,rank_q025,rank_q975,top20_pct,top50_pct,spearman_rho,spearman_p_value,direction
+age_at_diagnosis,0.218559,0.026664,0.214864,0.222254,1,1.0,1.0,2.0,100.0,100.0,0.1172,0.000142,higher feature -> higher survival_target
+lymph_node_examined_count,0.154526,0.020476,0.151688,0.157364,2,2.0,2.0,3.0,100.0,100.0,0.0218,0.480216,higher feature -> higher survival_target
+pathologic_t,0.141347,0.027622,0.137518,0.145175,3,3.0,1.0,4.0,100.0,100.0,0.2018,0.0,higher feature -> higher survival_target
+pathologic_stage,0.08351,0.020337,0.080691,0.086328,4,4.0,3.0,7.0,100.0,100.0,0.129,2.8e-05,higher feature -> higher survival_target
+number_of_lymphnodes_positive_by_he,0.071609,0.010032,0.070219,0.073,5,5.0,4.0,7.0,100.0,100.0,-0.0183,0.554424,higher feature -> lower survival_target
+breast_carcinoma_estrogen_receptor_status,0.047093,0.017788,0.044628,0.049559,6,7.0,4.0,11.0,100.0,100.0,-0.1166,0.000156,higher feature -> lower survival_target
+breast_carcinoma_progesterone_receptor_status,0.044884,0.014487,0.042876,0.046892,7,7.0,5.0,12.0,100.0,100.0,-0.1108,0.000327,higher feature -> lower survival_target
+menopause_status_post_prior_bilateral_ovariectomy_or_12_mo_since_lmp_with_no_prior_hysterectomy,0.040603,0.014596,0.03858,0.042626,8,8.0,5.0,12.0,100.0,100.0,0.1237,5.9e-05,higher feature -> higher survival_target
+pathologic_n,0.039977,0.006693,0.039049,0.040904,9,8.0,6.0,11.0,100.0,100.0,-0.003,0.923164,higher feature -> lower survival_target
+histological_type_infiltrating_lobular_carcinoma,0.024494,0.009985,0.02311,0.025878,10,12.0,6.0,15.0,100.0,100.0,-0.0533,0.084419,higher feature -> lower survival_target
+histological_type_infiltrating_ductal_carcinoma,0.022538,0.005529,0.021772,0.023305,11,12.0,8.0,15.0,100.0,100.0,0.0039,0.899217,higher feature -> higher survival_target
+menopause_status_pre_6_months_since_lmp_and_no_prior_bilateral_ovariectomy_and_not_on_estrogen_replacement,0.021219,0.006298,0.020347,0.022092,12,12.0,9.0,16.0,100.0,100.0,-0.0835,0.00682,higher feature -> lower survival_target
+lab_proc_her2_neu_immunohistochemistry_receptor_status,0.020993,0.007094,0.02001,0.021976,13,13.0,8.0,16.0,100.0,100.0,0.0447,0.14846,higher feature -> higher survival_target
+menopause_status_nan,0.016744,0.007213,0.015744,0.017743,14,14.0,9.0,17.0,100.0,100.0,-0.0473,0.126058,higher feature -> lower survival_target
+histological_type_mucinous_carcinoma,0.012982,0.011559,0.01138,0.014584,15,16.0,7.0,22.0,91.5,100.0,0.0919,0.0029,higher feature -> higher survival_target
+pathologic_m,0.009923,0.008618,0.008729,0.011118,16,17.0,10.0,22.0,85.0,100.0,0.0545,0.077551,higher feature -> higher survival_target
+histological_type_mixed_histology_please_specify,0.007962,0.005919,0.007142,0.008783,17,17.0,12.0,21.0,96.5,100.0,0.0099,0.748476,higher feature -> higher survival_target
+histological_type_other_specify,0.006073,0.00419,0.005492,0.006653,18,18.0,13.0,21.0,90.5,100.0,0.0297,0.336916,higher feature -> higher survival_target
+menopause_status_peri_612_months_since_last_menstrual_period,0.005597,0.00368,0.005087,0.006107,19,18.0,14.0,21.0,95.0,100.0,-0.0343,0.267136,higher feature -> lower survival_target
+menopause_status_indeterminate_neither_pre_or_postmenopausal,0.004239,0.002811,0.003849,0.004629,20,19.0,16.0,21.0,85.0,100.0,-0.035,0.257389,higher feature -> lower survival_target
+histological_type_metaplastic_carcinoma,0.002511,0.004039,0.001951,0.003071,21,22.0,15.0,23.0,30.0,100.0,0.0504,0.102907,higher feature -> higher survival_target
+histological_type_medullary_carcinoma,0.001747,0.003816,0.001218,0.002276,22,23.0,16.0,24.0,21.5,100.0,-0.0536,0.083135,higher feature -> lower survival_target
+gender,0.000849,0.000778,0.000741,0.000956,23,22.0,20.0,23.0,4.5,100.0,0.009,0.770738,higher feature -> higher survival_target
+histological_type_nan,2.1e-05,0.000214,-9e-06,5e-05,24,25.0,25.0,25.0,0.5,100.0,-0.0408,0.186792,higher feature -> lower survival_target
+histological_type_infiltrating_carcinoma_nos,1e-06,1.7e-05,-1e-06,4e-06,25,24.0,23.0,24.0,0.0,100.0,0.0297,0.337179,higher feature -> higher survival_target

@@ -1,0 +1,70 @@
+{
+  "cohort": "blca",
+  "rounds_dir": "/scratch/sorkwos/abmil_v3_blca",
+  "risk_key": "risk_full_last",
+  "n_rounds": 10,
+  "n_patients_scored": 378,
+  "n_events_scored": 163,
+  "n_cohort": 379,
+  "n_never_oob": 1,
+  "n_scored_outside_cohort": 0,
+  "oob_rounds_per_patient": {
+    "min": 1,
+    "median": 4.5,
+    "max": 9
+  },
+  "oob_cindex_pooled": 0.6053142702994335,
+  "mean_round_cindex": 0.5944272646065843,
+  "per_round": [
+    {
+      "file": "round_001_local.npz",
+      "n_oob": 161,
+      "cindex": 0.6554159017087982
+    },
+    {
+      "file": "round_002_local.npz",
+      "n_oob": 165,
+      "cindex": 0.5901162790697675
+    },
+    {
+      "file": "round_003_local.npz",
+      "n_oob": 173,
+      "cindex": 0.5417142857142857
+    },
+    {
+      "file": "round_004_local.npz",
+      "n_oob": 173,
+      "cindex": 0.5995435628943482
+    },
+    {
+      "file": "round_005_local.npz",
+      "n_oob": 164,
+      "cindex": 0.6570548712206047
+    },
+    {
+      "file": "round_006_local.npz",
+      "n_oob": 172,
+      "cindex": 0.5958458458458459
+    },
+    {
+      "file": "round_007_local.npz",
+      "n_oob": 162,
+      "cindex": 0.6113989637305699
+    },
+    {
+      "file": "round_008_local.npz",
+      "n_oob": 168,
+      "cindex": 0.5913535769428718
+    },
+    {
+      "file": "round_009_local.npz",
+      "n_oob": 176,
+      "cindex": 0.5667182478276396
+    },
+    {
+      "file": "round_010_local.npz",
+      "n_oob": 176,
+      "cindex": 0.5351111111111111
+    }
+  ]
+}

@@ -1,0 +1,743 @@
+{
+  "cohort": "brca",
+  "arm": "clinical",
+  "endpoint": "PFI",
+  "input_error_npz": "/home/sorkwos/data/patient_error_brca_abmil_oob.npz",
+  "input_clinical_csv": "/home/sorkwos/data/clinical_features_BRCA.csv",
+  "backbone_round_count": 8,
+  "backbone_save_root": "/scratch/sorkwos/abmil_v3_brca",
+  "n_patients_aligned": 1048,
+  "n_events": 138,
+  "n_censored": 910,
+  "med3pa_error_quantile": 0.9,
+  "error_threshold": 0.851063829787234,
+  "label_prevalence_overall": 0.09732824427480916,
+  "majority_class_accuracy_overall": 0.9026717557251909,
+  "discovery_eval_split": {
+    "frac_discovery": 0.6,
+    "seed": 20260908,
+    "n_discovery": 629,
+    "n_eval": 419
+  },
+  "med3pa_n_runs": 200,
+  "classifier_metrics_on_eval": {
+    "n": 419,
+    "prevalence_high_error": 0.09785202863961814,
+    "majority_class_accuracy": 0.9021479713603818,
+    "plain_accuracy": 0.8233890214797136,
+    "balanced_accuracy": 0.4998386888630791,
+    "auroc": 0.4952897148019099,
+    "auroc_p_vs_0.5": 0.9245377311344328,
+    "auroc_n_permutations": 2000,
+    "average_precision": 0.1017570065528467,
+    "average_precision_baseline": 0.09785202863961814,
+    "note": "Accuracy must be read against majority_class_accuracy, not 0.50. AUROC is the threshold-free metric; its null is 0.50."
+  },
+  "scaler_params_note": "StandardScaler fitted on aligned X. If the input CSV is already z-scored, threshold_clinical_approx \u2248 threshold_in_csv_units.",
+  "top_profiles_eval": [
+    {
+      "profile": "age_at_diagnosis_DOWN",
+      "readable_rule": "age_at_diagnosis <= 0.52 [-1.0191, 1.4316]",
+      "runs_appeared": 68,
+      "run_freq_pct": 34.0,
+      "discovery_avg_accuracy": 0.8881,
+      "thresholds": {
+        "age_at_diagnosis_DOWN": {
+          "feature": "age_at_diagnosis",
+          "op": "<=",
+          "threshold_in_csv_units": 0.52,
+          "threshold_clinical_approx": 0.5242
+        }
+      },
+      "n_patients": 296,
+      "coverage_pct": 70.64439140811456,
+      "n_events_in_profile": 43,
+      "n_censored_in_profile": 253,
+      "high_error_prevalence_in_profile": 0.09797297297297297,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.902027027027027,
+      "survival_model_cindex_in_profile": 0.5062359128474831,
+      "survival_model_cindex_ci95": [
+        0.3990470151056543,
+        0.6075142386744985
+      ],
+      "n_comparable_pairs_in_profile": 6655,
+      "mean_patient_error_in_profile": 0.4217016890626314,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "age_at_diagnosis_UP",
+      "readable_rule": "age_at_diagnosis > 0.52 [-1.0191, 1.4316]",
+      "runs_appeared": 68,
+      "run_freq_pct": 34.0,
+      "discovery_avg_accuracy": 0.6768,
+      "thresholds": {
+        "age_at_diagnosis_UP": {
+          "feature": "age_at_diagnosis",
+          "op": ">",
+          "threshold_in_csv_units": 0.52,
+          "threshold_clinical_approx": 0.5242
+        }
+      },
+      "n_patients": 123,
+      "coverage_pct": 29.355608591885442,
+      "n_events_in_profile": 13,
+      "n_censored_in_profile": 110,
+      "high_error_prevalence_in_profile": 0.0975609756097561,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.9024390243902439,
+      "survival_model_cindex_in_profile": 0.5366132723112128,
+      "survival_model_cindex_ci95": [
+        0.39996110630942094,
+        0.6797849374067548
+      ],
+      "n_comparable_pairs_in_profile": 874,
+      "mean_patient_error_in_profile": 0.459378335997851,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "lymph_node_examined_count_UP",
+      "readable_rule": "lymph_node_examined_count > 0.1251 [-0.9639, 1.2746]",
+      "runs_appeared": 51,
+      "run_freq_pct": 25.5,
+      "discovery_avg_accuracy": 0.9246,
+      "thresholds": {
+        "lymph_node_examined_count_UP": {
+          "feature": "lymph_node_examined_count",
+          "op": ">",
+          "threshold_in_csv_units": 0.1251,
+          "threshold_clinical_approx": 0.1245
+        }
+      },
+      "n_patients": 163,
+      "coverage_pct": 38.902147971360385,
+      "n_events_in_profile": 26,
+      "n_censored_in_profile": 137,
+      "high_error_prevalence_in_profile": 0.13496932515337423,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.8650306748466258,
+      "survival_model_cindex_in_profile": 0.498371335504886,
+      "survival_model_cindex_ci95": [
+        0.36162878075798094,
+        0.6266562557734269
+      ],
+      "n_comparable_pairs_in_profile": 1842,
+      "mean_patient_error_in_profile": 0.4428959331925086,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "lymph_node_examined_count_DOWN",
+      "readable_rule": "lymph_node_examined_count <= 0.1251 [-0.9639, 1.2746]",
+      "runs_appeared": 51,
+      "run_freq_pct": 25.5,
+      "discovery_avg_accuracy": 0.7496,
+      "thresholds": {
+        "lymph_node_examined_count_DOWN": {
+          "feature": "lymph_node_examined_count",
+          "op": "<=",
+          "threshold_in_csv_units": 0.1251,
+          "threshold_clinical_approx": 0.1245
+        }
+      },
+      "n_patients": 256,
+      "coverage_pct": 61.097852028639615,
+      "n_events_in_profile": 30,
+      "n_censored_in_profile": 226,
+      "high_error_prevalence_in_profile": 0.07421875,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.92578125,
+      "survival_model_cindex_in_profile": 0.523198631601454,
+      "survival_model_cindex_ci95": [
+        0.405220554336445,
+        0.6383842775100987
+      ],
+      "n_comparable_pairs_in_profile": 4677,
+      "mean_patient_error_in_profile": 0.4257718027029535,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "age_at_diagnosis_DOWN | lymph_node_examined_count_DOWN",
+      "readable_rule": "age_at_diagnosis <= 0.3382 [-0.9002, 1.2616] AND lymph_node_examined_count <= 0.0646 [-0.9034, 0.7301]",
+      "runs_appeared": 36,
+      "run_freq_pct": 18.0,
+      "discovery_avg_accuracy": 0.8342,
+      "thresholds": {
+        "age_at_diagnosis_DOWN": {
+          "feature": "age_at_diagnosis",
+          "op": "<=",
+          "threshold_in_csv_units": 0.3382,
+          "threshold_clinical_approx": 0.3414
+        },
+        "lymph_node_examined_count_DOWN": {
+          "feature": "lymph_node_examined_count",
+          "op": "<=",
+          "threshold_in_csv_units": 0.0646,
+          "threshold_clinical_approx": 0.0637
+        }
+      },
+      "n_patients": 159,
+      "coverage_pct": 37.94749403341289,
+      "n_events_in_profile": 20,
+      "n_censored_in_profile": 139,
+      "high_error_prevalence_in_profile": 0.08176100628930817,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.9182389937106918,
+      "survival_model_cindex_in_profile": 0.5078369905956113,
+      "survival_model_cindex_ci95": [
+        0.3566610319769473,
+        0.659056445768185
+      ],
+      "n_comparable_pairs_in_profile": 1914,
+      "mean_patient_error_in_profile": 0.43340862049707163,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "age_at_diagnosis_DOWN | lymph_node_examined_count_UP",
+      "readable_rule": "age_at_diagnosis <= 0.3537 [-0.7762, 1.7728] AND lymph_node_examined_count > -0.0564 [-0.9639, 0.7301]",
+      "runs_appeared": 33,
+      "run_freq_pct": 16.5,
+      "discovery_avg_accuracy": 0.9367,
+      "thresholds": {
+        "age_at_diagnosis_DOWN": {
+          "feature": "age_at_diagnosis",
+          "op": "<=",
+          "threshold_in_csv_units": 0.3537,
+          "threshold_clinical_approx": 0.357
+        },
+        "lymph_node_examined_count_UP": {
+          "feature": "lymph_node_examined_count",
+          "op": ">",
+          "threshold_in_csv_units": -0.0564,
+          "threshold_clinical_approx": -0.0579
+        }
+      },
+      "n_patients": 134,
+      "coverage_pct": 31.98090692124105,
+      "n_events_in_profile": 26,
+      "n_censored_in_profile": 108,
+      "high_error_prevalence_in_profile": 0.1044776119402985,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.8955223880597015,
+      "survival_model_cindex_in_profile": 0.5204991087344029,
+      "survival_model_cindex_ci95": [
+        0.3889249932651726,
+        0.6459969064997828
+      ],
+      "n_comparable_pairs_in_profile": 1683,
+      "mean_patient_error_in_profile": 0.4054757798111807,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "pathologic_n_DOWN",
+      "readable_rule": "pathologic_n <= 0.5 [0.5, 0.5]",
+      "runs_appeared": 23,
+      "run_freq_pct": 11.5,
+      "discovery_avg_accuracy": 0.6952,
+      "thresholds": {
+        "pathologic_n_DOWN": {
+          "feature": "pathologic_n",
+          "op": "<=",
+          "threshold_in_csv_units": 0.5,
+          "threshold_clinical_approx": 1.2059
+        }
+      },
+      "n_patients": 209,
+      "coverage_pct": 49.88066825775656,
+      "n_events_in_profile": 25,
+      "n_censored_in_profile": 184,
+      "high_error_prevalence_in_profile": 0.10047846889952153,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.8995215311004785,
+      "survival_model_cindex_in_profile": 0.5209112546752805,
+      "survival_model_cindex_ci95": [
+        0.39425653157792945,
+        0.6344109712036796
+      ],
+      "n_comparable_pairs_in_profile": 2941,
+      "mean_patient_error_in_profile": 0.4412616588477291,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "pathologic_n_UP",
+      "readable_rule": "pathologic_n > 0.5 [0.5, 0.5]",
+      "runs_appeared": 23,
+      "run_freq_pct": 11.5,
+      "discovery_avg_accuracy": 0.9179,
+      "thresholds": {
+        "pathologic_n_UP": {
+          "feature": "pathologic_n",
+          "op": ">",
+          "threshold_in_csv_units": 0.5,
+          "threshold_clinical_approx": 1.2059
+        }
+      },
+      "n_patients": 210,
+      "coverage_pct": 50.11933174224344,
+      "n_events_in_profile": 31,
+      "n_censored_in_profile": 179,
+      "high_error_prevalence_in_profile": 0.09523809523809523,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.9047619047619048,
+      "survival_model_cindex_in_profile": 0.5139328689043698,
+      "survival_model_cindex_ci95": [
+        0.38396023724725603,
+        0.6427301579155176
+      ],
+      "n_comparable_pairs_in_profile": 3158,
+      "mean_patient_error_in_profile": 0.42376453435935063,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "age_at_diagnosis_DOWN | age_at_diagnosis_UP",
+      "readable_rule": "age_at_diagnosis <= 0.8115 [-1.0191, 1.4154] AND age_at_diagnosis > -0.5531 [-1.7161, 0.9401]",
+      "runs_appeared": 20,
+      "run_freq_pct": 10.0,
+      "discovery_avg_accuracy": 0.7921,
+      "thresholds": {
+        "age_at_diagnosis_DOWN": {
+          "feature": "age_at_diagnosis",
+          "op": "<=",
+          "threshold_in_csv_units": 0.8115,
+          "threshold_clinical_approx": 0.8173
+        },
+        "age_at_diagnosis_UP": {
+          "feature": "age_at_diagnosis",
+          "op": ">",
+          "threshold_in_csv_units": -0.5531,
+          "threshold_clinical_approx": -0.5545
+        }
+      },
+      "n_patients": 202,
+      "coverage_pct": 48.21002386634845,
+      "n_events_in_profile": 22,
+      "n_censored_in_profile": 180,
+      "high_error_prevalence_in_profile": 0.1188118811881188,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.8811881188118812,
+      "survival_model_cindex_in_profile": 0.458596214511041,
+      "survival_model_cindex_ci95": [
+        0.3169755226925038,
+        0.6040588773112714
+      ],
+      "n_comparable_pairs_in_profile": 2536,
+      "mean_patient_error_in_profile": 0.4373334092139725,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "pathologic_t_UP",
+      "readable_rule": "pathologic_t > 1.5 [1.5, 2.5]",
+      "runs_appeared": 19,
+      "run_freq_pct": 9.5,
+      "discovery_avg_accuracy": 0.7779,
+      "thresholds": {
+        "pathologic_t_UP": {
+          "feature": "pathologic_t",
+          "op": ">",
+          "threshold_in_csv_units": 1.5,
+          "threshold_clinical_approx": 3.0443
+        }
+      },
+      "n_patients": 295,
+      "coverage_pct": 70.40572792362768,
+      "n_events_in_profile": 45,
+      "n_censored_in_profile": 250,
+      "high_error_prevalence_in_profile": 0.11186440677966102,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.888135593220339,
+      "survival_model_cindex_in_profile": 0.5003054367745876,
+      "survival_model_cindex_ci95": [
+        0.4083890370432046,
+        0.5971662748563853
+      ],
+      "n_comparable_pairs_in_profile": 6548,
+      "mean_patient_error_in_profile": 0.46520669776835394,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "pathologic_t_DOWN",
+      "readable_rule": "pathologic_t <= 1.5 [1.5, 2.5]",
+      "runs_appeared": 19,
+      "run_freq_pct": 9.5,
+      "discovery_avg_accuracy": 0.9391,
+      "thresholds": {
+        "pathologic_t_DOWN": {
+          "feature": "pathologic_t",
+          "op": "<=",
+          "threshold_in_csv_units": 1.5,
+          "threshold_clinical_approx": 3.0443
+        }
+      },
+      "n_patients": 124,
+      "coverage_pct": 29.594272076372317,
+      "n_events_in_profile": 11,
+      "n_censored_in_profile": 113,
+      "high_error_prevalence_in_profile": 0.06451612903225806,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.935483870967742,
+      "survival_model_cindex_in_profile": 0.4857496902106567,
+      "survival_model_cindex_ci95": [
+        0.2676948737666389,
+        0.6861227142918034
+      ],
+      "n_comparable_pairs_in_profile": 807,
+      "mean_patient_error_in_profile": 0.3575383309426497,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "lymph_node_examined_count_DOWN | lymph_node_examined_count_UP",
+      "readable_rule": "lymph_node_examined_count <= 0.1856 [-0.8429, 1.2141] AND lymph_node_examined_count > -0.5707 [-1.0849, 0.2461]",
+      "runs_appeared": 18,
+      "run_freq_pct": 9.0,
+      "discovery_avg_accuracy": 0.8028,
+      "thresholds": {
+        "lymph_node_examined_count_DOWN": {
+          "feature": "lymph_node_examined_count",
+          "op": "<=",
+          "threshold_in_csv_units": 0.1856,
+          "threshold_clinical_approx": 0.1853
+        },
+        "lymph_node_examined_count_UP": {
+          "feature": "lymph_node_examined_count",
+          "op": ">",
+          "threshold_in_csv_units": -0.5707,
+          "threshold_clinical_approx": -0.5747
+        }
+      },
+      "n_patients": 107,
+      "coverage_pct": 25.536992840095465,
+      "n_events_in_profile": 16,
+      "n_censored_in_profile": 91,
+      "high_error_prevalence_in_profile": 0.056074766355140186,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.9439252336448598,
+      "survival_model_cindex_in_profile": 0.5675381263616558,
+      "survival_model_cindex_ci95": [
+        0.3919339159646222,
+        0.744834342233272
+      ],
+      "n_comparable_pairs_in_profile": 918,
+      "mean_patient_error_in_profile": 0.4317534039201256,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "age_at_diagnosis_UP | lymph_node_examined_count_DOWN",
+      "readable_rule": "age_at_diagnosis > -0.3252 [-0.9002, 1.1734] AND lymph_node_examined_count <= 0.0041 [-0.5404, 0.5486]",
+      "runs_appeared": 17,
+      "run_freq_pct": 8.5,
+      "discovery_avg_accuracy": 0.7082,
+      "thresholds": {
+        "age_at_diagnosis_UP": {
+          "feature": "age_at_diagnosis",
+          "op": ">",
+          "threshold_in_csv_units": -0.3252,
+          "threshold_clinical_approx": -0.3255
+        },
+        "lymph_node_examined_count_DOWN": {
+          "feature": "lymph_node_examined_count",
+          "op": "<=",
+          "threshold_in_csv_units": 0.0041,
+          "threshold_clinical_approx": 0.0029
+        }
+      },
+      "n_patients": 158,
+      "coverage_pct": 37.70883054892602,
+      "n_events_in_profile": 18,
+      "n_censored_in_profile": 140,
+      "high_error_prevalence_in_profile": 0.06962025316455696,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.930379746835443,
+      "survival_model_cindex_in_profile": 0.54,
+      "survival_model_cindex_ci95": [
+        0.38115150055940755,
+        0.6865592861464004
+      ],
+      "n_comparable_pairs_in_profile": 1700,
+      "mean_patient_error_in_profile": 0.40833596224243546,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "age_at_diagnosis_DOWN | pathologic_t_DOWN",
+      "readable_rule": "age_at_diagnosis <= 0.6576 [-0.3148, 1.0568] AND pathologic_t <= 1.5 [1.5, 2.5]",
+      "runs_appeared": 14,
+      "run_freq_pct": 7.0,
+      "discovery_avg_accuracy": 0.967,
+      "thresholds": {
+        "age_at_diagnosis_DOWN": {
+          "feature": "age_at_diagnosis",
+          "op": "<=",
+          "threshold_in_csv_units": 0.6576,
+          "threshold_clinical_approx": 0.6626
+        },
+        "pathologic_t_DOWN": {
+          "feature": "pathologic_t",
+          "op": "<=",
+          "threshold_in_csv_units": 1.5,
+          "threshold_clinical_approx": 3.0443
+        }
+      },
+      "n_patients": 96,
+      "coverage_pct": 22.911694510739856,
+      "n_events_in_profile": 9,
+      "n_censored_in_profile": 87,
+      "high_error_prevalence_in_profile": 0.0625,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.9375,
+      "survival_model_cindex_in_profile": 0.49502982107355864,
+      "survival_model_cindex_ci95": [
+        0.19219928921895613,
+        0.7270755648168457
+      ],
+      "n_comparable_pairs_in_profile": 503,
+      "mean_patient_error_in_profile": 0.3572793694994494,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "age_at_diagnosis_UP | lymph_node_examined_count_UP",
+      "readable_rule": "age_at_diagnosis > 0.0484 [-0.7762, 1.7728] AND lymph_node_examined_count > -0.1169 [-0.9639, 0.2461]",
+      "runs_appeared": 14,
+      "run_freq_pct": 7.0,
+      "discovery_avg_accuracy": 0.8995,
+      "thresholds": {
+        "age_at_diagnosis_UP": {
+          "feature": "age_at_diagnosis",
+          "op": ">",
+          "threshold_in_csv_units": 0.0484,
+          "threshold_clinical_approx": 0.0501
+        },
+        "lymph_node_examined_count_UP": {
+          "feature": "lymph_node_examined_count",
+          "op": ">",
+          "threshold_in_csv_units": -0.1169,
+          "threshold_clinical_approx": -0.1187
+        }
+      },
+      "n_patients": 81,
+      "coverage_pct": 19.331742243436754,
+      "n_events_in_profile": 9,
+      "n_censored_in_profile": 72,
+      "high_error_prevalence_in_profile": 0.18518518518518517,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.8148148148148149,
+      "survival_model_cindex_in_profile": 0.39361702127659576,
+      "survival_model_cindex_ci95": [
+        0.18867537890504177,
+        0.567852200455402
+      ],
+      "n_comparable_pairs_in_profile": 282,
+      "mean_patient_error_in_profile": 0.5040559779381638,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "lymph_node_examined_count_DOWN | pathologic_t_UP",
+      "readable_rule": "lymph_node_examined_count <= 0.0041 [-0.6009, 0.3671] AND pathologic_t > 1.5 [1.5, 1.5]",
+      "runs_appeared": 13,
+      "run_freq_pct": 6.5,
+      "discovery_avg_accuracy": 0.6751,
+      "thresholds": {
+        "lymph_node_examined_count_DOWN": {
+          "feature": "lymph_node_examined_count",
+          "op": "<=",
+          "threshold_in_csv_units": 0.0041,
+          "threshold_clinical_approx": 0.0029
+        },
+        "pathologic_t_UP": {
+          "feature": "pathologic_t",
+          "op": ">",
+          "threshold_in_csv_units": 1.5,
+          "threshold_clinical_approx": 3.0443
+        }
+      },
+      "n_patients": 155,
+      "coverage_pct": 36.9928400954654,
+      "n_events_in_profile": 21,
+      "n_censored_in_profile": 134,
+      "high_error_prevalence_in_profile": 0.1032258064516129,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.896774193548387,
+      "survival_model_cindex_in_profile": 0.5149732620320856,
+      "survival_model_cindex_ci95": [
+        0.37814123666864996,
+        0.6498718783546673
+      ],
+      "n_comparable_pairs_in_profile": 1870,
+      "mean_patient_error_in_profile": 0.4588003934130694,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "number_of_lymphnodes_positive_by_he_UP",
+      "readable_rule": "number_of_lymphnodes_positive_by_he > -0.0361 [-0.3856, 0.0804]",
+      "runs_appeared": 12,
+      "run_freq_pct": 6.0,
+      "discovery_avg_accuracy": 0.9411,
+      "thresholds": {
+        "number_of_lymphnodes_positive_by_he_UP": {
+          "feature": "number_of_lymphnodes_positive_by_he",
+          "op": ">",
+          "threshold_in_csv_units": -0.0361,
+          "threshold_clinical_approx": -0.0432
+        }
+      },
+      "n_patients": 86,
+      "coverage_pct": 20.525059665871122,
+      "n_events_in_profile": 19,
+      "n_censored_in_profile": 67,
+      "high_error_prevalence_in_profile": 0.1511627906976744,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.8488372093023255,
+      "survival_model_cindex_in_profile": 0.48166259168704156,
+      "survival_model_cindex_ci95": [
+        0.29542522505388613,
+        0.6671730399230399
+      ],
+      "n_comparable_pairs_in_profile": 818,
+      "mean_patient_error_in_profile": 0.44032548462333376,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "age_at_diagnosis_DOWN | pathologic_t_UP",
+      "readable_rule": "age_at_diagnosis <= 0.6576 [-0.8245, 0.9029] AND pathologic_t > 1.5 [1.5, 2.5]",
+      "runs_appeared": 12,
+      "run_freq_pct": 6.0,
+      "discovery_avg_accuracy": 0.8656,
+      "thresholds": {
+        "age_at_diagnosis_DOWN": {
+          "feature": "age_at_diagnosis",
+          "op": "<=",
+          "threshold_in_csv_units": 0.6576,
+          "threshold_clinical_approx": 0.6626
+        },
+        "pathologic_t_UP": {
+          "feature": "pathologic_t",
+          "op": ">",
+          "threshold_in_csv_units": 1.5,
+          "threshold_clinical_approx": 3.0443
+        }
+      },
+      "n_patients": 216,
+      "coverage_pct": 51.55131264916468,
+      "n_events_in_profile": 34,
+      "n_censored_in_profile": 182,
+      "high_error_prevalence_in_profile": 0.11574074074074074,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.8842592592592593,
+      "survival_model_cindex_in_profile": 0.4867577362698634,
+      "survival_model_cindex_ci95": [
+        0.37464650992514,
+        0.6129949568934083
+      ],
+      "n_comparable_pairs_in_profile": 3587,
+      "mean_patient_error_in_profile": 0.45703493303903525,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "age_at_diagnosis_DOWN | number_of_lymphnodes_positive_by_he_DOWN",
+      "readable_rule": "age_at_diagnosis <= 0.5563 [-0.3334, 1.4316] AND number_of_lymphnodes_positive_by_he <= -0.1526 [-0.3856, 0.0804]",
+      "runs_appeared": 12,
+      "run_freq_pct": 6.0,
+      "discovery_avg_accuracy": 0.8491,
+      "thresholds": {
+        "age_at_diagnosis_DOWN": {
+          "feature": "age_at_diagnosis",
+          "op": "<=",
+          "threshold_in_csv_units": 0.5563,
+          "threshold_clinical_approx": 0.5607
+        },
+        "number_of_lymphnodes_positive_by_he_DOWN": {
+          "feature": "number_of_lymphnodes_positive_by_he",
+          "op": "<=",
+          "threshold_in_csv_units": -0.1526,
+          "threshold_clinical_approx": -0.1592
+        }
+      },
+      "n_patients": 213,
+      "coverage_pct": 50.83532219570406,
+      "n_events_in_profile": 22,
+      "n_censored_in_profile": 191,
+      "high_error_prevalence_in_profile": 0.0892018779342723,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.9107981220657277,
+      "survival_model_cindex_in_profile": 0.49809402795425667,
+      "survival_model_cindex_ci95": [
+        0.36481591950470416,
+        0.6464004482958695
+      ],
+      "n_comparable_pairs_in_profile": 2361,
+      "mean_patient_error_in_profile": 0.43281295818255044,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "number_of_lymphnodes_positive_by_he_DOWN",
+      "readable_rule": "number_of_lymphnodes_positive_by_he <= -0.0361 [-0.3856, 0.0804]",
+      "runs_appeared": 12,
+      "run_freq_pct": 6.0,
+      "discovery_avg_accuracy": 0.7588,
+      "thresholds": {
+        "number_of_lymphnodes_positive_by_he_DOWN": {
+          "feature": "number_of_lymphnodes_positive_by_he",
+          "op": "<=",
+          "threshold_in_csv_units": -0.0361,
+          "threshold_clinical_approx": -0.0432
+        }
+      },
+      "n_patients": 333,
+      "coverage_pct": 79.47494033412887,
+      "n_events_in_profile": 37,
+      "n_censored_in_profile": 296,
+      "high_error_prevalence_in_profile": 0.08408408408408409,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.9159159159159159,
+      "survival_model_cindex_in_profile": 0.5462315462315462,
+      "survival_model_cindex_ci95": [
+        0.4484889070806089,
+        0.6386362587909957
+      ],
+      "n_comparable_pairs_in_profile": 6435,
+      "mean_patient_error_in_profile": 0.43029026761398315,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    }
+  ],
+  "feature_importance_summary": {
+    "n_trees": 200000,
+    "n_bootstrap": 200,
+    "trees_per_bootstrap": 1000,
+    "mean_oob_corr": 0.24328754842281342,
+    "std_oob_corr": 0.03908282890915871
+  },
+  "med3pa_params": {
+    "uncertainty_metric": "sigmoidal_error",
+    "ipc_type": "RandomForestRegressor",
+    "ipc_params": {
+      "n_estimators": 50,
+      "random_state": 54288,
+      "max_depth": 2
+    },
+    "apc_params": {
+      "max_depth": 4,
+      "random_state": 54288,
+      "min_samples_leaf": 6
+    },
+    "ipc_grid_params": {
+      "n_estimators": [
+        50,
+        100,
+        200
+      ],
+      "max_depth": [
+        2,
+        4,
+        6
+      ]
+    },
+    "apc_grid_params": {
+      "min_samples_leaf": [
+        2,
+        4,
+        6
+      ]
+    },
+    "samples_ratio_min": 0,
+    "samples_ratio_max": 10,
+    "samples_ratio_step": 5,
+    "evaluate_models": true
+  }
+}

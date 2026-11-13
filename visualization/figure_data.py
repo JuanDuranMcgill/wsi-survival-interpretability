@@ -113,13 +113,30 @@ def _cohort_cindex(cohort):
     return _load(f"cohort_and_baseline_{cohort}.json")["wsi_cindex"]["value"]
 
 
-def profiles():
-    """Profiles recurring in at least 5% of MED3pa runs, across all 16 tests."""
+def _reliability_files(model="main"):
+    """(cohort, arm, threshold, path) of the 16 reliability JSONs: our model's, or ABMIL's
+    (results/reliability_abmil_*)."""
     out = []
     for f in sorted(glob.glob(os.path.join(RESULTS, "reliability_*_q*", "reliability_*.json"))):
-        tag = os.path.basename(os.path.dirname(f)).split("_")  # reliability, cohort, arm, qNN
-        cohort, arm, thr = tag[1], ("pathomic" if tag[2] == "radiomic" else tag[2]), tag[3]
-        cval = _cohort_cindex(cohort)
+        tag = os.path.basename(os.path.dirname(f)).split("_")  # reliability, [abmil,] cohort, arm, qNN
+        is_abmil = tag[1] == "abmil"
+        if is_abmil != (model == "abmil"):
+            continue
+        cohort, arm, thr = tag[-3], tag[-2], tag[-1]
+        out.append((cohort, "pathomic" if arm == "radiomic" else arm, thr, f))
+    return out
+
+
+def profiles(model="main", cohort_cindex=None):
+    """Profiles recurring in at least 5% of MED3pa runs, across all 16 tests.
+
+    The in-profile c-index interval is compared with the cohort value: by default our
+    model's (cohort_and_baseline_{cohort}.json); pass cohort_cindex={cohort: value} for
+    another model.
+    """
+    out = []
+    for cohort, arm, thr, f in _reliability_files(model):
+        cval = cohort_cindex[cohort] if cohort_cindex else _cohort_cindex(cohort)
         with open(f, encoding="utf-8") as fh:
             d = json.load(fh)
         for pr in d["top_profiles_eval"]:
@@ -132,14 +149,23 @@ def profiles():
     return pd.DataFrame(out)
 
 
-def auroc_by_arm():
+def hanley_mcneil_ci(auc, n_pos, n_neg, z=1.959964):
+    """95% interval for an AUROC from the Hanley-McNeil (1982) standard error."""
+    q1, q2 = auc / (2 - auc), 2 * auc ** 2 / (1 + auc)
+    se = ((auc * (1 - auc) + (n_pos - 1) * (q1 - auc ** 2) + (n_neg - 1) * (q2 - auc ** 2))
+          / (n_pos * n_neg)) ** 0.5
+    return auc - z * se, auc + z * se
+
+
+def auroc_by_arm(model="main"):
     out = []
-    for f in sorted(glob.glob(os.path.join(RESULTS, "reliability_*_q*", "reliability_*.json"))):
-        tag = os.path.basename(os.path.dirname(f)).split("_")
+    for cohort, arm, thr, f in _reliability_files(model):
         with open(f, encoding="utf-8") as fh:
             m = json.load(fh)["classifier_metrics_on_eval"]
-        out.append(dict(cohort=tag[1], arm=("pathomic" if tag[2] == "radiomic" else tag[2]), thr=tag[3],
-                        auroc=m["auroc"], p=m["auroc_p_vs_0.5"]))
+        n_pos = round(m["n"] * m["prevalence_high_error"])
+        lo, hi = hanley_mcneil_ci(m["auroc"], n_pos, m["n"] - n_pos)
+        out.append(dict(cohort=cohort, arm=arm, thr=thr, auroc=m["auroc"], p=m["auroc_p_vs_0.5"],
+                        n=m["n"], n_pos=n_pos, hm_lo=lo, hm_hi=hi))
     return pd.DataFrame(out)
 
 
