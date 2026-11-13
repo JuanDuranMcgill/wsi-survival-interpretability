@@ -30,6 +30,9 @@ Judge it as the outsider:
 3. Does anything overclaim or underclaim against the facts? Check every number.
 4. Does anything sound AI-written (formulaic transitions, lists of three, colon set-ups,
    stated takeaways)?
+5. Is any sentence compressed so that a word is missing and the reader must supply it (for
+   example "if a feature ranks first, that it tracks survival")? Quote each one; the author
+   wants full, simple sentences even when they are longer.
 
 Reply in under 250 words: first lines "Understandable without the paper: yes/no" and "Reads
 naturally: yes/no", then at most 5 concrete fixes, each quoting the exact current words and

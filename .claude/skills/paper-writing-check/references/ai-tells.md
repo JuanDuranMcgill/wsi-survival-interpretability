@@ -28,6 +28,8 @@ Rewrite every match. A pattern is only acceptable when it is the plainest way to
 - Rhetorical questions in the body text.
 - Bullet lists with bold lead-ins inside prose sections.
 - Paragraphs where every sentence has the same length and shape.
+- Elliptical, compressed clauses that drop the verb or subject to save words ("if a feature
+  ranks first, that it tracks survival"; "X; Y, that Z"). Write the full sentence instead.
 
 ## Discourse-level tells
 

@@ -25,12 +25,22 @@ Juan fixed the framing; do not drift from it, and do not let a reviewer agent dr
 
 - **Story order at every scale** (highlights, abstract, a section, a paragraph): the problem,
   what we did, what happened, what it means.
-- **The story of the paper:** pathology AI is judged by benchmark scores, rarely by clinical or
-  biological value. We built a reusable tool, the IER audit, to test the explanations AI
-  survival models give. On TCGA bladder and breast cancer, the weights matched what the model
-  used, but most other explanations failed the tool's checks. These failures show that
-  TCGA-sized cohorts (fewer than 200 events) are too small to support such conclusions. The
-  failures are evidence of the tool's rigour, not a disappointment.
+- **The story of the paper (Juan's words, confirmed 2026-11-12):** knowing which tissue an AI
+  survival model relies on would be valuable, but no model has been shown to do this reliably,
+  and pathology AI is judged mostly by benchmark scores rather than clinical or biological
+  value. Juan tried: he designed a model to show it (one learned weight per tissue type) and
+  built a reusable tool, the IER audit, to test rigorously whether that and other explanations
+  hold. On TCGA bladder and breast cancer, the weights matched what the model used, but what it
+  used did not reliably match outcome, and the other explanations failed too. These failures
+  show that TCGA-sized cohorts (fewer than 200 events) are too small to support such
+  conclusions. The honest negative result is the finding; the tool is what others can reuse.
+- **Never state as fact what the paper tests.** Models do not "show" which tissue drives risk;
+  at most their weights or heatmaps are presented or read as showing it. Do not drop qualifiers
+  such as "are presented as" or "are read as" when shortening a sentence.
+- **Keep the paper's terms apart.** Which tissue drives the risk is interpretability (I); a
+  post-hoc surrogate is explainability (E). Do not call I "explainable" or use "explanation"
+  loosely where the distinction matters; "explanations" is only the umbrella term, as in the
+  title.
 - **The aim is understanding predictions.** Performance is context. Never frame a result as
   "did not improve performance".
 - **Openings are positive:** explanations matter, which is why they need testing.
@@ -54,13 +64,26 @@ Juan fixed the framing; do not drift from it, and do not let a reviewer agent dr
     concordance or C-index, partial R-squared: define or avoid in the abstract and
     introduction.
 - **One claim per sentence.** Put the subject and verb early. Say who did what.
+- **Write full, simple sentences.** Do not drop words to save space: no elliptical clauses
+  such as "if a feature ranks first, that it tracks survival", where the verb is left for the
+  reader to supply. Spell out each clause ("If the surrogate ranks a feature first, readers
+  conclude that the feature is linked to survival"), even if parallel sentences then repeat
+  words. Clear beats compact.
 - **Be precise.** Not "for whom the model is reliable" but which patients and how measured; not
   "rarely tested" without saying tested how; not "falls short of trust" without saying what
   was expected.
+- **Guide the reader with signposts.** Never pack several points into one dense paragraph.
+  Announce what is coming ("evidence comes from three settings"), then enumerate (first,
+  second, third, or in the first test / in the second), one short paragraph or sentence per
+  point, and funnel from the general to the specific (general AI, then pathology, then the
+  individual patient). Each paragraph should give the reader a checkpoint before the next.
 - **Give a concrete example** wherever an outsider could lose the thread (for instance: a
   heatmap lights up fat, and readers conclude that fat drives the patient's risk).
 - **Few numbers in the main text,** each with its meaning; details go to the appendix.
-- **Cite what the point needs.** The introduction is a story, not a literature review.
+- **Cite what the point needs.** The introduction is a story, not a literature review. Keep
+  the references that already exist: mention the work they support in a clause attached to
+  the sentence it belongs to, in plain words (say what the models do, not their family
+  names), rather than dropping them or listing them in a separate catalogue.
 - When a sentence must be inserted into an existing paragraph, read the sentence before and
   after it and make the new one continue the thought; avoid "this" pointing at the wrong thing.
 
