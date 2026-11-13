@@ -1,0 +1,113 @@
+{
+  "n_patients": 378,
+  "n_scored": 372,
+  "n_unscored_no_comparable_pairs": 6,
+  "n_events": 163,
+  "n_censored": 215,
+  "censored_fraction": 0.5687830687830688,
+  "n_exactly_zero_error": 9,
+  "frac_exactly_zero_error": 0.024193548387096774,
+  "mean_comparable_pairs": 199.30107526881721,
+  "min_comparable_pairs": 2,
+  "quantiles": {
+    "q10": 0.06554517133956386,
+    "q25": 0.20417181193210093,
+    "q50": 0.38131987017670393,
+    "q60": 0.4392156862745098,
+    "q70": 0.5,
+    "q75": 0.5425555230859147,
+    "q80": 0.6078953271028037,
+    "q90": 0.71548525629822,
+    "q95": 0.8338110403397028
+  },
+  "histogram_20_bins": {
+    "counts": [
+      35,
+      17,
+      14,
+      24,
+      29,
+      23,
+      28,
+      28,
+      39,
+      22,
+      22,
+      14,
+      18,
+      18,
+      6,
+      10,
+      7,
+      8,
+      8,
+      2
+    ],
+    "bin_edges": [
+      0.0,
+      0.05,
+      0.1,
+      0.15000000000000002,
+      0.2,
+      0.25,
+      0.30000000000000004,
+      0.35000000000000003,
+      0.4,
+      0.45,
+      0.5,
+      0.55,
+      0.6000000000000001,
+      0.65,
+      0.7000000000000001,
+      0.75,
+      0.8,
+      0.8500000000000001,
+      0.9,
+      0.9500000000000001,
+      1.0
+    ]
+  },
+  "label_at_q50": {
+    "threshold": 0.38131987017670393,
+    "n_high_error": 186,
+    "prevalence": 0.5,
+    "majority_class_accuracy": 0.5,
+    "frac_of_high_error_that_had_event": 0.521505376344086,
+    "event_rate_in_low_error": 0.3548387096774194
+  },
+  "label_at_q70": {
+    "threshold": 0.5,
+    "n_high_error": 113,
+    "prevalence": 0.30376344086021506,
+    "majority_class_accuracy": 0.696236559139785,
+    "frac_of_high_error_that_had_event": 0.3805309734513274,
+    "event_rate_in_low_error": 0.46332046332046334
+  },
+  "label_at_q80": {
+    "threshold": 0.6078953271028037,
+    "n_high_error": 75,
+    "prevalence": 0.20161290322580644,
+    "majority_class_accuracy": 0.7983870967741935,
+    "frac_of_high_error_that_had_event": 0.28,
+    "event_rate_in_low_error": 0.4781144781144781
+  },
+  "label_at_q90": {
+    "threshold": 0.71548525629822,
+    "n_high_error": 38,
+    "prevalence": 0.10215053763440861,
+    "majority_class_accuracy": 0.8978494623655914,
+    "frac_of_high_error_that_had_event": 0.15789473684210525,
+    "event_rate_in_low_error": 0.47005988023952094
+  },
+  "cohort": "blca",
+  "endpoint": "PFI",
+  "source_npz": "/home/sorkwos/data/abmil_oob_risk_blca.npz",
+  "risk_key": "mean_risk",
+  "n_dropped_missing_survival": 0,
+  "global_cindex": 0.6053142702994335,
+  "primary_metric": "symmetric_pairwise_concordance_error",
+  "ipcw_brier": {
+    "horizon_days": 426.5,
+    "score": 0.30581699180181976
+  }
+}

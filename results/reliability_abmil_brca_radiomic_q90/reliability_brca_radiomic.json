@@ -1,0 +1,387 @@
+{
+  "cohort": "brca",
+  "arm": "radiomic",
+  "endpoint": "PFI",
+  "input_error_npz": "/home/sorkwos/data/patient_error_brca_abmil_oob.npz",
+  "input_radiomics_csv": "/home/sorkwos/data/brca/radiomics_pre_corr.csv",
+  "backbone_round_count": 8,
+  "backbone_save_root": "/scratch/sorkwos/abmil_v3_brca",
+  "n_patients_aligned": 1048,
+  "n_events": 138,
+  "n_censored": 910,
+  "n_first_order_features": 514,
+  "n_features_in_med3pa": 30,
+  "med3pa_error_quantile": 0.9,
+  "error_threshold": 0.851063829787234,
+  "label_prevalence_overall": 0.09732824427480916,
+  "majority_class_accuracy_overall": 0.9026717557251909,
+  "discovery_eval_split": {
+    "frac_discovery": 0.6,
+    "seed": 20260908,
+    "n_discovery": 629,
+    "n_eval": 419
+  },
+  "med3pa_n_runs": 200,
+  "classifier_metrics_on_eval": {
+    "n": 419,
+    "prevalence_high_error": 0.09785202863961814,
+    "majority_class_accuracy": 0.9021479713603818,
+    "plain_accuracy": 0.837708830548926,
+    "balanced_accuracy": 0.5403923086849916,
+    "auroc": 0.6210478771454381,
+    "auroc_p_vs_0.5": 0.009495252373813094,
+    "auroc_n_permutations": 2000,
+    "average_precision": 0.16423515367142444,
+    "average_precision_baseline": 0.09785202863961814,
+    "note": "Accuracy must be read against majority_class_accuracy, not 0.50. AUROC is the threshold-free metric; its null is 0.50."
+  },
+  "scaler_note": "StandardScaler fitted on X_med3pa (top-K first-order features).",
+  "top_profiles_eval": [
+    {
+      "profile": "stroma_H_original_firstorder_Mean_std_UP",
+      "readable_rule": "stroma_H_original_firstorder_Mean_std > 6.4067 [5.6847, 9.8617]",
+      "runs_appeared": 18,
+      "run_freq_pct": 9.0,
+      "discovery_avg_accuracy": 0.9259,
+      "thresholds": {
+        "stroma_H_original_firstorder_Mean_std_UP": {
+          "feature": "stroma_H_original_firstorder_Mean_std",
+          "op": ">",
+          "threshold_in_csv_units": 6.4067,
+          "threshold_clinical_approx": 25.2043
+        }
+      },
+      "n_patients": 345,
+      "coverage_pct": 82.33890214797135,
+      "n_events_in_profile": 46,
+      "n_censored_in_profile": 299,
+      "high_error_prevalence_in_profile": 0.08115942028985507,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.9188405797101449,
+      "survival_model_cindex_in_profile": 0.6318534367477935,
+      "survival_model_cindex_ci95": [
+        0.5537147915814211,
+        0.7026703263724369
+      ],
+      "n_comparable_pairs_in_profile": 7478,
+      "mean_patient_error_in_profile": 0.3907347116537659,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "stroma_H_original_firstorder_Mean_std_DOWN",
+      "readable_rule": "stroma_H_original_firstorder_Mean_std <= 6.4067 [5.6847, 9.8617]",
+      "runs_appeared": 18,
+      "run_freq_pct": 9.0,
+      "discovery_avg_accuracy": 0.7756,
+      "thresholds": {
+        "stroma_H_original_firstorder_Mean_std_DOWN": {
+          "feature": "stroma_H_original_firstorder_Mean_std",
+          "op": "<=",
+          "threshold_in_csv_units": 6.4067,
+          "threshold_clinical_approx": 25.2043
+        }
+      },
+      "n_patients": 74,
+      "coverage_pct": 17.66109785202864,
+      "n_events_in_profile": 11,
+      "n_censored_in_profile": 63,
+      "high_error_prevalence_in_profile": 0.17567567567567569,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.8243243243243243,
+      "survival_model_cindex_in_profile": 0.4375,
+      "survival_model_cindex_ci95": [
+        0.24491741785402735,
+        0.6739680513994014
+      ],
+      "n_comparable_pairs_in_profile": 448,
+      "mean_patient_error_in_profile": 0.47569400380228366,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "adipose_E_original_firstorder_MeanAbsoluteDeviation_std_DOWN",
+      "readable_rule": "adipose_E_original_firstorder_MeanAbsoluteDeviation_std <= 8.1551 [4.719, 12.8645]",
+      "runs_appeared": 14,
+      "run_freq_pct": 7.0,
+      "discovery_avg_accuracy": 0.8248,
+      "thresholds": {
+        "adipose_E_original_firstorder_MeanAbsoluteDeviation_std_DOWN": {
+          "feature": "adipose_E_original_firstorder_MeanAbsoluteDeviation_std",
+          "op": "<=",
+          "threshold_in_csv_units": 8.1551,
+          "threshold_clinical_approx": 32.9014
+        }
+      },
+      "n_patients": 119,
+      "coverage_pct": 28.400954653937948,
+      "n_events_in_profile": 14,
+      "n_censored_in_profile": 105,
+      "high_error_prevalence_in_profile": 0.15126050420168066,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.8487394957983193,
+      "survival_model_cindex_in_profile": 0.6033690658499234,
+      "survival_model_cindex_ci95": [
+        0.4211703305049804,
+        0.7971359907279049
+      ],
+      "n_comparable_pairs_in_profile": 653,
+      "mean_patient_error_in_profile": 0.49100490301004973,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "adipose_E_original_firstorder_MeanAbsoluteDeviation_std_UP",
+      "readable_rule": "adipose_E_original_firstorder_MeanAbsoluteDeviation_std > 8.1551 [4.719, 12.8645]",
+      "runs_appeared": 14,
+      "run_freq_pct": 7.0,
+      "discovery_avg_accuracy": 0.9075,
+      "thresholds": {
+        "adipose_E_original_firstorder_MeanAbsoluteDeviation_std_UP": {
+          "feature": "adipose_E_original_firstorder_MeanAbsoluteDeviation_std",
+          "op": ">",
+          "threshold_in_csv_units": 8.1551,
+          "threshold_clinical_approx": 32.9014
+        }
+      },
+      "n_patients": 300,
+      "coverage_pct": 71.59904534606206,
+      "n_events_in_profile": 43,
+      "n_censored_in_profile": 257,
+      "high_error_prevalence_in_profile": 0.07666666666666666,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.9233333333333333,
+      "survival_model_cindex_in_profile": 0.5812242495585639,
+      "survival_model_cindex_ci95": [
+        0.4965867272448974,
+        0.6663858950389633
+      ],
+      "n_comparable_pairs_in_profile": 6796,
+      "mean_patient_error_in_profile": 0.3747046750238082,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "stroma_H_original_firstorder_Variance_std_DOWN",
+      "readable_rule": "stroma_H_original_firstorder_Variance_std <= 246.5394 [216.8993, 300.9408]",
+      "runs_appeared": 11,
+      "run_freq_pct": 5.5,
+      "discovery_avg_accuracy": 0.7635,
+      "thresholds": {
+        "stroma_H_original_firstorder_Variance_std_DOWN": {
+          "feature": "stroma_H_original_firstorder_Variance_std",
+          "op": "<=",
+          "threshold_in_csv_units": 246.5394,
+          "threshold_clinical_approx": 29036.5682
+        }
+      },
+      "n_patients": 66,
+      "coverage_pct": 15.75178997613365,
+      "n_events_in_profile": 14,
+      "n_censored_in_profile": 52,
+      "high_error_prevalence_in_profile": 0.10606060606060606,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.8939393939393939,
+      "survival_model_cindex_in_profile": 0.39090909090909093,
+      "survival_model_cindex_ci95": [
+        0.2158129338539581,
+        0.5820645713638806
+      ],
+      "n_comparable_pairs_in_profile": 550,
+      "mean_patient_error_in_profile": 0.48298034042485954,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "adipose_E_original_firstorder_Skewness_std_DOWN",
+      "readable_rule": "adipose_E_original_firstorder_Skewness_std <= 0.7237 [0.5808, 2.4079]",
+      "runs_appeared": 11,
+      "run_freq_pct": 5.5,
+      "discovery_avg_accuracy": 0.7473,
+      "thresholds": {
+        "adipose_E_original_firstorder_Skewness_std_DOWN": {
+          "feature": "adipose_E_original_firstorder_Skewness_std",
+          "op": "<=",
+          "threshold_in_csv_units": 0.7237,
+          "threshold_clinical_approx": 6.1885
+        }
+      },
+      "n_patients": 62,
+      "coverage_pct": 14.797136038186158,
+      "n_events_in_profile": 14,
+      "n_censored_in_profile": 48,
+      "high_error_prevalence_in_profile": 0.22580645161290322,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.7741935483870968,
+      "survival_model_cindex_in_profile": 0.5536105032822757,
+      "survival_model_cindex_ci95": [
+        0.40049601554590286,
+        0.695332143216333
+      ],
+      "n_comparable_pairs_in_profile": 457,
+      "mean_patient_error_in_profile": 0.49735431996928725,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "stroma_H_original_firstorder_Variance_std_UP",
+      "readable_rule": "stroma_H_original_firstorder_Variance_std > 246.5394 [216.8993, 300.9408]",
+      "runs_appeared": 11,
+      "run_freq_pct": 5.5,
+      "discovery_avg_accuracy": 0.9317,
+      "thresholds": {
+        "stroma_H_original_firstorder_Variance_std_UP": {
+          "feature": "stroma_H_original_firstorder_Variance_std",
+          "op": ">",
+          "threshold_in_csv_units": 246.5394,
+          "threshold_clinical_approx": 29036.5682
+        }
+      },
+      "n_patients": 353,
+      "coverage_pct": 84.24821002386635,
+      "n_events_in_profile": 43,
+      "n_censored_in_profile": 310,
+      "high_error_prevalence_in_profile": 0.09631728045325778,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.9036827195467422,
+      "survival_model_cindex_in_profile": 0.643036109064112,
+      "survival_model_cindex_ci95": [
+        0.558557848904697,
+        0.7231919800705405
+      ],
+      "n_comparable_pairs_in_profile": 6785,
+      "mean_patient_error_in_profile": 0.3913894153035163,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "adipose_E_original_firstorder_Skewness_std_UP",
+      "readable_rule": "adipose_E_original_firstorder_Skewness_std > 0.7237 [0.5808, 2.4079]",
+      "runs_appeared": 11,
+      "run_freq_pct": 5.5,
+      "discovery_avg_accuracy": 0.9076,
+      "thresholds": {
+        "adipose_E_original_firstorder_Skewness_std_UP": {
+          "feature": "adipose_E_original_firstorder_Skewness_std",
+          "op": ">",
+          "threshold_in_csv_units": 0.7237,
+          "threshold_clinical_approx": 6.1885
+        }
+      },
+      "n_patients": 357,
+      "coverage_pct": 85.20286396181385,
+      "n_events_in_profile": 43,
+      "n_censored_in_profile": 314,
+      "high_error_prevalence_in_profile": 0.07563025210084033,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.9243697478991597,
+      "survival_model_cindex_in_profile": 0.579697868134971,
+      "survival_model_cindex_ci95": [
+        0.49567532841151446,
+        0.671352796955739
+      ],
+      "n_comparable_pairs_in_profile": 7083,
+      "mean_patient_error_in_profile": 0.3906029101043783,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "stroma_H_original_firstorder_MeanAbsoluteDeviation_std_UP",
+      "readable_rule": "stroma_H_original_firstorder_MeanAbsoluteDeviation_std > 4.5686 [4.3163, 5.957]",
+      "runs_appeared": 10,
+      "run_freq_pct": 5.0,
+      "discovery_avg_accuracy": 0.9297,
+      "thresholds": {
+        "stroma_H_original_firstorder_MeanAbsoluteDeviation_std_UP": {
+          "feature": "stroma_H_original_firstorder_MeanAbsoluteDeviation_std",
+          "op": ">",
+          "threshold_in_csv_units": 4.5686,
+          "threshold_clinical_approx": 11.7751
+        }
+      },
+      "n_patients": 321,
+      "coverage_pct": 76.6109785202864,
+      "n_events_in_profile": 40,
+      "n_censored_in_profile": 281,
+      "high_error_prevalence_in_profile": 0.08722741433021806,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.9127725856697819,
+      "survival_model_cindex_in_profile": 0.626193724420191,
+      "survival_model_cindex_ci95": [
+        0.5540617182778457,
+        0.703587289638573
+      ],
+      "n_comparable_pairs_in_profile": 5864,
+      "mean_patient_error_in_profile": 0.3870940126698226,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "stroma_H_original_firstorder_MeanAbsoluteDeviation_std_DOWN",
+      "readable_rule": "stroma_H_original_firstorder_MeanAbsoluteDeviation_std <= 4.5686 [4.3163, 5.957]",
+      "runs_appeared": 10,
+      "run_freq_pct": 5.0,
+      "discovery_avg_accuracy": 0.7967,
+      "thresholds": {
+        "stroma_H_original_firstorder_MeanAbsoluteDeviation_std_DOWN": {
+          "feature": "stroma_H_original_firstorder_MeanAbsoluteDeviation_std",
+          "op": "<=",
+          "threshold_in_csv_units": 4.5686,
+          "threshold_clinical_approx": 11.7751
+        }
+      },
+      "n_patients": 98,
+      "coverage_pct": 23.389021479713605,
+      "n_events_in_profile": 17,
+      "n_censored_in_profile": 81,
+      "high_error_prevalence_in_profile": 0.1326530612244898,
+      "high_error_prevalence_overall": 0.09785202863961814,
+      "majority_class_accuracy_in_profile": 0.8673469387755102,
+      "survival_model_cindex_in_profile": 0.489010989010989,
+      "survival_model_cindex_ci95": [
+        0.3262093835699629,
+        0.6693576567381226
+      ],
+      "n_comparable_pairs_in_profile": 910,
+      "mean_patient_error_in_profile": 0.466757729011547,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    }
+  ],
+  "feature_importance_summary": {
+    "n_trees": 10000000,
+    "n_bootstrap": 1000,
+    "trees_per_bootstrap": 10000,
+    "mean_oob_corr": 0.37823235988616943,
+    "std_oob_corr": 0.04688550531864166,
+    "n_first_order_features": 514,
+    "n_selected_for_med3pa": 30
+  },
+  "med3pa_params": {
+    "uncertainty_metric": "sigmoidal_error",
+    "ipc_type": "RandomForestRegressor",
+    "ipc_params": {
+      "n_estimators": 50,
+      "random_state": 54288,
+      "max_depth": 2
+    },
+    "apc_params": {
+      "max_depth": 4,
+      "random_state": 54288,
+      "min_samples_leaf": 6
+    },
+    "ipc_grid_params": {
+      "n_estimators": [
+        50,
+        100,
+        200
+      ],
+      "max_depth": [
+        2,
+        4,
+        6
+      ]
+    },
+    "apc_grid_params": {
+      "min_samples_leaf": [
+        2,
+        4,
+        6
+      ]
+    },
+    "samples_ratio_min": 0,
+    "samples_ratio_max": 10,
+    "samples_ratio_step": 5,
+    "evaluate_models": true
+  }
+}

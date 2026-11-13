@@ -1,0 +1,147 @@
+{
+  "cohort": "blca",
+  "arm": "radiomic",
+  "endpoint": "PFI",
+  "input_error_npz": "/home/sorkwos/data/patient_error_blca_abmil_oob.npz",
+  "input_radiomics_csv": "/home/sorkwos/data/blca/radiomics_pre_corr.csv",
+  "backbone_round_count": 10,
+  "backbone_save_root": "/scratch/sorkwos/abmil_v3_blca",
+  "n_patients_aligned": 378,
+  "n_events": 163,
+  "n_censored": 215,
+  "n_first_order_features": 504,
+  "n_features_in_med3pa": 30,
+  "med3pa_error_quantile": 0.9,
+  "error_threshold": 0.71548525629822,
+  "label_prevalence_overall": 0.10052910052910052,
+  "majority_class_accuracy_overall": 0.8994708994708995,
+  "discovery_eval_split": {
+    "frac_discovery": 0.6,
+    "seed": 20260908,
+    "n_discovery": 227,
+    "n_eval": 151
+  },
+  "med3pa_n_runs": 200,
+  "classifier_metrics_on_eval": {
+    "n": 151,
+    "prevalence_high_error": 0.09933774834437085,
+    "majority_class_accuracy": 0.9006622516556292,
+    "plain_accuracy": 0.8145695364238411,
+    "balanced_accuracy": 0.4818627450980392,
+    "auroc": 0.38578431372549016,
+    "auroc_p_vs_0.5": 0.14142928535732133,
+    "auroc_n_permutations": 2000,
+    "average_precision": 0.0895253968018523,
+    "average_precision_baseline": 0.09933774834437085,
+    "note": "Accuracy must be read against majority_class_accuracy, not 0.50. AUROC is the threshold-free metric; its null is 0.50."
+  },
+  "scaler_note": "StandardScaler fitted on X_med3pa (top-K first-order features).",
+  "top_profiles_eval": [
+    {
+      "profile": "tumor_H_original_firstorder_Entropy_std_UP",
+      "readable_rule": "tumor_H_original_firstorder_Entropy_std > 0.3054 [0.2709, 0.587]",
+      "runs_appeared": 28,
+      "run_freq_pct": 14.0,
+      "discovery_avg_accuracy": 0.955,
+      "thresholds": {
+        "tumor_H_original_firstorder_Entropy_std_UP": {
+          "feature": "tumor_H_original_firstorder_Entropy_std",
+          "op": ">",
+          "threshold_in_csv_units": 0.3054,
+          "threshold_clinical_approx": 0.3927
+        }
+      },
+      "n_patients": 113,
+      "coverage_pct": 74.83443708609272,
+      "n_events_in_profile": 51,
+      "n_censored_in_profile": 62,
+      "high_error_prevalence_in_profile": 0.11504424778761062,
+      "high_error_prevalence_overall": 0.09933774834437085,
+      "majority_class_accuracy_in_profile": 0.8849557522123894,
+      "survival_model_cindex_in_profile": 0.5636418089248278,
+      "survival_model_cindex_ci95": [
+        0.45782389833305825,
+        0.6592308863239265
+      ],
+      "n_comparable_pairs_in_profile": 3339,
+      "mean_patient_error_in_profile": 0.40489695741584125,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    },
+    {
+      "profile": "tumor_H_original_firstorder_Entropy_std_DOWN",
+      "readable_rule": "tumor_H_original_firstorder_Entropy_std <= 0.3054 [0.2709, 0.587]",
+      "runs_appeared": 28,
+      "run_freq_pct": 14.0,
+      "discovery_avg_accuracy": 0.7073,
+      "thresholds": {
+        "tumor_H_original_firstorder_Entropy_std_DOWN": {
+          "feature": "tumor_H_original_firstorder_Entropy_std",
+          "op": "<=",
+          "threshold_in_csv_units": 0.3054,
+          "threshold_clinical_approx": 0.3927
+        }
+      },
+      "n_patients": 38,
+      "coverage_pct": 25.165562913907284,
+      "n_events_in_profile": 21,
+      "n_censored_in_profile": 17,
+      "high_error_prevalence_in_profile": 0.05263157894736842,
+      "high_error_prevalence_overall": 0.09933774834437085,
+      "majority_class_accuracy_in_profile": 0.9473684210526316,
+      "survival_model_cindex_in_profile": 0.6782608695652174,
+      "survival_model_cindex_ci95": [
+        0.5354015031645569,
+        0.7980358992790545
+      ],
+      "n_comparable_pairs_in_profile": 460,
+      "mean_patient_error_in_profile": 0.3619694272373549,
+      "caveat": "A profile describes the average error behaviour of a subgroup. It does not imply every patient satisfying the rule is high-error, nor that low-error patients cannot satisfy it."
+    }
+  ],
+  "feature_importance_summary": {
+    "n_trees": 10000000,
+    "n_bootstrap": 1000,
+    "trees_per_bootstrap": 10000,
+    "mean_oob_corr": 0.3246634900569916,
+    "std_oob_corr": 0.07844952493906021,
+    "n_first_order_features": 504,
+    "n_selected_for_med3pa": 30
+  },
+  "med3pa_params": {
+    "uncertainty_metric": "sigmoidal_error",
+    "ipc_type": "RandomForestRegressor",
+    "ipc_params": {
+      "n_estimators": 200,
+      "random_state": 54288,
+      "max_depth": 2
+    },
+    "apc_params": {
+      "max_depth": 4,
+      "random_state": 54288,
+      "min_samples_leaf": 6
+    },
+    "ipc_grid_params": {
+      "n_estimators": [
+        50,
+        100,
+        200
+      ],
+      "max_depth": [
+        2,
+        4,
+        6
+      ]
+    },
+    "apc_grid_params": {
+      "min_samples_leaf": [
+        2,
+        4,
+        6
+      ]
+    },
+    "samples_ratio_min": 0,
+    "samples_ratio_max": 10,
+    "samples_ratio_step": 5,
+    "evaluate_models": true
+  }
+}

@@ -1,0 +1,9 @@
+region,n_features,sum_mean_importance,avg_mean_importance,best_rank,features_in_top20,features_in_top50,top_feature,top_feature_importance
+adipose,61,0.1423,0.002332,2,9,14,adipose_H_original_firstorder_Mean_mean,0.005798
+lamina,65,0.1365,0.0021,1,5,13,lamina_H_original_firstorder_Skewness_std,0.005856
+muscularis,57,0.1281,0.002248,5,2,5,muscularis_E_original_firstorder_InterquartileRange_std,0.005286
+necrosis,61,0.1234,0.002023,36,0,4,necrosis_H_original_firstorder_Skewness_mean,0.003324
+tumor,62,0.1208,0.001949,35,0,2,tumor_E_original_firstorder_Kurtosis_std,0.003326
+immune,66,0.1205,0.001826,13,1,5,immune_H_original_firstorder_Mean_mean,0.004245
+urothelium,66,0.1142,0.001731,10,2,4,urothelium_E_original_firstorder_RootMeanSquared_std,0.004692
+vessels,66,0.1142,0.00173,3,1,3,vessels_H_original_firstorder_Kurtosis_std,0.00574
