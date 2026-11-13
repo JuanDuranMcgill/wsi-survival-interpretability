@@ -42,6 +42,7 @@ import copy
 import glob
 import json
 import os
+import random
 import sys
 import time
 
@@ -128,11 +129,36 @@ def oob_eval(model, loader, device):
     return fast_cindex(T, E, Rk)
 
 
-def train(model, train_loader, oob_loader, device, args):
+def _rng_state():
+    s = {"torch": torch.get_rng_state(), "numpy": np.random.get_state(), "python": random.getstate()}
+    if torch.cuda.is_available():
+        s["cuda"] = torch.cuda.get_rng_state_all()
+    return s
+
+
+def _set_rng_state(s):
+    torch.set_rng_state(s["torch"]); np.random.set_state(s["numpy"]); random.setstate(s["python"])
+    if "cuda" in s and torch.cuda.is_available():
+        torch.cuda.set_rng_state_all(s["cuda"])
+
+
+def train(model, train_loader, oob_loader, device, args, ckpt_path=None):
+    """Train for args.epochs; with ckpt_path, save after every epoch and resume from it.
+
+    The checkpoint holds the model, optimiser, every epoch's state (for the epoch
+    selection), the c-index history and the RNG states at the end of the epoch, so a
+    resumed run draws the same shuffles and dropout masks as an uninterrupted one.
+    """
     model.to(device)
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
-    states, by_epoch = [], []
-    for ep in range(1, args.epochs + 1):
+    states, by_epoch, start = [], [], 1
+    if ckpt_path and os.path.exists(ckpt_path):
+        ck = torch.load(ckpt_path, map_location="cpu", weights_only=False)
+        model.load_state_dict(ck["model"]); opt.load_state_dict(ck["opt"])
+        states, by_epoch, start = ck["states"], ck["by_epoch"], ck["epoch"] + 1
+        _set_rng_state(ck["rng"])
+        print(f"  resumed from {os.path.basename(ckpt_path)} after epoch {ck['epoch']}")
+    for ep in range(start, args.epochs + 1):
         model.train()
         tot = 0.0
         for feats_list, _, t, e, _, _ in train_loader:
@@ -149,7 +175,12 @@ def train(model, train_loader, oob_loader, device, args):
         c = oob_eval(model, oob_loader, device)
         by_epoch.append(float(c))
         states.append(copy.deepcopy({k: v.detach().cpu() for k, v in model.state_dict().items()}))
-        print(f"  epoch {ep}/{args.epochs}  loss={tot:.3f}  OOB c-index={c:.4f}")
+        print(f"  epoch {ep}/{args.epochs}  loss={tot:.3f}  OOB c-index={c:.4f}", flush=True)
+        if ckpt_path:
+            tmp = ckpt_path + ".tmp"
+            torch.save({"epoch": ep, "model": model.state_dict(), "opt": opt.state_dict(), "states": states,
+                        "by_epoch": by_epoch, "rng": _rng_state()}, tmp)
+            os.replace(tmp, ckpt_path)
     best = int(np.argmax(by_epoch))
     model.load_state_dict(states[best])
     return best + 1, by_epoch, states
@@ -222,7 +253,8 @@ def run_round(dataset, rnd, args, device):
     oob_loader = DataLoader(Subset(dataset, oob_idx.tolist()), batch_size=1, shuffle=False,
                             num_workers=1, collate_fn=collate_bags)
     model = GatedABMIL(in_dim=args.in_dim)
-    best_ep, by_epoch, states = train(model, train_loader, oob_loader, device, args)
+    ckpt_path = os.path.join(args.rounds_dir, f"round_{rnd:03d}_ckpt.pt")
+    best_ep, by_epoch, states = train(model, train_loader, oob_loader, device, args, ckpt_path)
 
     P = audit_pass(model, oob_loader, device, R)
     v, phi, full, att, present = P["v"], P["phi"], P["full"], P["att"], P["present"]
@@ -274,6 +306,8 @@ def run_round(dataset, rnd, args, device):
     np.savez_compressed(os.path.join(args.rounds_dir, f"round_{rnd:03d}_local.npz"), **local)
     with open(os.path.join(args.rounds_dir, f"round_{rnd:03d}.json"), "w") as f:
         json.dump(rec, f)
+    if os.path.exists(ckpt_path):
+        os.remove(ckpt_path)
     if str(device).startswith("cuda"):
         torch.cuda.empty_cache()
     print(f"  baseline {v[full]:.4f}, head check {P['head_check']:.1e}, efficiency gap {eff_gap:.1e}, "
