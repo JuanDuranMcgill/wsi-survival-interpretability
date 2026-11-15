@@ -1,4 +1,4 @@
-# E and R on ABMIL, next to our model (Narval, 2026-11-12)
+# E and R on ABMIL, next to our model (Narval, 2026-11-12 to 14)
 
 This document follows `docs/HANDOFF_ABMIL_ER.md`, steps 1 to 6. It reruns the explanation (E) and
 reliability (R) checks with ABMIL's out-of-bag risk in place of our model's, keeping
@@ -8,13 +8,22 @@ everything else the same. All numbers come from `results/abmil_er_comparison.jso
 ## What was run
 
 - **ABMIL rounds.** These are run M's settings, with `EXP=M` and `--last-epoch`, saved to
-  `/scratch/sorkwos/abmil_v3_{blca,brca}`. Each round also writes `round_###_local.npz`, which
-  holds every out-of-bag patient's full-model risk at the selected epoch and at the last epoch.
-  - BLCA: 10 of 10 rounds finished.
-  - BRCA: 8 of 10 finished. Rounds 4 and 10 hit the 6 h limit while still training: the nodes
-    were busy, so the GPUs waited on data and every round ran about 1.7 times slower than
-    run M. They were not rerun.
-  - Cost: about 64 GPU-hours, against the 38 estimated.
+  `/scratch/sorkwos/abmil_v3_{blca,brca}`, 10 rounds per cohort. Each round also writes
+  `round_###_local.npz`, which holds every out-of-bag patient's full-model risk at the
+  selected epoch and at the last epoch.
+- **BRCA rounds 4 and 10 had to be rerun.**
+  - **What went wrong.** On the first attempt both hit the 6 h limit: /scratch was slow, so
+    training read it at about 70 MB/s while the GPU sat idle.
+  - **The fix.** They were rerun with `slurm/narval/review/abmil_local_round.sh`, which first
+    copies the embeddings to the node's local SSD (249 GB in about 4 minutes) and then trains
+    from there.
+  - **Checkpointing.** `abmil_compartment_shapley.py` now saves a checkpoint after every epoch
+    and resumes from it if a round is rerun. A round that is killed and resumed gives the same
+    output as one that runs straight through.
+  - **Same results.** The copy keeps the file names, so the patients and splits are the same.
+    The first epochs' loss and c-index matched the interrupted runs exactly.
+  - **Cost.** About 72 GPU-hours in all, against the 38 estimated, mostly because of the slow
+    /scratch reads and the rounds that timed out.
 - **Round 1 matches run M** and passes every stop condition:
 
   | | Baseline c-index, this run | Run M | Selected epoch (both runs) | Efficiency gap | Head check | Empty coalition |
@@ -22,7 +31,7 @@ everything else the same. All numbers come from `results/abmil_er_comparison.jso
   | BLCA | 0.6556 | 0.6557 | 20 | 6e-17 | 7e-7 | 0.5 |
   | BRCA | 0.6541 | 0.6548 | 7 | 6e-17 | 5e-7 | 0.5 |
 
-  All other rounds also passed these checks.
+  All 20 rounds passed these checks.
 - **Risk score for E and R.** E and R use the last-epoch risk (`risk_full_last`), averaged
   over each patient's out-of-bag rounds (`analysis/abmil_oob_risk.py`). Our model's E and R
   inputs also use its final epoch, and using the last epoch avoids choosing the epoch on the
@@ -39,16 +48,15 @@ everything else the same. All numbers come from `results/abmil_er_comparison.jso
 
 ## Out-of-bag concordance
 
-| | Ours | ABMIL, last epoch (E/R input) | ABMIL, selected epoch | ABMIL mean per-round c-index, last / selected | Run M mean round baseline (selected epoch) | Rounds | Never out-of-bag |
-|---|---|---|---|---|---|---|---|
-| BLCA | 0.622 | 0.605 | 0.625 | 0.594 / 0.608 | 0.608 | 10 | 1 of 379 |
-| BRCA | 0.607 | 0.573 | 0.612 | 0.578 / 0.627 | 0.626 | 8 | 12 of 1,060 |
+| | Ours | ABMIL, last epoch (E/R input) | ABMIL, selected epoch | ABMIL mean per-round c-index, last / selected | Run M mean round baseline (selected epoch) | Never out-of-bag |
+|---|---|---|---|---|---|---|
+| BLCA | 0.622 | 0.605 | 0.625 | 0.594 / 0.608 | 0.608 | 1 of 379 |
+| BRCA | 0.607 | 0.586 | 0.627 | 0.577 / 0.626 | 0.626 | 5 of 1,060 |
 
-At the selected epoch, ABMIL's per-round c-index matches run M's (0.608 and 0.627, against
-0.608 and 0.626). At the last epoch, ABMIL is weaker than our model in both cohorts, and much
-weaker in BRCA. BRCA's selected epoch is early (7 of 20 in round 1), and by the last epoch
-the out-of-bag c-index has fallen by about 0.09 (0.654 to 0.564 in round 1, and the same in
-run M).
+At the selected epoch, ABMIL reproduces run M (mean round c-index 0.608 and 0.626 in both).
+At the last epoch, ABMIL is weaker than our model by 0.02 in each cohort. In BRCA the selected
+epoch is early (7 of 20 in round 1), and by the last epoch the out-of-bag c-index has fallen,
+by 0.09 in round 1 (the same in run M).
 
 ## E: what the surrogate learns
 
@@ -61,24 +69,23 @@ score, given as the mean ± SD over bootstraps.
 | | Ours: ranking (share %) | ABMIL: ranking (share %) | Rank agreement, Spearman ρ (8 compartments) | Fidelity, ours | Fidelity, ABMIL |
 |---|---|---|---|---|---|
 | BLCA | **adipose 17.0**, urothelium 13.8, immune 13.6, muscularis 12.4, necrosis 12.2, lamina 11.5 | **muscularis 15.2**, tumour 13.4, lamina 13.2, adipose 13.0, vessels 12.0, immune 11.5 | −0.31 (p = 0.46) | 0.365 ± 0.080 | 0.302 ± 0.077 |
-| BRCA | **adipose 20.8**, TILs 15.1, DCIS 14.0, tumour 11.4, stroma 11.4, TDLU 10.3 | **adipose 15.2**, TILs 15.2, TDLU 14.3, stroma 12.0, muscle 11.6, DCIS 11.5 | 0.62 (p = 0.10) | 0.460 ± 0.043 | 0.355 ± 0.048 |
+| BRCA | **adipose 20.8**, TILs 15.1, DCIS 14.0, tumour 11.4, stroma 11.4, TDLU 10.3 | **adipose 17.3**, TILs 15.2, TDLU 14.8, stroma 12.6, DCIS 11.3, muscle 10.3 | 0.71 (p = 0.05) | 0.460 ± 0.043 | 0.442 ± 0.047 |
 
 ### Clinical: features
 
 | | Ours: top features (share %) | ABMIL: top features (share %) | Rank agreement, Spearman ρ | Fidelity, ours | Fidelity, ABMIL |
 |---|---|---|---|---|---|
 | BLCA | **age 19.3**, weight 15.8, lymph nodes examined 14.0, height 13.1, T 7.7 | **age 16.7**, height 15.8, lymph nodes examined 12.7, weight 12.5, T 7.9 | 0.92 (21 features) | 0.291 ± 0.055 | 0.208 ± 0.059 |
-| BRCA | **age 34.0**, lymph nodes examined 18.3, T 9.0, positive nodes 7.3, ER 4.2 | **age 21.9**, lymph nodes examined 15.5, T 14.1, stage 8.4, positive nodes 7.2 | 0.94 (25 features) | 0.319 ± 0.035 | 0.243 ± 0.039 |
+| BRCA | **age 34.0**, lymph nodes examined 18.3, T 9.0, positive nodes 7.3, ER 4.2 | **age 20.9**, T 15.4, lymph nodes examined 14.7, stage 7.9, positive nodes 6.8 | 0.95 (25 features) | 0.319 ± 0.035 | 0.272 ± 0.036 |
 
-- **Fidelity.** ABMIL's risk is harder to reproduce from the same features: its fidelity is
-  lower in all four arms, by 0.06 to 0.10.
-- **Clinical.** The two models' risks depend on clinical variables in nearly the same way.
-  Age leads in both cohorts, though with a smaller share under ABMIL.
-- **Pathomic.** The two models' compartment rankings differ:
-  - In BLCA they are unrelated (ρ = −0.31). ABMIL's leading compartment is muscularis, where
-    ours is adipose.
-  - In BRCA, adipose still leads, but its share falls from 20.8% to 15.2% and ties with TILs.
-  - Under ABMIL, the shares lie closer to the uniform 12.5%, so no compartment stands out.
+- **Clinical.** The two models' risks depend on clinical variables in nearly the same way
+  (ρ = 0.92 and 0.95). Age leads in both cohorts, with a smaller share under ABMIL.
+- **BRCA pathomic.** The picture agrees: adipose leads for both models, followed by TILs, and
+  the rankings agree (ρ = 0.71). Adipose's share is lower under ABMIL, 17.3% against 20.8%.
+- **BLCA pathomic.** The rankings are unrelated (ρ = −0.31). ABMIL's leading compartment is
+  muscularis, where ours is adipose, and its shares are close to the uniform 12.5%.
+- **Fidelity.** ABMIL's fidelity is lower in all four arms. The gap is 0.02 in BRCA pathomic
+  and 0.05 to 0.08 in the other three arms.
 
 ## R: can the error be predicted?
 
@@ -103,26 +110,26 @@ that survives Bonferroni over the 16 tests, α = 0.05/16 = 0.0031.
 
 | Arm | Threshold | Ours | ABMIL |
 |---|---|---|---|
-| Clinical | q50 | 0.579 [0.525, 0.634] | 0.570 [0.515, 0.625] |
-| Clinical | q70 | 0.612 [0.551, 0.673]* | 0.606 [0.545, 0.666]* |
-| Clinical | q80 | 0.580 [0.509, 0.651] | 0.597 [0.526, 0.668] |
-| Clinical | q90 | 0.520 [0.426, 0.614] | 0.495 [0.402, 0.588] |
-| Pathomic | q50 | 0.671 [0.620, 0.722]* | 0.579 [0.525, 0.634] |
-| Pathomic | q70 | 0.651 [0.591, 0.710]* | 0.614 [0.553, 0.674]* |
-| Pathomic | q80 | 0.643 [0.573, 0.713]* | 0.581 [0.510, 0.652] |
-| Pathomic | q90 | 0.693 [0.600, 0.786]* | 0.621 [0.526, 0.717] |
+| Clinical | q50 | 0.579 [0.525, 0.634] | 0.584 [0.530, 0.639]* |
+| Clinical | q70 | 0.612 [0.551, 0.673]* | 0.593 [0.532, 0.654] |
+| Clinical | q80 | 0.580 [0.509, 0.651] | 0.562 [0.492, 0.633] |
+| Clinical | q90 | 0.520 [0.426, 0.614] | 0.527 [0.432, 0.621] |
+| Pathomic | q50 | 0.671 [0.620, 0.722]* | 0.641 [0.588, 0.693]* |
+| Pathomic | q70 | 0.651 [0.591, 0.710]* | 0.651 [0.591, 0.711]* |
+| Pathomic | q80 | 0.643 [0.573, 0.713]* | 0.613 [0.542, 0.683]* |
+| Pathomic | q90 | 0.693 [0.600, 0.786]* | 0.617 [0.522, 0.713] |
 
 ### Summary
 
 | | Ours | ABMIL |
 |---|---|---|
-| Survive Bonferroni (of 16) | 5 | 2 |
-| Hanley-McNeil interval above 0.5 (of 16) | 7 | 7 |
-| Profiles recurring in ≥ 5% of runs (BLCA clinical / BLCA pathomic / BRCA clinical / BRCA pathomic) | 159 (26 / 8 / 79 / 46) | 155 (28 / 4 / 77 / 46) |
-| Profiles whose in-profile c-index interval excludes the cohort value | 3 | 3 |
-| Cohort value used (BLCA / BRCA) | 0.622 / 0.607 | 0.605 / 0.573 |
+| Survive Bonferroni (of 16) | 5 | 4 |
+| Hanley-McNeil interval above 0.5 (of 16) | 7 | 6 |
+| Profiles recurring in ≥ 5% of runs (BLCA clinical / BLCA pathomic / BRCA clinical / BRCA pathomic) | 159 (26 / 8 / 79 / 46) | 170 (28 / 4 / 80 / 58) |
+| Profiles whose in-profile c-index interval excludes the cohort value | 3 | 7 |
+| Cohort value used (BLCA / BRCA) | 0.622 / 0.607 | 0.605 / 0.586 |
 
-The profiles whose interval excludes the cohort value are different for the two models.
+These are the profiles whose in-profile c-index interval excludes the cohort value:
 
 | Model | Cohort | Arm | Threshold | Rule | n | In-profile c-index [95% CI] | Cohort value |
 |---|---|---|---|---|---|---|---|
@@ -130,31 +137,48 @@ The profiles whose interval excludes the cohort value are different for the two 
 | Ours | BRCA | Clinical | q70 | stage ≤ 1.5 | 73 | 0.33 [0.19, 0.54] | 0.607 |
 | Ours | BRCA | Clinical | q80 | age in a middle band | 138 | 0.72 [0.61, 0.82] | 0.607 |
 | ABMIL | BLCA | Clinical | q90 | height above threshold | 61 | 0.74 [0.63, 0.83] | 0.605 |
-| ABMIL | BRCA | Clinical | q90 | older, more nodes examined | 81 | 0.39 [0.19, 0.57] | 0.573 |
-| ABMIL | BRCA | Pathomic | q50 | adipose eosin skewness (SD) ≤ 2.37 | 259 | 0.66 [0.58, 0.75] | 0.573 |
+| ABMIL | BRCA | Clinical | q80 | younger, T ≤ 1.5 | 50 | 0.78 [0.61, 0.90] | 0.586 |
+| ABMIL | BRCA | Pathomic | q90 | 5 single-feature rules, each "above threshold" on a first-order feature with the `_std` suffix: 3 of adipose eosin (robust MAD, RMS, variance) and 2 of TIL haematoxylin (robust MAD, RMS) | 264–333 | 0.67–0.69, lower bounds 0.59–0.60 | 0.586 |
 
 ### What this shows about R
 
 - **BLCA.** The error is not predictable for either model: no AUROC differs from 0.5 and
   nothing survives Bonferroni.
-- **BRCA clinical.** Predictability barely changes from our model to ABMIL. The AUROCs agree
-  within 0.03 at every threshold, and q70 survives Bonferroni for both models.
-- **BRCA pathomic.** This is where the models differ. Our model's AUROCs are 0.64 to 0.69 and
-  all four survive Bonferroni. ABMIL's are 0.58 to 0.62 and only q70 survives, although every
-  Hanley-McNeil interval stays above 0.5.
-- **How to read the BRCA pathomic difference.** ABMIL's errors can still be predicted from
-  pathomic features, just less well. This fits the lower surrogate fidelity in E, and ABMIL's
-  last-epoch risk is itself weaker in BRCA (c-index 0.573).
-- **Profiles.** The models have about the same number of recurring profiles (159 against
-  155). Each has three profiles whose in-profile c-index excludes its cohort value.
+- **BRCA clinical.** The two models behave alike. The AUROCs agree within 0.02 at every
+  threshold, and one threshold survives Bonferroni for each model (q70 for ours, q50 for
+  ABMIL).
+- **BRCA pathomic.** ABMIL's error is also predictable from pathomic features, a little less
+  well than ours:
+  - ABMIL's AUROCs are 0.61 to 0.65, against 0.64 to 0.69 for ours.
+  - Three of four thresholds survive Bonferroni for ABMIL, against all four for ours.
+  - The intervals overlap at every threshold.
+- **Recurring profiles.** These look similar in number for the two models.
+- **Profiles that differ from the cohort value.** ABMIL has more, 7 against 3, but five of
+  its seven come from a single arm and threshold (BRCA pathomic q90). Those five are
+  related rules on adipose and TIL intensity features, each covering 264–333 of the 422
+  evaluation patients, so they must overlap heavily. In each, ABMIL ranks patients better
+  than in the cohort as a whole.
+- **Overall.** The reliability finding (BRCA pathomic error is predictable, BLCA error is
+  not) holds for ABMIL as well as for our model.
 
 ## Notes
 
 - **Bonferroni and p values.** Bonferroni uses the permutation p values. With 2,000
   permutations the smallest p is about 0.0005, below α = 0.0031.
 - **Evaluation split.** It is rebuilt from ABMIL's own scored patients. It has 151 patients
-  in BLCA, against 151 or 152 for ours, and 419 or 420 in BRCA, against 424 for ours. BRCA
-  is smaller because the 12 patients who were never out-of-bag are left out.
+  in BLCA, against 151 or 152 for ours, and 422 in BRCA, against 424 for ours.
+- **The first BRCA run used only 8 rounds.** The version pushed in `b295542` had 8 BRCA
+  rounds (12 patients never out-of-bag), and its BRCA results differ from the ones above:
+
+  | BRCA, ABMIL | 8 rounds (`b295542`) | 10 rounds (above) |
+  |---|---|---|
+  | Out-of-bag c-index, last epoch | 0.573 | 0.586 |
+  | Pathomic AUROC | 0.58 to 0.62 | 0.61 to 0.65 |
+  | Tests surviving Bonferroni (of 16) | 2 | 4 |
+
+  Two more rounds changed the BRCA pathomic AUROCs by up to 0.06. Differences of that size
+  between the two models should therefore not be over-read. The 8-round outputs are kept in
+  `/scratch/sorkwos/abmil_er_brca_8rounds/` and in git history.
 - **The Hanley-McNeil helper was missing.** The handoff names
   `visualization/figure_data.hanley_mcneil_ci`, but it was not in the repository, so it was
   added with the standard formula: the SE from Q1 = A/(2−A) and Q2 = 2A²/(1+A), and

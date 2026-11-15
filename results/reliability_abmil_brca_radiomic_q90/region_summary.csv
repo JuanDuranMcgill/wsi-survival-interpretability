@@ -1,9 +1,9 @@
 region,n_features,sum_mean_importance,avg_mean_importance,best_rank,features_in_top20,features_in_top50,top_feature,top_feature_importance
-adipose,63,0.1514,0.002403,3,6,13,adipose_E_original_firstorder_RobustMeanAbsoluteDeviation_std,0.008396
-tdlu,66,0.1486,0.002252,1,6,11,tdlu_H_original_firstorder_MeanAbsoluteDeviation_std,0.011981
-stroma,61,0.1452,0.002381,5,6,15,stroma_H_original_firstorder_Skewness_std,0.008116
-tils,62,0.1303,0.002102,17,1,6,tils_H_original_firstorder_RobustMeanAbsoluteDeviation_std,0.005263
-muscle,66,0.1179,0.001786,18,1,2,muscle_E_original_firstorder_Skewness_std,0.005124
-tumor,64,0.1125,0.001758,28,0,2,tumor_H_original_firstorder_10Percentile_mean,0.004194
-dcis,66,0.1083,0.00164,50,0,1,dcis_E_original_firstorder_10Percentile_mean,0.003358
-vessels,66,0.0858,0.0013,89,0,0,vessels_H_original_firstorder_10Percentile_mean,0.002448
+adipose,63,0.1932,0.003067,1,10,14,adipose_E_original_firstorder_RobustMeanAbsoluteDeviation_std,0.015515
+tdlu,66,0.1479,0.002241,5,5,11,tdlu_H_original_firstorder_MeanAbsoluteDeviation_std,0.010757
+tils,62,0.1344,0.002169,15,1,10,tils_H_original_firstorder_90Percentile_std,0.006303
+stroma,61,0.1319,0.002162,10,4,13,stroma_H_original_firstorder_MeanAbsoluteDeviation_std,0.008144
+tumor,64,0.1062,0.001659,51,0,0,tumor_H_original_firstorder_10Percentile_mean,0.003439
+dcis,66,0.1027,0.001556,57,0,0,dcis_E_original_firstorder_Median_mean,0.003235
+muscle,66,0.1016,0.001539,29,0,1,muscle_E_original_firstorder_Median_std,0.004573
+vessels,66,0.0821,0.001244,49,0,1,vessels_E_original_firstorder_90Percentile_std,0.003503

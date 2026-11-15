@@ -14,13 +14,13 @@
     },
     "brca": {
       "ours": 0.6067498942022852,
-      "abmil_last_epoch": 0.573188259789106,
-      "abmil_selected_epoch": 0.6121834911679763,
-      "abmil_mean_round_last_epoch": 0.577657822537696,
-      "abmil_mean_round_selected_epoch": 0.6274664342408867,
-      "abmil_n_rounds": 8,
-      "abmil_n_scored": 1048,
-      "abmil_n_never_oob": 12,
+      "abmil_last_epoch": 0.5855355767443096,
+      "abmil_selected_epoch": 0.6266234628562323,
+      "abmil_mean_round_last_epoch": 0.5774403638582034,
+      "abmil_mean_round_selected_epoch": 0.6262197118536804,
+      "abmil_n_rounds": 10,
+      "abmil_n_scored": 1055,
+      "abmil_n_never_oob": 5,
       "abmil_n_cohort": 1060,
       "check_last_epoch_equals_patient_error": true
     }
@@ -431,115 +431,115 @@
           "ranking": [
             [
               "age_at_diagnosis",
-              0.21855878144121857
-            ],
-            [
-              "lymph_node_examined_count",
-              0.15452584547415454
+              0.20850179149820847
             ],
             [
               "pathologic_t",
-              0.14134685865314137
+              0.1538158461841538
+            ],
+            [
+              "lymph_node_examined_count",
+              0.14694685305314692
             ],
             [
               "pathologic_stage",
-              0.08350991649008352
+              0.07897192102807896
             ],
             [
               "number_of_lymphnodes_positive_by_he",
-              0.07160892839107162
+              0.06835193164806834
             ],
             [
               "breast_carcinoma_estrogen_receptor_status",
-              0.0470929529070471
+              0.054028945971054024
             ],
             [
               "breast_carcinoma_progesterone_receptor_status",
-              0.044883955116044885
-            ],
-            [
-              "menopause_status_post_prior_bilateral_ovariectomy_or_12_mo_since_lmp_with_no_prior_hysterectomy",
-              0.04060295939704061
+              0.04792395207604792
             ],
             [
               "pathologic_n",
-              0.03997696002303998
+              0.03796996203003796
+            ],
+            [
+              "menopause_status_post_prior_bilateral_ovariectomy_or_12_mo_since_lmp_with_no_prior_hysterectomy",
+              0.036672963327036665
             ],
             [
               "histological_type_infiltrating_lobular_carcinoma",
-              0.024493975506024494
-            ],
-            [
-              "histological_type_infiltrating_ductal_carcinoma",
-              0.02253797746202254
-            ],
-            [
-              "menopause_status_pre_6_months_since_lmp_and_no_prior_bilateral_ovariectomy_and_not_on_estrogen_replacement",
-              0.02121897878102122
+              0.0267999732000268
             ],
             [
               "lab_proc_her2_neu_immunohistochemistry_receptor_status",
-              0.020992979007020997
+              0.021904978095021902
+            ],
+            [
+              "menopause_status_pre_6_months_since_lmp_and_no_prior_bilateral_ovariectomy_and_not_on_estrogen_replacement",
+              0.0219009780990219
+            ],
+            [
+              "histological_type_infiltrating_ductal_carcinoma",
+              0.021898978101021895
             ],
             [
               "menopause_status_nan",
-              0.016743983256016743
+              0.018599981400018596
             ],
             [
               "histological_type_mucinous_carcinoma",
-              0.012981987018012984
+              0.017378982621017374
             ],
             [
               "pathologic_m",
-              0.009922990077009924
+              0.008554991445008554
             ],
             [
               "histological_type_mixed_histology_please_specify",
-              0.007961992038007962
+              0.007797992202007797
             ],
             [
               "histological_type_other_specify",
-              0.006072993927006074
+              0.00649099350900649
             ],
             [
               "menopause_status_peri_612_months_since_last_menstrual_period",
-              0.005596994403005598
-            ],
-            [
-              "menopause_status_indeterminate_neither_pre_or_postmenopausal",
-              0.004238995761004239
+              0.005647994352005648
             ],
             [
               "histological_type_metaplastic_carcinoma",
-              0.0025109974890025113
+              0.004213995786004213
+            ],
+            [
+              "menopause_status_indeterminate_neither_pre_or_postmenopausal",
+              0.003251996748003252
             ],
             [
               "histological_type_medullary_carcinoma",
-              0.0017469982530017472
+              0.0014799985200014798
             ],
             [
               "gender",
-              0.0008489991510008491
+              0.0008709991290008709
             ],
             [
               "histological_type_nan",
-              2.0999979000021e-05
+              2.0999979000020994e-05
             ],
             [
               "histological_type_infiltrating_carcinoma_nos",
-              9.99999000001e-07
+              1.9999980000019997e-06
             ]
           ],
           "leading": "age_at_diagnosis",
-          "leading_share": 0.21855878144121857,
-          "surrogate_oob_corr_mean": 0.24328754842281342,
-          "surrogate_oob_corr_std": 0.03908282890915871,
+          "leading_share": 0.20850179149820847,
+          "surrogate_oob_corr_mean": 0.2718052268028259,
+          "surrogate_oob_corr_std": 0.03592240437865257,
           "n_bootstrap": 200
         },
         "ranking_agreement": {
           "n_common": 25,
-          "spearman_rho": 0.943076923076923,
-          "p": 1.7503491349414989e-12
+          "spearman_rho": 0.9523076923076922,
+          "p": 2.3948235644929e-13
         }
       },
       "radiomic": {
@@ -590,7 +590,7 @@
           "ranking": [
             [
               "adipose",
-              0.1522
+              0.1728
             ],
             [
               "tils",
@@ -598,39 +598,39 @@
             ],
             [
               "tdlu",
-              0.143
+              0.1484
             ],
             [
               "stroma",
-              0.1197
-            ],
-            [
-              "muscle",
-              0.1162
+              0.1264
             ],
             [
               "dcis",
-              0.1146
+              0.1133
+            ],
+            [
+              "muscle",
+              0.1028
             ],
             [
               "tumor",
-              0.1041
+              0.0922
             ],
             [
               "vessels",
-              0.0981
+              0.092
             ]
           ],
           "leading": "adipose",
-          "leading_share": 0.1522,
-          "surrogate_oob_corr_mean": 0.3547400236129761,
-          "surrogate_oob_corr_std": 0.0477491095662117,
+          "leading_share": 0.1728,
+          "surrogate_oob_corr_mean": 0.44166597723960876,
+          "surrogate_oob_corr_std": 0.046659182757139206,
           "n_bootstrap": 1000
         },
         "ranking_agreement": {
           "n_common": 8,
-          "spearman_rho": 0.6190476190476191,
-          "p": 0.10173303745426478
+          "spearman_rho": 0.7142857142857144,
+          "p": 0.046528232284167255
         }
       }
     }
@@ -984,104 +984,104 @@
           "cohort": "brca",
           "arm": "clinical",
           "thr": "q50",
-          "auroc": 0.569991789819376,
-          "p": 0.01199400299850075,
-          "n": 419,
-          "n_pos": 203,
-          "hm_lo": 0.5152022810318269,
-          "hm_hi": 0.6247812986069252,
-          "bonferroni": false
-        },
-        {
-          "cohort": "brca",
-          "arm": "clinical",
-          "thr": "q70",
-          "auroc": 0.6055121575530862,
+          "auroc": 0.5843227199136536,
           "p": 0.0009995002498750624,
-          "n": 420,
-          "n_pos": 122,
-          "hm_lo": 0.5445508486098073,
-          "hm_hi": 0.6664734664963651,
+          "n": 422,
+          "n_pos": 204,
+          "hm_lo": 0.5300024767856456,
+          "hm_hi": 0.6386429630416616,
           "bonferroni": true
         },
         {
           "cohort": "brca",
           "arm": "clinical",
+          "thr": "q70",
+          "auroc": 0.5925956284153006,
+          "p": 0.004497751124437781,
+          "n": 422,
+          "n_pos": 122,
+          "hm_lo": 0.5315049570581761,
+          "hm_hi": 0.653686299772425,
+          "bonferroni": false
+        },
+        {
+          "cohort": "brca",
+          "arm": "clinical",
           "thr": "q80",
-          "auroc": 0.5967930455109942,
-          "p": 0.005497251374312844,
-          "n": 419,
-          "n_pos": 81,
-          "hm_lo": 0.5256419689120613,
-          "hm_hi": 0.6679441221099272,
+          "auroc": 0.5623027259684362,
+          "p": 0.0864567716141929,
+          "n": 422,
+          "n_pos": 82,
+          "hm_lo": 0.49153690436645137,
+          "hm_hi": 0.6330685475704211,
           "bonferroni": false
         },
         {
           "cohort": "brca",
           "arm": "clinical",
           "thr": "q90",
-          "auroc": 0.4952897148019099,
-          "p": 0.9245377311344328,
-          "n": 419,
+          "auroc": 0.5265347929069841,
+          "p": 0.5787106446776612,
+          "n": 422,
           "n_pos": 41,
-          "hm_lo": 0.40238800550691844,
-          "hm_hi": 0.5881914240969014,
+          "hm_lo": 0.4322763261135757,
+          "hm_hi": 0.6207932597003926,
           "bonferroni": false
         },
         {
           "cohort": "brca",
           "arm": "pathomic",
           "thr": "q50",
-          "auroc": 0.5792510490786353,
-          "p": 0.005997001499250375,
-          "n": 419,
-          "n_pos": 203,
-          "hm_lo": 0.5246392126756317,
-          "hm_hi": 0.6338628854816389,
-          "bonferroni": false
+          "auroc": 0.6405378665227559,
+          "p": 0.0004997501249375312,
+          "n": 422,
+          "n_pos": 204,
+          "hm_lo": 0.5878829297588591,
+          "hm_hi": 0.6931928032866527,
+          "bonferroni": true
         },
         {
           "cohort": "brca",
           "arm": "pathomic",
           "thr": "q70",
-          "auroc": 0.6136263615359225,
-          "p": 0.0009995002498750624,
-          "n": 420,
+          "auroc": 0.6510655737704918,
+          "p": 0.0004997501249375312,
+          "n": 422,
           "n_pos": 122,
-          "hm_lo": 0.5528053289120023,
-          "hm_hi": 0.6744473941598428,
+          "hm_lo": 0.5912198458968853,
+          "hm_hi": 0.7109113016440983,
           "bonferroni": true
         },
         {
           "cohort": "brca",
           "arm": "pathomic",
           "thr": "q80",
-          "auroc": 0.5809774271312732,
-          "p": 0.02348825587206397,
-          "n": 419,
-          "n_pos": 81,
-          "hm_lo": 0.5097649660320274,
-          "hm_hi": 0.652189888230519,
-          "bonferroni": false
+          "auroc": 0.6126972740315638,
+          "p": 0.0024987506246876563,
+          "n": 422,
+          "n_pos": 82,
+          "hm_lo": 0.5421058934863627,
+          "hm_hi": 0.6832886545767649,
+          "bonferroni": true
         },
         {
           "cohort": "brca",
           "arm": "pathomic",
           "thr": "q90",
-          "auroc": 0.6210478771454381,
-          "p": 0.009495252373813094,
-          "n": 419,
+          "auroc": 0.6170539658152487,
+          "p": 0.010494752623688156,
+          "n": 422,
           "n_pos": 41,
-          "hm_lo": 0.5255220893324567,
-          "hm_hi": 0.7165736649584195,
+          "hm_lo": 0.5215138298035488,
+          "hm_hi": 0.7125941018269487,
           "bonferroni": false
         }
       ],
       "bonferroni_alpha": 0.003125,
-      "n_bonferroni": 2,
-      "n_hm_ci_above_0.5": 7,
-      "n_profiles_ge5pct": 155,
-      "n_profiles_differ": 3,
+      "n_bonferroni": 4,
+      "n_hm_ci_above_0.5": 6,
+      "n_profiles_ge5pct": 170,
+      "n_profiles_differ": 7,
       "profiles_differ": [
         {
           "cohort": "blca",
@@ -1099,33 +1099,85 @@
         {
           "cohort": "brca",
           "arm": "clinical",
-          "thr": "q90",
-          "rule": "age_at_diagnosis > 0.0484 [-0.7762, 1.7728] AND lymph_node_examined_count > -0.1169 [-0.9639, 0.2461]",
-          "profile": "age_at_diagnosis_UP | lymph_node_examined_count_UP",
-          "n": 81,
-          "cindex": 0.39361702127659576,
-          "lo": 0.18867537890504177,
-          "hi": 0.567852200455402,
-          "cohort_value": 0.573188259789106,
+          "thr": "q80",
+          "rule": "age_at_diagnosis <= 0.088 [-0.3301, 1.0302] AND pathologic_t <= 1.5 [1.5, 2.5]",
+          "profile": "age_at_diagnosis_DOWN | pathologic_t_DOWN",
+          "n": 50,
+          "cindex": 0.7771739130434783,
+          "lo": 0.6143734939759036,
+          "hi": 0.8961641451332172,
+          "cohort_value": 0.5855355767443096,
           "differs": true
         },
         {
           "cohort": "brca",
           "arm": "pathomic",
-          "thr": "q50",
-          "rule": "adipose_E_original_firstorder_Skewness_std <= 2.3695 [0.7864, 5.5301]",
-          "profile": "adipose_E_original_firstorder_Skewness_std_DOWN",
-          "n": 259,
-          "cindex": 0.6633027522935779,
-          "lo": 0.5753815769640576,
-          "hi": 0.7538089033271455,
-          "cohort_value": 0.573188259789106,
+          "thr": "q90",
+          "rule": "tils_H_original_firstorder_RobustMeanAbsoluteDeviation_std > 3.716 [2.9539, 5.6215]",
+          "profile": "tils_H_original_firstorder_RobustMeanAbsoluteDeviation_std_UP",
+          "n": 314,
+          "cindex": 0.6739548714360679,
+          "lo": 0.5908005289354642,
+          "hi": 0.7559548780946648,
+          "cohort_value": 0.5855355767443096,
+          "differs": true
+        },
+        {
+          "cohort": "brca",
+          "arm": "pathomic",
+          "thr": "q90",
+          "rule": "adipose_E_original_firstorder_RobustMeanAbsoluteDeviation_std > 7.8813 [6.3676, 9.9083]",
+          "profile": "adipose_E_original_firstorder_RobustMeanAbsoluteDeviation_std_UP",
+          "n": 295,
+          "cindex": 0.6714068054850177,
+          "lo": 0.5951835440261517,
+          "hi": 0.7560804336479078,
+          "cohort_value": 0.5855355767443096,
+          "differs": true
+        },
+        {
+          "cohort": "brca",
+          "arm": "pathomic",
+          "thr": "q90",
+          "rule": "adipose_E_original_firstorder_RootMeanSquared_std > 19.2707 [16.2427, 21.6491]",
+          "profile": "adipose_E_original_firstorder_RootMeanSquared_std_UP",
+          "n": 264,
+          "cindex": 0.6878012606599926,
+          "lo": 0.5974684705769336,
+          "hi": 0.766411782010453,
+          "cohort_value": 0.5855355767443096,
+          "differs": true
+        },
+        {
+          "cohort": "brca",
+          "arm": "pathomic",
+          "thr": "q90",
+          "rule": "adipose_E_original_firstorder_Variance_std > 648.7241 [515.9213, 820.9356]",
+          "profile": "adipose_E_original_firstorder_Variance_std_UP",
+          "n": 280,
+          "cindex": 0.6938333934367111,
+          "lo": 0.5998048309673892,
+          "hi": 0.7754148307327704,
+          "cohort_value": 0.5855355767443096,
+          "differs": true
+        },
+        {
+          "cohort": "brca",
+          "arm": "pathomic",
+          "thr": "q90",
+          "rule": "tils_H_original_firstorder_RootMeanSquared_std > 8.3786 [7.489, 9.7813]",
+          "profile": "tils_H_original_firstorder_RootMeanSquared_std_UP",
+          "n": 333,
+          "cindex": 0.6782422646477946,
+          "lo": 0.5969244860661609,
+          "hi": 0.7514586909670165,
+          "cohort_value": 0.5855355767443096,
           "differs": true
         }
       ],
       "cohort_value": {
         "blca": 0.6053142702994335,
-        "brca": 0.573188259789106
+        "brca": 0.5855355767443096
       }
     }
   }
