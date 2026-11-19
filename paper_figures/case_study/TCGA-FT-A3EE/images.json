@@ -1,0 +1,90 @@
+{
+  "patient_id": "TCGA-FT-A3EE",
+  "slide": "TCGA-FT-A3EE-01Z-00-DX1.1CA5BFA3-F6F7-45DE-83EC-F328AC4EBE80.svs",
+  "level0_size": [
+    186592,
+    80315
+  ],
+  "thumbnail_size": [
+    1500,
+    645
+  ],
+  "scale_thumb_per_level0": [
+    0.008038929857657348,
+    0.00803087841623607
+  ],
+  "mpp": "0.24679999999999999",
+  "objective_power": "40",
+  "tile_size_level0": 256,
+  "tiles_per_compartment_in_embeddings": {
+    "Perivesical adipose tissue (extravesical fat)": 3152,
+    "Invasive urothelial carcinoma (tumor)": 52289,
+    "Normal urothelium (benign mucosa)": 4934,
+    "Inflammatory infiltrates (immune cells)": 4627,
+    "Lamina propria (fibrovascular stroma)": 24784,
+    "Blood vessels (vasculature)": 28142,
+    "Muscularis propria (detrusor muscle)": 7650,
+    "Necrosis": 2422
+  },
+  "n_tiles_total": 128000,
+  "colours": {
+    "adipose": "#D97706",
+    "tumor": "#DC2626",
+    "urothelium": "#2563EB",
+    "immune": "#DB2777",
+    "lamina": "#059669",
+    "vessels": "#7C3AED",
+    "muscularis": "#0891B2",
+    "necrosis": "#78716C"
+  },
+  "colour_source": "visualization/generate_paper_figures.py REGION_COLORS (questionnaire colours not on the cluster)",
+  "example_tiles": {
+    "tumor": [
+      {
+        "file": "tiles/tumor_1.png",
+        "x": 43264,
+        "y": 67328,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/tumor_2.png",
+        "x": 128000,
+        "y": 26368,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/tumor_3.png",
+        "x": 127488,
+        "y": 38400,
+        "level": 0,
+        "size": 256
+      }
+    ],
+    "immune": [
+      {
+        "file": "tiles/immune_1.png",
+        "x": 23808,
+        "y": 48896,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/immune_2.png",
+        "x": 127744,
+        "y": 18688,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/immune_3.png",
+        "x": 53248,
+        "y": 18432,
+        "level": 0,
+        "size": 256
+      }
+    ]
+  },
+  "example_tiles_rule": "two compartments with the largest attribution (results/case_study, attribution.top2: mean |local Shapley| share over out-of-bag rounds of the main Shapley run); 3 tiles each, fixed seed 0, among tiles with >= 60% tissue pixels"
+}

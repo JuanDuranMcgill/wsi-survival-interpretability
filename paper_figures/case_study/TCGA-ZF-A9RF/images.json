@@ -1,0 +1,90 @@
+{
+  "patient_id": "TCGA-ZF-A9RF",
+  "slide": "TCGA-ZF-A9RF-01Z-00-DX1.948A32F2-EF55-44E8-BC52-6FCF4A3411BF.svs",
+  "level0_size": [
+    161351,
+    94677
+  ],
+  "thumbnail_size": [
+    1500,
+    880
+  ],
+  "scale_thumb_per_level0": [
+    0.009296502655700926,
+    0.009294760079005461
+  ],
+  "mpp": "0.25269999999999998",
+  "objective_power": "40",
+  "tile_size_level0": 256,
+  "tiles_per_compartment_in_embeddings": {
+    "Perivesical adipose tissue (extravesical fat)": 6820,
+    "Invasive urothelial carcinoma (tumor)": 46454,
+    "Normal urothelium (benign mucosa)": 28797,
+    "Inflammatory infiltrates (immune cells)": 555,
+    "Lamina propria (fibrovascular stroma)": 9282,
+    "Blood vessels (vasculature)": 21758,
+    "Muscularis propria (detrusor muscle)": 3527,
+    "Necrosis": 5687
+  },
+  "n_tiles_total": 122880,
+  "colours": {
+    "adipose": "#D97706",
+    "tumor": "#DC2626",
+    "urothelium": "#2563EB",
+    "immune": "#DB2777",
+    "lamina": "#059669",
+    "vessels": "#7C3AED",
+    "muscularis": "#0891B2",
+    "necrosis": "#78716C"
+  },
+  "colour_source": "visualization/generate_paper_figures.py REGION_COLORS (questionnaire colours not on the cluster)",
+  "example_tiles": {
+    "muscularis": [
+      {
+        "file": "tiles/muscularis_1.png",
+        "x": 53504,
+        "y": 63488,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/muscularis_2.png",
+        "x": 83712,
+        "y": 14592,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/muscularis_3.png",
+        "x": 62976,
+        "y": 39424,
+        "level": 0,
+        "size": 256
+      }
+    ],
+    "urothelium": [
+      {
+        "file": "tiles/urothelium_1.png",
+        "x": 104960,
+        "y": 15104,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/urothelium_2.png",
+        "x": 142336,
+        "y": 55040,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/urothelium_3.png",
+        "x": 79616,
+        "y": 47872,
+        "level": 0,
+        "size": 256
+      }
+    ]
+  },
+  "example_tiles_rule": "two compartments with the largest attribution (results/case_study, attribution.top2: mean |local Shapley| share over out-of-bag rounds of the main Shapley run); 3 tiles each, fixed seed 0, among tiles with >= 60% tissue pixels"
+}
