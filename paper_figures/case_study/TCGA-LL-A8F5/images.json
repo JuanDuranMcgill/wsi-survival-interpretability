@@ -64,29 +64,29 @@
         "size": 256
       }
     ],
-    "muscle": [
+    "dcis": [
       {
-        "file": "tiles/muscle_1.png",
-        "x": 90624,
-        "y": 46080,
+        "file": "tiles/dcis_1.png",
+        "x": 87296,
+        "y": 81408,
         "level": 0,
         "size": 256
       },
       {
-        "file": "tiles/muscle_2.png",
-        "x": 8448,
-        "y": 38400,
+        "file": "tiles/dcis_2.png",
+        "x": 33280,
+        "y": 55296,
         "level": 0,
         "size": 256
       },
       {
-        "file": "tiles/muscle_3.png",
-        "x": 67328,
-        "y": 60160,
+        "file": "tiles/dcis_3.png",
+        "x": 79104,
+        "y": 43776,
         "level": 0,
         "size": 256
       }
     ]
   },
-  "example_tiles_rule": "two compartments with the largest tile share (attribution unavailable); 3 tiles each, fixed seed 0, among tiles with >= 60% tissue pixels"
+  "example_tiles_rule": "two compartments with the largest attribution (results/case_study, attribution.top2: mean |local Shapley| share over out-of-bag rounds of the main Shapley run); 3 tiles each, fixed seed 0, among tiles with >= 60% tissue pixels"
 }

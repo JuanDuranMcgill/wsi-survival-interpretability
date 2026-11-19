@@ -41,52 +41,52 @@
   },
   "colour_source": "visualization/generate_paper_figures.py REGION_COLORS (questionnaire colours not on Narval)",
   "example_tiles": {
-    "tils": [
-      {
-        "file": "tiles/tils_1.png",
-        "x": 84480,
-        "y": 45312,
-        "level": 0,
-        "size": 256
-      },
-      {
-        "file": "tiles/tils_2.png",
-        "x": 93952,
-        "y": 64256,
-        "level": 0,
-        "size": 256
-      },
-      {
-        "file": "tiles/tils_3.png",
-        "x": 121600,
-        "y": 30720,
-        "level": 0,
-        "size": 256
-      }
-    ],
     "muscle": [
       {
         "file": "tiles/muscle_1.png",
-        "x": 54784,
-        "y": 40448,
+        "x": 95488,
+        "y": 8192,
         "level": 0,
         "size": 256
       },
       {
         "file": "tiles/muscle_2.png",
-        "x": 74496,
-        "y": 77312,
+        "x": 88576,
+        "y": 18176,
         "level": 0,
         "size": 256
       },
       {
         "file": "tiles/muscle_3.png",
-        "x": 70656,
-        "y": 62976,
+        "x": 89088,
+        "y": 73472,
+        "level": 0,
+        "size": 256
+      }
+    ],
+    "adipose": [
+      {
+        "file": "tiles/adipose_1.png",
+        "x": 79104,
+        "y": 50176,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/adipose_2.png",
+        "x": 99840,
+        "y": 33792,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/adipose_3.png",
+        "x": 68096,
+        "y": 17408,
         "level": 0,
         "size": 256
       }
     ]
   },
-  "example_tiles_rule": "two compartments with the largest tile share (attribution unavailable); 3 tiles each, fixed seed 0, among tiles with >= 60% tissue pixels"
+  "example_tiles_rule": "two compartments with the largest attribution (results/case_study, attribution.top2: mean |local Shapley| share over out-of-bag rounds of the main Shapley run); 3 tiles each, fixed seed 0, among tiles with >= 60% tissue pixels"
 }

@@ -94,8 +94,69 @@
     "source": "results/label_confidence_brca_per_slide.csv (CONCH top-1 labels)"
   },
   "attribution": {
-    "available": false,
-    "note": "The main Shapley run's per-round local files (/scratch/sorkwos/shapley_brca/round_###_local.npz) no longer exist on Narval (gone by 2026-11-19, likely the scratch purge); not recomputed. The tiles below use tile share instead."
+    "available": true,
+    "source": "/scratch/sorkwos/shapley_brca/round_###_local.npz (main Shapley run, analysis/region_shapley.py); the npz files are not committed",
+    "method": "share = |phi_local| / sum |phi_local| over compartments (exact local Shapley values of the risk score), averaged over the rounds in which the patient was out-of-bag; signed_in_risk_sd = phi_local / that round's SD of out-of-bag risk",
+    "n_rounds_total": 20,
+    "n_rounds_out_of_bag": 8,
+    "rounds_out_of_bag": [
+      1,
+      3,
+      5,
+      10,
+      11,
+      12,
+      13,
+      16
+    ],
+    "share": {
+      "Adipose tissue (fat)": 0.09353513632855469,
+      "Blood vessels (vasculature)": 0.09341900064543726,
+      "Ductal carcinoma in situ (DCIS)": 0.163992813733436,
+      "Fibrous desmoplastic stroma": 0.08433908123044184,
+      "Invasive breast carcinoma (tumor cells)": 0.10711206024248965,
+      "Muscle tissue (smooth or skeletal muscle)": 0.11010304324565705,
+      "Necrosis or hemorrhage": 0.1813393951230571,
+      "Normal breast glands and lobules (TDLU)": 0.08919660049041306,
+      "Tumor-infiltrating lymphocytes (immune infiltrates)": 0.07696286896051335
+    },
+    "share_sd_across_rounds": {
+      "Adipose tissue (fat)": 0.09311824300568176,
+      "Blood vessels (vasculature)": 0.061265846464019495,
+      "Ductal carcinoma in situ (DCIS)": 0.11018136876151269,
+      "Fibrous desmoplastic stroma": 0.028604557524117273,
+      "Invasive breast carcinoma (tumor cells)": 0.07473653857356087,
+      "Muscle tissue (smooth or skeletal muscle)": 0.06202595575312485,
+      "Necrosis or hemorrhage": 0.06632396452740638,
+      "Normal breast glands and lobules (TDLU)": 0.045209977460510836,
+      "Tumor-infiltrating lymphocytes (immune infiltrates)": 0.04638919274648249
+    },
+    "signed_in_risk_sd": {
+      "Adipose tissue (fat)": 0.12779105133134702,
+      "Blood vessels (vasculature)": 0.14890911150874056,
+      "Ductal carcinoma in situ (DCIS)": -0.18898305206015964,
+      "Fibrous desmoplastic stroma": -0.004654385326445101,
+      "Invasive breast carcinoma (tumor cells)": -0.019593239522659664,
+      "Muscle tissue (smooth or skeletal muscle)": 0.01207352163531692,
+      "Necrosis or hemorrhage": 0.27986218714307226,
+      "Normal breast glands and lobules (TDLU)": 0.13111487958793855,
+      "Tumor-infiltrating lymphocytes (immune infiltrates)": 0.013655989494836634
+    },
+    "cohort_share": {
+      "Adipose tissue (fat)": 0.09665309066062232,
+      "Blood vessels (vasculature)": 0.09781997766668467,
+      "Ductal carcinoma in situ (DCIS)": 0.18179149471321604,
+      "Fibrous desmoplastic stroma": 0.0944418804723839,
+      "Invasive breast carcinoma (tumor cells)": 0.09522351512272215,
+      "Muscle tissue (smooth or skeletal muscle)": 0.10502321814607525,
+      "Necrosis or hemorrhage": 0.12588590446745856,
+      "Normal breast glands and lobules (TDLU)": 0.09875732735098854,
+      "Tumor-infiltrating lymphocytes (immune infiltrates)": 0.10440359139984859
+    },
+    "top2": [
+      "Necrosis or hemorrhage",
+      "Ductal carcinoma in situ (DCIS)"
+    ]
   },
   "pathomic_features_top10_q50": [
     {

@@ -18,9 +18,10 @@ For each of the 10 pathologist-reviewed candidates, writes results/case_study/{p
   each arm thresholds its own aligned cohort);
 - tissue: each compartment's share of the patient's CONCH-labelled tiles
   (results/label_confidence_{cohort}_per_slide.csv);
-- attribution: not available. The main Shapley run's per-round round_###_local.npz files
-  (/scratch/sorkwos/shapley_{cohort}) no longer exist on Narval; the case study does not
-  recompute them;
+- attribution: left as unavailable here, because the main Shapley run's per-round
+  round_###_local.npz files are gone from Narval. They are on Trillium
+  (/scratch/sorkwos/shapley_{cohort}); analysis/case_study_attribution.py fills this
+  field from them, so run it after this script;
 - pathomic features: the 10 leading features by surrogate importance at q50, raw and as
   a cohort percentile;
 - clinical variables used by any recurring clinical rule (CSV units, which are the
@@ -213,7 +214,8 @@ def main():
                                    "note": "The main Shapley run's per-round local files "
                                            "(/scratch/sorkwos/shapley_" + cohort + "/round_###_local.npz) no "
                                            "longer exist on Narval (gone by 2026-11-19, likely the scratch "
-                                           "purge); not recomputed. The tiles below use tile share instead."},
+                                           "purge); run analysis/case_study_attribution.py on Trillium, where "
+                                           "they are, to fill this field."},
                    "pathomic_features_top10_q50": [], "clinical_variables": {}, "runs": {}}
             for row in imp.itertuples():
                 f = row.feature

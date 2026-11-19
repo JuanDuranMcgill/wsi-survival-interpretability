@@ -41,52 +41,52 @@
   },
   "colour_source": "visualization/generate_paper_figures.py REGION_COLORS (questionnaire colours not on Narval)",
   "example_tiles": {
-    "tdlu": [
+    "necrosis": [
       {
-        "file": "tiles/tdlu_1.png",
-        "x": 36096,
-        "y": 16896,
-        "level": 0,
-        "size": 256
-      },
-      {
-        "file": "tiles/tdlu_2.png",
-        "x": 132096,
-        "y": 9984,
-        "level": 0,
-        "size": 256
-      },
-      {
-        "file": "tiles/tdlu_3.png",
-        "x": 124160,
-        "y": 19968,
-        "level": 0,
-        "size": 256
-      }
-    ],
-    "stroma": [
-      {
-        "file": "tiles/stroma_1.png",
-        "x": 15360,
-        "y": 69888,
-        "level": 0,
-        "size": 256
-      },
-      {
-        "file": "tiles/stroma_2.png",
-        "x": 105472,
+        "file": "tiles/necrosis_1.png",
+        "x": 102912,
         "y": 11520,
         "level": 0,
         "size": 256
       },
       {
-        "file": "tiles/stroma_3.png",
-        "x": 33792,
-        "y": 55040,
+        "file": "tiles/necrosis_2.png",
+        "x": 105472,
+        "y": 51200,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/necrosis_3.png",
+        "x": 26624,
+        "y": 47872,
+        "level": 0,
+        "size": 256
+      }
+    ],
+    "dcis": [
+      {
+        "file": "tiles/dcis_1.png",
+        "x": 13568,
+        "y": 11520,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/dcis_2.png",
+        "x": 120320,
+        "y": 63232,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/dcis_3.png",
+        "x": 4096,
+        "y": 20736,
         "level": 0,
         "size": 256
       }
     ]
   },
-  "example_tiles_rule": "two compartments with the largest tile share (attribution unavailable); 3 tiles each, fixed seed 0, among tiles with >= 60% tissue pixels"
+  "example_tiles_rule": "two compartments with the largest attribution (results/case_study, attribution.top2: mean |local Shapley| share over out-of-bag rounds of the main Shapley run); 3 tiles each, fixed seed 0, among tiles with >= 60% tissue pixels"
 }

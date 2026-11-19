@@ -92,8 +92,65 @@
     "source": "results/label_confidence_blca_per_slide.csv (CONCH top-1 labels)"
   },
   "attribution": {
-    "available": false,
-    "note": "The main Shapley run's per-round local files (/scratch/sorkwos/shapley_blca/round_###_local.npz) no longer exist on Narval (gone by 2026-11-19, likely the scratch purge); not recomputed. The tiles below use tile share instead."
+    "available": true,
+    "source": "/scratch/sorkwos/shapley_blca/round_###_local.npz (main Shapley run, analysis/region_shapley.py); the npz files are not committed",
+    "method": "share = |phi_local| / sum |phi_local| over compartments (exact local Shapley values of the risk score), averaged over the rounds in which the patient was out-of-bag; signed_in_risk_sd = phi_local / that round's SD of out-of-bag risk",
+    "n_rounds_total": 20,
+    "n_rounds_out_of_bag": 8,
+    "rounds_out_of_bag": [
+      1,
+      6,
+      8,
+      9,
+      11,
+      15,
+      17,
+      18
+    ],
+    "share": {
+      "Perivesical adipose tissue (extravesical fat)": 0.2691927786576922,
+      "Invasive urothelial carcinoma (tumor)": 0.06478454111191062,
+      "Normal urothelium (benign mucosa)": 0.12652402468877122,
+      "Inflammatory infiltrates (immune cells)": 0.13225185545080073,
+      "Lamina propria (fibrovascular stroma)": 0.11554379166613937,
+      "Blood vessels (vasculature)": 0.0817006365160251,
+      "Muscularis propria (detrusor muscle)": 0.08361039961139866,
+      "Necrosis": 0.12639197229726212
+    },
+    "share_sd_across_rounds": {
+      "Perivesical adipose tissue (extravesical fat)": 0.14206093541388268,
+      "Invasive urothelial carcinoma (tumor)": 0.036356325898105425,
+      "Normal urothelium (benign mucosa)": 0.05144452152810033,
+      "Inflammatory infiltrates (immune cells)": 0.09012711170814937,
+      "Lamina propria (fibrovascular stroma)": 0.050595527840274344,
+      "Blood vessels (vasculature)": 0.06068328213321116,
+      "Muscularis propria (detrusor muscle)": 0.05844257493835183,
+      "Necrosis": 0.07568942542516618
+    },
+    "signed_in_risk_sd": {
+      "Perivesical adipose tissue (extravesical fat)": 0.3479053836312068,
+      "Invasive urothelial carcinoma (tumor)": -0.04935260782076871,
+      "Normal urothelium (benign mucosa)": 0.11872066457026151,
+      "Inflammatory infiltrates (immune cells)": 0.0006286902717251575,
+      "Lamina propria (fibrovascular stroma)": -0.11043032135575419,
+      "Blood vessels (vasculature)": -0.025806600091729123,
+      "Muscularis propria (detrusor muscle)": 0.03952249092224794,
+      "Necrosis": 0.17853665970481156
+    },
+    "cohort_share": {
+      "Perivesical adipose tissue (extravesical fat)": 0.1281847175611497,
+      "Invasive urothelial carcinoma (tumor)": 0.14658831921618062,
+      "Normal urothelium (benign mucosa)": 0.1251054629613628,
+      "Inflammatory infiltrates (immune cells)": 0.1387402645628688,
+      "Lamina propria (fibrovascular stroma)": 0.11782407734439153,
+      "Blood vessels (vasculature)": 0.10223212224160663,
+      "Muscularis propria (detrusor muscle)": 0.10599959199254956,
+      "Necrosis": 0.1353254441198903
+    },
+    "top2": [
+      "Perivesical adipose tissue (extravesical fat)",
+      "Inflammatory infiltrates (immune cells)"
+    ]
   },
   "pathomic_features_top10_q50": [
     {

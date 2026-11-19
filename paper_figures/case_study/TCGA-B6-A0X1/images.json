@@ -41,52 +41,52 @@
   },
   "colour_source": "visualization/generate_paper_figures.py REGION_COLORS (questionnaire colours not on Narval)",
   "example_tiles": {
-    "tils": [
+    "necrosis": [
       {
-        "file": "tiles/tils_1.png",
-        "x": 162048,
-        "y": 28928,
+        "file": "tiles/necrosis_1.png",
+        "x": 171776,
+        "y": 73216,
         "level": 0,
         "size": 256
       },
       {
-        "file": "tiles/tils_2.png",
-        "x": 189696,
-        "y": 77824,
+        "file": "tiles/necrosis_2.png",
+        "x": 93184,
+        "y": 50688,
         "level": 0,
         "size": 256
       },
       {
-        "file": "tiles/tils_3.png",
-        "x": 163328,
-        "y": 56320,
+        "file": "tiles/necrosis_3.png",
+        "x": 32512,
+        "y": 51456,
         "level": 0,
         "size": 256
       }
     ],
-    "vessels": [
+    "dcis": [
       {
-        "file": "tiles/vessels_1.png",
-        "x": 96768,
-        "y": 76288,
+        "file": "tiles/dcis_1.png",
+        "x": 185088,
+        "y": 77056,
         "level": 0,
         "size": 256
       },
       {
-        "file": "tiles/vessels_2.png",
-        "x": 153088,
-        "y": 30208,
+        "file": "tiles/dcis_2.png",
+        "x": 18688,
+        "y": 28672,
         "level": 0,
         "size": 256
       },
       {
-        "file": "tiles/vessels_3.png",
-        "x": 45568,
-        "y": 82176,
+        "file": "tiles/dcis_3.png",
+        "x": 83968,
+        "y": 64000,
         "level": 0,
         "size": 256
       }
     ]
   },
-  "example_tiles_rule": "two compartments with the largest tile share (attribution unavailable); 3 tiles each, fixed seed 0, among tiles with >= 60% tissue pixels"
+  "example_tiles_rule": "two compartments with the largest attribution (results/case_study, attribution.top2: mean |local Shapley| share over out-of-bag rounds of the main Shapley run); 3 tiles each, fixed seed 0, among tiles with >= 60% tissue pixels"
 }
