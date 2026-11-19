@@ -1,0 +1,92 @@
+{
+  "patient_id": "TCGA-B6-A0X1",
+  "slide": "TCGA-B6-A0X1-01Z-00-DX1.2A41630E-A8BF-4966-99F5-D5D8036B1759.svs",
+  "level0_size": [
+    198220,
+    93358
+  ],
+  "thumbnail_size": [
+    1500,
+    706
+  ],
+  "scale_thumb_per_level0": [
+    0.007567349409746746,
+    0.007562287109835258
+  ],
+  "mpp": "0.2485",
+  "objective_power": "40",
+  "tile_size_level0": 256,
+  "tiles_per_compartment_in_embeddings": {
+    "Adipose tissue (fat)": 21186,
+    "Blood vessels (vasculature)": 25128,
+    "Ductal carcinoma in situ (DCIS)": 3158,
+    "Fibrous desmoplastic stroma": 4629,
+    "Invasive breast carcinoma (tumor cells)": 5981,
+    "Muscle tissue (smooth or skeletal muscle)": 24086,
+    "Necrosis or hemorrhage": 18108,
+    "Normal breast glands and lobules (TDLU)": 11936,
+    "Tumor-infiltrating lymphocytes (immune infiltrates)": 30673
+  },
+  "n_tiles_total": 144885,
+  "colours": {
+    "adipose": "#D97706",
+    "vessels": "#7C3AED",
+    "dcis": "#EA580C",
+    "stroma": "#0369A1",
+    "tumor": "#DC2626",
+    "muscle": "#65A30D",
+    "necrosis": "#78716C",
+    "tdlu": "#EC4899",
+    "tils": "#9333EA"
+  },
+  "colour_source": "visualization/generate_paper_figures.py REGION_COLORS (questionnaire colours not on Narval)",
+  "example_tiles": {
+    "tils": [
+      {
+        "file": "tiles/tils_1.png",
+        "x": 162048,
+        "y": 28928,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/tils_2.png",
+        "x": 189696,
+        "y": 77824,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/tils_3.png",
+        "x": 163328,
+        "y": 56320,
+        "level": 0,
+        "size": 256
+      }
+    ],
+    "vessels": [
+      {
+        "file": "tiles/vessels_1.png",
+        "x": 96768,
+        "y": 76288,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/vessels_2.png",
+        "x": 153088,
+        "y": 30208,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/vessels_3.png",
+        "x": 45568,
+        "y": 82176,
+        "level": 0,
+        "size": 256
+      }
+    ]
+  },
+  "example_tiles_rule": "two compartments with the largest tile share (attribution unavailable); 3 tiles each, fixed seed 0, among tiles with >= 60% tissue pixels"
+}

@@ -1,0 +1,92 @@
+{
+  "patient_id": "TCGA-B6-A0RG",
+  "slide": "TCGA-B6-A0RG-01Z-00-DX1.C83D21A0-EC61-459C-9776-EA3D91469E72.svs",
+  "level0_size": [
+    147468,
+    93657
+  ],
+  "thumbnail_size": [
+    1500,
+    952
+  ],
+  "scale_thumb_per_level0": [
+    0.010171698266742616,
+    0.01016475009876464
+  ],
+  "mpp": "0.2485",
+  "objective_power": "40",
+  "tile_size_level0": 256,
+  "tiles_per_compartment_in_embeddings": {
+    "Adipose tissue (fat)": 6459,
+    "Blood vessels (vasculature)": 16065,
+    "Ductal carcinoma in situ (DCIS)": 4504,
+    "Fibrous desmoplastic stroma": 27622,
+    "Invasive breast carcinoma (tumor cells)": 13155,
+    "Muscle tissue (smooth or skeletal muscle)": 16420,
+    "Necrosis or hemorrhage": 2232,
+    "Normal breast glands and lobules (TDLU)": 27879,
+    "Tumor-infiltrating lymphocytes (immune infiltrates)": 13558
+  },
+  "n_tiles_total": 127894,
+  "colours": {
+    "adipose": "#D97706",
+    "vessels": "#7C3AED",
+    "dcis": "#EA580C",
+    "stroma": "#0369A1",
+    "tumor": "#DC2626",
+    "muscle": "#65A30D",
+    "necrosis": "#78716C",
+    "tdlu": "#EC4899",
+    "tils": "#9333EA"
+  },
+  "colour_source": "visualization/generate_paper_figures.py REGION_COLORS (questionnaire colours not on Narval)",
+  "example_tiles": {
+    "tdlu": [
+      {
+        "file": "tiles/tdlu_1.png",
+        "x": 36096,
+        "y": 16896,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/tdlu_2.png",
+        "x": 132096,
+        "y": 9984,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/tdlu_3.png",
+        "x": 124160,
+        "y": 19968,
+        "level": 0,
+        "size": 256
+      }
+    ],
+    "stroma": [
+      {
+        "file": "tiles/stroma_1.png",
+        "x": 15360,
+        "y": 69888,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/stroma_2.png",
+        "x": 105472,
+        "y": 11520,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/stroma_3.png",
+        "x": 33792,
+        "y": 55040,
+        "level": 0,
+        "size": 256
+      }
+    ]
+  },
+  "example_tiles_rule": "two compartments with the largest tile share (attribution unavailable); 3 tiles each, fixed seed 0, among tiles with >= 60% tissue pixels"
+}

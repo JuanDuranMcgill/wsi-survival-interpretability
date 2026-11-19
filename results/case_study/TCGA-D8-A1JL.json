@@ -1,0 +1,1007 @@
+{
+  "patient_id": "TCGA-D8-A1JL",
+  "cohort": "brca",
+  "slide_reviewed_by_pathologists": true,
+  "input_error_npz": "/home/sorkwos/data/patient_error_brca_oob.npz",
+  "risk": {
+    "oob_risk": -1.9842357952147722,
+    "cohort_percentile": 80.56603773584906,
+    "n_cohort": 1060,
+    "note": "out-of-bag risk (mean over the bootstrap rounds in which the patient was out-of-bag); percentile = % of cohort patients with risk <= this one"
+  },
+  "outcome": {
+    "pfi_time_days": 611.0,
+    "pfi_event": 0
+  },
+  "error": {
+    "patient_error": 0.6296296296296297,
+    "n_comparable_pairs": 54,
+    "definition": "share of the patient's comparable pairs ordered wrongly (analysis/patient_error.py)",
+    "high_error_label": {
+      "clinical": {
+        "q50": {
+          "threshold": 0.36507936507936506,
+          "label": 1
+        },
+        "q70": {
+          "threshold": 0.5488528624158645,
+          "label": 1
+        },
+        "q80": {
+          "threshold": 0.6904761904761905,
+          "label": 0
+        },
+        "q90": {
+          "threshold": 0.8239538239538244,
+          "label": 0
+        }
+      },
+      "pathomic": {
+        "q50": {
+          "threshold": 0.36507936507936506,
+          "label": 1
+        },
+        "q70": {
+          "threshold": 0.5488528624158645,
+          "label": 1
+        },
+        "q80": {
+          "threshold": 0.6904761904761905,
+          "label": 0
+        },
+        "q90": {
+          "threshold": 0.8239538239538244,
+          "label": 0
+        }
+      }
+    }
+  },
+  "cdr": {
+    "type": "BRCA",
+    "age_at_initial_pathologic_diagnosis": 72.0,
+    "gender": "FEMALE",
+    "ajcc_pathologic_tumor_stage": "Stage IIA",
+    "histological_type": "Infiltrating Ductal Carcinoma",
+    "PFI": 0.0,
+    "PFI.time": 611.0
+  },
+  "tissue": {
+    "slide": "TCGA-D8-A1JL-01Z-00-DX1.FE3F0C6B-F98A-4036-BF9A-25A8CC66B1FD",
+    "n_slides_in_table": 1,
+    "n_tiles": 98510,
+    "share": {
+      "Adipose tissue (fat)": 0.3145365952695158,
+      "Blood vessels (vasculature)": 0.23199675159882246,
+      "Ductal carcinoma in situ (DCIS)": 0.024291950055831894,
+      "Fibrous desmoplastic stroma": 0.16289716780022334,
+      "Invasive breast carcinoma (tumor cells)": 0.013998578824484824,
+      "Muscle tissue (smooth or skeletal muscle)": 0.05164957872297229,
+      "Necrosis or hemorrhage": 0.0217439853821947,
+      "Normal breast glands and lobules (TDLU)": 0.07801238452948939,
+      "Tumor-infiltrating lymphocytes (immune infiltrates)": 0.10087300781646533
+    },
+    "short_names": {
+      "Adipose tissue (fat)": "Adipose",
+      "Blood vessels (vasculature)": "Vessels",
+      "Ductal carcinoma in situ (DCIS)": "DCIS",
+      "Fibrous desmoplastic stroma": "Stroma",
+      "Invasive breast carcinoma (tumor cells)": "Tumour",
+      "Muscle tissue (smooth or skeletal muscle)": "Muscle",
+      "Necrosis or hemorrhage": "Necrosis",
+      "Normal breast glands and lobules (TDLU)": "Normal glands",
+      "Tumor-infiltrating lymphocytes (immune infiltrates)": "TILs"
+    },
+    "source": "results/label_confidence_brca_per_slide.csv (CONCH top-1 labels)"
+  },
+  "attribution": {
+    "available": false,
+    "note": "The main Shapley run's per-round local files (/scratch/sorkwos/shapley_brca/round_###_local.npz) no longer exist on Narval (gone by 2026-11-19, likely the scratch purge); not recomputed. The tiles below use tile share instead."
+  },
+  "pathomic_features_top10_q50": [
+    {
+      "rank": 1,
+      "feature": "adipose_E_original_firstorder_InterquartileRange_std",
+      "compartment": "adipose",
+      "mean_importance": 0.017948,
+      "value": 12.909220144919678,
+      "cohort_percentile": 7.169811320754717
+    },
+    {
+      "rank": 2,
+      "feature": "adipose_E_original_firstorder_RobustMeanAbsoluteDeviation_std",
+      "compartment": "adipose",
+      "mean_importance": 0.017483,
+      "value": 5.0798224858828105,
+      "cohort_percentile": 7.264150943396226
+    },
+    {
+      "rank": 3,
+      "feature": "adipose_E_original_firstorder_Variance_std",
+      "compartment": "adipose",
+      "mean_importance": 0.013474,
+      "value": 312.224442719521,
+      "cohort_percentile": 6.226415094339623
+    },
+    {
+      "rank": 4,
+      "feature": "adipose_E_original_firstorder_MeanAbsoluteDeviation_std",
+      "compartment": "adipose",
+      "mean_importance": 0.012846,
+      "value": 5.211695725868712,
+      "cohort_percentile": 5.943396226415095
+    },
+    {
+      "rank": 5,
+      "feature": "adipose_E_original_firstorder_RootMeanSquared_std",
+      "compartment": "adipose",
+      "mean_importance": 0.007418,
+      "value": 10.168328964332217,
+      "cohort_percentile": 5.660377358490567
+    },
+    {
+      "rank": 6,
+      "feature": "dcis_E_original_firstorder_10Percentile_mean",
+      "compartment": "dcis",
+      "mean_importance": 0.006889,
+      "value": 0.083,
+      "cohort_percentile": 9.150943396226415
+    },
+    {
+      "rank": 7,
+      "feature": "stroma_H_original_firstorder_MeanAbsoluteDeviation_std",
+      "compartment": "stroma",
+      "mean_importance": 0.006762,
+      "value": 4.492381172853457,
+      "cohort_percentile": 21.60377358490566
+    },
+    {
+      "rank": 8,
+      "feature": "stroma_H_original_firstorder_90Percentile_std",
+      "compartment": "stroma",
+      "mean_importance": 0.006459,
+      "value": 16.356396111307642,
+      "cohort_percentile": 21.50943396226415
+    },
+    {
+      "rank": 9,
+      "feature": "tils_H_original_firstorder_RootMeanSquared_std",
+      "compartment": "tils",
+      "mean_importance": 0.006456,
+      "value": 7.089692118054437,
+      "cohort_percentile": 6.226415094339623
+    },
+    {
+      "rank": 10,
+      "feature": "tils_H_original_firstorder_90Percentile_std",
+      "compartment": "tils",
+      "mean_importance": 0.006353,
+      "value": 15.131256714166216,
+      "cohort_percentile": 12.735849056603774
+    }
+  ],
+  "clinical_variables": {
+    "age_at_diagnosis": {
+      "value_csv_units": 1.0261128112788196,
+      "cohort_percentile": 83.39622641509435
+    },
+    "breast_carcinoma_estrogen_receptor_status": {
+      "value_csv_units": 0.0,
+      "cohort_percentile": 21.50943396226415
+    },
+    "lymph_node_examined_count": {
+      "value_csv_units": 0.0645837858539132,
+      "cohort_percentile": 65.18867924528303
+    },
+    "number_of_lymphnodes_positive_by_he": {
+      "value_csv_units": -0.5021233542089814,
+      "cohort_percentile": 41.69811320754717
+    },
+    "pathologic_n": {
+      "value_csv_units": 0.0,
+      "cohort_percentile": 49.056603773584904
+    },
+    "pathologic_stage": {
+      "value_csv_units": 2.0,
+      "cohort_percentile": 75.75471698113208
+    },
+    "pathologic_t": {
+      "value_csv_units": 2.0,
+      "cohort_percentile": 83.49056603773585
+    }
+  },
+  "runs": {
+    "clinical_q50": {
+      "in_run_cohort": true,
+      "held_out": true,
+      "high_error_label": 1,
+      "n_recurring_profiles": 20,
+      "matching_profiles": [
+        {
+          "profile": "lymph_node_examined_count_UP",
+          "readable_rule": "lymph_node_examined_count > -0.4194 [-0.9639, 2.1215]",
+          "run_freq_pct": 30.5,
+          "n_patients": 264,
+          "high_error_prevalence_in_profile": 0.4772727272727273,
+          "high_error_prevalence_overall": 0.4834905660377358,
+          "cindex_in_profile": 0.6318441383943567,
+          "cindex_ci95": [
+            0.5448293285818716,
+            0.7178330932944952
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "age_at_diagnosis_UP",
+          "readable_rule": "age_at_diagnosis > 0.2097 [-0.9364, 1.9179]",
+          "run_freq_pct": 29.0,
+          "n_patients": 184,
+          "high_error_prevalence_in_profile": 0.5108695652173914,
+          "high_error_prevalence_overall": 0.4834905660377358,
+          "cindex_in_profile": 0.6220127903062942,
+          "cindex_ci95": [
+            0.49788394358242993,
+            0.7234906091750524
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "age_at_diagnosis_UP | lymph_node_examined_count_UP",
+          "readable_rule": "age_at_diagnosis > 0.0107 [-0.9798, 0.7025] AND lymph_node_examined_count > -0.4194 [-0.9639, 0.1251]",
+          "run_freq_pct": 15.5,
+          "n_patients": 115,
+          "high_error_prevalence_in_profile": 0.5043478260869565,
+          "high_error_prevalence_overall": 0.4834905660377358,
+          "cindex_in_profile": 0.6031207598371777,
+          "cindex_ci95": [
+            0.4725317553695989,
+            0.7228624271011469
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "pathologic_t_UP",
+          "readable_rule": "pathologic_t > 1.5 [1.5, 2.5]",
+          "run_freq_pct": 9.5,
+          "n_patients": 315,
+          "high_error_prevalence_in_profile": 0.5206349206349207,
+          "high_error_prevalence_overall": 0.4834905660377358,
+          "cindex_in_profile": 0.6482843137254902,
+          "cindex_ci95": [
+            0.5465348675377715,
+            0.7302048626231581
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "lymph_node_examined_count_DOWN | lymph_node_examined_count_UP",
+          "readable_rule": "lymph_node_examined_count <= 0.3368 [-0.5404, 2.1215] AND lymph_node_examined_count > -0.6009 [-1.0849, 1.2746]",
+          "run_freq_pct": 9.0,
+          "n_patients": 144,
+          "high_error_prevalence_in_profile": 0.5625,
+          "high_error_prevalence_overall": 0.4834905660377358,
+          "cindex_in_profile": 0.6556836902800659,
+          "cindex_ci95": [
+            0.48717592277115274,
+            0.8146719917820836
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "number_of_lymphnodes_positive_by_he_DOWN",
+          "readable_rule": "number_of_lymphnodes_positive_by_he <= -0.1526 [-0.3856, 0.5463]",
+          "run_freq_pct": 7.0,
+          "n_patients": 314,
+          "high_error_prevalence_in_profile": 0.4713375796178344,
+          "high_error_prevalence_overall": 0.4834905660377358,
+          "cindex_in_profile": 0.6770413767850604,
+          "cindex_ci95": [
+            0.5719177326946934,
+            0.7637641271934141
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "pathologic_stage_UP",
+          "readable_rule": "pathologic_stage > 1.5 [1.5, 2.5]",
+          "run_freq_pct": 6.5,
+          "n_patients": 351,
+          "high_error_prevalence_in_profile": 0.5071225071225072,
+          "high_error_prevalence_overall": 0.4834905660377358,
+          "cindex_in_profile": 0.6308803435487019,
+          "cindex_ci95": [
+            0.5501149335239,
+            0.7128158935121576
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "age_at_diagnosis_UP | number_of_lymphnodes_positive_by_he_DOWN",
+          "readable_rule": "age_at_diagnosis > 0.0593 [-0.7761, 0.6505] AND number_of_lymphnodes_positive_by_he <= -0.2109 [-0.3856, 0.5463]",
+          "run_freq_pct": 6.0,
+          "n_patients": 157,
+          "high_error_prevalence_in_profile": 0.4968152866242038,
+          "high_error_prevalence_overall": 0.4834905660377358,
+          "cindex_in_profile": 0.6503541532517708,
+          "cindex_ci95": [
+            0.5115076743185266,
+            0.7679709896387911
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "age_at_diagnosis_UP | pathologic_n_DOWN",
+          "readable_rule": "age_at_diagnosis > -0.2405 [-0.9364, 0.7311] AND pathologic_n <= 0.5 [0.5, 1.5]",
+          "run_freq_pct": 5.5,
+          "n_patients": 136,
+          "high_error_prevalence_in_profile": 0.5,
+          "high_error_prevalence_overall": 0.4834905660377358,
+          "cindex_in_profile": 0.5977157360406091,
+          "cindex_ci95": [
+            0.37769550915331807,
+            0.7917146793587173
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        }
+      ],
+      "classifier_probability": null
+    },
+    "clinical_q70": {
+      "in_run_cohort": true,
+      "held_out": false,
+      "high_error_label": 1,
+      "n_recurring_profiles": 19,
+      "matching_profiles": [],
+      "classifier_probability": null
+    },
+    "clinical_q80": {
+      "in_run_cohort": true,
+      "held_out": true,
+      "high_error_label": 0,
+      "n_recurring_profiles": 20,
+      "matching_profiles": [
+        {
+          "profile": "pathologic_t_UP",
+          "readable_rule": "pathologic_t > 1.5 [1.5, 2.5]",
+          "run_freq_pct": 45.5,
+          "n_patients": 317,
+          "high_error_prevalence_in_profile": 0.22082018927444794,
+          "high_error_prevalence_overall": 0.19339622641509435,
+          "cindex_in_profile": 0.5976064656512279,
+          "cindex_ci95": [
+            0.49036961846621174,
+            0.7039649588389117
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "age_at_diagnosis_UP",
+          "readable_rule": "age_at_diagnosis > -0.9122 [-1.4085, 1.6258]",
+          "run_freq_pct": 26.5,
+          "n_patients": 336,
+          "high_error_prevalence_in_profile": 0.19642857142857142,
+          "high_error_prevalence_overall": 0.19339622641509435,
+          "cindex_in_profile": 0.6563543680787485,
+          "cindex_ci95": [
+            0.5505387001493981,
+            0.7595427121609158
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "age_at_diagnosis_UP | pathologic_t_UP",
+          "readable_rule": "age_at_diagnosis > -0.7859 [-1.5428, 0.8868] AND pathologic_t > 1.5 [1.5, 1.5]",
+          "run_freq_pct": 23.0,
+          "n_patients": 236,
+          "high_error_prevalence_in_profile": 0.211864406779661,
+          "high_error_prevalence_overall": 0.19339622641509435,
+          "cindex_in_profile": 0.6236786469344608,
+          "cindex_ci95": [
+            0.5009927278173467,
+            0.7277891132348353
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "lymph_node_examined_count_DOWN | pathologic_t_UP",
+          "readable_rule": "lymph_node_examined_count <= 0.0646 [-0.7824, 1.5166] AND pathologic_t > 1.5 [1.5, 2.5]",
+          "run_freq_pct": 12.5,
+          "n_patients": 197,
+          "high_error_prevalence_in_profile": 0.233502538071066,
+          "high_error_prevalence_overall": 0.19339622641509435,
+          "cindex_in_profile": 0.5982978723404255,
+          "cindex_ci95": [
+            0.44319119667708756,
+            0.7544976442408127
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "age_at_diagnosis_UP | lymph_node_examined_count_UP | pathologic_t_UP",
+          "readable_rule": "age_at_diagnosis > -0.7446 [-1.4085, 0.0166] AND lymph_node_examined_count > -0.1169 [-0.9639, 0.9116] AND pathologic_t > 1.5 [1.5, 1.5]",
+          "run_freq_pct": 9.5,
+          "n_patients": 109,
+          "high_error_prevalence_in_profile": 0.1926605504587156,
+          "high_error_prevalence_overall": 0.19339622641509435,
+          "cindex_in_profile": 0.5701643489254109,
+          "cindex_ci95": [
+            0.3932895776170284,
+            0.727129218453581
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "pathologic_stage_UP",
+          "readable_rule": "pathologic_stage > 1.5 [1.5, 2.5]",
+          "run_freq_pct": 8.5,
+          "n_patients": 351,
+          "high_error_prevalence_in_profile": 0.20797720797720798,
+          "high_error_prevalence_overall": 0.19339622641509435,
+          "cindex_in_profile": 0.6062971969793933,
+          "cindex_ci95": [
+            0.5127744392647688,
+            0.7045996065110101
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "age_at_diagnosis_UP | lymph_node_examined_count_DOWN | pathologic_t_UP",
+          "readable_rule": "age_at_diagnosis > -0.7395 [-1.4085, 0.4351] AND lymph_node_examined_count <= 0.0948 [-0.6614, 1.4561] AND pathologic_t > 1.5 [1.5, 1.5]",
+          "run_freq_pct": 8.0,
+          "n_patients": 147,
+          "high_error_prevalence_in_profile": 0.21768707482993196,
+          "high_error_prevalence_overall": 0.19339622641509435,
+          "cindex_in_profile": 0.6977567886658795,
+          "cindex_ci95": [
+            0.587719650151814,
+            0.8197437571715661
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "age_at_diagnosis_UP | age_at_diagnosis_UP",
+          "readable_rule": "age_at_diagnosis > 0.3944 [-0.1686, 0.9838]",
+          "run_freq_pct": 6.0,
+          "n_patients": 140,
+          "high_error_prevalence_in_profile": 0.17857142857142858,
+          "high_error_prevalence_overall": 0.19339622641509435,
+          "cindex_in_profile": 0.5660542432195975,
+          "cindex_ci95": [
+            0.4069238506213296,
+            0.7121535722469988
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "breast_carcinoma_estrogen_receptor_status_DOWN",
+          "readable_rule": "breast_carcinoma_estrogen_receptor_status <= 0.5 [0.5, 0.5]",
+          "run_freq_pct": 5.5,
+          "n_patients": 84,
+          "high_error_prevalence_in_profile": 0.27380952380952384,
+          "high_error_prevalence_overall": 0.19339622641509435,
+          "cindex_in_profile": 0.5903465346534653,
+          "cindex_ci95": [
+            0.45843285507359327,
+            0.7310929038281979
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        }
+      ],
+      "classifier_probability": null
+    },
+    "clinical_q90": {
+      "in_run_cohort": true,
+      "held_out": true,
+      "high_error_label": 0,
+      "n_recurring_profiles": 20,
+      "matching_profiles": [
+        {
+          "profile": "pathologic_t_UP",
+          "readable_rule": "pathologic_t > 1.5 [1.5, 2.5]",
+          "run_freq_pct": 34.0,
+          "n_patients": 323,
+          "high_error_prevalence_in_profile": 0.11145510835913312,
+          "high_error_prevalence_overall": 0.09669811320754718,
+          "cindex_in_profile": 0.5903500473036897,
+          "cindex_ci95": [
+            0.49422528557343076,
+            0.6796039351868873
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "age_at_diagnosis_UP",
+          "readable_rule": "age_at_diagnosis > 0.1185 [-1.0105, 2.2332]",
+          "run_freq_pct": 23.5,
+          "n_patients": 196,
+          "high_error_prevalence_in_profile": 0.12244897959183673,
+          "high_error_prevalence_overall": 0.09669811320754718,
+          "cindex_in_profile": 0.5523156089193825,
+          "cindex_ci95": [
+            0.4243077438547424,
+            0.6710493630626992
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "lymph_node_examined_count_UP",
+          "readable_rule": "lymph_node_examined_count > -0.1169 [-1.0849, 1.4561]",
+          "run_freq_pct": 12.5,
+          "n_patients": 192,
+          "high_error_prevalence_in_profile": 0.09895833333333333,
+          "high_error_prevalence_overall": 0.09669811320754718,
+          "cindex_in_profile": 0.6347414420975965,
+          "cindex_ci95": [
+            0.513333392219906,
+            0.7510900844847759
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "age_at_diagnosis_UP | pathologic_t_UP",
+          "readable_rule": "age_at_diagnosis > 0.1392 [-1.1168, 0.5606] AND pathologic_t > 1.5 [1.5, 2.5]",
+          "run_freq_pct": 10.5,
+          "n_patients": 140,
+          "high_error_prevalence_in_profile": 0.15,
+          "high_error_prevalence_overall": 0.09669811320754718,
+          "cindex_in_profile": 0.5245374094931617,
+          "cindex_ci95": [
+            0.39006410083167575,
+            0.6710042236638563
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "breast_carcinoma_estrogen_receptor_status_DOWN",
+          "readable_rule": "breast_carcinoma_estrogen_receptor_status <= 0.5 [0.5, 0.5]",
+          "run_freq_pct": 9.0,
+          "n_patients": 109,
+          "high_error_prevalence_in_profile": 0.1651376146788991,
+          "high_error_prevalence_overall": 0.09669811320754718,
+          "cindex_in_profile": 0.47206923682140045,
+          "cindex_ci95": [
+            0.3155800783551314,
+            0.6231972170529521
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "age_at_diagnosis_UP | age_at_diagnosis_UP",
+          "readable_rule": "age_at_diagnosis > 0.7315 [0.002, 1.4203]",
+          "run_freq_pct": 7.0,
+          "n_patients": 98,
+          "high_error_prevalence_in_profile": 0.14285714285714285,
+          "high_error_prevalence_overall": 0.09669811320754718,
+          "cindex_in_profile": 0.6370510396975425,
+          "cindex_ci95": [
+            0.5124988879003558,
+            0.7843729970439957
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "number_of_lymphnodes_positive_by_he_DOWN",
+          "readable_rule": "number_of_lymphnodes_positive_by_he <= 0.0804 [-0.3856, 1.0123]",
+          "run_freq_pct": 6.5,
+          "n_patients": 336,
+          "high_error_prevalence_in_profile": 0.09821428571428571,
+          "high_error_prevalence_overall": 0.09669811320754718,
+          "cindex_in_profile": 0.5739877658025051,
+          "cindex_ci95": [
+            0.4669017903296216,
+            0.6725790431856605
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "lymph_node_examined_count_UP | pathologic_t_UP",
+          "readable_rule": "lymph_node_examined_count > -0.2984 [-0.9639, 0.7301] AND pathologic_t > 1.5 [1.5, 2.5]",
+          "run_freq_pct": 6.5,
+          "n_patients": 207,
+          "high_error_prevalence_in_profile": 0.11594202898550725,
+          "high_error_prevalence_overall": 0.09669811320754718,
+          "cindex_in_profile": 0.5844370860927153,
+          "cindex_ci95": [
+            0.47778122371799053,
+            0.6856994408958937
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "number_of_lymphnodes_positive_by_he_DOWN | pathologic_t_UP",
+          "readable_rule": "number_of_lymphnodes_positive_by_he <= -0.1526 [-0.3856, 1.4783] AND pathologic_t > 1.5 [1.5, 2.5]",
+          "run_freq_pct": 6.5,
+          "n_patients": 218,
+          "high_error_prevalence_in_profile": 0.12844036697247707,
+          "high_error_prevalence_overall": 0.09669811320754718,
+          "cindex_in_profile": 0.5726128338962235,
+          "cindex_ci95": [
+            0.46626743405438414,
+            0.6831733113994456
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        }
+      ],
+      "classifier_probability": null
+    },
+    "pathomic_q50": {
+      "in_run_cohort": true,
+      "held_out": false,
+      "high_error_label": 1,
+      "n_recurring_profiles": 14,
+      "matching_profiles": [],
+      "classifier_probability": null
+    },
+    "pathomic_q70": {
+      "in_run_cohort": true,
+      "held_out": false,
+      "high_error_label": 1,
+      "n_recurring_profiles": 8,
+      "matching_profiles": [],
+      "classifier_probability": null
+    },
+    "pathomic_q80": {
+      "in_run_cohort": true,
+      "held_out": true,
+      "high_error_label": 0,
+      "n_recurring_profiles": 14,
+      "matching_profiles": [
+        {
+          "profile": "adipose_E_original_firstorder_InterquartileRange_std_DOWN",
+          "readable_rule": "adipose_E_original_firstorder_InterquartileRange_std <= 25.895 [21.0733, 29.4064]",
+          "run_freq_pct": 12.0,
+          "n_patients": 276,
+          "high_error_prevalence_in_profile": 0.2463768115942029,
+          "high_error_prevalence_overall": 0.19339622641509435,
+          "cindex_in_profile": 0.6063932216445215,
+          "cindex_ci95": [
+            0.4916552667578659,
+            0.7181654506760153
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "adipose_E_original_firstorder_RobustMeanAbsoluteDeviation_std_DOWN",
+          "readable_rule": "adipose_E_original_firstorder_RobustMeanAbsoluteDeviation_std <= 10.1769 [8.5124, 11.0214]",
+          "run_freq_pct": 9.5,
+          "n_patients": 281,
+          "high_error_prevalence_in_profile": 0.23843416370106763,
+          "high_error_prevalence_overall": 0.19339622641509435,
+          "cindex_in_profile": 0.6141746854182087,
+          "cindex_ci95": [
+            0.4959875873169229,
+            0.7352267726772677
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "adipose_E_original_firstorder_Variance_std_DOWN",
+          "readable_rule": "adipose_E_original_firstorder_Variance_std <= 816.8904 [444.1642, 947.7394]",
+          "run_freq_pct": 9.5,
+          "n_patients": 253,
+          "high_error_prevalence_in_profile": 0.2490118577075099,
+          "high_error_prevalence_overall": 0.19339622641509435,
+          "cindex_in_profile": 0.6000491038546526,
+          "cindex_ci95": [
+            0.46732557137042685,
+            0.7239477170894641
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "adipose_E_original_firstorder_RootMeanSquared_std_DOWN",
+          "readable_rule": "adipose_E_original_firstorder_RootMeanSquared_std <= 20.5808 [17.1807, 23.6356]",
+          "run_freq_pct": 9.5,
+          "n_patients": 213,
+          "high_error_prevalence_in_profile": 0.23943661971830985,
+          "high_error_prevalence_overall": 0.19339622641509435,
+          "cindex_in_profile": 0.6196631414022719,
+          "cindex_ci95": [
+            0.43780002859362604,
+            0.7762242205580613
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "adipose_E_original_firstorder_MeanAbsoluteDeviation_std_DOWN",
+          "readable_rule": "adipose_E_original_firstorder_MeanAbsoluteDeviation_std <= 10.9002 [8.4878, 11.943]",
+          "run_freq_pct": 7.0,
+          "n_patients": 287,
+          "high_error_prevalence_in_profile": 0.24041811846689895,
+          "high_error_prevalence_overall": 0.19339622641509435,
+          "cindex_in_profile": 0.5843628662195552,
+          "cindex_ci95": [
+            0.46275606428031907,
+            0.712491593209995
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "adipose_E_original_firstorder_Mean_std_DOWN",
+          "readable_rule": "adipose_E_original_firstorder_Mean_std <= 22.2066 [19.382, 23.9633]",
+          "run_freq_pct": 7.0,
+          "n_patients": 263,
+          "high_error_prevalence_in_profile": 0.23193916349809887,
+          "high_error_prevalence_overall": 0.19339622641509435,
+          "cindex_in_profile": 0.6274183482421468,
+          "cindex_ci95": [
+            0.5136432391776701,
+            0.7329237891887008
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        },
+        {
+          "profile": "stroma_H_original_firstorder_MeanAbsoluteDeviation_std_DOWN",
+          "readable_rule": "stroma_H_original_firstorder_MeanAbsoluteDeviation_std <= 5.069 [4.5258, 5.461]",
+          "run_freq_pct": 6.0,
+          "n_patients": 176,
+          "high_error_prevalence_in_profile": 0.22727272727272727,
+          "high_error_prevalence_overall": 0.19339622641509435,
+          "cindex_in_profile": 0.5846333853354134,
+          "cindex_ci95": [
+            0.43343596612883184,
+            0.7278856163444398
+          ],
+          "cohort_cindex": 0.6067498942022852,
+          "ci_excludes_cohort": false,
+          "reproduced_from_saved_rule": true
+        }
+      ],
+      "classifier_probability": null
+    },
+    "pathomic_q90": {
+      "in_run_cohort": true,
+      "held_out": false,
+      "high_error_label": 0,
+      "n_recurring_profiles": 10,
+      "matching_profiles": [],
+      "classifier_probability": null
+    }
+  },
+  "summary": {
+    "held_out_in": [
+      "clinical_q50",
+      "clinical_q80",
+      "clinical_q90",
+      "pathomic_q80"
+    ],
+    "n_matching_profiles": 34,
+    "n_matching_profiles_that_differ_from_cohort": 0,
+    "classifier_probability_note": "not saved by the arm scripts (only evaluation metrics are kept)"
+  },
+  "checks": {
+    "brca_clinical_q50": {
+      "split": {
+        "error_threshold": [
+          0.36507936507936506,
+          0.36507936507936506
+        ],
+        "n_eval": [
+          424,
+          424
+        ],
+        "eval_prevalence_high_error": [
+          0.4834905660377358,
+          0.4834905660377358
+        ]
+      },
+      "split_ok": true,
+      "profiles_reproduced": [
+        20,
+        20
+      ]
+    },
+    "brca_clinical_q70": {
+      "split": {
+        "error_threshold": [
+          0.5488528624158645,
+          0.5488528624158645
+        ],
+        "n_eval": [
+          424,
+          424
+        ],
+        "eval_prevalence_high_error": [
+          0.29009433962264153,
+          0.29009433962264153
+        ]
+      },
+      "split_ok": true,
+      "profiles_reproduced": [
+        19,
+        19
+      ]
+    },
+    "brca_clinical_q80": {
+      "split": {
+        "error_threshold": [
+          0.6904761904761905,
+          0.6904761904761905
+        ],
+        "n_eval": [
+          424,
+          424
+        ],
+        "eval_prevalence_high_error": [
+          0.19339622641509435,
+          0.19339622641509435
+        ]
+      },
+      "split_ok": true,
+      "profiles_reproduced": [
+        20,
+        20
+      ]
+    },
+    "brca_clinical_q90": {
+      "split": {
+        "error_threshold": [
+          0.8239538239538244,
+          0.8239538239538244
+        ],
+        "n_eval": [
+          424,
+          424
+        ],
+        "eval_prevalence_high_error": [
+          0.09669811320754718,
+          0.09669811320754718
+        ]
+      },
+      "split_ok": true,
+      "profiles_reproduced": [
+        20,
+        20
+      ]
+    },
+    "brca_radiomic_q50": {
+      "split": {
+        "error_threshold": [
+          0.36507936507936506,
+          0.36507936507936506
+        ],
+        "n_eval": [
+          424,
+          424
+        ],
+        "eval_prevalence_high_error": [
+          0.4834905660377358,
+          0.4834905660377358
+        ]
+      },
+      "split_ok": true,
+      "profiles_reproduced": [
+        14,
+        14
+      ]
+    },
+    "brca_radiomic_q70": {
+      "split": {
+        "error_threshold": [
+          0.5488528624158645,
+          0.5488528624158645
+        ],
+        "n_eval": [
+          424,
+          424
+        ],
+        "eval_prevalence_high_error": [
+          0.29009433962264153,
+          0.29009433962264153
+        ]
+      },
+      "split_ok": true,
+      "profiles_reproduced": [
+        8,
+        8
+      ]
+    },
+    "brca_radiomic_q80": {
+      "split": {
+        "error_threshold": [
+          0.6904761904761905,
+          0.6904761904761905
+        ],
+        "n_eval": [
+          424,
+          424
+        ],
+        "eval_prevalence_high_error": [
+          0.19339622641509435,
+          0.19339622641509435
+        ]
+      },
+      "split_ok": true,
+      "profiles_reproduced": [
+        14,
+        14
+      ]
+    },
+    "brca_radiomic_q90": {
+      "split": {
+        "error_threshold": [
+          0.8239538239538244,
+          0.8239538239538244
+        ],
+        "n_eval": [
+          424,
+          424
+        ],
+        "eval_prevalence_high_error": [
+          0.09669811320754718,
+          0.09669811320754718
+        ]
+      },
+      "split_ok": true,
+      "profiles_reproduced": [
+        10,
+        10
+      ]
+    }
+  }
+}

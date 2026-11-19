@@ -1,0 +1,92 @@
+{
+  "patient_id": "TCGA-LL-A8F5",
+  "slide": "TCGA-LL-A8F5-01Z-00-DX1.7579425E-1425-4160-A9DD-3D50F4C5428D.svs",
+  "level0_size": [
+    107567,
+    90462
+  ],
+  "thumbnail_size": [
+    1500,
+    1261
+  ],
+  "scale_thumb_per_level0": [
+    0.013944797196166111,
+    0.013939554730162942
+  ],
+  "mpp": "0.25269999999999998",
+  "objective_power": "40",
+  "tile_size_level0": 256,
+  "tiles_per_compartment_in_embeddings": {
+    "Adipose tissue (fat)": 15312,
+    "Blood vessels (vasculature)": 7669,
+    "Ductal carcinoma in situ (DCIS)": 1771,
+    "Fibrous desmoplastic stroma": 1430,
+    "Invasive breast carcinoma (tumor cells)": 2441,
+    "Muscle tissue (smooth or skeletal muscle)": 19333,
+    "Necrosis or hemorrhage": 36496,
+    "Normal breast glands and lobules (TDLU)": 2404,
+    "Tumor-infiltrating lymphocytes (immune infiltrates)": 18463
+  },
+  "n_tiles_total": 105319,
+  "colours": {
+    "adipose": "#D97706",
+    "vessels": "#7C3AED",
+    "dcis": "#EA580C",
+    "stroma": "#0369A1",
+    "tumor": "#DC2626",
+    "muscle": "#65A30D",
+    "necrosis": "#78716C",
+    "tdlu": "#EC4899",
+    "tils": "#9333EA"
+  },
+  "colour_source": "visualization/generate_paper_figures.py REGION_COLORS (questionnaire colours not on Narval)",
+  "example_tiles": {
+    "necrosis": [
+      {
+        "file": "tiles/necrosis_1.png",
+        "x": 31488,
+        "y": 79616,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/necrosis_2.png",
+        "x": 48384,
+        "y": 31488,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/necrosis_3.png",
+        "x": 53504,
+        "y": 24320,
+        "level": 0,
+        "size": 256
+      }
+    ],
+    "muscle": [
+      {
+        "file": "tiles/muscle_1.png",
+        "x": 90624,
+        "y": 46080,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/muscle_2.png",
+        "x": 8448,
+        "y": 38400,
+        "level": 0,
+        "size": 256
+      },
+      {
+        "file": "tiles/muscle_3.png",
+        "x": 67328,
+        "y": 60160,
+        "level": 0,
+        "size": 256
+      }
+    ]
+  },
+  "example_tiles_rule": "two compartments with the largest tile share (attribution unavailable); 3 tiles each, fixed seed 0, among tiles with >= 60% tissue pixels"
+}
