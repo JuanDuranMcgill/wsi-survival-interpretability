@@ -71,6 +71,7 @@ def test_auroc():
     a = fd.auroc_by_arm()
     row = a[(a.cohort == "brca") & (a.arm == "pathomic") & (a.thr == "q50")]
     assert round(float(row.auroc.iloc[0]), 3) == 0.671
+    assert (round(float(row.hm_lo.iloc[0]), 3), round(float(row.hm_hi.iloc[0]), 3)) == (0.620, 0.722)
 
 
 def test_coverage_stage_brca():

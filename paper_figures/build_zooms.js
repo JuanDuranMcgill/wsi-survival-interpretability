@@ -81,7 +81,7 @@ const G = {
   rule: (c, x, y) => { c.box(x, y, 0.70, 0.2, { fill: R_COL }); c.text("rule on a feature", x, y, 0.70, 0.2, { align: "center", fontSize: 7.2, color: WHITE, bold: true });
       c.text("60% discovery", x, y + 0.26, 0.9, 0.12, { fontSize: 7.2, color: GREY }); },
   heldout: (c, x, y) => { c.text("40% held out:", x, y, 1.0, 0.13, { fontSize: 7.2, bold: true, color: R_COL });
-      ["AUROC vs 0.5", "C-index in group", "90% bound coverage"].forEach((t, i) => c.text("• " + t, x, y + 0.15 + i * 0.14, 1.05, 0.13, { fontSize: 7.2 })); },
+      ["AUROC vs 0.5", "C-index in group"].forEach((t, i) => c.text("• " + t, x, y + 0.15 + i * 0.14, 1.05, 0.13, { fontSize: 7.2 })); },
 };
 
 const jobs = [
@@ -99,12 +99,12 @@ const jobs = [
     { t: "Two checks: does the order survive a second estimator, and does each feature predict observed PFI after false-discovery-rate control?", h: 0.76, g: G.twoChecks },
   ], { label: "WHY IT MATTERS", h: 0.62, t: "The surrogate explains the model's score. Only features that pass the outcome test say something about the disease." },
   "fig3b.png", 3.3 / 3.95),
-  make("fig4_reliab_zoom.pptx", 4.70, R_COL, "R", "How the reliability check works", [
+  make("fig4_reliab_zoom.pptx", 4.25, R_COL, "R", "How the reliability check works", [
     { t: "Error per patient: the share of that patient's comparable pairs the model orders wrongly (censoring-aware).", h: 0.62, g: G.pairs },
     { t: "Label high error at a threshold (median, 70th, 80th or 90th percentile).", h: 0.48, g: G.label },
     { t: "MED3pa learns rules on discovery patients from clinical or pathomic features; each rule defines a profile.", h: 0.62, g: G.rule },
-    { t: "On held-out patients: is error predictable, does the model's C-index differ inside each profile, and do per-patient bounds hold by subgroup at three time horizons?", h: 0.78, g: G.heldout },
+    { t: "On held-out patients: is error predictable, and does the C-index differ inside each profile?", h: 0.62, g: G.heldout },
   ], { label: "TWO DIFFERENT CLAIMS", h: 0.62, t: "“Error is predictable here” is not “the model performs differently here”; the audit tests each separately." },
-  "fig4b.png", 3.3 / 4.35),
+  "fig4b.png", 3.3 / 3.80),
 ];
 Promise.all(jobs);

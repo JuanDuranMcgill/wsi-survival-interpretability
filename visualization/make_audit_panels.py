@@ -216,31 +216,34 @@ def _pick(p, cohort, arm, thr, key):
 
 
 def fig4b():
-    fig = plt.figure(figsize=(W, 4.62))
+    fig = plt.figure(figsize=(W, 3.80))
     a = fd.auroc_by_arm()
 
     _title(fig, 0.02, "Is error predictable? In BRCA, yes")
-    ax = _axes(fig, 0.24, 0.62, left_in=1.05, right_in=0.12)
+    ax = _axes(fig, 0.24, 1.10, left_in=1.05, right_in=0.12)
     arms = [("blca", "clinical"), ("blca", "pathomic"), ("brca", "clinical"), ("brca", "pathomic")]
+    offsets = [0.27, 0.09, -0.09, -0.27]  # median threshold on top, 90th percentile at the bottom
     ax.axvline(0.5, color=LGREY, lw=0.8, zorder=0)
     for i, (c, arm) in enumerate(arms):
         yy = len(arms) - 1 - i
-        for _, row in a[(a.cohort == c) & (a.arm == arm)].iterrows():
+        rows = a[(a.cohort == c) & (a.arm == arm)].sort_values("thr")
+        for dy, (_, row) in zip(offsets, rows.iterrows()):
             sig = row.p < 0.05 / 16
-            ax.scatter(row.auroc, yy, s=16, facecolor=NAVY if sig else "white", edgecolor=NAVY, lw=0.8,
+            ax.plot([row.hm_lo, row.hm_hi], [yy + dy, yy + dy], color=NAVY, lw=0.7, zorder=1)
+            ax.scatter(row.auroc, yy + dy, s=13, facecolor=NAVY if sig else "white", edgecolor=NAVY, lw=0.8,
                        zorder=2)
     ax.set_yticks(range(len(arms))[::-1])
     ax.set_yticklabels([f"{c.upper()}  {arm}" for c, arm in arms])
-    ax.set_xlim(0.40, 0.72)
-    ax.set_xticks([0.4, 0.5, 0.6, 0.7])
-    ax.set_ylim(-0.6, 3.6)
-    ax.set_xlabel("AUROC, 4 thresholds each (filled: survives Bonferroni)", labelpad=1)
+    ax.set_xlim(0.30, 0.82)
+    ax.set_xticks([0.3, 0.4, 0.5, 0.6, 0.7, 0.8])
+    ax.set_ylim(-0.5, 3.5)
+    ax.set_xlabel("AUROC with 95% interval (filled: survives Bonferroni)", labelpad=1)
     _clean(ax)
 
     p = fd.profiles()
     n_all, n_diff = len(p), int(p.differs.sum())
-    _title(fig, 1.22, f"Different C-index in a group? {n_diff} of {n_all} (8 BRCA shown)")
-    ax = _axes(fig, 1.46, 1.55, left_in=1.62, right_in=0.10)
+    _title(fig, 1.68, f"Different C-index in a group? {n_diff} of {n_all} (8 BRCA shown)")
+    ax = _axes(fig, 1.92, 1.55, left_in=1.62, right_in=0.10)
     cval = p[p.cohort == "brca"].cohort_value.iloc[0]
     rows = [(_pick(p, *spec[:4]), spec[4]) for spec in FOREST]
     for i, (row, label) in enumerate(rows):
@@ -265,29 +268,6 @@ def fig4b():
     ax.set_xticks([0, 0.25, 0.5, 0.75, 1.0])
     ax.set_xlabel("C-index in the group (95% interval)", labelpad=1)
     _clean(ax, left=False)
-
-    _title(fig, 3.46, "Do per-patient 90% bounds hold by stage? (BRCA)")
-    ax = _axes(fig, 3.68, 0.52, left_in=0.48, right_in=0.12)
-    c = fd.coverage_by_stage("brca").sort_values("horizon_days")
-    hs = sorted(c.horizon_days.unique())
-    for stage, col, dx in [("I-II", GREY, -0.10), ("III-IV", RED, 0.10)]:
-        s = c[c.stage == stage]
-        xs = [hs.index(h) + dx for h in s.horizon_days]
-        ax.errorbar(xs, s.coverage, yerr=[s.coverage - s.lo, s.hi - s.coverage], fmt="o", ms=3.0, color=col,
-                    lw=0.9, capsize=1.5)
-        name = "stage I–II" if stage == "I-II" else "stage III–IV"
-        ax.text(xs[-1] + 0.12, list(s.coverage)[-1], name, va="center", ha="left", fontsize=BASE - 0.5,
-                color=col)
-    ax.axhline(0.90, color=NAVY, ls="--", lw=0.9)
-    ax.text(1.5, 0.892, "target 0.90", fontsize=BASE - 0.5, color=NAVY, va="top", ha="center")
-    ax.set_xticks(range(len(hs)))
-    ax.set_xticklabels([f"{int(h):,} d" for h in hs])
-    ax.set_xlim(-0.5, 2.85)
-    ax.set_ylim(0.65, 1.04)
-    ax.set_yticks([0.7, 0.8, 0.9, 1.0])
-    ax.set_ylabel("coverage", labelpad=1)
-    ax.set_xlabel("time horizon", labelpad=1)
-    _clean(ax)
     return fig
 
 
