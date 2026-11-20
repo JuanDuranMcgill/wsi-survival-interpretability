@@ -1,0 +1,294 @@
+{
+  "patient_id": "TCGA-B6-A0I9",
+  "slide": "TCGA-B6-A0I9-01Z-00-DX1.78E1D43A-507E-482E-B988-AF13B12B4497.svs",
+  "source_probabilities": "TCGA-B6-A0I9-01Z-00-DX1.78E1D43A-507E-482E-B988-AF13B12B4497_tiles.jsonl (saved CONCH zero-shot output, preprocessing/classify_all_tiles_multi_6.py; not recomputed)",
+  "n_tiles_on_slide": 100177,
+  "tile_size_level0": 256,
+  "level": 0,
+  "mpp": "0.2485",
+  "rule": "ranked by the label's softmax probability over all tiles, ties at the saturated 1.0 broken by the smallest summed probability of the other classes; kept the first 12 with >= 60% tissue pixels",
+  "labels": {
+    "muscle": {
+      "label": "Muscle tissue (smooth or skeletal muscle)",
+      "n_skipped_below_tissue_threshold": 0,
+      "n_tiles_with_prob_exactly_1": 160,
+      "n_tiles_with_label_as_top1": 16353,
+      "contact_sheet": "muscle_contact_sheet.png",
+      "tiles": [
+        {
+          "file": "muscle_01.png",
+          "x": 130560,
+          "y": 19712,
+          "prob": 1.0,
+          "other_classes_prob_sum": 1.1920928955078125e-07,
+          "top1_label": "Muscle tissue (smooth or skeletal muscle)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 1,
+          "tissue_fraction": 0.784
+        },
+        {
+          "file": "muscle_02.png",
+          "x": 91648,
+          "y": 73728,
+          "prob": 1.0,
+          "other_classes_prob_sum": 2.9206275939941406e-06,
+          "top1_label": "Muscle tissue (smooth or skeletal muscle)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 2,
+          "tissue_fraction": 0.859
+        },
+        {
+          "file": "muscle_03.png",
+          "x": 85248,
+          "y": 27648,
+          "prob": 1.0,
+          "other_classes_prob_sum": 4.708766937255859e-06,
+          "top1_label": "Muscle tissue (smooth or skeletal muscle)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 3,
+          "tissue_fraction": 0.917
+        },
+        {
+          "file": "muscle_04.png",
+          "x": 83200,
+          "y": 28416,
+          "prob": 1.0,
+          "other_classes_prob_sum": 5.125999450683594e-06,
+          "top1_label": "Muscle tissue (smooth or skeletal muscle)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 4,
+          "tissue_fraction": 0.893
+        },
+        {
+          "file": "muscle_05.png",
+          "x": 60416,
+          "y": 19200,
+          "prob": 1.0,
+          "other_classes_prob_sum": 5.841255187988281e-06,
+          "top1_label": "Muscle tissue (smooth or skeletal muscle)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 5,
+          "tissue_fraction": 0.876
+        },
+        {
+          "file": "muscle_06.png",
+          "x": 87552,
+          "y": 23296,
+          "prob": 1.0,
+          "other_classes_prob_sum": 6.318092346191406e-06,
+          "top1_label": "Muscle tissue (smooth or skeletal muscle)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 6,
+          "tissue_fraction": 0.723
+        },
+        {
+          "file": "muscle_07.png",
+          "x": 91904,
+          "y": 21760,
+          "prob": 1.0,
+          "other_classes_prob_sum": 7.68899917602539e-06,
+          "top1_label": "Muscle tissue (smooth or skeletal muscle)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 7,
+          "tissue_fraction": 0.679
+        },
+        {
+          "file": "muscle_08.png",
+          "x": 127488,
+          "y": 27648,
+          "prob": 1.0,
+          "other_classes_prob_sum": 7.68899917602539e-06,
+          "top1_label": "Muscle tissue (smooth or skeletal muscle)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 8,
+          "tissue_fraction": 0.721
+        },
+        {
+          "file": "muscle_09.png",
+          "x": 87296,
+          "y": 44800,
+          "prob": 1.0,
+          "other_classes_prob_sum": 8.165836334228516e-06,
+          "top1_label": "Muscle tissue (smooth or skeletal muscle)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 9,
+          "tissue_fraction": 0.865
+        },
+        {
+          "file": "muscle_10.png",
+          "x": 91136,
+          "y": 13056,
+          "prob": 1.0,
+          "other_classes_prob_sum": 8.285045623779297e-06,
+          "top1_label": "Muscle tissue (smooth or skeletal muscle)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 10,
+          "tissue_fraction": 0.869
+        },
+        {
+          "file": "muscle_11.png",
+          "x": 64768,
+          "y": 66048,
+          "prob": 1.0,
+          "other_classes_prob_sum": 8.761882781982422e-06,
+          "top1_label": "Muscle tissue (smooth or skeletal muscle)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 11,
+          "tissue_fraction": 0.866
+        },
+        {
+          "file": "muscle_12.png",
+          "x": 80384,
+          "y": 46848,
+          "prob": 1.0,
+          "other_classes_prob_sum": 1.2159347534179688e-05,
+          "top1_label": "Muscle tissue (smooth or skeletal muscle)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 12,
+          "tissue_fraction": 0.806
+        }
+      ]
+    },
+    "adipose": {
+      "label": "Adipose tissue (fat)",
+      "n_skipped_below_tissue_threshold": 239,
+      "n_tiles_with_prob_exactly_1": 729,
+      "n_tiles_with_label_as_top1": 7819,
+      "contact_sheet": "adipose_contact_sheet.png",
+      "tiles": [
+        {
+          "file": "adipose_01.png",
+          "x": 70144,
+          "y": 38912,
+          "prob": 1.0,
+          "other_classes_prob_sum": 2.5033950805664062e-06,
+          "top1_label": "Adipose tissue (fat)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 20,
+          "tissue_fraction": 0.648
+        },
+        {
+          "file": "adipose_02.png",
+          "x": 99072,
+          "y": 58368,
+          "prob": 1.0,
+          "other_classes_prob_sum": 4.5299530029296875e-06,
+          "top1_label": "Adipose tissue (fat)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 40,
+          "tissue_fraction": 0.604
+        },
+        {
+          "file": "adipose_03.png",
+          "x": 20992,
+          "y": 41472,
+          "prob": 1.0,
+          "other_classes_prob_sum": 1.329183578491211e-05,
+          "top1_label": "Adipose tissue (fat)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 112,
+          "tissue_fraction": 0.626
+        },
+        {
+          "file": "adipose_04.png",
+          "x": 107264,
+          "y": 50432,
+          "prob": 1.0,
+          "other_classes_prob_sum": 1.4007091522216797e-05,
+          "top1_label": "Adipose tissue (fat)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 117,
+          "tissue_fraction": 0.669
+        },
+        {
+          "file": "adipose_05.png",
+          "x": 68096,
+          "y": 40192,
+          "prob": 1.0,
+          "other_classes_prob_sum": 1.5914440155029297e-05,
+          "top1_label": "Adipose tissue (fat)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 129,
+          "tissue_fraction": 0.61
+        },
+        {
+          "file": "adipose_06.png",
+          "x": 54528,
+          "y": 64256,
+          "prob": 1.0,
+          "other_classes_prob_sum": 2.300739288330078e-05,
+          "top1_label": "Adipose tissue (fat)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 168,
+          "tissue_fraction": 0.732
+        },
+        {
+          "file": "adipose_07.png",
+          "x": 76544,
+          "y": 72192,
+          "prob": 1.0,
+          "other_classes_prob_sum": 2.3543834686279297e-05,
+          "top1_label": "Adipose tissue (fat)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 170,
+          "tissue_fraction": 0.601
+        },
+        {
+          "file": "adipose_08.png",
+          "x": 99328,
+          "y": 52736,
+          "prob": 1.0,
+          "other_classes_prob_sum": 2.378225326538086e-05,
+          "top1_label": "Adipose tissue (fat)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 173,
+          "tissue_fraction": 0.606
+        },
+        {
+          "file": "adipose_09.png",
+          "x": 112896,
+          "y": 51712,
+          "prob": 1.0,
+          "other_classes_prob_sum": 3.5703182220458984e-05,
+          "top1_label": "Adipose tissue (fat)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 234,
+          "tissue_fraction": 0.852
+        },
+        {
+          "file": "adipose_10.png",
+          "x": 20224,
+          "y": 49664,
+          "prob": 1.0,
+          "other_classes_prob_sum": 3.7610530853271484e-05,
+          "top1_label": "Adipose tissue (fat)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 242,
+          "tissue_fraction": 0.781
+        },
+        {
+          "file": "adipose_11.png",
+          "x": 109312,
+          "y": 48384,
+          "prob": 1.0,
+          "other_classes_prob_sum": 3.7729740142822266e-05,
+          "top1_label": "Adipose tissue (fat)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 243,
+          "tissue_fraction": 0.725
+        },
+        {
+          "file": "adipose_12.png",
+          "x": 104448,
+          "y": 49664,
+          "prob": 1.0,
+          "other_classes_prob_sum": 3.88026237487793e-05,
+          "top1_label": "Adipose tissue (fat)",
+          "top1_prob": 1.0,
+          "rank_by_prob_on_slide": 251,
+          "tissue_fraction": 0.636
+        }
+      ]
+    }
+  }
+}
