@@ -29,8 +29,12 @@ scratchpad `lit/` folder; to be copied into `docs/lit/` with this design)
   Detecting a C-index difference of 0.10 between halves needs about 310 events.
   Target for the extension: roughly 600-1,000+ events.
 - No single TCGA cancer type is large enough. With slides required, the largest are
-  GBM (~330 PFI events) and SKCM (~285). Pooling all TCGA types gives about 4,000
-  PFI events (Liu 2018, TCGA-CDR) across ~9,750 patients with a diagnostic FFPE slide.
+  GBM (~330 PFI events) and SKCM (~285). TCGA-CDR has 3,996 PFI events in all
+  (Liu 2018), but fewer among patients with a diagnostic FFPE slide. Exact counts from
+  the manifest (2026-11-20, `results/pancan/manifest_by_type.csv`): 9,752 patients have
+  a DX slide, 9,362 are eligible with 3,208 PFI events, and the 22 types with at least
+  50 events give 8,562 patients and 2,974 events. GBM and OV lose the most (OV: 106 of
+  587 patients have a DX slide).
 - Pooling has known traps: a pooled C-index rewards recognising the cancer type
   (Song 2025; Wulczyn 2020 used within-type pairs), tissue-source-site effects
   inflate scores (Howard 2021; site-split folds lowered PORPOISE from 0.606 to
@@ -110,7 +114,7 @@ scratchpad `lit/` folder; to be copied into `docs/lit/` with this design)
    clinical (including cancer type and stage) and pathomic arms at q50/q70/q80/q90,
    Bonferroni over the tests.
 8. **Events curve.** Target event counts 150, 300, 600, 1,200, 2,400 and all
-   (about 4,000), sampled by patient and stratified by cancer type, 3 repeats per
+   (2,974 in the 22 included types), sampled by patient and stratified by cancer type, 3 repeats per
    size below "all". At each size, record each check's verdict and effect size.
 9. **Planted signal.** The paper's planted-outcome test, at each curve size, with one
    or two effect sizes.

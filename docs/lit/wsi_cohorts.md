@@ -149,7 +149,7 @@ The audit needs (a) held-out risk scores and (b) the model rerun without one tis
 ---
 
 ## Gaps (not verified)
-- Exact PFI events among TCGA patients with FFPE slides for types other than BLCA/BRCA (estimates only; compute on the cluster).
+- ~~Exact PFI events among TCGA patients with FFPE slides~~ Done 2026-11-20 by `preprocessing/pancan_manifest.py`: exact counts per type in `results/pancan/manifest_by_type.csv` (3,208 events among 9,362 eligible patients; 2,974 in the 22 types with at least 50 events).
 - CHIEF, TITAN, MUSK per-cohort survival C-indices; PORPOISE full per-type table; MCAT original table.
 - Event counts for PLCO, NLST, DACHS, MCO, TransSCOT, QUASAR 2, YCR-BCIP, LEOPARD, HANCOCK, CPS-II.
 

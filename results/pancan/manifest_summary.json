@@ -1,0 +1,85 @@
+{
+  "built_utc": "2026-11-21T03:55:31+00:00",
+  "gdc_queried_utc": "2026-11-21T03:52:33+00:00",
+  "gdc_data_release": "Data Release 46.0 - August 10, 2026",
+  "cdr": "TCGA-CDR-SupplementalTableS1.xlsx (GDC file 1b5f413e-a8d1-4d10-92eb-7c4ae739ed81)",
+  "rules": {
+    "slides": "TCGA, data_type 'Slide Image', experimental_strategy 'Diagnostic Slide'",
+    "one_slide_per_patient": "DX1 only; primary tumour (sample code 01) first, then file name",
+    "eligible": "in TCGA-CDR, not redacted, PFI and PFI.time present, PFI recommended for the type (not PCPG)",
+    "included_type": "at least 50 PFI events among eligible patients"
+  },
+  "checks": {
+    "gdc_dx_slides": 11901,
+    "slides_name_unparsed": 0,
+    "slides_name_patient_mismatch": 0,
+    "slides_multi_case": 0,
+    "slides_not_open_access": 0,
+    "slide_formats": {
+      "SVS": 11901
+    },
+    "patients_with_dx": 9752,
+    "patients_with_dx1": 9748,
+    "patients_with_several_dx1": 34,
+    "exclusions": {
+      "eligible": 9362,
+      "pfi_not_recommended": 176,
+      "not_in_cdr": 131,
+      "no_pfi": 48,
+      "redacted": 31,
+      "no_dx1_slide": 4
+    },
+    "cdr_type_vs_gdc_project_mismatch": 0,
+    "eligible_pfi_time_le_0": 96,
+    "eligible_tss_unmapped": 7
+  },
+  "all_eligible": {
+    "patients": 9362,
+    "pfi_events": 3208,
+    "cancer_types": 31,
+    "institutions": 187,
+    "raw_tb": 9.85,
+    "mean_slide_mb": 1052.0
+  },
+  "included": {
+    "patients": 8562,
+    "pfi_events": 2974,
+    "cancer_types": 22,
+    "institutions": 165,
+    "raw_tb": 8.83,
+    "mean_slide_mb": 1031.0
+  },
+  "included_types": [
+    "BLCA",
+    "BRCA",
+    "CESC",
+    "COAD",
+    "ESCA",
+    "GBM",
+    "HNSC",
+    "KIRC",
+    "KIRP",
+    "LGG",
+    "LIHC",
+    "LUAD",
+    "LUSC",
+    "MESO",
+    "OV",
+    "PAAD",
+    "PRAD",
+    "SARC",
+    "SKCM",
+    "STAD",
+    "THCA",
+    "UCEC"
+  ],
+  "projection_included_from_pilot": {
+    "basis": "pilot on 98 LUAD/HNSC slides (docs/PILOT_BEAST_RESULTS.md). 'mean': 150 s GPU and 291 MB output per slide (pilot slides averaged 860 MB). 'size_fit': linear fit on slide file size (R^2 0.68), applied to each slide's size; extrapolates to other cancer types",
+    "gpu_hours_mean": 357.0,
+    "gpu_hours_size_fit": 406.0,
+    "gpu_days_one_gpu_mean": 14.9,
+    "gpu_days_one_gpu_size_fit": 16.9,
+    "output_tb_float32_mean": 2.49,
+    "output_tb_float32_size_fit": 2.85
+  }
+}

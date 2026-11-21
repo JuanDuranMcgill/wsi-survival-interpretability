@@ -58,3 +58,8 @@ env/
 # Summary JSONs are fine; per-patient rows are not.
 results/*_per_patient.csv
 results/*.npz
+
+# ---- Pan-cancer manifest and raw metadata (patient-level) ----
+data/
+# aggregate counts only, no patient rows
+!results/pancan/manifest_summary.json
