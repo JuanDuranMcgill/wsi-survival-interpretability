@@ -195,9 +195,10 @@ All bars are on the 64 µm crop and held-out data.
 - Normal epithelium: tested on colon and breast only; kept if it passes there and if
   under 5% of TCGA-UT tumour tiles are called normal epithelium in every type.
 - A class that fails is handled by this fixed table, then the classifier is retrained once:
-  vessels into stroma; muscle into stroma; necrosis, fat or normal epithelium into other
-  (their tiles leave every compartment, so the tumour compartment stays clean). The result
-  is reported either way.
+  vessels into stroma; muscle into stroma; immune into stroma; necrosis, fat, normal
+  epithelium or stroma into other (their tiles leave every compartment, so the tumour
+  compartment stays clean). Immune and stroma were added when the plan was written
+  (Claude's call). The result is reported either way.
 - Pathomic confidence threshold, one per class: the calibrated probability at which
   validation precision reaches 0.90, replacing the old 0.7.
 
