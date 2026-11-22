@@ -1,0 +1,740 @@
+{
+ "tiles": 7180,
+ "per_class_tiles": {
+  "ADI": 1338,
+  "BACK": 847,
+  "DEB": 339,
+  "LYM": 634,
+  "MUC": 1035,
+  "MUS": 592,
+  "NORM": 741,
+  "STR": 421,
+  "TUM": 1233
+ },
+ "n_prompts_per_class": {
+  "a_one_prompt": {
+   "tumour": 1,
+   "normal_epithelium": 1,
+   "stroma": 1,
+   "immune": 1,
+   "necrosis": 1,
+   "fat": 1,
+   "vessels": 1,
+   "muscle": 1
+  },
+  "b_ensemble": {
+   "tumour": 154,
+   "normal_epithelium": 110,
+   "stroma": 110,
+   "immune": 110,
+   "necrosis": 110,
+   "fat": 88,
+   "vessels": 88,
+   "muscle": 88
+  },
+  "c_ensemble_colon": {
+   "tumour": 242,
+   "normal_epithelium": 198,
+   "stroma": 110,
+   "immune": 110,
+   "necrosis": 110,
+   "fat": 88,
+   "vessels": 88,
+   "muscle": 88
+  }
+ },
+ "results": {
+  "a_one_prompt/full": {
+   "per_class_accuracy": {
+    "TUM": 0.36009732360097324,
+    "NORM": 0.043184885290148446,
+    "STR": 0.5890736342042755,
+    "LYM": 0.917981072555205,
+    "DEB": 0.504424778761062,
+    "ADI": 0.9715994020926756,
+    "MUS": 0.24493243243243243
+   },
+   "confusion": {
+    "TUM": {
+     "tumour": 444,
+     "normal_epithelium": 6,
+     "stroma": 82,
+     "immune": 62,
+     "necrosis": 33,
+     "fat": 115,
+     "vessels": 485,
+     "muscle": 6
+    },
+    "NORM": {
+     "tumour": 0,
+     "normal_epithelium": 32,
+     "stroma": 6,
+     "immune": 155,
+     "necrosis": 0,
+     "fat": 511,
+     "vessels": 37,
+     "muscle": 0
+    },
+    "STR": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 248,
+     "immune": 73,
+     "necrosis": 0,
+     "fat": 47,
+     "vessels": 20,
+     "muscle": 33
+    },
+    "LYM": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 1,
+     "immune": 582,
+     "necrosis": 0,
+     "fat": 48,
+     "vessels": 3,
+     "muscle": 0
+    },
+    "DEB": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 0,
+     "immune": 0,
+     "necrosis": 171,
+     "fat": 9,
+     "vessels": 149,
+     "muscle": 10
+    },
+    "ADI": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 0,
+     "immune": 0,
+     "necrosis": 0,
+     "fat": 1300,
+     "vessels": 32,
+     "muscle": 6
+    },
+    "MUS": {
+     "tumour": 1,
+     "normal_epithelium": 7,
+     "stroma": 138,
+     "immune": 57,
+     "necrosis": 0,
+     "fat": 73,
+     "vessels": 171,
+     "muscle": 145
+    }
+   },
+   "unmapped": {
+    "BACK": {
+     "tumour": 0.0,
+     "normal_epithelium": 0.0,
+     "stroma": 0.0,
+     "immune": 0.0,
+     "necrosis": 0.0,
+     "fat": 0.0011806375442739079,
+     "vessels": 0.46989374262101535,
+     "muscle": 0.5289256198347108
+    },
+    "MUC": {
+     "tumour": 0.0,
+     "normal_epithelium": 0.0,
+     "stroma": 0.0,
+     "immune": 0.0,
+     "necrosis": 0.0,
+     "fat": 0.9951690821256038,
+     "vessels": 0.003864734299516908,
+     "muscle": 0.000966183574879227
+    }
+   },
+   "balanced_accuracy": 0.5187562184195389,
+   "balanced_accuracy_without_vessels": 0.5875813497457151,
+   "mapped_tile_accuracy": 0.551528878822197,
+   "median_top_prob_mapped": 0.9840863943099976,
+   "accuracy_top_prob_ge_0.7": 0.5986931050022533,
+   "share_mapped_top_prob_ge_0.7": 0.8376745941864855
+  },
+  "a_one_prompt/crop128": {
+   "per_class_accuracy": {
+    "TUM": 0.06974858069748581,
+    "NORM": 0.10796221322537113,
+    "STR": 0.1876484560570071,
+    "LYM": 0.49053627760252366,
+    "DEB": 0.3215339233038348,
+    "ADI": 0.7219730941704036,
+    "MUS": 0.28040540540540543
+   },
+   "confusion": {
+    "TUM": {
+     "tumour": 86,
+     "normal_epithelium": 6,
+     "stroma": 44,
+     "immune": 72,
+     "necrosis": 4,
+     "fat": 188,
+     "vessels": 823,
+     "muscle": 10
+    },
+    "NORM": {
+     "tumour": 0,
+     "normal_epithelium": 80,
+     "stroma": 3,
+     "immune": 101,
+     "necrosis": 0,
+     "fat": 499,
+     "vessels": 57,
+     "muscle": 1
+    },
+    "STR": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 79,
+     "immune": 50,
+     "necrosis": 0,
+     "fat": 201,
+     "vessels": 47,
+     "muscle": 44
+    },
+    "LYM": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 2,
+     "immune": 311,
+     "necrosis": 0,
+     "fat": 291,
+     "vessels": 30,
+     "muscle": 0
+    },
+    "DEB": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 1,
+     "immune": 5,
+     "necrosis": 109,
+     "fat": 107,
+     "vessels": 108,
+     "muscle": 9
+    },
+    "ADI": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 4,
+     "immune": 0,
+     "necrosis": 0,
+     "fat": 966,
+     "vessels": 317,
+     "muscle": 51
+    },
+    "MUS": {
+     "tumour": 0,
+     "normal_epithelium": 2,
+     "stroma": 17,
+     "immune": 24,
+     "necrosis": 0,
+     "fat": 196,
+     "vessels": 187,
+     "muscle": 166
+    }
+   },
+   "unmapped": {
+    "BACK": {
+     "tumour": 0.0,
+     "normal_epithelium": 0.0,
+     "stroma": 0.0,
+     "immune": 0.0,
+     "necrosis": 0.0,
+     "fat": 0.07319952774498228,
+     "vessels": 0.6033057851239669,
+     "muscle": 0.3234946871310508
+    },
+    "MUC": {
+     "tumour": 0.000966183574879227,
+     "normal_epithelium": 0.0,
+     "stroma": 0.0,
+     "immune": 0.0,
+     "necrosis": 0.0,
+     "fat": 0.9207729468599034,
+     "vessels": 0.07342995169082125,
+     "muscle": 0.004830917874396135
+    }
+   },
+   "balanced_accuracy": 0.31140113578029016,
+   "balanced_accuracy_without_vessels": 0.37413610312247286,
+   "mapped_tile_accuracy": 0.3391845979614949,
+   "median_top_prob_mapped": 0.9299052953720093,
+   "accuracy_top_prob_ge_0.7": 0.36026200873362446,
+   "share_mapped_top_prob_ge_0.7": 0.7780294450736127
+  },
+  "b_ensemble/full": {
+   "per_class_accuracy": {
+    "TUM": 0.308191403081914,
+    "NORM": 0.4885290148448043,
+    "STR": 0.7719714964370546,
+    "LYM": 0.9905362776025236,
+    "DEB": 0.9498525073746312,
+    "ADI": 0.8961136023916293,
+    "MUS": 0.6706081081081081
+   },
+   "confusion": {
+    "TUM": {
+     "tumour": 380,
+     "normal_epithelium": 81,
+     "stroma": 594,
+     "immune": 57,
+     "necrosis": 73,
+     "fat": 2,
+     "vessels": 4,
+     "muscle": 42
+    },
+    "NORM": {
+     "tumour": 3,
+     "normal_epithelium": 362,
+     "stroma": 74,
+     "immune": 227,
+     "necrosis": 2,
+     "fat": 68,
+     "vessels": 4,
+     "muscle": 1
+    },
+    "STR": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 325,
+     "immune": 46,
+     "necrosis": 13,
+     "fat": 1,
+     "vessels": 4,
+     "muscle": 32
+    },
+    "LYM": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 1,
+     "immune": 628,
+     "necrosis": 0,
+     "fat": 1,
+     "vessels": 4,
+     "muscle": 0
+    },
+    "DEB": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 0,
+     "immune": 0,
+     "necrosis": 322,
+     "fat": 0,
+     "vessels": 0,
+     "muscle": 17
+    },
+    "ADI": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 1,
+     "immune": 0,
+     "necrosis": 12,
+     "fat": 1199,
+     "vessels": 22,
+     "muscle": 104
+    },
+    "MUS": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 157,
+     "immune": 31,
+     "necrosis": 0,
+     "fat": 0,
+     "vessels": 7,
+     "muscle": 397
+    }
+   },
+   "unmapped": {
+    "BACK": {
+     "tumour": 0.0,
+     "normal_epithelium": 0.03305785123966942,
+     "stroma": 0.0,
+     "immune": 0.0023612750885478157,
+     "necrosis": 0.5301062573789846,
+     "fat": 0.1322314049586777,
+     "vessels": 0.05430932703659976,
+     "muscle": 0.24793388429752067
+    },
+    "MUC": {
+     "tumour": 0.005797101449275362,
+     "normal_epithelium": 0.0,
+     "stroma": 0.07246376811594203,
+     "immune": 0.001932367149758454,
+     "necrosis": 0.2956521739130435,
+     "fat": 0.41932367149758454,
+     "vessels": 0.0,
+     "muscle": 0.20483091787439614
+    }
+   },
+   "balanced_accuracy": 0.7251146299772379,
+   "balanced_accuracy_without_vessels": 0.7279078452372474,
+   "mapped_tile_accuracy": 0.6819554548886372,
+   "median_top_prob_mapped": 0.9976868033409119,
+   "accuracy_top_prob_ge_0.7": 0.7190466146382619,
+   "share_mapped_top_prob_ge_0.7": 0.8948659871649679
+  },
+  "b_ensemble/crop128": {
+   "per_class_accuracy": {
+    "TUM": 0.18004866180048662,
+    "NORM": 0.31983805668016196,
+    "STR": 0.3824228028503563,
+    "LYM": 0.8974763406940063,
+    "DEB": 0.8230088495575221,
+    "ADI": 0.507473841554559,
+    "MUS": 0.8581081081081081
+   },
+   "confusion": {
+    "TUM": {
+     "tumour": 222,
+     "normal_epithelium": 85,
+     "stroma": 375,
+     "immune": 134,
+     "necrosis": 144,
+     "fat": 8,
+     "vessels": 36,
+     "muscle": 229
+    },
+    "NORM": {
+     "tumour": 20,
+     "normal_epithelium": 237,
+     "stroma": 51,
+     "immune": 235,
+     "necrosis": 6,
+     "fat": 149,
+     "vessels": 21,
+     "muscle": 22
+    },
+    "STR": {
+     "tumour": 2,
+     "normal_epithelium": 0,
+     "stroma": 161,
+     "immune": 58,
+     "necrosis": 16,
+     "fat": 4,
+     "vessels": 19,
+     "muscle": 161
+    },
+    "LYM": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 4,
+     "immune": 569,
+     "necrosis": 21,
+     "fat": 10,
+     "vessels": 14,
+     "muscle": 16
+    },
+    "DEB": {
+     "tumour": 0,
+     "normal_epithelium": 4,
+     "stroma": 0,
+     "immune": 0,
+     "necrosis": 279,
+     "fat": 4,
+     "vessels": 19,
+     "muscle": 33
+    },
+    "ADI": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 0,
+     "immune": 0,
+     "necrosis": 84,
+     "fat": 679,
+     "vessels": 63,
+     "muscle": 512
+    },
+    "MUS": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 32,
+     "immune": 26,
+     "necrosis": 13,
+     "fat": 1,
+     "vessels": 12,
+     "muscle": 508
+    }
+   },
+   "unmapped": {
+    "BACK": {
+     "tumour": 0.0,
+     "normal_epithelium": 0.0,
+     "stroma": 0.0,
+     "immune": 0.0,
+     "necrosis": 0.43211334120425027,
+     "fat": 0.0885478158205431,
+     "vessels": 0.19716646989374262,
+     "muscle": 0.282172373081464
+    },
+    "MUC": {
+     "tumour": 0.005797101449275362,
+     "normal_epithelium": 0.0,
+     "stroma": 0.017391304347826087,
+     "immune": 0.002898550724637681,
+     "necrosis": 0.4222222222222222,
+     "fat": 0.14879227053140096,
+     "vessels": 0.010628019323671498,
+     "muscle": 0.3922705314009662
+    }
+   },
+   "balanced_accuracy": 0.5669109516064571,
+   "balanced_accuracy_without_vessels": 0.5802604180677682,
+   "mapped_tile_accuracy": 0.5011325028312571,
+   "median_top_prob_mapped": 0.9518880248069763,
+   "accuracy_top_prob_ge_0.7": 0.5518378887841658,
+   "share_mapped_top_prob_ge_0.7": 0.8010570026425066
+  },
+  "c_ensemble_colon/full": {
+   "per_class_accuracy": {
+    "TUM": 0.6528791565287916,
+    "NORM": 0.7854251012145749,
+    "STR": 0.7719714964370546,
+    "LYM": 0.9905362776025236,
+    "DEB": 0.9498525073746312,
+    "ADI": 0.8961136023916293,
+    "MUS": 0.6706081081081081
+   },
+   "confusion": {
+    "TUM": {
+     "tumour": 805,
+     "normal_epithelium": 89,
+     "stroma": 187,
+     "immune": 47,
+     "necrosis": 61,
+     "fat": 2,
+     "vessels": 4,
+     "muscle": 38
+    },
+    "NORM": {
+     "tumour": 30,
+     "normal_epithelium": 582,
+     "stroma": 8,
+     "immune": 110,
+     "necrosis": 1,
+     "fat": 7,
+     "vessels": 3,
+     "muscle": 0
+    },
+    "STR": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 325,
+     "immune": 46,
+     "necrosis": 13,
+     "fat": 1,
+     "vessels": 4,
+     "muscle": 32
+    },
+    "LYM": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 1,
+     "immune": 628,
+     "necrosis": 0,
+     "fat": 1,
+     "vessels": 4,
+     "muscle": 0
+    },
+    "DEB": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 0,
+     "immune": 0,
+     "necrosis": 322,
+     "fat": 0,
+     "vessels": 0,
+     "muscle": 17
+    },
+    "ADI": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 1,
+     "immune": 0,
+     "necrosis": 12,
+     "fat": 1199,
+     "vessels": 22,
+     "muscle": 104
+    },
+    "MUS": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 157,
+     "immune": 31,
+     "necrosis": 0,
+     "fat": 0,
+     "vessels": 7,
+     "muscle": 397
+    }
+   },
+   "unmapped": {
+    "BACK": {
+     "tumour": 0.0,
+     "normal_epithelium": 0.0011806375442739079,
+     "stroma": 0.0,
+     "immune": 0.0023612750885478157,
+     "necrosis": 0.5336481700118064,
+     "fat": 0.14049586776859505,
+     "vessels": 0.0602125147579693,
+     "muscle": 0.26210153482880755
+    },
+    "MUC": {
+     "tumour": 0.024154589371980676,
+     "normal_epithelium": 0.0,
+     "stroma": 0.0647342995169082,
+     "immune": 0.000966183574879227,
+     "necrosis": 0.2927536231884058,
+     "fat": 0.41256038647342996,
+     "vessels": 0.0,
+     "muscle": 0.20483091787439614
+    }
+   },
+   "balanced_accuracy": 0.8167694642367591,
+   "balanced_accuracy_without_vessels": 0.8195626794967686,
+   "mapped_tile_accuracy": 0.8036995092487731,
+   "median_top_prob_mapped": 0.9993169903755188,
+   "accuracy_top_prob_ge_0.7": 0.8338068181818182,
+   "share_mapped_top_prob_ge_0.7": 0.9301623254058136
+  },
+  "c_ensemble_colon/crop128": {
+   "per_class_accuracy": {
+    "TUM": 0.3584752635847526,
+    "NORM": 0.5236167341430499,
+    "STR": 0.3824228028503563,
+    "LYM": 0.8974763406940063,
+    "DEB": 0.8230088495575221,
+    "ADI": 0.507473841554559,
+    "MUS": 0.8581081081081081
+   },
+   "confusion": {
+    "TUM": {
+     "tumour": 442,
+     "normal_epithelium": 61,
+     "stroma": 231,
+     "immune": 116,
+     "necrosis": 136,
+     "fat": 8,
+     "vessels": 36,
+     "muscle": 203
+    },
+    "NORM": {
+     "tumour": 55,
+     "normal_epithelium": 388,
+     "stroma": 23,
+     "immune": 175,
+     "necrosis": 6,
+     "fat": 60,
+     "vessels": 15,
+     "muscle": 19
+    },
+    "STR": {
+     "tumour": 2,
+     "normal_epithelium": 0,
+     "stroma": 161,
+     "immune": 58,
+     "necrosis": 16,
+     "fat": 4,
+     "vessels": 19,
+     "muscle": 161
+    },
+    "LYM": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 4,
+     "immune": 569,
+     "necrosis": 21,
+     "fat": 10,
+     "vessels": 14,
+     "muscle": 16
+    },
+    "DEB": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 1,
+     "immune": 0,
+     "necrosis": 279,
+     "fat": 4,
+     "vessels": 20,
+     "muscle": 35
+    },
+    "ADI": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 0,
+     "immune": 0,
+     "necrosis": 84,
+     "fat": 679,
+     "vessels": 63,
+     "muscle": 512
+    },
+    "MUS": {
+     "tumour": 0,
+     "normal_epithelium": 0,
+     "stroma": 32,
+     "immune": 26,
+     "necrosis": 13,
+     "fat": 1,
+     "vessels": 12,
+     "muscle": 508
+    }
+   },
+   "unmapped": {
+    "BACK": {
+     "tumour": 0.0,
+     "normal_epithelium": 0.0,
+     "stroma": 0.0,
+     "immune": 0.0,
+     "necrosis": 0.43211334120425027,
+     "fat": 0.0885478158205431,
+     "vessels": 0.19716646989374262,
+     "muscle": 0.282172373081464
+    },
+    "MUC": {
+     "tumour": 0.015458937198067632,
+     "normal_epithelium": 0.0,
+     "stroma": 0.01642512077294686,
+     "immune": 0.002898550724637681,
+     "necrosis": 0.41835748792270533,
+     "fat": 0.1468599033816425,
+     "vessels": 0.010628019323671498,
+     "muscle": 0.3893719806763285
+    }
+   },
+   "balanced_accuracy": 0.621511705784622,
+   "balanced_accuracy_without_vessels": 0.634820072177295,
+   "mapped_tile_accuracy": 0.5711589278973197,
+   "median_top_prob_mapped": 0.9660846590995789,
+   "accuracy_top_prob_ge_0.7": 0.624168768631048,
+   "share_mapped_top_prob_ge_0.7": 0.8231408078520196
+  }
+ },
+ "linear_probe_5fold_tiles": {
+  "full": {
+   "balanced_accuracy": 0.9807542925781861,
+   "per_class_accuracy": {
+    "TUM": 0.9878345498783455,
+    "NORM": 0.9851551956815114,
+    "STR": 0.9263657957244655,
+    "LYM": 0.998422712933754,
+    "DEB": 0.9911504424778761,
+    "ADI": 1.0,
+    "MUS": 0.9763513513513513
+   }
+  },
+  "crop128": {
+   "balanced_accuracy": 0.9453190651878203,
+   "per_class_accuracy": {
+    "TUM": 0.9610705596107056,
+    "NORM": 0.9257759784075573,
+    "STR": 0.8171021377672208,
+    "LYM": 0.9921135646687698,
+    "DEB": 0.9793510324483776,
+    "ADI": 0.9992526158445441,
+    "MUS": 0.9425675675675675
+   }
+  }
+ }
+}
