@@ -69,3 +69,19 @@ def test_threshold_rows_use_bcss_validation_only():
     va = pd.DataFrame({"tile_id": ["a", "b", "c", "d", "d", "e", "f"], "split": ["valid"] * 6 + ["train"],
                        "source": ["tcgaut", "gtex", "bcss", "bcss", "bcss", "tiger", "tiger"]})
     assert threshold_rows(va)["tile_id"].tolist() == ["c", "d", "e"]  # TIGER also has both on one slide
+
+
+def test_classifier_file_names_its_feature(tmp_path):
+    # the classifier is trained on UNI-2 (1536-d); the file says so, and the labeller reads that
+    from types import SimpleNamespace
+    from analysis.tissue.train_eval import save_classifier
+    rng = np.random.default_rng(3)
+    m1 = SimpleNamespace(coef_=rng.normal(size=(1, 1536)) * 0.01, intercept_=np.array([0.0]))
+    m2 = SimpleNamespace(coef_=rng.normal(size=(3, 1536)) * 0.01, intercept_=np.zeros(3),
+                         classes_=np.array(["fat", "normal_epithelium", "other"], dtype=object))
+    path = tmp_path / "w.npz"
+    save_classifier(path, {"m1": m1, "m2": m2, "T1": 1.0, "T2": 1.0, "merged": {}},
+                    {c: None for c in CLASSES}, feature="uni2")
+    clf = load_classifier(path)
+    assert clf.feature == "uni2"
+    assert clf(rng.normal(size=(4, 1536))).shape == (4, 9)

@@ -33,6 +33,8 @@ STEP1_VALID = ["tcgaut", "bcss", "gtex", "tiger", "brummer"]  # validation for t
 STEP2_SOURCES = ["kather100k", "bcss", "tiger", "brummer", "segpath"]  # sources with tissue labels
 TEST_SETS = ["kather7k", "bcss", "tcgaut", "tiger", "brummer", "segpath"]
 THRESHOLD_SOURCES = ["bcss", "tiger", "brummer"]  # tumour and non-tumour on the same slides
+CLASSIFIER = "uni2"  # Juan, 2026-11-22: UNI-2 does better than CONCH at 64 um; CONCH reported only
+REPORTED = "conch"
 MIN_TRAIN_TILES = 100  # a step-2 class with fewer 64 um training tiles is merged before training
 SEED = 0
 
@@ -218,7 +220,7 @@ def run_feature(feature):
                        "shortcut": evs["crop64"]["shortcut"], "calibration": evs["crop64"]["calibration"],
                        "failed": sorted(failed)})
         new = merges_for(failed - set(merged))
-        if round_ == 2 or not new or feature != "conch":
+        if round_ == 2 or not new or feature != CLASSIFIER:
             break
         merged = close_merges({**merged, **new})
         print("  failed:", sorted(failed), "-> merging", new, "and retraining once", flush=True)
@@ -227,29 +229,30 @@ def run_feature(feature):
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
-    model, rounds, long_c, X, idx = run_feature("conch")
+    model, rounds, long_c, X, idx = run_feature(CLASSIFIER)
     thr = thresholds(model, X, idx)
-    _, rounds_u, long_u, _, _ = run_feature("uni2")
-    save_classifier(OUT / "tissue_classifier_weights.npz", model, thr)
-    pd.concat([long_c, long_u]).to_csv(OUT / "tissue_classifier_tests.csv", index=False)
+    _, rounds_r, long_r, _, _ = run_feature(REPORTED)
+    save_classifier(OUT / "tissue_classifier_weights.npz", model, thr, feature=CLASSIFIER)
+    pd.concat([long_c, long_r]).to_csv(OUT / "tissue_classifier_tests.csv", index=False)
     counts = idx.drop_duplicates("tile_id").groupby(["source", "split", "version"]).size()
-    summary = {"conch": rounds, "uni2_reported_only": rounds_u, "pathomic_thresholds": thr,
-               "tiles": {"|".join(k): int(v) for k, v in counts.items()}}
+    summary = {"classifier": CLASSIFIER, CLASSIFIER: rounds, f"{REPORTED}_reported_only": rounds_r,
+               "pathomic_thresholds": thr, "tiles": {"|".join(k): int(v) for k, v in counts.items()}}
     (OUT / "tissue_classifier_summary.json").write_text(json.dumps(summary, indent=2, default=float))
-    print(json.dumps({"conch_final": rounds[-1]["class_bars"], "failed": rounds[-1]["failed"]}, indent=2))
+    print(json.dumps({f"{CLASSIFIER}_final": rounds[-1]["class_bars"], "failed": rounds[-1]["failed"]}, indent=2))
 
 
-def save_classifier(path, model, thr):
+def save_classifier(path, model, thr, feature=CLASSIFIER):
     """Plain numeric and unicode arrays only, so load_classifier works with allow_pickle=False."""
     np.savez(path, coef1=model["m1"].coef_, b1=model["m1"].intercept_, T1=model["T1"],
              coef2=model["m2"].coef_, b2=model["m2"].intercept_, T2=model["T2"],
              classes2=np.array([str(c) for c in model["m2"].classes_], dtype=str), classes=np.array(CLASSES),
              thresholds=np.array([np.nan if thr[c] is None else thr[c] for c in CLASSES], dtype=float),
-             merged=json.dumps(model["merged"]), feature="conch")
+             merged=json.dumps(model["merged"]), feature=feature)
 
 
 def load_classifier(path):
-    """f(conch (n, 512)) -> (n, 9) calibrated probabilities in CLASSES order."""
+    """f(features (n, d)) -> (n, 9) calibrated probabilities in CLASSES order; f.feature names the embedding
+    it expects ('uni2' or 'conch')."""
     w = np.load(path, allow_pickle=False)
     classes2 = [str(c) for c in w["classes2"]]
 
@@ -266,6 +269,7 @@ def load_classifier(path):
         for j, c in enumerate(classes2):
             rest[:, NONTUMOUR.index(c)] = p2[:, j]
         return combine(p1, rest)
+    f.feature = str(w["feature"])
     return f
 
 
