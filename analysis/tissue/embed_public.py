@@ -3,7 +3,7 @@ with the preprocessing run, approved by Juan 2026-11-22).
 
   python -I embed_public.py check   re-embed 512 tiles of one run slide (copied to check/) and compare with
                                     the run's saved CONCH and UNI-2 embeddings (cosine >= 0.999 expected)
-  python -I embed_public.py embed   embed every tile in public_index.csv and gtex_index.csv -> emb/<source>.pt
+  python -I embed_public.py embed   embed every tile in the INDEX_FILES that exist -> emb/<source>.pt
 
 Model construction and transforms are copied from preprocessing/beast_runner/pancan_runner.py.
 """
@@ -21,6 +21,8 @@ DATA = Path("/data/scratch/juan/datasets/tissue")
 EMB = DATA / "emb"
 FEAT = Path("/data/processed/juan/pancan/features")
 BATCH, WORKERS, SEED = 256, 8, 0
+INDEX_FILES = ["public_index.csv", "gtex_index.csv", "tiger_index.csv", "brummer_index.csv",
+               "segpath_index.csv"]
 
 
 def load_models():
@@ -108,7 +110,7 @@ def check():
 
 def embed():
     import torch
-    parts = [DATA / "public_index.csv", DATA / "gtex_index.csv"]
+    parts = [DATA / f for f in INDEX_FILES]
     idx = pd.concat([pd.read_csv(p, keep_default_na=False) for p in parts if p.exists()])
     idx = idx.drop_duplicates("tile_id")
     EMB.mkdir(parents=True, exist_ok=True)

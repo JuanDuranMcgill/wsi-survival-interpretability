@@ -29,14 +29,19 @@ from analysis.tissue.metrics import (combine, ece, fit_temperature, recall_preci
 DATA = Path("/data/scratch/juan/datasets/tissue")
 OUT = Path(__file__).resolve().parents[2] / "results" / "pancan"
 CS = [0.01, 0.1, 1.0, 10.0]
+STEP1_VALID = ["tcgaut", "bcss", "gtex", "tiger", "brummer"]  # validation for tumour or not
+STEP2_SOURCES = ["kather100k", "bcss", "tiger", "brummer", "segpath"]  # sources with tissue labels
+TEST_SETS = ["kather7k", "bcss", "tcgaut", "tiger", "brummer", "segpath"]
+THRESHOLD_SOURCES = ["bcss", "tiger", "brummer"]  # tumour and non-tumour on the same slides
 MIN_TRAIN_TILES = 100  # a step-2 class with fewer 64 um training tiles is merged before training
 SEED = 0
 
 
 def load(feature):
     import torch
-    idx = pd.concat([pd.read_csv(DATA / "public_index.csv", keep_default_na=False),
-                     pd.read_csv(DATA / "gtex_index.csv", keep_default_na=False)], ignore_index=True)
+    from analysis.tissue.embed_public import INDEX_FILES
+    idx = pd.concat([pd.read_csv(DATA / f, keep_default_na=False) for f in INDEX_FILES if (DATA / f).exists()],
+                    ignore_index=True)
     X, ids = [], []
     for f in sorted((DATA / "emb").glob("*.pt")):
         o = torch.load(f, map_location="cpu", weights_only=False)
@@ -87,14 +92,14 @@ def train(X, idx, merged):
     tr, va = idx["split"] == "train", idx["split"] == "valid"
     one = idx.drop_duplicates("tile_id")  # GTEx tiles appear once per type they stand in for
     s1_tr = one[(one["split"] == "train")]
-    s1_va = one[(one["split"] == "valid") & one["source"].isin(["tcgaut", "bcss", "gtex"])]
+    s1_va = one[(one["split"] == "valid") & one["source"].isin(STEP1_VALID)]
     y1_tr, y1_va = (s1_tr["label"] == "tumour").astype(int).values, (s1_va["label"] == "tumour").astype(int).values
     print("  step 1:", len(s1_tr), "train rows,", len(s1_va), "validation rows", flush=True)
     m1, C1 = fit_lr(X[s1_tr["row"]], y1_tr, group_weights(s1_tr, y1_tr), X[s1_va["row"]], y1_va,
                     group_weights(s1_va, y1_va), [0, 1])
     T1 = fit_temperature(logits_of(m1, X[s1_va["row"]]), y1_va)
-    nt = idx["source"].isin(["kather100k", "bcss"]) & (idx["label"] != "tumour")
-    s2_tr, s2_va = idx[nt & tr], idx[nt & va & (idx["source"] == "bcss")]
+    nt = idx["source"].isin(STEP2_SOURCES) & (idx["label"] != "tumour")
+    s2_tr, s2_va = idx[nt & tr], idx[nt & va]
     y2_tr, y2_va = lab[s2_tr.index].values, lab[s2_va.index].values
     print("  step 2:", len(s2_tr), "train rows,", len(s2_va), "validation rows", flush=True)
     m2, C2 = fit_lr(X[s2_tr["row"]], y2_tr, group_weights(s2_tr, y2_tr), X[s2_va["row"]], y2_va,
@@ -125,8 +130,10 @@ def evaluate(model, X, idx, version, feature, round_):
     pred = np.array(CLASSES)[P.argmax(1)]
     te = te.assign(pred=pred, p_tumour=P[:, 0], true=lab[te.index].values)
     rows, tables = [], []
-    for s in ["kather7k", "bcss", "tcgaut"]:
+    for s in TEST_SETS:
         g = te[te["source"] == s].drop_duplicates("tile_id")
+        if g.empty:
+            continue
         t = recall_precision(g["true"], g["pred"], CLASSES).assign(test_set=s)
         tables.append(t)
         for _, r in t.iterrows():
@@ -150,8 +157,10 @@ def evaluate(model, X, idx, version, feature, round_):
                 "gtex_breast_called_tumour": float((gtex_breast["pred"] == "tumour").mean())}
     rows += [("shortcut", k, "share", v) for k, v in shortcut.items()]
     cal = {}
-    for s in ["kather7k", "bcss"]:
+    for s in [t for t in TEST_SETS if t != "tcgaut"]:
         g = te[te["source"] == s].drop_duplicates("tile_id")
+        if g.empty:
+            continue
         y = g["true"].map(CLASSES.index).values
         cal[s] = {"ece_raw": ece(predict(model, X[g["row"]], calibrated=False), y),
                   "ece_calibrated": ece(predict(model, X[g["row"]]), y)}
@@ -171,10 +180,10 @@ def bars_of(ev):
 
 
 def threshold_rows(idx):
-    """Validation tiles for the pathomic thresholds: BCSS only, where tumour and non-tumour come from
-    the same TCGA slides (the case closest to ours). TCGA-UT tumour vs GTEx normal is too easy and set
+    """Validation tiles for the pathomic thresholds: sources where tumour and non-tumour come from the
+    same slides (BCSS, TIGER, Brummer; the case closest to ours). TCGA-UT tumour vs GTEx normal is too easy and set
     a tumour threshold near 0; GTEx tiles have no tissue label for the other classes."""
-    return idx[(idx["split"] == "valid") & (idx["source"] == "bcss")].drop_duplicates("tile_id")
+    return idx[(idx["split"] == "valid") & idx["source"].isin(THRESHOLD_SOURCES)].drop_duplicates("tile_id")
 
 
 def thresholds(model, X, idx):
@@ -190,7 +199,7 @@ def thresholds(model, X, idx):
 def run_feature(feature):
     X, idx = load(feature)
     print(feature, X.shape, flush=True)
-    nt = idx[idx["source"].isin(["kather100k", "bcss"]) & (idx["label"] != "tumour")
+    nt = idx[idx["source"].isin(STEP2_SOURCES) & (idx["label"] != "tumour")
              & (idx["split"] == "train") & (idx["version"] == "crop64")]
     merged = premerge_small(nt["label"].value_counts().to_dict(), MIN_TRAIN_TILES)
     print("  merged before training (too few tiles):", merged, flush=True)

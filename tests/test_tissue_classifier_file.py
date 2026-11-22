@@ -66,6 +66,6 @@ def test_threshold_rows_use_bcss_validation_only():
     # case closest to ours; TCGA-UT vs GTEx validation is too easy to set a useful threshold
     import pandas as pd
     from analysis.tissue.train_eval import threshold_rows
-    va = pd.DataFrame({"tile_id": ["a", "b", "c", "d", "d"], "split": ["valid"] * 4 + ["valid"],
-                       "source": ["tcgaut", "gtex", "bcss", "bcss", "bcss"]})
-    assert threshold_rows(va)["tile_id"].tolist() == ["c", "d"]
+    va = pd.DataFrame({"tile_id": ["a", "b", "c", "d", "d", "e", "f"], "split": ["valid"] * 6 + ["train"],
+                       "source": ["tcgaut", "gtex", "bcss", "bcss", "bcss", "tiger", "tiger"]})
+    assert threshold_rows(va)["tile_id"].tolist() == ["c", "d", "e"]  # TIGER also has both on one slide

@@ -82,3 +82,23 @@ GTEX_TISSUES = {
 # Fixed before results: where a class that fails its bar goes (spec, Pass bars).
 MERGE = {"vessels": "stroma", "muscle": "stroma", "immune": "stroma", "necrosis": "other",
          "fat": "other", "normal_epithelium": "other", "stroma": "other"}
+
+# TIGER ROI tissue masks (wsirois, tissue-cells): 1 invasive tumour, 2 tumour-associated stroma,
+# 3 in-situ tumour, 4 healthy glands, 5 necrosis (not in situ), 6 inflamed stroma, 7 rest.
+# Inflamed stroma could be stroma or immune, and rest is mixed, so both are dropped.
+TIGER_MAP = {0: None, 1: "tumour", 2: "stroma", 3: "tumour", 4: "normal_epithelium",
+             5: "necrosis", 6: None, 7: None}
+
+# Brummer et al. 2023 ccRCC tiles (Zenodo 7898308, CC BY 4.0), by folder. 'blood' counts as haemorrhage
+# (necrosis class); 'empty' is background and 'other' mixes fat with other tissue, so both are dropped.
+BRUMMER_MAP = {"cancer": "tumour", "normal": "normal_epithelium", "stroma": "stroma",
+               "blood": "necrosis", "empty": None, "other": None}
+
+
+def brummer_group(filename):
+    """(split group, patient) of a Brummer tile: the TCGA site and barcode, or the Helsinki slide."""
+    if filename.startswith("TCGA-"):
+        barcode = filename[:12]
+        return barcode.split("-")[1], barcode
+    slide = filename.split(".mrxs")[0]
+    return f"brummer:{slide}", slide

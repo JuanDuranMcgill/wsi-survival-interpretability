@@ -28,3 +28,12 @@ def assign_groups(groups, strata, fractions=(0.70, 0.15, 0.15), seed=0):
         for i, g in enumerate(gs):
             out[g] = "test" if i < n_test else "valid" if i < n_test + n_valid else "train"
     return out
+
+
+def extend_splits(existing, groups, strata, seed=0):
+    """Known groups keep their split; new groups are split among themselves with assign_groups."""
+    new = [(g, s) for g, s in zip(groups, strata) if g not in existing]
+    out = {g: existing[g] for g in groups if g in existing}
+    if new:
+        out.update(assign_groups([g for g, _ in new], [s for _, s in new], seed=seed))
+    return out
