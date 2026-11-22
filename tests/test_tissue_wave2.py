@@ -4,7 +4,8 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from analysis.tissue.classes import BRUMMER_MAP, CLASSES, TIGER_MAP, brummer_group  # noqa: E402
+from analysis.tissue.classes import (BRUMMER_MAP, CLASSES, SEGPATH_IMMUNE_MIN, TIGER_MAP,  # noqa: E402
+                                     brummer_group, segpath_slide)
 from analysis.tissue.splits import extend_splits  # noqa: E402
 
 
@@ -33,3 +34,10 @@ def test_brummer_map_and_groups():
     assert brummer_group("TCGA-B0-5402_89123_4714_empty_7773.png") == ("B0", "TCGA-B0-5402")
     assert brummer_group("FIMM6_62_ML1412181.mrxs_TumorTile 80.png") == (
         "brummer:FIMM6_62_ML1412181", "FIMM6_62_ML1412181")
+
+
+def test_segpath_immune_rule_and_slide():
+    # CD45RB leukocyte masks: a 64 um tile is immune when the marker covers >= 20% of it
+    assert SEGPATH_IMMUNE_MIN == 0.20
+    assert segpath_slide("CD45RB_Leukocyte_205_105472_027648_HE.png") == "205"
+    assert segpath_slide("CD45RB_Leukocyte/CD45RB_Leukocyte_040_146432_046080_mask.png") == "040"

@@ -2,6 +2,7 @@
 
   python -I fetch_wave2.py tiger     TIGER ROI masks (breast; TCGA-BRCA, RUMC, JB) -> tiger_index.csv
   python -I fetch_wave2.py brummer   Brummer ccRCC tiles (kidney; TCGA-KIRC and Helsinki) -> brummer_index.csv
+  python -I fetch_wave2.py segpath   SegPath CD45RB leukocyte masks (18 organs, own TMAs) -> segpath_index.csv
   python -I fetch_wave2.py summary   counts per source, split, version and label; peek grids
 
 Downloads: raw/tiger (Zenodo 6014422, CC BY-NC 4.0), raw/brummer (Zenodo 7898308, CC BY 4.0). TIGER's tissue-bcss folder repeats BCSS and is skipped.
@@ -21,7 +22,8 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from analysis.tissue.classes import BRUMMER_MAP, TIGER_MAP, brummer_group  # noqa: E402
+from analysis.tissue.classes import (BRUMMER_MAP, SEGPATH_IMMUNE_MIN, TIGER_MAP, brummer_group,  # noqa: E402
+                                     segpath_slide)
 from analysis.tissue.fetch_public import _row, _save  # noqa: E402
 from analysis.tissue.splits import assign_groups, extend_splits, tss_of  # noqa: E402
 from analysis.tissue.tiles import labelled_tiles, tissue_fraction  # noqa: E402
@@ -115,6 +117,49 @@ def brummer():
     print(df.groupby(["split", "label"]).size().unstack("label").fillna(0).astype(int))
 
 
+SEGPATH = RAW / "segpath" / "CD45RB_Leukocyte" / "CD45RB_Leukocyte"
+SEG_FIELD = 290  # 64 um at SegPath's 0.2208 um/px; resized to 256 px (our 40x tiles)
+
+
+def _segpath_part(masks):
+    from PIL import Image
+    rows = []
+    for m in masks:
+        k = np.asarray(Image.open(m))[:984, :984] > 0
+        he = None
+        for y in range(0, 3 * SEG_FIELD, SEG_FIELD):
+            for x in range(0, 3 * SEG_FIELD, SEG_FIELD):
+                if k[y:y + SEG_FIELD, x:x + SEG_FIELD].mean() < SEGPATH_IMMUNE_MIN:
+                    continue
+                if he is None:
+                    he = np.asarray(Image.open(m.replace("_mask.png", "_HE.png")).convert("RGB"))
+                t = he[y:y + SEG_FIELD, x:x + SEG_FIELD]
+                if tissue_fraction(t, WHITE) < MIN_TISSUE:
+                    continue
+                t = np.asarray(Image.fromarray(t).resize((256, 256), Image.BILINEAR))
+                stem = Path(m).name.replace("_mask.png", "")
+                p = _save(t, TILES / "segpath" / f"{stem}_{x}_{y}_crop64.png")
+                slide = segpath_slide(stem)
+                rows.append({**_row("segpath", p, "crop64", "immune", f"segpath:{slide}", "segpath", slide),
+                             "file": Path(m).name})
+    return rows
+
+
+def segpath():
+    """Immune tiles only (see classes.SEGPATH_IMMUNE_MIN); split by SegPath slide."""
+    import glob
+    masks = sorted(glob.glob(str(SEGPATH / "*_mask.png")))
+    with ProcessPoolExecutor(12) as ex:
+        df = pd.DataFrame([r for part in ex.map(_segpath_part, [masks[i::12] for i in range(12)]) for r in part])
+    # SegPath's own split is by image, not slide (14 of 20 slides fall in more than one split), so the slides
+    # (TMA slides, each holding many patients' cores) are split here instead
+    split = assign_groups(df["group"].tolist(), df["type"].tolist())
+    df["split"] = df["group"].map(split)
+    print("slides per split:", pd.Series(split).value_counts().to_dict())
+    df.drop(columns="file").to_csv(DATA / "segpath_index.csv", index=False)
+    print(len(df), "rows;", df.groupby("split").size().to_dict())
+
+
 def summary():
     from PIL import Image
     rng = np.random.default_rng(0)
@@ -135,7 +180,7 @@ def summary():
 
 
 if __name__ == "__main__":
-    cmds = {"tiger": tiger, "brummer": brummer, "summary": summary}
+    cmds = {"tiger": tiger, "brummer": brummer, "segpath": segpath, "summary": summary}
     if len(sys.argv) < 2 or sys.argv[1] not in cmds:
         sys.exit(__doc__)
     cmds[sys.argv[1]]()

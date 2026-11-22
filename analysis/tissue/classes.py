@@ -102,3 +102,15 @@ def brummer_group(filename):
         return barcode.split("-")[1], barcode
     slide = filename.split(".mrxs")[0]
     return f"brummer:{slide}", slide
+
+# SegPath (Komura et al. 2023, Zenodo, CC BY-NC-SA 4.0; immunofluorescence masks on H&E at 0.22 um/px).
+# Only CD45RB leukocytes are used: a 64 um tile is immune when the marker covers >= 20% of it (peek grids:
+# dense lymphocytes and plasma cells). aSMA is not used (it also marks myofibroblasts and myoepithelium;
+# tiles >= 80% covered still include stroma and tumour-like cells); ERG is not used (endothelium covers at
+# most ~3% of a tile, so no tile is a 'vessel').
+SEGPATH_IMMUNE_MIN = 0.20
+
+
+def segpath_slide(filename):
+    """SegPath slide id: the number after the marker name ('CD45RB_Leukocyte_205_..._HE.png' -> '205')."""
+    return filename.split("/")[-1].split("_")[2]
