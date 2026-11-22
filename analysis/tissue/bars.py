@@ -42,3 +42,8 @@ def normal_epithelium_bar(passes_on_sets, tumour_called_normal):
 def merges_for(failed):
     """Fixed merge-table entries for the classes that failed."""
     return {c: MERGE[c] for c in sorted(failed) if c in MERGE}
+
+
+def premerge_small(train_counts, min_tiles):
+    """Merge-table entries for classes with fewer than min_tiles training tiles (merged before training)."""
+    return {c: MERGE[c] for c, n in sorted(train_counts.items()) if n < min_tiles and c in MERGE}

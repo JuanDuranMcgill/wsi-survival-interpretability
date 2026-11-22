@@ -8,7 +8,7 @@ import pandas as pd
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from analysis.tissue.bars import (class_bars, merges_for, normal_epithelium_bar,  # noqa: E402
-                                  tumour_organ_bars)
+                                  premerge_small, tumour_organ_bars)
 from analysis.tissue.metrics import (combine, ece, fit_temperature, recall_precision,  # noqa: E402
                                      threshold_for_precision)
 
@@ -79,3 +79,17 @@ def test_normal_bar():
 def test_merges_for():
     assert merges_for({"vessels", "fat"}) == {"vessels": "stroma", "fat": "other"}
     assert merges_for(set()) == {}
+
+
+def test_threshold_balanced_ignores_prevalence():
+    # 1,000 positives spread over [0, 1); 10 negatives all at 0.95. Plain precision is >= 0.9 at any
+    # threshold (positives dominate); at equal prevalence only thresholds above the negatives qualify.
+    p = np.r_[np.linspace(0, 0.999, 1000), np.full(10, 0.95)]
+    is_k = np.r_[np.ones(1000, bool), np.zeros(10, bool)]
+    assert threshold_for_precision(p, is_k, 0.90) < 0.01
+    assert threshold_for_precision(p, is_k, 0.90, balanced=True) > 0.95
+
+
+def test_premerge_small_classes():
+    counts = {"vessels": 5, "stroma": 5000, "fat": 300, "other": 40}
+    assert premerge_small(counts, 100) == {"vessels": "stroma"}  # 'other' has no merge target

@@ -64,11 +64,22 @@ def recall_precision(y_true, y_pred, classes):
     return pd.DataFrame(rows)
 
 
-def threshold_for_precision(p, is_k, target=0.90):
-    """Lowest threshold t with precision of (p >= t) at least target; None if never reached."""
+def threshold_for_precision(p, is_k, target=0.90, balanced=False):
+    """Lowest threshold t with precision of (p >= t) at least target; None if never reached.
+    balanced=True computes precision as if classes k and not-k were equally common
+    (TPR / (TPR + FPR)), so a validation set dominated by class k cannot make any threshold look precise."""
     p, is_k = np.asarray(p, dtype=float), np.asarray(is_k, dtype=bool)
-    for t in np.unique(p):
-        sel = p >= t
-        if is_k[sel].mean() >= target:
-            return float(t)
-    return None
+    if not is_k.any():
+        return None
+    order = np.argsort(-p, kind="stable")
+    ps, ks = p[order], is_k[order]
+    tp, fp = np.cumsum(ks), np.cumsum(~ks)
+    last = np.r_[ps[1:] != ps[:-1], True]  # a threshold keeps every tie at its value
+    ps, tp, fp = ps[last], tp[last], fp[last]
+    if balanced:
+        tpr, fpr = tp / ks.sum(), fp / max((~ks).sum(), 1)
+        prec = tpr / (tpr + fpr)
+    else:
+        prec = tp / (tp + fp)
+    ok = np.nonzero(prec >= target)[0]
+    return float(ps[ok[-1]]) if len(ok) else None
