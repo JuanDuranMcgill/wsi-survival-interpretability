@@ -41,6 +41,7 @@ _TCGAUT = {
     "cervical_squamous_cell_carcinoma_and_endocervical_adenocarcinoma": "CESC",
     "colon_adenocarcinoma": "COAD",
     "rectum_adenocarcinoma": "COAD",  # colorectal tissue; READ is not in our cohort
+    "colon_rectum_adenocarcinoma": "COAD",  # Hugging Face TCGA-UT merges COAD and READ
     "esophageal_carcinoma": "ESCA",
     "head_and_neck_squamous_cell_carcinoma": "HNSC",
     "kidney_renal_clear_cell_carcinoma": "KIRC",
@@ -66,16 +67,16 @@ def tcgaut_type(label):
     return _TCGAUT.get(_norm(label))
 
 
-# GTEx tissues standing in for each cancer type's organ (GTEx SMTSD names; checked against
-# the IDC index when fetching). HNSC has no oral mucosa in GTEx: squamous oesophageal mucosa
-# and minor salivary gland stand in.
+# GTEx tissues standing in for each cancer type's organ, by their IDC name
+# (sm_index primaryAnatomicStructure_CodeMeaning, collection gtex, checked 2026-11-22).
+# HNSC has no oral mucosa in GTEx: squamous oesophageal mucosa and minor salivary gland stand in.
 GTEX_TISSUES = {
-    "BLCA": ["Bladder"], "BRCA": ["Breast - Mammary Tissue"],
-    "CESC": ["Cervix - Ectocervix", "Cervix - Endocervix"], "COAD": ["Colon - Transverse"],
-    "ESCA": ["Esophagus - Mucosa"], "HNSC": ["Esophagus - Mucosa", "Minor Salivary Gland"],
-    "KIRC": ["Kidney - Cortex"], "KIRP": ["Kidney - Cortex"], "LIHC": ["Liver"],
-    "LUAD": ["Lung"], "LUSC": ["Lung"], "OV": ["Ovary"], "PAAD": ["Pancreas"],
-    "PRAD": ["Prostate"], "STAD": ["Stomach"], "THCA": ["Thyroid"], "UCEC": ["Uterus"],
+    "BLCA": ["Urinary bladder"], "BRCA": ["Breast"], "CESC": ["Exocervix", "Endocervix"],
+    "COAD": ["Transverse colon"], "ESCA": ["Esophageal mucous membrane"],
+    "HNSC": ["Esophageal mucous membrane", "Minor salivary gland"],
+    "KIRC": ["Renal cortex"], "KIRP": ["Renal cortex"], "LIHC": ["Liver"], "LUAD": ["Lung"],
+    "LUSC": ["Lung"], "OV": ["Ovary"], "PAAD": ["Pancreas"], "PRAD": ["Prostate"],
+    "STAD": ["Stomach"], "THCA": ["Thyroid"], "UCEC": ["Uterus"],
 }
 
 # Fixed before results: where a class that fails its bar goes (spec, Pass bars).

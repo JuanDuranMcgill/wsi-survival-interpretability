@@ -52,6 +52,7 @@ def test_tcgaut_types_cover_cohort():
     assert tcgaut_type("Glioblastoma multiforme") is None
     assert tcgaut_type("Kidney_Chromophobe") is None
     assert tcgaut_type("bladder urothelial carcinoma") == "BLCA"
+    assert tcgaut_type("Colon_Rectum_adenocarcinoma") == "COAD"  # Hugging Face TCGA-UT label
 
 
 def test_gtex_tissues_cover_cohort():
