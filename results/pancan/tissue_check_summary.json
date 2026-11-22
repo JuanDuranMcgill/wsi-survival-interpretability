@@ -1,0 +1,32 @@
+{
+  "classes": {
+    "tumour": "Carcinoma (tumor cells)",
+    "normal_epithelium": "Normal epithelium and glands",
+    "stroma": "Fibrous desmoplastic stroma",
+    "immune": "Lymphocytes (immune infiltrates)",
+    "necrosis": "Necrosis or hemorrhage",
+    "fat": "Adipose tissue (fat)",
+    "vessels": "Blood vessels (vasculature)",
+    "muscle": "Muscle tissue (smooth or skeletal muscle)"
+  },
+  "template": "an H&E image of {}",
+  "conf_threshold": 0.7,
+  "slides": 18,
+  "types": [
+    "BLCA",
+    "BRCA",
+    "COAD",
+    "ESCA",
+    "LIHC",
+    "LUSC",
+    "OV",
+    "STAD",
+    "THCA"
+  ],
+  "sanity_breast_labels_reproduced_min": 0.9973704814910889,
+  "brca_agreement_with_paper_classes_mapped": [
+    0.6661423444747925,
+    0.6497788429260254
+  ],
+  "median_top_prob_all_tiles_mean_over_slides": 0.905405107471678
+}
