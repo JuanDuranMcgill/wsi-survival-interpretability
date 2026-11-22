@@ -59,3 +59,13 @@ def test_load_classifier_with_two_step2_classes(tmp_path):
     p_other = 1 / (1 + np.exp(-((X @ coef2.T).ravel() + 0.3) / 2.0))
     rest = P[:, 1:].sum(1)
     assert np.allclose(P[:, CLASSES.index("other")] / rest, p_other)
+
+
+def test_threshold_rows_use_bcss_validation_only():
+    # thresholds are fit where tumour and non-tumour come from the same TCGA slides (BCSS), the
+    # case closest to ours; TCGA-UT vs GTEx validation is too easy to set a useful threshold
+    import pandas as pd
+    from analysis.tissue.train_eval import threshold_rows
+    va = pd.DataFrame({"tile_id": ["a", "b", "c", "d", "d"], "split": ["valid"] * 4 + ["valid"],
+                       "source": ["tcgaut", "gtex", "bcss", "bcss", "bcss"]})
+    assert threshold_rows(va)["tile_id"].tolist() == ["c", "d"]

@@ -170,20 +170,21 @@ def bars_of(ev):
     return cb, organ
 
 
+def threshold_rows(idx):
+    """Validation tiles for the pathomic thresholds: BCSS only, where tumour and non-tumour come from
+    the same TCGA slides (the case closest to ours). TCGA-UT tumour vs GTEx normal is too easy and set
+    a tumour threshold near 0; GTEx tiles have no tissue label for the other classes."""
+    return idx[(idx["split"] == "valid") & (idx["source"] == "bcss")].drop_duplicates("tile_id")
+
+
 def thresholds(model, X, idx):
     """Per class, the calibrated probability where validation precision, at equal class prevalence,
-    reaches PATHOMIC_PRECISION.
-    Tumour: TCGA-UT, BCSS and GTEx validation tiles. Other classes: BCSS only (GTEx tiles have no
-    tissue label, so they cannot count as negatives for, say, stroma)."""
-    va = idx[(idx["split"] == "valid")].drop_duplicates("tile_id")
-    out = {}
-    for k, c in enumerate(CLASSES):
-        g = va[va["source"].isin(["tcgaut", "bcss", "gtex"] if c == "tumour" else ["bcss"])]
-        lab = g["label"].map(lambda x: model["merged"].get(x, x)).values
-        p = predict(model, X[g["row"]])[:, k]
-        out[c] = (threshold_for_precision(p, lab == c, PATHOMIC_PRECISION, balanced=True)
-                  if (lab == c).any() else None)
-    return out
+    reaches PATHOMIC_PRECISION."""
+    g = threshold_rows(idx)
+    lab = g["label"].map(lambda x: model["merged"].get(x, x)).values
+    P = predict(model, X[g["row"]])
+    return {c: (threshold_for_precision(P[:, k], lab == c, PATHOMIC_PRECISION, balanced=True)
+                if (lab == c).any() else None) for k, c in enumerate(CLASSES)}
 
 
 def run_feature(feature):
