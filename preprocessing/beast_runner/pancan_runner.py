@@ -203,6 +203,9 @@ def write_status(commit=False):
     errs = c.execute("select idx,file_name,state,dl_attempts,proc_attempts,error from slides where error is not null order by idx limit 40").fetchall()
     L += ["", "## Errors", "", f"{len(errs)} slide(s) have a recorded error (first 40 shown; a slide that later succeeded keeps no error):" if errs else "None recorded.", ""]
     L += [f"- {r['idx']} {r['file_name'][:23]} state={r['state']} dl={r['dl_attempts']} proc={r['proc_attempts']}: {r['error']}" for r in errs]
+    L += ["", "## Checks", "",
+          "- 20-slide check (2026-11-22 00:45): all 20 output files open with the expected shapes (`uni2` N x 1536, `conch` N x 512 with norm 1.0000, `conch_probs` N x 9, `conch_probs8` N x 8, `coords` N x 2 int32), all float16, no non-finite values. Speed 2.94 s per 1,000 tiles (processing test 2.96), 350 tiles/s on slides with at least 20,000 tiles (test 346), GPU 97.6%, 4,138 bytes per tile (test 4,122). No fix needed; the run continued.",
+          "- Restart test (2026-11-22): the download service was restarted mid-run; in-flight downloads resumed from their partial files (see Errors for any that did not)."]
     L += ["", "## Choices made unattended", "",
           "- Downloads land on the fast scratch disk (`/data/scratch/juan/pancan_slides/_inbox`), where the tile loaders read them, and move to `/data/storage/juan/pancan_slides/<type>/` after processing. `/data/storage` is not read during the run, as the storage rule requires. When `/data/storage` has under 300 GB free the slide stays in `/data/scratch/juan/pancan_slides/<type>/`; the ledger column `raw_loc` says where each slide is.",
           "- `/data/storage` had 6.5 TB free at the start (df shows 6.0 TiB) against 7.15 TB of slides, and 300 GB is kept free, so about 0.9 TB of slides will stay on scratch.",
@@ -213,7 +216,7 @@ def write_status(commit=False):
     open(STATUS_DOC + ".tmp", "w").write("\n".join(L) + "\n"); os.replace(STATUS_DOC + ".tmp", STATUS_DOC)
     if commit:
         import subprocess
-        msg = f"Pan-carcinoma run status: {done} of {total} slides done\n\nCo-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
+        msg = f"Pan-carcinoma run status: {done} of {total} slides done\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
         subprocess.run(["git", "-C", REPO, "add", "docs/PANCAN_RUN_STATUS.md"], capture_output=True)
         subprocess.run(["git", "-C", REPO, "-c", "user.name=juanduranmcgill", "-c", "user.email=juan.duran@mail.mcgill.ca", "commit", "-m", msg, "--", "docs/PANCAN_RUN_STATUS.md"], capture_output=True)
 
