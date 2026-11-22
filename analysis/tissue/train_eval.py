@@ -219,18 +219,22 @@ def main():
     model, rounds, long_c, X, idx = run_feature("conch")
     thr = thresholds(model, X, idx)
     _, rounds_u, long_u, _, _ = run_feature("uni2")
-    np.savez(OUT / "tissue_classifier_weights.npz",
-             coef1=model["m1"].coef_, b1=model["m1"].intercept_, T1=model["T1"],
-             coef2=model["m2"].coef_, b2=model["m2"].intercept_, T2=model["T2"],
-             classes2=np.array(model["m2"].classes_), classes=np.array(CLASSES),
-             thresholds=np.array([np.nan if thr[c] is None else thr[c] for c in CLASSES]),
-             merged=json.dumps(model["merged"]), feature="conch")
+    save_classifier(OUT / "tissue_classifier_weights.npz", model, thr)
     pd.concat([long_c, long_u]).to_csv(OUT / "tissue_classifier_tests.csv", index=False)
     counts = idx.drop_duplicates("tile_id").groupby(["source", "split", "version"]).size()
     summary = {"conch": rounds, "uni2_reported_only": rounds_u, "pathomic_thresholds": thr,
                "tiles": {"|".join(k): int(v) for k, v in counts.items()}}
     (OUT / "tissue_classifier_summary.json").write_text(json.dumps(summary, indent=2, default=float))
     print(json.dumps({"conch_final": rounds[-1]["class_bars"], "failed": rounds[-1]["failed"]}, indent=2))
+
+
+def save_classifier(path, model, thr):
+    """Plain numeric and unicode arrays only, so load_classifier works with allow_pickle=False."""
+    np.savez(path, coef1=model["m1"].coef_, b1=model["m1"].intercept_, T1=model["T1"],
+             coef2=model["m2"].coef_, b2=model["m2"].intercept_, T2=model["T2"],
+             classes2=np.array([str(c) for c in model["m2"].classes_], dtype=str), classes=np.array(CLASSES),
+             thresholds=np.array([np.nan if thr[c] is None else thr[c] for c in CLASSES], dtype=float),
+             merged=json.dumps(model["merged"]), feature="conch")
 
 
 def load_classifier(path):

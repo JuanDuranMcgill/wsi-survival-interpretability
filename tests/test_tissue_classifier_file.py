@@ -27,3 +27,19 @@ def test_load_classifier_probabilities(tmp_path):
     assert np.all(P[:, CLASSES.index("vessels")] == 0) and np.all(P[:, CLASSES.index("muscle")] == 0)
     z1 = (X @ np.load(path)["coef1"].T + 0.1).ravel() / 1.5
     assert np.allclose(P[:, 0], 1 / (1 + np.exp(-z1)))
+
+
+def test_saved_classifier_loads_with_object_class_names(tmp_path):
+    # sklearn keeps string labels as an object array in classes_; the saved file must still load
+    # with allow_pickle=False (the Beast labelling job failed on exactly this).
+    from types import SimpleNamespace
+    from analysis.tissue.train_eval import save_classifier
+    rng = np.random.default_rng(1)
+    m1 = SimpleNamespace(coef_=rng.normal(size=(1, 512)), intercept_=np.array([0.0]))
+    m2 = SimpleNamespace(coef_=rng.normal(size=(3, 512)), intercept_=np.zeros(3),
+                         classes_=np.array(["immune", "other", "stroma"], dtype=object))
+    model = {"m1": m1, "m2": m2, "T1": 1.0, "T2": 1.0, "merged": {"vessels": "stroma"}}
+    path = tmp_path / "w.npz"
+    save_classifier(path, model, {c: None for c in CLASSES})
+    P = load_classifier(path)(rng.normal(size=(5, 512)))
+    assert P.shape == (5, 9) and np.allclose(P.sum(1), 1)
