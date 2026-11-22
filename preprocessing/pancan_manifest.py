@@ -42,6 +42,12 @@ CDR_NAME = "TCGA-CDR-SupplementalTableS1.xlsx"
 # (docs/lit/wsi_cohorts.md). LAML is caught by the missing-PFI rule.
 PFI_NOT_RECOMMENDED = {"PCPG"}
 
+# Juan, 2026-11-21: the cohort is carcinomas only (published pan-cancer tissue sets cover
+# carcinomas; see docs/HANDOFF_2026-11-21.md). Non-carcinoma types are flagged out of
+# `in_cohort` even when they have enough events.
+NON_CARCINOMA = {"GBM", "LGG", "SARC", "SKCM", "MESO", "UVM", "TGCT", "THYM", "PCPG",
+                 "DLBC", "LAML", "UCS"}
+
 # Pilot on the MEDomics-Beast, 98 slides (docs/PILOT_BEAST_RESULTS.md): means per slide.
 PILOT_GPU_S_PER_SLIDE = 150.0
 PILOT_OUTPUT_MB_PER_SLIDE = 291.0
@@ -242,7 +248,10 @@ def build(refresh=False, cdr_path=RAW / CDR_NAME, min_events=50):
 
     inc_types = set(by.loc[by["included"], "type"])
     pat["included_type"] = pat["eligible"] & pat["type"].isin(inc_types)
-    inc = pat[pat["included_type"]]
+    pat["in_cohort"] = pat["included_type"] & ~pat["type"].isin(NON_CARCINOMA)
+    by["carcinoma"] = ~by["type"].isin(NON_CARCINOMA)
+    by["in_cohort"] = by["included"] & by["carcinoma"]
+    inc = pat[pat["in_cohort"]]
     n = int(len(inc))
 
     def totals(df):
@@ -265,11 +274,13 @@ def build(refresh=False, cdr_path=RAW / CDR_NAME, min_events=50):
             "eligible": "in TCGA-CDR, not redacted, PFI and PFI.time present, "
                         "PFI recommended for the type (not PCPG)",
             "included_type": f"at least {min_events} PFI events among eligible patients",
+            "in_cohort": "included_type and a carcinoma type (Juan, 2026-11-21)",
         },
         "checks": checks,
         "all_eligible": totals(el),
-        "included": totals(inc),
-        "included_types": sorted(inc_types),
+        "included_22_types": totals(pat[pat["included_type"]]),
+        "cohort_carcinomas": totals(inc),
+        "cohort_types": sorted(set(inc["type"])),
         "projection_included_from_pilot": {
             "basis": "pilot on 98 LUAD/HNSC slides (docs/PILOT_BEAST_RESULTS.md). 'mean': "
                      f"{PILOT_GPU_S_PER_SLIDE:.0f} s GPU and {PILOT_OUTPUT_MB_PER_SLIDE:.0f} MB "
@@ -302,7 +313,7 @@ def main():
     a = ap.parse_args()
     _, _, by, s = build(a.refresh, a.cdr_xlsx, a.min_events)
     print(by.to_string(index=False))
-    print(json.dumps({k: s[k] for k in ("checks", "all_eligible", "included",
+    print(json.dumps({k: s[k] for k in ("checks", "all_eligible", "cohort_carcinomas",
                                         "projection_included_from_pilot")}, indent=2))
 
 

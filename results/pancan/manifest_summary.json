@@ -1,5 +1,5 @@
 {
-  "built_utc": "2026-11-21T03:55:31+00:00",
+  "built_utc": "2026-11-22T04:57:55+00:00",
   "gdc_queried_utc": "2026-11-21T03:52:33+00:00",
   "gdc_data_release": "Data Release 46.0 - August 10, 2026",
   "cdr": "TCGA-CDR-SupplementalTableS1.xlsx (GDC file 1b5f413e-a8d1-4d10-92eb-7c4ae739ed81)",
@@ -7,7 +7,8 @@
     "slides": "TCGA, data_type 'Slide Image', experimental_strategy 'Diagnostic Slide'",
     "one_slide_per_patient": "DX1 only; primary tumour (sample code 01) first, then file name",
     "eligible": "in TCGA-CDR, not redacted, PFI and PFI.time present, PFI recommended for the type (not PCPG)",
-    "included_type": "at least 50 PFI events among eligible patients"
+    "included_type": "at least 50 PFI events among eligible patients",
+    "in_cohort": "included_type and a carcinoma type (Juan, 2026-11-21)"
   },
   "checks": {
     "gdc_dx_slides": 11901,
@@ -41,7 +42,7 @@
     "raw_tb": 9.85,
     "mean_slide_mb": 1052.0
   },
-  "included": {
+  "included_22_types": {
     "patients": 8562,
     "pfi_events": 2974,
     "cancer_types": 22,
@@ -49,37 +50,40 @@
     "raw_tb": 8.83,
     "mean_slide_mb": 1031.0
   },
-  "included_types": [
+  "cohort_carcinomas": {
+    "patients": 6940,
+    "pfi_events": 1999,
+    "cancer_types": 17,
+    "institutions": 136,
+    "raw_tb": 7.15,
+    "mean_slide_mb": 1030.0
+  },
+  "cohort_types": [
     "BLCA",
     "BRCA",
     "CESC",
     "COAD",
     "ESCA",
-    "GBM",
     "HNSC",
     "KIRC",
     "KIRP",
-    "LGG",
     "LIHC",
     "LUAD",
     "LUSC",
-    "MESO",
     "OV",
     "PAAD",
     "PRAD",
-    "SARC",
-    "SKCM",
     "STAD",
     "THCA",
     "UCEC"
   ],
   "projection_included_from_pilot": {
     "basis": "pilot on 98 LUAD/HNSC slides (docs/PILOT_BEAST_RESULTS.md). 'mean': 150 s GPU and 291 MB output per slide (pilot slides averaged 860 MB). 'size_fit': linear fit on slide file size (R^2 0.68), applied to each slide's size; extrapolates to other cancer types",
-    "gpu_hours_mean": 357.0,
-    "gpu_hours_size_fit": 406.0,
-    "gpu_days_one_gpu_mean": 14.9,
-    "gpu_days_one_gpu_size_fit": 16.9,
-    "output_tb_float32_mean": 2.49,
-    "output_tb_float32_size_fit": 2.85
+    "gpu_hours_mean": 289.0,
+    "gpu_hours_size_fit": 328.0,
+    "gpu_days_one_gpu_mean": 12.0,
+    "gpu_days_one_gpu_size_fit": 13.7,
+    "output_tb_float32_mean": 2.02,
+    "output_tb_float32_size_fit": 2.31
   }
 }
