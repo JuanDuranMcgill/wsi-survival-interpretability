@@ -248,6 +248,8 @@ def load_classifier(path):
         z1 = (X @ w["coef1"].T + w["b1"]).ravel() / float(w["T1"])
         p1 = 1 / (1 + np.exp(-z1))
         z2 = (X @ w["coef2"].T + w["b2"]) / float(w["T2"])
+        if z2.shape[1] == 1:  # binary step 2: one row of coefficients, for the second class
+            z2 = np.column_stack([np.zeros(len(X)), z2[:, 0]])
         p2 = np.exp(z2 - z2.max(1, keepdims=True))
         p2 /= p2.sum(1, keepdims=True)
         rest = np.zeros((len(X), len(NONTUMOUR)))

@@ -43,3 +43,19 @@ def test_saved_classifier_loads_with_object_class_names(tmp_path):
     save_classifier(path, model, {c: None for c in CLASSES})
     P = load_classifier(path)(rng.normal(size=(5, 512)))
     assert P.shape == (5, 9) and np.allclose(P.sum(1), 1)
+
+
+def test_load_classifier_with_two_step2_classes(tmp_path):
+    # after merges step 2 can be binary (immune vs other); sklearn then stores one coefficient row
+    rng = np.random.default_rng(2)
+    path = tmp_path / "w.npz"
+    coef2 = rng.normal(size=(1, 512))
+    np.savez(path, coef1=np.zeros((1, 512)), b1=np.array([0.0]), T1=1.0,  # p_tumour = 0.5
+             coef2=coef2, b2=np.array([0.3]), T2=2.0, classes2=np.array(["immune", "other"]),
+             classes=np.array(CLASSES), thresholds=np.full(9, np.nan), merged=json.dumps({}), feature="conch")
+    X = rng.normal(size=(6, 512))
+    P = load_classifier(path)(X)
+    assert P.shape == (6, 9) and np.allclose(P.sum(1), 1)
+    p_other = 1 / (1 + np.exp(-((X @ coef2.T).ravel() + 0.3) / 2.0))
+    rest = P[:, 1:].sum(1)
+    assert np.allclose(P[:, CLASSES.index("other")] / rest, p_other)
