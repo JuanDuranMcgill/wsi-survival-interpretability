@@ -92,7 +92,13 @@ scratchpad `lit/` folder; to be copied into `docs/lit/` with this design)
 1. **Cohort.** TCGA cancer types with diagnostic FFPE WSIs and PFI in TCGA-CDR
    (Liu 2018), keeping types with at least 50 PFI events among patients with a
    slide, so that within-type evaluation is meaningful. One slide per patient, chosen
-   as in the current pipeline.
+   as in the current pipeline. **Carcinomas only (Juan, 2026-11-21):** the 5
+   non-carcinoma types (GBM, LGG, SARC, SKCM, MESO) are dropped, leaving 17 types,
+   6,940 patients and 1,999 PFI events. Reasons: published pan-cancer tissue sets
+   (OpenTME/HETA 2026, Lunit SCOPE, Kather CRC, Diao 2021) cover carcinomas only, and
+   3 of the 4 types without any stage are non-carcinomas. Within-type clinical
+   C-index with age, sex and stage: 0.638 for the 17 types
+   (`results/pancan/clinical_variables_check.csv`).
 2. **Tissue types.** A shared pan-cancer set that every included cancer has or can
    have: tumour, stroma, immune infiltrate, necrosis or haemorrhage, adipose, blood
    vessels, normal epithelium or parenchyma, muscle. CONCH zero-shot with one prompt
