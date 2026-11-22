@@ -8,7 +8,7 @@ import pandas as pd
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from analysis.tissue.bars import (class_bars, merges_for, normal_epithelium_bar,  # noqa: E402
-                                  premerge_small, tumour_organ_bars)
+                                  close_merges, premerge_small, tumour_organ_bars)
 from analysis.tissue.metrics import (combine, ece, fit_temperature, recall_precision,  # noqa: E402
                                      threshold_for_precision)
 
@@ -93,3 +93,10 @@ def test_threshold_balanced_ignores_prevalence():
 def test_premerge_small_classes():
     counts = {"vessels": 5, "stroma": 5000, "fat": 300, "other": 40}
     assert premerge_small(counts, 100) == {"vessels": "stroma"}  # 'other' has no merge target
+
+
+def test_close_merges_follows_chains():
+    # muscle went into stroma, then stroma failed and went into other: muscle must end in other too
+    assert close_merges({"muscle": "stroma", "vessels": "stroma", "stroma": "other"}) == {
+        "muscle": "other", "vessels": "other", "stroma": "other"}
+    assert close_merges({}) == {}

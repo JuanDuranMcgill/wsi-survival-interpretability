@@ -20,7 +20,8 @@ import pandas as pd  # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from analysis.tissue.bars import (class_bars, merges_for, normal_epithelium_bar,  # noqa: E402
-                                  premerge_small, tumour_organ_bars, PATHOMIC_PRECISION)
+                                  close_merges, premerge_small, tumour_organ_bars,
+                                  PATHOMIC_PRECISION)
 from analysis.tissue.classes import CLASSES, NONTUMOUR  # noqa: E402
 from analysis.tissue.metrics import (combine, ece, fit_temperature, recall_precision,  # noqa: E402
                                      threshold_for_precision)
@@ -209,7 +210,7 @@ def run_feature(feature):
         new = merges_for(failed - set(merged))
         if round_ == 2 or not new or feature != "conch":
             break
-        merged = {**merged, **new}
+        merged = close_merges({**merged, **new})
         print("  failed:", sorted(failed), "-> merging", new, "and retraining once", flush=True)
     return model, rounds, pd.concat(longs), X, idx
 

@@ -47,3 +47,14 @@ def merges_for(failed):
 def premerge_small(train_counts, min_tiles):
     """Merge-table entries for classes with fewer than min_tiles training tiles (merged before training)."""
     return {c: MERGE[c] for c, n in sorted(train_counts.items()) if n < min_tiles and c in MERGE}
+
+
+def close_merges(merged):
+    """Follow merge chains to their end (muscle -> stroma -> other gives muscle -> other)."""
+    out = {}
+    for c in merged:
+        t = merged[c]
+        while t in merged and merged[t] != t:
+            t = merged[t]
+        out[c] = t
+    return out
