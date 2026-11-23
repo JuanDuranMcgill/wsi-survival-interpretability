@@ -58,3 +58,9 @@ def close_merges(merged):
             t = merged[t]
         out[c] = t
     return out
+
+
+def keep_stroma(merged):
+    """Sensitivity variant of the final merges: stroma stays a class, classes the merge table sends to
+    stroma (vessels, muscle, immune) go to stroma, everything else keeps its target."""
+    return {c: ("stroma" if MERGE.get(c) == "stroma" else t) for c, t in merged.items() if c != "stroma"}

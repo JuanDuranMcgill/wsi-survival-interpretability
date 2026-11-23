@@ -1,9 +1,11 @@
 """Label every finished slide of the pan-carcinoma run from its saved embeddings (Beast, env pilot, CPU).
 
-  python -I label_run.py          -> /data/processed/juan/pancan/tissue_labels/<type>/<slide>.pt
-  python -I label_run.py shares   -> results/pancan/tissue_threshold_kept.csv (share of tiles each class's
-                                     confidence cut keeps, over all labelled slides)
+  python -I label_run.py [stroma]          -> /data/processed/juan/pancan/tissue_labels[_stroma]/<type>/<slide>.pt
+  python -I label_run.py shares [stroma]   -> results/pancan/tissue_threshold_kept[_stroma].csv (share of tiles
+                                              each class's confidence cut keeps, over all labelled slides)
 
+'stroma' is the sensitivity variant that keeps stroma as its own class (Juan, 2026-11-22); without it, the
+main classifier (stroma in 'other', as the fixed merge table says).
 Each output: label (uint8, index into CLASSES), probs (float16, n x 9), classifier (sha256 of the weights file).
 Uses the embedding the classifier names (UNI-2). Skips files without it and slides already labelled by the
 same classifier.
@@ -18,17 +20,24 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 FEAT = Path("/data/processed/juan/pancan/features")
-LABELS = Path("/data/processed/juan/pancan/tissue_labels")
-WEIGHTS = Path(__file__).resolve().parents[2] / "results" / "pancan" / "tissue_classifier_weights.npz"
+RESULTS = Path(__file__).resolve().parents[2] / "results" / "pancan"
+
+
+def paths_for(variant):
+    """(weights file, labels directory, kept-share csv) of the main classifier (None) or a variant."""
+    sfx = f"_{variant}" if variant else ""
+    return (RESULTS / f"tissue_classifier_weights{sfx}.npz",
+            Path(f"/data/processed/juan/pancan/tissue_labels{sfx}"),
+            RESULTS / f"tissue_threshold_kept{sfx}.csv")
 
 
 def _label_one(args):
     import numpy as np
     import torch
     from analysis.tissue.train_eval import load_classifier
-    f, digest = args
+    f, digest, weights, labels = args
     f = Path(f)
-    out = LABELS / f.parent.name / f.name.replace("_emb16.pt", ".pt")
+    out = Path(labels) / f.parent.name / f.name.replace("_emb16.pt", ".pt")
     if out.exists():
         try:
             if torch.load(out, map_location="cpu", weights_only=False).get("classifier") == digest:
@@ -36,7 +45,7 @@ def _label_one(args):
         except Exception:  # noqa: BLE001 - a broken label file is redone
             pass
     o = torch.load(f, map_location="cpu", weights_only=False)
-    clf = load_classifier(WEIGHTS)
+    clf = load_classifier(weights)
     if clf.feature not in o:
         return "skip_no_feature", str(f)
     P = clf(o[clf.feature].float().numpy())
@@ -59,15 +68,15 @@ def kept_counts(label, probs, thresholds):
     return n_lab, n_kept
 
 
-def shares():
+def shares(variant=None):
     import numpy as np
     import pandas as pd
     import torch
     from analysis.tissue.classes import CLASSES
-    w = np.load(WEIGHTS, allow_pickle=False)
-    thr = w["thresholds"]
+    weights, labels, out = paths_for(variant)
+    thr = np.load(weights, allow_pickle=False)["thresholds"]
     n_lab, n_kept = np.zeros(len(CLASSES), int), np.zeros(len(CLASSES), int)
-    files = sorted(LABELS.glob("*/*.pt"))
+    files = sorted(labels.glob("*/*.pt"))
     for f in files:
         o = torch.load(f, map_location="cpu", weights_only=False)
         a, b = kept_counts(o["label"].numpy().astype(int), o["probs"].float().numpy(), thr)
@@ -75,17 +84,17 @@ def shares():
         n_kept += b
     df = pd.DataFrame({"class": CLASSES, "threshold": thr, "tiles_labelled": n_lab, "tiles_kept": n_kept})
     df["share_kept"] = df["tiles_kept"] / df["tiles_labelled"].where(df["tiles_labelled"] > 0)
-    out = WEIGHTS.parent / "tissue_threshold_kept.csv"
     df.to_csv(out, index=False)
     print(len(files), "slides"); print(df.to_string(index=False))
 
 
-def main(workers=8):
-    digest = hashlib.sha256(WEIGHTS.read_bytes()).hexdigest()
+def main(variant=None, workers=8):
+    weights, labels, _ = paths_for(variant)
+    digest = hashlib.sha256(weights.read_bytes()).hexdigest()
     files = sorted(str(f) for f in FEAT.glob("*/*_emb16.pt"))
     counts, skipped = {}, []
     with ProcessPoolExecutor(workers) as ex:
-        for status, f in ex.map(_label_one, [(f, digest) for f in files]):
+        for status, f in ex.map(_label_one, [(f, digest, str(weights), str(labels)) for f in files]):
             counts[status] = counts.get(status, 0) + 1
             if status == "skip_no_feature":
                 skipped.append(f)
@@ -95,4 +104,6 @@ def main(workers=8):
 
 
 if __name__ == "__main__":
-    shares() if sys.argv[1:] == ["shares"] else main()
+    args = sys.argv[1:]
+    variant = "stroma" if "stroma" in args else None
+    shares(variant) if "shares" in args else main(variant)

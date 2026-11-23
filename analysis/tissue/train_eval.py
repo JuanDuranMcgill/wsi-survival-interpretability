@@ -20,7 +20,7 @@ import pandas as pd  # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from analysis.tissue.bars import (class_bars, merges_for, normal_epithelium_bar,  # noqa: E402
-                                  close_merges, premerge_small, tumour_organ_bars,
+                                  close_merges, keep_stroma, premerge_small, tumour_organ_bars,
                                   PATHOMIC_PRECISION)
 from analysis.tissue.classes import CLASSES, NONTUMOUR  # noqa: E402
 from analysis.tissue.metrics import (class_threshold, combine, ece, fit_temperature,  # noqa: E402
@@ -231,12 +231,26 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     model, rounds, long_c, X, idx = run_feature(CLASSIFIER)
     thr = thresholds(model, X, idx)
-    _, rounds_r, long_r, _, _ = run_feature(REPORTED)
     save_classifier(OUT / "tissue_classifier_weights.npz", model, thr, feature=CLASSIFIER)
-    pd.concat([long_c, long_r]).to_csv(OUT / "tissue_classifier_tests.csv", index=False)
+    # sensitivity variant (Juan, 2026-11-22): stroma kept as its own class, reported with its accuracy
+    merged_s = keep_stroma(model["merged"])
+    print("stroma variant, merges:", merged_s, flush=True)
+    model_s = train(X, idx, merged_s)
+    long_s, ev_s = [], {}
+    for version in ("crop64", "full"):
+        long, ev_s[version] = evaluate(model_s, X, idx, version, CLASSIFIER, "stroma")
+        long_s.append(long)
+    cb_s, organ_s = bars_of(ev_s["crop64"])
+    thr_s = thresholds(model_s, X, idx)
+    save_classifier(OUT / "tissue_classifier_weights_stroma.npz", model_s, thr_s, feature=CLASSIFIER)
+    variant = {"merged": merged_s, "class_bars": cb_s, "organ_bars": organ_s.reset_index(names="type").to_dict("records"),
+               "pathomic_thresholds": thr_s}
+    _, rounds_r, long_r, _, _ = run_feature(REPORTED)
+    pd.concat([long_c, *long_s, long_r]).to_csv(OUT / "tissue_classifier_tests.csv", index=False)
     counts = idx.drop_duplicates("tile_id").groupby(["source", "split", "version"]).size()
     summary = {"classifier": CLASSIFIER, CLASSIFIER: rounds, f"{REPORTED}_reported_only": rounds_r,
-               "pathomic_thresholds": thr, "tiles": {"|".join(k): int(v) for k, v in counts.items()}}
+               "pathomic_thresholds": thr, "stroma_variant": variant,
+               "tiles": {"|".join(k): int(v) for k, v in counts.items()}}
     (OUT / "tissue_classifier_summary.json").write_text(json.dumps(summary, indent=2, default=float))
     print(json.dumps({f"{CLASSIFIER}_final": rounds[-1]["class_bars"], "failed": rounds[-1]["failed"]}, indent=2))
 

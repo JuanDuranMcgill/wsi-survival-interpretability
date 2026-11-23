@@ -8,7 +8,8 @@ import pandas as pd
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from analysis.tissue.bars import (class_bars, merges_for, normal_epithelium_bar,  # noqa: E402
-                                  close_merges, premerge_small, tumour_organ_bars)
+                                  close_merges, keep_stroma, premerge_small,
+                                  tumour_organ_bars)
 from analysis.tissue.metrics import (class_threshold, combine, ece, fit_temperature,  # noqa: E402
                                      recall_precision, threshold_for_precision)
 
@@ -109,3 +110,11 @@ def test_class_threshold_counts_only_tiles_predicted_as_the_class():
     is_k = np.array([True, True, False, True, True, True])  # the last two are k but predicted as class 1
     assert class_threshold(P, 0, is_k, 0.90) == 0.8          # 0.55 -> 3/4, 0.6 -> 2/3, 0.8 -> 2/2
     assert class_threshold(P, 0, np.zeros(6, bool), 0.90) is None
+
+
+def test_keep_stroma_sensitivity_merges():
+    # the final merges sent everything to other; the sensitivity variant keeps stroma as a class and
+    # sends to it what the merge table sends to stroma (vessels, muscle, immune), the rest stays in other
+    final = {"vessels": "other", "muscle": "other", "necrosis": "other", "stroma": "other"}
+    assert keep_stroma(final) == {"vessels": "stroma", "muscle": "stroma", "necrosis": "other"}
+    assert keep_stroma({}) == {}

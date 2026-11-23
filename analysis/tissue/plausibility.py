@@ -1,6 +1,6 @@
 """Plausibility of the tissue labels on our own slides (no ground truth; reported, not pass or fail).
 
-  python -I plausibility.py   -> results/pancan/tissue_plausibility_by_type.csv
+  python -I plausibility.py [stroma]   -> results/pancan/tissue_plausibility_by_type[_stroma].csv
 
 Per cohort type: Spearman correlation across patients between the predicted share of a class and TCGA's
 pathologist estimate for the frozen top and bottom sections of the same tumour (GDC biospecimen slide fields;
@@ -18,7 +18,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from analysis.tissue.classes import CLASSES  # noqa: E402
 
-LABELS = Path("/data/processed/juan/pancan/tissue_labels")
 MANIFEST = Path("/data/processed/juan/pancan/manifest_patients.csv")
 OUT = Path(__file__).resolve().parents[2] / "results" / "pancan"
 PAIRS = {"tumour": "percent_tumor_nuclei", "necrosis": "percent_necrosis",
@@ -49,13 +48,13 @@ def gdc_percentages(patients):
     return df.groupby("patient")[list(PAIRS.values())].mean()
 
 
-def predicted_shares():
+def predicted_shares(labels):
     import torch
     man = pd.read_csv(MANIFEST)
     man = man[man["in_cohort"]]
     stem_to = dict(zip(man["file_name"].str.replace(".svs", "", regex=False), zip(man["patient"], man["type"])))
     rows = []
-    for f in LABELS.glob("*/*.pt"):
+    for f in labels.glob("*/*.pt"):
         pt = stem_to.get(f.stem)
         if pt is None:
             continue
@@ -65,8 +64,9 @@ def predicted_shares():
     return pd.DataFrame(rows).set_index("patient")
 
 
-def main():
-    pred = predicted_shares()
+def main(variant=None):
+    from analysis.tissue.label_run import paths_for
+    pred = predicted_shares(paths_for(variant)[1])
     gdc = gdc_percentages(sorted(pred.index))
     d = pred.join(gdc, how="inner")
     out = []
@@ -79,7 +79,7 @@ def main():
         row.update({f"mean_share_{c}": float(g[c].mean()) for c in CLASSES})
         out.append(row)
     res = pd.DataFrame(out)
-    res.to_csv(OUT / "tissue_plausibility_by_type.csv", index=False)
+    res.to_csv(OUT / f"tissue_plausibility_by_type{'_' + variant if variant else ''}.csv", index=False)
     pd.set_option("display.width", 250)
     print(res[["type", "patients"] + [f"{c}_spearman" for c in PAIRS]].round(2).to_string(index=False))
     bad = res.loc[~(res["tumour_spearman"] > 0), "type"].tolist()
@@ -87,4 +87,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main("stroma" if "stroma" in sys.argv[1:] else None)

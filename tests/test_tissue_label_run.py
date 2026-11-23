@@ -15,3 +15,13 @@ def test_kept_counts_per_class():
     thr = np.array([0.9, np.nan])  # class 1 has no cut: all its tiles are kept
     n_lab, n_kept = kept_counts(label, probs, thr)
     assert n_lab.tolist() == [3, 2] and n_kept.tolist() == [2, 2]
+
+
+def test_paths_for_the_stroma_variant():
+    from analysis.tissue.label_run import paths_for
+    w, labels, kept = paths_for(None)
+    assert w.name == "tissue_classifier_weights.npz" and labels.name == "tissue_labels"
+    assert kept.name == "tissue_threshold_kept.csv"
+    w, labels, kept = paths_for("stroma")
+    assert w.name == "tissue_classifier_weights_stroma.npz" and labels.name == "tissue_labels_stroma"
+    assert kept.name == "tissue_threshold_kept_stroma.csv"
