@@ -40,3 +40,31 @@ def test_profile_cindex_is_within_type():
     s = np.array(["A", "A", "B", "B"])
     c, ci = profile_cindex(np.ones(4, bool), t, e, r, s, n_boot=50)
     assert c == pytest.approx(0.5) and len(ci) == 2
+
+
+def test_null_risk_shuffles_within_type_only():
+    from analysis.pancan.check_r_core import null_risk
+    risk = np.arange(10, dtype=float)
+    types = np.array(["A"] * 5 + ["B"] * 5)
+    a, b = null_risk(risk, types, seed=1), null_risk(risk, types, seed=1)
+    assert np.array_equal(a, b) and not np.array_equal(a, risk)
+    assert sorted(a[:5]) == [0, 1, 2, 3, 4] and sorted(a[5:]) == [5, 6, 7, 8, 9]
+
+
+def test_rf_scores_follow_the_papers_split_and_forest():
+    pytest.importorskip("sklearn")
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.model_selection import train_test_split
+    from analysis.pancan.check_r_core import rf_scores
+    rng = np.random.default_rng(0)
+    X = rng.normal(size=(200, 3))
+    y = (X[:, 0] + rng.normal(size=200) > 0).astype(int)
+    Xe = rng.normal(size=(50, 3))
+    names = ["a", "b", "c"]
+    seed = 1000 + 7  # run_single_med3pa's seed for run 7
+    xd = pd.DataFrame(X, columns=names)
+    pool, _, ypool, _ = train_test_split(xd, y, test_size=0.3, random_state=seed, stratify=y)
+    xt, _, yt, _ = train_test_split(pool, ypool, test_size=0.25, random_state=seed, stratify=ypool)
+    clf = RandomForestClassifier(n_estimators=300, max_depth=6, random_state=seed, class_weight="balanced", n_jobs=1)
+    want = clf.fit(xt, yt).predict_proba(pd.DataFrame(Xe, columns=names))[:, 1]
+    assert np.allclose(rf_scores(X, y, Xe, names, 7), want)

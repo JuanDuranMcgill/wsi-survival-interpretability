@@ -1,6 +1,7 @@
 """Check R for the pan-carcinoma runs: patient error within type, then MED3pa as in the paper (Beast, env audit).
 
   python -I check_r.py <run_dir> [--features clinical|<csv>] [--runs 200] [--quantiles 0.5,0.7,0.8,0.9]
+                       [--n-null 20] [--n-null-med3pa 3] [--null-med3pa-runs 20]
 
 run_dir = .../runs/<variant>/<model>/<subset>. Steps, each as the paper's *_linear_med3pa.py unless noted:
 OOB risk per patient (check_r_core.oob_risk); error = symmetric concordance error over same-type pairs (new);
@@ -8,8 +9,15 @@ high-error label at each quantile; locked 60/40 discovery/evaluation split (seed
 <runs> MED3pa runs on the discovery set (the paper's run_single_med3pa and settings); AUROC of the error
 classifier on the evaluation set with a permutation p; recurring profiles (>= 5% of runs, top 20) and their
 in-profile C-index within type (new) against the evaluation set's within-type C-index.
+
+Null control (Juan, 2026-11-23; the pass rules are unchanged, this is a reference point reported beside them):
+the same check on a model with no skill, the risk scores shuffled within each cancer type. 'predictable' on
+<n-null> shuffles (error classifier only, check_r_core.rf_scores, same seeds); 'differs' on <n-null-med3pa>
+shuffles with <null-med3pa-runs> MED3pa runs each. The dry run showed why: a model with within-type C 0.504 passed
+'predictable' (AUROC 0.74), because a patient's error depends on how many comparable pairs they have.
+
 Clinical arm: age, sex, stage, grade, cancer type (check_r_core.clinical_matrix). Pathomic arm: a CSV indexed by
-patient (after the pathomic step). Writes <run_dir>/check_r_<arm>.json with the verdicts of analysis/pancan/verdicts.py.
+patient (after the pathomic step). Writes <run_dir>/check_r_<arm>.json.
 """
 import argparse
 import json
@@ -26,7 +34,8 @@ sys.path.insert(0, str(ROOT / "analysis"))
 
 import blca_clinical_linear_med3pa as med  # noqa: E402  (the paper's MED3pa runner, imported for its functions)
 
-from analysis.pancan.check_r_core import clinical_matrix, oob_risk, profile_cindex  # noqa: E402
+from analysis.pancan.check_r_core import (clinical_matrix, null_risk, oob_risk, profile_cindex,  # noqa: E402
+                                          rf_scores)
 from analysis.pancan.metrics import cindex_within, patient_error_within  # noqa: E402
 from analysis.pancan.verdicts import r_differs, r_predictable  # noqa: E402
 from analysis.profile_metrics import classifier_metrics, discovery_eval_split  # noqa: E402
@@ -50,19 +59,27 @@ def clinical_features(patients):
     return clinical_matrix(c).loc[patients]
 
 
-def run_quantile(q, X, names, d, err, n_runs, outdir):
+def r_check(q, X, names, d, risk, n_runs, outdir, med3pa=True):
+    """One quantile of check R for the given risk scores. Without med3pa, only the error classifier (for nulls)."""
+    t, e, ty = d["time"].values, d["event"].values, d["type"].values
+    err, _ = patient_error_within(t, e, risk, ty)
     finite = np.isfinite(err)
     thr = float(np.quantile(err[finite], q))
     y = np.zeros(len(err), dtype=int)
-    y[finite] = (err[finite] >= thr).astype(int)
+    y[finite] = (err[finite] >= thr).astype(int)  # no comparable pair -> label 0, as in the paper
     disc, ev = discovery_eval_split(d["patient"].values, frac_discovery=DISC_FRAC, seed=SPLIT_SEED, stratify=y)
+    out = {"quantile": q, "error_threshold": thr, "n_discovery": int(disc.sum()), "n_eval": int(ev.sum())}
+    if not med3pa:
+        scores = np.mean([rf_scores(X[disc], y[disc], X[ev], names, i, TEST_SIZE, REF_SIZE) for i in range(n_runs)], 0)
+        cm = classifier_metrics(y[ev], scores)
+        return {**out, "classifier_metrics_on_eval": cm,
+                "verdict_predictable": r_predictable(cm["auroc"], cm["auroc_p_vs_0.5"]) if "auroc" in cm else False}
     n_test = int(round(TEST_SIZE * disc.sum()))
     results = [med.run_single_med3pa(i, X[disc], y[disc], names, X[ev], TEST_SIZE, REF_SIZE, MED3PA_PARAMS, n_test,
                                      str(outdir), False) for i in range(n_runs)]
     cm = classifier_metrics(y[ev], np.vstack([r[1] for r in results]).mean(0))
     agg, summ = med.aggregate_profiles(results, n_runs)
-    t, e, r, ty = (d[k].values for k in ("time", "event", "risk", "type"))
-    cohort_c = cindex_within(t[ev], e[ev], r[ev], ty[ev])
+    cohort_c = cindex_within(t[ev], e[ev], risk[ev], ty[ev])
     n_done = int(summ["n_runs_completed"].iat[0])
     profiles = []
     if not agg.empty:
@@ -70,16 +87,35 @@ def run_quantile(q, X, names, d, err, n_runs, outdir):
             mask = med.apply_profile_to_X(row["_conditions_median"], X[ev], names)
             if mask.sum() < 2:
                 continue
-            c, ci = profile_cindex(mask, t[ev], e[ev], r[ev], ty[ev])
+            c, ci = profile_cindex(mask, t[ev], e[ev], risk[ev], ty[ev])
             profiles.append({"profile": row["readable_rule"], "runs_appeared": int(row["runs_appeared"]),
                              "run_share": row["runs_appeared"] / max(n_done, 1), "n_eval_patients": int(mask.sum()),
                              "cindex_within": c, "ci": list(ci)})
     auroc, p = cm.get("auroc", float("nan")), cm.get("auroc_p_vs_0.5", 1.0)
-    return {"quantile": q, "error_threshold": thr, "n_discovery": int(disc.sum()), "n_eval": int(ev.sum()),
-            "classifier_metrics_on_eval": cm, "eval_cindex_within": cohort_c, "n_runs_completed": n_done,
-            "profiles": profiles,
-            "verdict_predictable": r_predictable(auroc, p) if np.isfinite(auroc) else False,
+    return {**out, "classifier_metrics_on_eval": cm, "eval_cindex_within": cohort_c, "n_runs_completed": n_done,
+            "profiles": profiles, "verdict_predictable": r_predictable(auroc, p) if np.isfinite(auroc) else False,
             "verdict_differs": r_differs(profiles, cohort_c)}
+
+
+def null_control(q, X, names, d, real, n_null, n_null_med3pa, null_med3pa_runs, n_runs, outdir):
+    au, pred, diff = [], [], []
+    for k in range(n_null):
+        r = r_check(q, X, names, d, null_risk(d["risk"].values, d["type"].values, seed=k), n_runs, outdir,
+                    med3pa=False)
+        au.append(r["classifier_metrics_on_eval"].get("auroc", float("nan")))
+        pred.append(r["verdict_predictable"])
+    for k in range(n_null_med3pa):
+        r = r_check(q, X, names, d, null_risk(d["risk"].values, d["type"].values, seed=k), null_med3pa_runs,
+                    Path(str(outdir) + f"_null{k}"))
+        diff.append(r["verdict_differs"])
+    au = np.array(au, dtype=float)
+    p95 = float(np.nanquantile(au, 0.95)) if np.isfinite(au).any() else float("nan")
+    real_auroc = real["classifier_metrics_on_eval"].get("auroc", float("nan"))
+    return {"shuffles_predictable": n_null, "null_auroc": au.tolist(), "null_auroc_mean": float(np.nanmean(au)),
+            "null_auroc_p95": p95, "null_share_passing_predictable": float(np.mean(pred)) if pred else float("nan"),
+            "real_auroc_above_null_p95": bool(real_auroc > p95),
+            "shuffles_differs": n_null_med3pa, "null_med3pa_runs": null_med3pa_runs,
+            "null_share_passing_differs": float(np.mean(diff)) if diff else float("nan")}
 
 
 def main(argv=None):
@@ -88,29 +124,34 @@ def main(argv=None):
     ap.add_argument("--features", default="clinical")
     ap.add_argument("--runs", type=int, default=200)
     ap.add_argument("--quantiles", default="0.5,0.7,0.8,0.9")
+    ap.add_argument("--n-null", type=int, default=20)
+    ap.add_argument("--n-null-med3pa", type=int, default=3)
+    ap.add_argument("--null-med3pa-runs", type=int, default=20)
     a = ap.parse_args(argv)
     run = Path(a.run_dir)
     d = oob_risk(run)
-    err, n_pairs = patient_error_within(d["time"].values, d["event"].values, d["risk"].values, d["type"].values)
+    _, n_pairs = patient_error_within(d["time"].values, d["event"].values, d["risk"].values, d["type"].values)
     if a.features == "clinical":
-        F = clinical_features(d["patient"].values)
-        arm = "clinical"
+        F, arm = clinical_features(d["patient"].values), "clinical"
     else:
-        F = pd.read_csv(a.features, index_col=0).loc[d["patient"].values]
-        arm = Path(a.features).stem
+        F, arm = pd.read_csv(a.features, index_col=0).loc[d["patient"].values], Path(a.features).stem
     X, names = F.to_numpy(dtype=float), [str(c) for c in F.columns]
     out = {"run_dir": str(run), "arm": arm, "epoch": d.attrs["epoch"], "n_patients": len(d),
            "n_events": int(d["event"].sum()), "oob_cindex_within": cindex_within(
                d["time"].values, d["event"].values, d["risk"].values, d["type"].values),
            "patients_without_comparable_pair": int((n_pairs == 0).sum()), "features": names, "quantiles": []}
     for q in (float(x) for x in a.quantiles.split(",")):
-        res = run_quantile(q, X, names, d, err, a.runs, run / f"med3pa_{arm}_q{int(q * 100)}")
+        od = run / f"med3pa_{arm}_q{int(q * 100)}"
+        res = r_check(q, X, names, d, d["risk"].values, a.runs, od)
+        res["null_control"] = null_control(q, X, names, d, res, a.n_null, a.n_null_med3pa, a.null_med3pa_runs,
+                                           a.runs, od)
         out["quantiles"].append(res)
-        cm = res["classifier_metrics_on_eval"]
-        print(f"q{q}: AUROC {cm.get('auroc', float('nan')):.3f} p {cm.get('auroc_p_vs_0.5', float('nan')):.4f} "
-              f"predictable={res['verdict_predictable']} differs={res['verdict_differs']} "
-              f"({len(res['profiles'])} recurring profiles)", flush=True)
-    (run / f"check_r_{arm}.json").write_text(json.dumps(out, indent=2, default=float))
+        cm, nc = res["classifier_metrics_on_eval"], res["null_control"]
+        print(f"q{q}: AUROC {cm.get('auroc', float('nan')):.3f} (null mean {nc['null_auroc_mean']:.3f}, "
+              f"p95 {nc['null_auroc_p95']:.3f}) predictable={res['verdict_predictable']} "
+              f"[null passes {nc['null_share_passing_predictable']:.2f}] differs={res['verdict_differs']} "
+              f"[null passes {nc['null_share_passing_differs']:.2f}]", flush=True)
+        (run / f"check_r_{arm}.json").write_text(json.dumps(out, indent=2, default=float))
 
 
 if __name__ == "__main__":

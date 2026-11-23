@@ -63,3 +63,27 @@ def profile_cindex(mask, t, e, r, types, n_boot=1000, seed=0):
             vals.append(v)
     ci = (float(np.quantile(vals, 0.025)), float(np.quantile(vals, 0.975))) if vals else (np.nan, np.nan)
     return c, ci
+
+
+def null_risk(risk, types, seed):
+    """A model with no skill: the risk scores shuffled within each cancer type (same values per type)."""
+    rng = np.random.default_rng(seed)
+    out = np.asarray(risk, dtype=float).copy()
+    types = np.asarray(types)
+    for t in np.unique(types):
+        idx = np.flatnonzero(types == t)
+        out[idx] = out[rng.permutation(idx)]
+    return out
+
+
+def rf_scores(X_disc, y_disc, X_eval, names, run_idx, test_size=0.3, ref_size=0.25):
+    """The error classifier of the paper's run_single_med3pa (same seed, splits and forest), without the MED3pa
+    profile search: its predicted high-error probability on the evaluation set. Used for the null control."""
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.model_selection import train_test_split
+    seed = 1000 + run_idx
+    xd = pd.DataFrame(X_disc, columns=names)
+    pool, _, ypool, _ = train_test_split(xd, y_disc, test_size=test_size, random_state=seed, stratify=y_disc)
+    xt, _, yt, _ = train_test_split(pool, ypool, test_size=ref_size, random_state=seed, stratify=ypool)
+    clf = RandomForestClassifier(n_estimators=300, max_depth=6, random_state=seed, class_weight="balanced", n_jobs=1)
+    return clf.fit(xt, yt).predict_proba(pd.DataFrame(X_eval, columns=names))[:, 1]
