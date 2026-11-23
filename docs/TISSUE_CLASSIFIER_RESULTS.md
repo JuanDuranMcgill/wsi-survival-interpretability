@@ -81,6 +81,35 @@ It is near zero in CESC (0.03) and below zero in KIRC (−0.11), KIRP (−0.27),
 UCEC (−0.02). OV has only 6 patients so far. Each type has 6 to 73 patients (482 in all) at
 this point in the run.
 
+## Stroma kept as its own class (sensitivity variant)
+
+Stroma misses its bar narrowly, and tumour-stroma ratio matters for survival, so Juan asked
+(2026-11-22) for a second set of labels that keeps stroma as its own class. Vessels and muscle
+join stroma, as the merge table says; necrosis stays in "other". The main analysis keeps the
+rules; this variant is reported alongside. Its weights are
+`results/pancan/tissue_classifier_weights_stroma.npz` and its labels are in
+`/data/processed/juan/pancan/tissue_labels_stroma/`.
+
+Stroma at 64 µm (Kather's stroma here includes its muscle tiles):
+
+| Test set | Recall | Precision |
+|---|---|---|
+| BCSS | 0.843 | 0.804 |
+| TIGER | 0.884 | 0.979 |
+| Brummer | 0.770 | 0.652 |
+| Kather 7K | 0.970 | 0.969 |
+
+It fails the bar on BCSS recall (0.843 against 0.85) and on Brummer kidney. The other classes
+behave as in the main model, and tumour still passes in all 17 organs (recall at least 0.974,
+normal GTEx tissue called tumour at most 0.7%).
+
+On 555 of our slides, stroma covers on average 14% of tiles in KIRP up to 64% in PRAD
+(`results/pancan/tissue_plausibility_by_type_stroma.csv`). Against TCGA's pathologist
+estimate of percent stromal cells (frozen sections again), Spearman's correlation is above
+0.05 in 14 types, highest in BLCA (0.57), KIRC (0.43) and THCA (0.36). It is near zero in
+ESCA (0.01) and below zero in LUAD (−0.04); OV has 7 patients. Stroma's confidence cut
+(0.212) keeps nearly all stroma tiles (`results/pancan/tissue_threshold_kept_stroma.csv`).
+
 ## What did not work
 
 1. **CONCH text prompts.** Balanced accuracy 0.52 with one prompt per class, 0.82 at best
@@ -154,10 +183,9 @@ donor, SegPath by slide, and the non-TCGA slides by slide.
 
 ## Open
 
-- **Stroma** misses its bar narrowly with UNI-2 (recall 0.76 to 0.89, precision 0.64 to
-  0.98), so by the fixed rule it sits in "other". One option is to keep that as the main
-  analysis and also run the audit with stroma as its own compartment, reporting its accuracy.
-  Juan to decide.
+- **Stroma**: the audit runs twice, once with the main labels (stroma in "other", as the
+  rules say) and once with the stroma-kept labels, reporting stroma's accuracy (Juan,
+  2026-11-22).
 - Labels are re-run on all 6,940 slides when the run ends (about 2026-12-03), and the
   plausibility check is repeated then with all patients.
 - Tile grids from our own slides wait until the run ends, since slide storage is not read
