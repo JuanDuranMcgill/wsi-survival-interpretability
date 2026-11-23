@@ -41,3 +41,17 @@ def round_summary(cohort, rounds):
                                              names=["round", "type"]), fill_value=0)
     s["oob_share"] = s["oob_patients"] / m.groupby(["round", "type"]).size()
     return s.reset_index()
+
+
+def type_batches(types, batch_size, rng):
+    """One epoch of training batches, each from a single cancer type, so every Cox risk set is within type.
+    A type's shuffled patients are split into ceil(n / batch_size) near-equal batches; a type with one patient
+    is left out (it has no risk set). Batch order is shuffled."""
+    types = np.asarray(types)
+    out = []
+    for t in np.unique(types):
+        idx = rng.permutation(np.flatnonzero(types == t))
+        if len(idx) < 2:
+            continue
+        out += [b for b in np.array_split(idx, int(np.ceil(len(idx) / batch_size)))]
+    return [out[i] for i in rng.permutation(len(out))]

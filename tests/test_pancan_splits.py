@@ -73,3 +73,12 @@ def test_site_rounds_are_reproducible_and_differ_between_rounds():
     r0 = a[a["round"] == 0].set_index("patient")["in_train"]
     r1 = a[a["round"] == 1].set_index("patient")["in_train"]
     assert not r0.equals(r1)
+
+
+def test_type_batches_are_single_type_cover_everyone_once_and_respect_the_size():
+    from analysis.pancan.splits import type_batches
+    types = np.array(["A"] * 70 + ["B"] * 33 + ["C"] * 1)
+    batches = type_batches(types, 32, np.random.default_rng(0))
+    flat = np.concatenate(batches)
+    assert sorted(flat.tolist()) == list(range(103))  # the lone C patient cannot form a risk set
+    assert all(len(set(types[b])) == 1 and 2 <= len(b) <= 32 for b in batches)
