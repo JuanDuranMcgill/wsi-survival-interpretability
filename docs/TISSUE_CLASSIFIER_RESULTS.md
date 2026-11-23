@@ -110,6 +110,15 @@ estimate of percent stromal cells (frozen sections again), Spearman's correlatio
 ESCA (0.01) and below zero in LUAD (−0.04); OV has 7 patients. Stroma's confidence cut
 (0.212) keeps nearly all stroma tiles (`results/pancan/tissue_threshold_kept_stroma.csv`).
 
+**What is left in "other" (2026-11-23).** With stroma kept, 14% of tiles are "other" (555 slides,
+`results/pancan/tissue_other_check.json`). They are left out of every compartment on purpose. A classifier with all
+classes kept separate calls 64% of them necrosis or blood, 21% mucus or glass and 10% stroma, but necrosis is the
+class we cannot trust (precision 0.42 on Kather colon). A quarter of them sit at the tissue edge, where 13% of all
+tiles do, and 19 of 555 slides are more than half "other". Normal tissue of organs the classifier never learned
+also lands there: on GTEx tiles, 45% of normal uterus, 43% of thyroid, 31% of prostate and 23% of liver
+(`results/pancan/tissue_other_check_gtex.csv`). The same check found that 57% of normal GTEx lung is called immune;
+on our lung slides immune is 3% (LUAD) and 6% (LUSC) of tiles (`results/pancan/tissue_label_compare.csv`).
+
 ## What did not work
 
 1. **CONCH text prompts.** Balanced accuracy 0.52 with one prompt per class, 0.82 at best
@@ -126,6 +135,13 @@ ESCA (0.01) and below zero in LUAD (−0.04); OV has 7 patients. Stroma's confid
    even tiles 80% covered include stroma and tumour-like cells. The endothelium marker covers
    at most about 3% of a tile, so no tile is a vessel. Only SegPath's leukocyte masks were used.
 6. **OpenTME.** Its licence forbids using it to train a classifier like ours.
+7. **Teaching step 2 normal tissue from GTEx** (2026-11-23, after the "other" check above). Every GTEx tile joined
+   step 2 as normal tissue (`analysis/tissue/gtex_normal.py`, `results/pancan/gtex_normal/`). On held-out GTEx
+   donors, normal tissue then went to "other" instead of immune or stroma. But normal epithelium missed its bar on
+   kidney (recall 0.844, was 0.897), so the fixed table merged it into "other". On the same 908 slides it changed
+   little: immune and stroma shares and the agreement with TCGA's estimates stayed the same (above 0.05 in 11 types
+   for tumour, 13 for stroma, 11 and 12 for immune), and "other" grew from 14% to 20%
+   (`results/pancan/tissue_label_compare.csv`). The current labels stay.
 
 Practical lessons: Zenodo served under 1 MB/s, so SegPath came from a Hugging Face copy and
 was checked against Zenodo's MD5 sums. Otsu thresholding inside annotated regions (no glass)
