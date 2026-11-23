@@ -42,3 +42,26 @@ A signal that lives only in stroma is barely learnable from 920 patients. The st
 (`/data/processed/juan/pancan/planted/stroma_stroma_c75_specific.csv` on 920 slides; within-type oracle C 0.745)
 and runs on the full cohort after the preprocessing ends, with its learnability checked first. That a slide's
 compartments share most of their embedding variation is itself a finding about compartment-level attribution.
+
+## Which kind of slide information predicts survival (exploratory)
+
+Juan asked (2026-11-23) whether information outside single tissue types is being missed. `analysis/pancan/info_kinds.py`
+scores five kinds of slide information, each as a Cox model stratified by cancer type over the same 20
+hospital-held-out rounds, on 1,052 finished slides (302 PFI events), stroma-kept labels
+(`results/pancan/info_kinds_stroma.json`, `info_kinds_stroma_rounds.csv`). Within-type out-of-bag C-index, mean
+(SD over rounds):
+
+| Kind of information | Alone | Shapley share of the gain |
+|---|---|---|
+| Global (mean embedding of all tissue) | 0.584 (0.039) | +0.032 |
+| Arrangement (which tissues touch, tumour pieces) | 0.545 (0.038) | +0.029 |
+| Morphology (mean embedding per compartment) | 0.571 (0.045) | +0.020 |
+| Composition (tissue shares) | 0.535 (0.036) | +0.012 |
+| Heterogeneity (spread within tissue, 1 mm region differences) | 0.517 (0.027) | +0.001 |
+| All five | 0.595 (0.038) | |
+| Clinical (age, sex, stage, grade) | 0.616 (0.037) | |
+| Clinical plus all five | 0.625 (0.032) | |
+
+Arrangement is weak alone but adds what the others lack: adding it to the other four raised the C-index by 0.027 on
+average, in all 20 of 20 rounds. The images added 0.009 to the clinical variables (better in 16 of 20 rounds).
+Region-level heterogeneity added nothing here. Partial cohort; to be repeated on all slides.

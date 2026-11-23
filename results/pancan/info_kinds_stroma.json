@@ -1,0 +1,24 @@
+{
+  "variant": "stroma",
+  "patients": 1052,
+  "events": 302,
+  "rounds": 20,
+  "alone": {
+    "composition": 0.5347829258620499,
+    "arrangement": 0.5454727223126964,
+    "heterogeneity": 0.5168334531129194,
+    "morphology": 0.5709360695592529,
+    "global": 0.583580158482465
+  },
+  "all_five": 0.5945807057916809,
+  "clinical": 0.616032918313062,
+  "clinical_plus_all": 0.6252402966810262,
+  "shapley_over_kinds": {
+    "composition": 0.012063699763975493,
+    "arrangement": 0.02918056898370141,
+    "heterogeneity": 0.0008031077267700727,
+    "morphology": 0.020340438294906758,
+    "global": 0.032192891022327155
+  },
+  "note": "exploratory; partial cohort; numbers are not results"
+}
