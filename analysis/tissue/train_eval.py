@@ -37,6 +37,7 @@ CLASSIFIER = "uni2"  # Juan, 2026-11-22: UNI-2 does better than CONCH at 64 um; 
 REPORTED = "conch"
 MIN_TRAIN_TILES = 100  # a step-2 class with fewer 64 um training tiles is merged before training
 SEED = 0
+GTEX_NORMAL = False  # gtex_normal.py sets True: GTEx tiles join step 2 as normal tissue (2026-11-23)
 
 
 def load(feature):
@@ -88,6 +89,16 @@ def logits_of(m, X):
     return np.column_stack([np.zeros_like(z), z]) if z.ndim == 1 else z
 
 
+def step2_rows(idx, merged, split, gtex_normal=False):
+    """Step-2 rows of one split and their labels. With gtex_normal, every GTEx tile (once) counts as normal tissue,
+    so step 2 learns the normal tissue of all 16 GTEx organs, not only colon, breast and kidney."""
+    rows = idx[idx["source"].isin(STEP2_SOURCES) & (idx["label"] != "tumour") & (idx["split"] == split)]
+    if gtex_normal:
+        gx = idx[(idx["source"] == "gtex") & (idx["split"] == split)].drop_duplicates("tile_id")
+        rows = pd.concat([rows, gx.assign(label="normal_epithelium")])
+    return rows, rows["label"].map(lambda c: merged.get(c, c)).values
+
+
 def train(X, idx, merged):
     """Fit both steps on train rows; C by validation log-loss; temperatures on validation rows."""
     lab = idx["label"].map(lambda c: merged.get(c, c))
@@ -100,9 +111,8 @@ def train(X, idx, merged):
     m1, C1 = fit_lr(X[s1_tr["row"]], y1_tr, group_weights(s1_tr, y1_tr), X[s1_va["row"]], y1_va,
                     group_weights(s1_va, y1_va), [0, 1])
     T1 = fit_temperature(logits_of(m1, X[s1_va["row"]]), y1_va)
-    nt = idx["source"].isin(STEP2_SOURCES) & (idx["label"] != "tumour")
-    s2_tr, s2_va = idx[nt & tr], idx[nt & va]
-    y2_tr, y2_va = lab[s2_tr.index].values, lab[s2_va.index].values
+    s2_tr, y2_tr = step2_rows(idx, merged, "train", GTEX_NORMAL)
+    s2_va, y2_va = step2_rows(idx, merged, "valid", GTEX_NORMAL)
     print("  step 2:", len(s2_tr), "train rows,", len(s2_va), "validation rows", flush=True)
     m2, C2 = fit_lr(X[s2_tr["row"]], y2_tr, group_weights(s2_tr, y2_tr), X[s2_va["row"]], y2_va,
                     group_weights(s2_va, y2_va), sorted(set(y2_tr)))

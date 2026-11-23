@@ -1,0 +1,33 @@
+row_0,tiles,immune,other,tumour,model,stroma
+Breast,811,0.0,1.0,0.0,main,
+Endocervix,892,0.0,1.0,0.0,main,
+Esophageal mucous membrane,863,0.0011587485515643105,0.9988412514484357,0.0,main,
+Exocervix,598,0.0,1.0,0.0,main,
+Liver,896,0.0,1.0,0.0,main,
+Lung,771,0.0,1.0,0.0,main,
+Minor salivary gland,732,0.0,1.0,0.0,main,
+Ovary,876,0.0,0.997716894977169,0.00228310502283105,main,
+Pancreas,888,0.0,1.0,0.0,main,
+Prostate,795,0.0,0.9987421383647799,0.0012578616352201257,main,
+Renal cortex,877,0.0,1.0,0.0,main,
+Stomach,1069,0.0,1.0,0.0,main,
+Thyroid,831,0.0,1.0,0.0,main,
+Transverse colon,838,0.0,1.0,0.0,main,
+Urinary bladder,590,0.0,1.0,0.0,main,
+Uterus,1178,0.0,1.0,0.0,main,
+Breast,811,0.0,0.9963008631319359,0.0,stroma,0.0036991368680641184
+Endocervix,892,0.0,1.0,0.0,stroma,0.0
+Esophageal mucous membrane,863,0.0011587485515643105,0.9988412514484357,0.0,stroma,0.0
+Exocervix,598,0.0,1.0,0.0,stroma,0.0
+Liver,896,0.0,1.0,0.0,stroma,0.0
+Lung,771,0.0,1.0,0.0,stroma,0.0
+Minor salivary gland,732,0.0,1.0,0.0,stroma,0.0
+Ovary,876,0.0,0.997716894977169,0.00228310502283105,stroma,0.0
+Pancreas,888,0.0,1.0,0.0,stroma,0.0
+Prostate,795,0.0,0.9962264150943396,0.0012578616352201257,stroma,0.0025157232704402514
+Renal cortex,877,0.0,1.0,0.0,stroma,0.0
+Stomach,1069,0.0,1.0,0.0,stroma,0.0
+Thyroid,831,0.0,1.0,0.0,stroma,0.0
+Transverse colon,838,0.0,1.0,0.0,stroma,0.0
+Urinary bladder,590,0.0,1.0,0.0,stroma,0.0
+Uterus,1178,0.0,1.0,0.0,stroma,0.0

@@ -1,0 +1,476 @@
+{
+  "classifier": "uni2",
+  "gtex_normal": true,
+  "uni2": [
+    {
+      "round": 1,
+      "merged": {
+        "vessels": "stroma"
+      },
+      "C1": 0.01,
+      "C2": 0.01,
+      "T1": 0.9821320676871691,
+      "T2": 0.9611259192915137,
+      "class_bars": {
+        "tumour": false,
+        "normal_epithelium": false,
+        "stroma": false,
+        "immune": true,
+        "necrosis": false,
+        "fat": true,
+        "vessels": false,
+        "muscle": false,
+        "other": false
+      },
+      "organ_bars": [
+        {
+          "type": "BLCA",
+          "recall": 1.0,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "BRCA",
+          "recall": 0.9947867298578199,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "CESC",
+          "recall": 1.0,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "COAD",
+          "recall": 0.9996389891696751,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "ESCA",
+          "recall": 1.0,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "HNSC",
+          "recall": 0.9915254237288136,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "KIRC",
+          "recall": 1.0,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "KIRP",
+          "recall": 1.0,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "LIHC",
+          "recall": 1.0,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "LUAD",
+          "recall": 0.9908396946564886,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "LUSC",
+          "recall": 0.9956310679611651,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "OV",
+          "recall": 1.0,
+          "false_tumour": 0.00228310502283105,
+          "passes": true
+        },
+        {
+          "type": "PAAD",
+          "recall": 0.9916666666666667,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "PRAD",
+          "recall": 1.0,
+          "false_tumour": 0.0012578616352201257,
+          "passes": true
+        },
+        {
+          "type": "STAD",
+          "recall": 0.9736641221374046,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "THCA",
+          "recall": 1.0,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "UCEC",
+          "recall": 0.9995555555555555,
+          "false_tumour": 0.0,
+          "passes": true
+        }
+      ],
+      "shortcut": {
+        "bcss_nontumour_called_tumour": 0.03523035230352303,
+        "gtex_breast_called_tumour": 0.0
+      },
+      "calibration": {
+        "kather7k": {
+          "ece_raw": 0.036658244815437335,
+          "ece_calibrated": 0.037277533472869794
+        },
+        "bcss": {
+          "ece_raw": 0.013278748859641053,
+          "ece_calibrated": 0.014553767134390662
+        },
+        "tiger": {
+          "ece_raw": 0.019345723333866475,
+          "ece_calibrated": 0.019648322625199284
+        },
+        "brummer": {
+          "ece_raw": 0.03425728546883232,
+          "ece_calibrated": 0.03734095129313145
+        },
+        "segpath": {
+          "ece_raw": 0.0071740196992441385,
+          "ece_calibrated": 0.006432101584267436
+        }
+      },
+      "failed": [
+        "muscle",
+        "necrosis",
+        "normal_epithelium",
+        "other",
+        "stroma",
+        "tumour",
+        "vessels"
+      ]
+    },
+    {
+      "round": 2,
+      "merged": {
+        "vessels": "other",
+        "muscle": "other",
+        "necrosis": "other",
+        "normal_epithelium": "other",
+        "stroma": "other"
+      },
+      "C1": 0.01,
+      "C2": 0.01,
+      "T1": 0.9821320676871691,
+      "T2": 0.9238660734919676,
+      "class_bars": {
+        "tumour": false,
+        "normal_epithelium": false,
+        "stroma": false,
+        "immune": false,
+        "necrosis": false,
+        "fat": true,
+        "vessels": false,
+        "muscle": false,
+        "other": false
+      },
+      "organ_bars": [
+        {
+          "type": "BLCA",
+          "recall": 1.0,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "BRCA",
+          "recall": 0.9943127962085309,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "CESC",
+          "recall": 1.0,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "COAD",
+          "recall": 0.9996389891696751,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "ESCA",
+          "recall": 1.0,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "HNSC",
+          "recall": 0.9906779661016949,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "KIRC",
+          "recall": 1.0,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "KIRP",
+          "recall": 1.0,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "LIHC",
+          "recall": 1.0,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "LUAD",
+          "recall": 0.9908396946564886,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "LUSC",
+          "recall": 0.996116504854369,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "OV",
+          "recall": 1.0,
+          "false_tumour": 0.00228310502283105,
+          "passes": true
+        },
+        {
+          "type": "PAAD",
+          "recall": 0.9916666666666667,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "PRAD",
+          "recall": 1.0,
+          "false_tumour": 0.0012578616352201257,
+          "passes": true
+        },
+        {
+          "type": "STAD",
+          "recall": 0.9721374045801526,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "THCA",
+          "recall": 1.0,
+          "false_tumour": 0.0,
+          "passes": true
+        },
+        {
+          "type": "UCEC",
+          "recall": 0.9995555555555555,
+          "false_tumour": 0.0,
+          "passes": true
+        }
+      ],
+      "shortcut": {
+        "bcss_nontumour_called_tumour": 0.03523035230352303,
+        "gtex_breast_called_tumour": 0.0
+      },
+      "calibration": {
+        "kather7k": {
+          "ece_raw": 0.030979064761114554,
+          "ece_calibrated": 0.028241771556068187
+        },
+        "bcss": {
+          "ece_raw": 0.013732205094321069,
+          "ece_calibrated": 0.01741076051474491
+        },
+        "tiger": {
+          "ece_raw": 0.027685677716293364,
+          "ece_calibrated": 0.027567979959140024
+        },
+        "brummer": {
+          "ece_raw": 0.009270989960268147,
+          "ece_calibrated": 0.009882624807328561
+        },
+        "segpath": {
+          "ece_raw": 0.006416611164891339,
+          "ece_calibrated": 0.005734417213821397
+        }
+      },
+      "failed": [
+        "immune",
+        "muscle",
+        "necrosis",
+        "normal_epithelium",
+        "other",
+        "stroma",
+        "tumour",
+        "vessels"
+      ]
+    }
+  ],
+  "pathomic_thresholds": {
+    "tumour": 0.35359060764312744,
+    "normal_epithelium": null,
+    "stroma": null,
+    "immune": 0.8898944679179189,
+    "necrosis": null,
+    "fat": 0.8587334704929097,
+    "vessels": null,
+    "muscle": null,
+    "other": 0.34990475068443594
+  },
+  "stroma_variant": {
+    "merged": {
+      "vessels": "stroma",
+      "muscle": "stroma",
+      "necrosis": "other",
+      "normal_epithelium": "other"
+    },
+    "class_bars": {
+      "tumour": false,
+      "normal_epithelium": false,
+      "stroma": false,
+      "immune": true,
+      "necrosis": false,
+      "fat": true,
+      "vessels": false,
+      "muscle": false,
+      "other": false
+    },
+    "organ_bars": [
+      {
+        "type": "BLCA",
+        "recall": 1.0,
+        "false_tumour": 0.0,
+        "passes": true
+      },
+      {
+        "type": "BRCA",
+        "recall": 0.9947867298578199,
+        "false_tumour": 0.0,
+        "passes": true
+      },
+      {
+        "type": "CESC",
+        "recall": 1.0,
+        "false_tumour": 0.0,
+        "passes": true
+      },
+      {
+        "type": "COAD",
+        "recall": 0.9996389891696751,
+        "false_tumour": 0.0,
+        "passes": true
+      },
+      {
+        "type": "ESCA",
+        "recall": 1.0,
+        "false_tumour": 0.0,
+        "passes": true
+      },
+      {
+        "type": "HNSC",
+        "recall": 0.9915254237288136,
+        "false_tumour": 0.0,
+        "passes": true
+      },
+      {
+        "type": "KIRC",
+        "recall": 1.0,
+        "false_tumour": 0.0,
+        "passes": true
+      },
+      {
+        "type": "KIRP",
+        "recall": 1.0,
+        "false_tumour": 0.0,
+        "passes": true
+      },
+      {
+        "type": "LIHC",
+        "recall": 1.0,
+        "false_tumour": 0.0,
+        "passes": true
+      },
+      {
+        "type": "LUAD",
+        "recall": 0.9908396946564886,
+        "false_tumour": 0.0,
+        "passes": true
+      },
+      {
+        "type": "LUSC",
+        "recall": 0.995873786407767,
+        "false_tumour": 0.0,
+        "passes": true
+      },
+      {
+        "type": "OV",
+        "recall": 1.0,
+        "false_tumour": 0.00228310502283105,
+        "passes": true
+      },
+      {
+        "type": "PAAD",
+        "recall": 0.9916666666666667,
+        "false_tumour": 0.0,
+        "passes": true
+      },
+      {
+        "type": "PRAD",
+        "recall": 1.0,
+        "false_tumour": 0.0012578616352201257,
+        "passes": true
+      },
+      {
+        "type": "STAD",
+        "recall": 0.9740458015267176,
+        "false_tumour": 0.0,
+        "passes": true
+      },
+      {
+        "type": "THCA",
+        "recall": 1.0,
+        "false_tumour": 0.0,
+        "passes": true
+      },
+      {
+        "type": "UCEC",
+        "recall": 0.9995555555555555,
+        "false_tumour": 0.0,
+        "passes": true
+      }
+    ],
+    "pathomic_thresholds": {
+      "tumour": 0.37148281931877136,
+      "normal_epithelium": null,
+      "stroma": 0.3483289838346506,
+      "immune": 0.7112888854632953,
+      "necrosis": null,
+      "fat": 0.7653776548802278,
+      "vessels": null,
+      "muscle": null,
+      "other": 0.7045652094028494
+    }
+  }
+}
