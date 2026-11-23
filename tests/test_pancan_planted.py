@@ -26,3 +26,24 @@ def test_ranks_of_puts_the_planted_compartment_first_when_it_leads():
     r = ranks_of(per_region, "stroma")
     assert r == {"fusion_weight": 1, "shapley_cindex": 1, "local_attribution_share": 1}
     assert ranks_of(per_region, "fat")["fusion_weight"] == 2
+
+
+def test_specific_z_removes_what_the_other_compartments_share():
+    from analysis.pancan.planted import planted_z_within, specific_z
+    rng = np.random.default_rng(0)
+    n, d = 600, 32
+    shared = rng.normal(size=(n, 5)) @ rng.normal(size=(5, d))  # what a slide's compartments share (low rank)
+    w = np.zeros(d); w[5] = 1.0                       # stroma's own, specific direction
+    s_own = rng.normal(size=n)
+    means = {"stroma": shared + np.outer(s_own, w) + 0.1 * rng.normal(size=(n, d)),
+             "tumour": shared + 0.3 * rng.normal(size=(n, d)),
+             "immune": shared + 0.3 * rng.normal(size=(n, d))}
+    types = np.array(["A", "B"] * (n // 2))
+    raw = planted_z_within(means["stroma"], types, seed=3)
+    tum = planted_z_within(means["tumour"], types, seed=3)
+    assert abs(np.corrcoef(raw, tum)[0, 1]) > 0.5           # the paper's version leaks into tumour
+    z = specific_z(means, types, "stroma", n_pcs=10)
+    assert abs(np.corrcoef(z, s_own)[0, 1]) > 0.9           # the specific version is stroma's own signal
+    assert abs(np.corrcoef(z, tum)[0, 1]) < 0.1             # and does not leak into tumour
+    for t in "AB":
+        assert z[types == t].std() == pytest.approx(1, abs=1e-9)
