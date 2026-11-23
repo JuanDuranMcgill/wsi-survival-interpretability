@@ -23,8 +23,8 @@ from analysis.tissue.bars import (class_bars, merges_for, normal_epithelium_bar,
                                   close_merges, premerge_small, tumour_organ_bars,
                                   PATHOMIC_PRECISION)
 from analysis.tissue.classes import CLASSES, NONTUMOUR  # noqa: E402
-from analysis.tissue.metrics import (combine, ece, fit_temperature, recall_precision,  # noqa: E402
-                                     threshold_for_precision)
+from analysis.tissue.metrics import (class_threshold, combine, ece, fit_temperature,  # noqa: E402
+                                     recall_precision)
 
 DATA = Path("/data/scratch/juan/datasets/tissue")
 OUT = Path(__file__).resolve().parents[2] / "results" / "pancan"
@@ -185,17 +185,17 @@ def threshold_rows(idx):
     """Validation tiles for the pathomic thresholds: sources where tumour and non-tumour come from the
     same slides (BCSS, TIGER, Brummer; the case closest to ours). TCGA-UT tumour vs GTEx normal is too easy and set
     a tumour threshold near 0; GTEx tiles have no tissue label for the other classes."""
-    return idx[(idx["split"] == "valid") & idx["source"].isin(THRESHOLD_SOURCES)].drop_duplicates("tile_id")
+    return idx[(idx["split"] == "valid") & idx["source"].isin(THRESHOLD_SOURCES)
+               & (idx["version"] == "crop64")].drop_duplicates("tile_id")
 
 
 def thresholds(model, X, idx):
-    """Per class, the calibrated probability where validation precision, at equal class prevalence,
-    reaches PATHOMIC_PRECISION."""
+    """Per class, the confidence cut on tiles labelled that class at which their validation precision reaches
+    PATHOMIC_PRECISION (64 um tiles of BCSS, TIGER and Brummer, at those sets' own class mix)."""
     g = threshold_rows(idx)
     lab = g["label"].map(lambda x: model["merged"].get(x, x)).values
     P = predict(model, X[g["row"]])
-    return {c: (threshold_for_precision(P[:, k], lab == c, PATHOMIC_PRECISION, balanced=True)
-                if (lab == c).any() else None) for k, c in enumerate(CLASSES)}
+    return {c: class_threshold(P, k, lab == c, PATHOMIC_PRECISION) for k, c in enumerate(CLASSES)}
 
 
 def run_feature(feature):

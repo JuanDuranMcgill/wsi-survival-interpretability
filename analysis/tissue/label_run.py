@@ -1,6 +1,8 @@
-"""Label every finished slide of the pan-carcinoma run from its saved CONCH embeddings (Beast, env pilot, CPU).
+"""Label every finished slide of the pan-carcinoma run from its saved embeddings (Beast, env pilot, CPU).
 
-  python -I label_run.py   -> /data/processed/juan/pancan/tissue_labels/<type>/<slide>.pt
+  python -I label_run.py          -> /data/processed/juan/pancan/tissue_labels/<type>/<slide>.pt
+  python -I label_run.py shares   -> results/pancan/tissue_threshold_kept.csv (share of tiles each class's
+                                     confidence cut keeps, over all labelled slides)
 
 Each output: label (uint8, index into CLASSES), probs (float16, n x 9), classifier (sha256 of the weights file).
 Uses the embedding the classifier names (UNI-2). Skips files without it and slides already labelled by the
@@ -46,6 +48,38 @@ def _label_one(args):
     return "labelled", str(f)
 
 
+def kept_counts(label, probs, thresholds):
+    """Per class: tiles labelled that class, and how many of them reach its confidence cut (NaN = no cut)."""
+    import numpy as np
+    k = probs.shape[1]
+    n_lab = np.bincount(label, minlength=k)
+    p_own = probs[np.arange(len(label)), label]
+    thr = np.nan_to_num(np.asarray(thresholds, dtype=float)[label], nan=-np.inf)
+    n_kept = np.bincount(label[p_own >= thr], minlength=k)
+    return n_lab, n_kept
+
+
+def shares():
+    import numpy as np
+    import pandas as pd
+    import torch
+    from analysis.tissue.classes import CLASSES
+    w = np.load(WEIGHTS, allow_pickle=False)
+    thr = w["thresholds"]
+    n_lab, n_kept = np.zeros(len(CLASSES), int), np.zeros(len(CLASSES), int)
+    files = sorted(LABELS.glob("*/*.pt"))
+    for f in files:
+        o = torch.load(f, map_location="cpu", weights_only=False)
+        a, b = kept_counts(o["label"].numpy().astype(int), o["probs"].float().numpy(), thr)
+        n_lab += a
+        n_kept += b
+    df = pd.DataFrame({"class": CLASSES, "threshold": thr, "tiles_labelled": n_lab, "tiles_kept": n_kept})
+    df["share_kept"] = df["tiles_kept"] / df["tiles_labelled"].where(df["tiles_labelled"] > 0)
+    out = WEIGHTS.parent / "tissue_threshold_kept.csv"
+    df.to_csv(out, index=False)
+    print(len(files), "slides"); print(df.to_string(index=False))
+
+
 def main(workers=8):
     digest = hashlib.sha256(WEIGHTS.read_bytes()).hexdigest()
     files = sorted(str(f) for f in FEAT.glob("*/*_emb16.pt"))
@@ -61,4 +95,4 @@ def main(workers=8):
 
 
 if __name__ == "__main__":
-    main()
+    shares() if sys.argv[1:] == ["shares"] else main()

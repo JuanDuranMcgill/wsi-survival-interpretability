@@ -83,3 +83,14 @@ def threshold_for_precision(p, is_k, target=0.90, balanced=False):
         prec = tp / (tp + fp)
     ok = np.nonzero(prec >= target)[0]
     return float(ps[ok[-1]]) if len(ok) else None
+
+
+def class_threshold(P, k, is_k, target=0.90):
+    """Confidence cut for class k: among tiles predicted as k (argmax), the lowest probability p_k such that
+    the tiles kept (p_k >= cut) are at least `target` truly k (plain precision); None if never reached.
+    Tiles predicted as another class are not in the compartment whatever their p_k."""
+    P, is_k = np.asarray(P, dtype=float), np.asarray(is_k, dtype=bool)
+    m = P.argmax(1) == k
+    if not (is_k & m).any():
+        return None
+    return threshold_for_precision(P[m, k], is_k[m], target)

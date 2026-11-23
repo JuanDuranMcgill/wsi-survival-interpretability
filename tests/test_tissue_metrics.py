@@ -9,8 +9,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from analysis.tissue.bars import (class_bars, merges_for, normal_epithelium_bar,  # noqa: E402
                                   close_merges, premerge_small, tumour_organ_bars)
-from analysis.tissue.metrics import (combine, ece, fit_temperature, recall_precision,  # noqa: E402
-                                     threshold_for_precision)
+from analysis.tissue.metrics import (class_threshold, combine, ece, fit_temperature,  # noqa: E402
+                                     recall_precision, threshold_for_precision)
 
 
 def test_combine_rows_sum_to_one():
@@ -100,3 +100,12 @@ def test_close_merges_follows_chains():
     assert close_merges({"muscle": "stroma", "vessels": "stroma", "stroma": "other"}) == {
         "muscle": "other", "vessels": "other", "stroma": "other"}
     assert close_merges({}) == {}
+
+
+def test_class_threshold_counts_only_tiles_predicted_as_the_class():
+    # the cut applies to tiles already labelled k (as the old 0.7 confidence cut did): among them,
+    # the lowest probability at which the kept tiles are >= 90% truly k
+    P = np.array([[0.90, 0.10], [0.80, 0.20], [0.60, 0.40], [0.55, 0.45], [0.30, 0.70], [0.20, 0.80]])
+    is_k = np.array([True, True, False, True, True, True])  # the last two are k but predicted as class 1
+    assert class_threshold(P, 0, is_k, 0.90) == 0.8          # 0.55 -> 3/4, 0.6 -> 2/3, 0.8 -> 2/2
+    assert class_threshold(P, 0, np.zeros(6, bool), 0.90) is None
