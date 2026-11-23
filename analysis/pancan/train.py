@@ -13,6 +13,7 @@ Writes /data/processed/juan/pancan/runs/<variant>/<model>/<subset>/round_###/:
   region_weights[epoch, R] for ours). A round with oob.npz is skipped, so the command is re-runnable.
 """
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -162,6 +163,18 @@ def patient_table(variant, subset="all"):
     return c.reset_index(drop=True)
 
 
+def run_table(meta):
+    """The patient table of a run, from its meta.json: label set, subset, and an optional outcome file that
+    replaces PFI (the planted-signal test, analysis/pancan/planted.py)."""
+    t = patient_table(meta["variant"], meta["subset"])
+    if meta.get("outcome"):
+        o = pd.read_csv(meta["outcome"]).set_index("patient")
+        t = t[t["patient"].isin(o.index)].copy()
+        t["pfi_time"] = o.loc[t["patient"], "pfi_time"].values
+        t["pfi_event"] = o.loc[t["patient"], "pfi_event"].values
+    return t.reset_index(drop=True)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", choices=["ours", "abmil"], required=True)
@@ -173,15 +186,21 @@ def main(argv=None):
     ap.add_argument("--batch-size", type=int, default=32)
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--out", default=str(PANCAN / "runs"))
+    ap.add_argument("--outcome", default="", help="csv patient,pfi_time,pfi_event replacing PFI (planted test)")
+    ap.add_argument("--tag", default="", help="run folder name instead of the subset name")
     a = ap.parse_args(argv)
-    table = patient_table(a.variant, a.subset)
+    meta = {"variant": a.variant, "subset": a.subset, "outcome": a.outcome}
+    run_dir = Path(a.out) / a.variant / a.model / (a.tag or a.subset)
+    run_dir.mkdir(parents=True, exist_ok=True)
+    (run_dir / "meta.json").write_text(json.dumps(meta))
+    table = run_table(meta)
     R = len(torch.load(table["bag"].iat[0], map_location="cpu", weights_only=False)["compartments"])
     cohort = pd.read_csv(PANCAN / "cohort.csv")
     rounds = site_rounds(cohort, N_ROUNDS)  # fixed on the whole cohort, whatever is finished
     lo, hi = (int(x) for x in a.rounds.split(":"))
     print(f"{a.model} {a.variant} {a.subset}: {len(table)} patients, {table['pfi_event'].sum()} events, R={R}")
     for r in range(lo, hi):
-        out = Path(a.out) / a.variant / a.model / a.subset / f"round_{r:03d}"
+        out = run_dir / f"round_{r:03d}"
         if (out / "oob.npz").exists():
             print(f"round {r}: done, skipped")
             continue

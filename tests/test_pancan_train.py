@@ -41,3 +41,18 @@ def test_shapley_round_reproduces_the_model_and_is_efficient(tmp_path):
     assert rec["head_check_max_abs_diff"] < 1e-3
     assert rec["efficiency_gap"] < 1e-9
     assert json.loads((tmp_path / "run" / "shapley" / "round_000.json").read_text())["round"] == 0
+
+
+def test_check_i_bootstrap_reproduces_the_saved_within_type_payoffs(tmp_path):
+    from analysis.pancan.check_i import shapley_round
+    from analysis.pancan.check_i_bootstrap import bootstrap
+    from analysis.pancan.train import train_round
+    t = _bags(tmp_path, n=24)
+    for r in range(2):
+        rd = tmp_path / "run" / f"round_{r:03d}"
+        oob = t.iloc[r * 12:(r + 1) * 12]
+        train_round("ours", 2, t.drop(oob.index), oob, rd, epochs=1, device="cpu", batch_size=4, workers=0, seed=r)
+        shapley_round(rd, t, 2, tmp_path / "run" / "shapley")
+    info, boot = bootstrap(tmp_path / "run" / "shapley", B=20, seed=0, chunk=10)
+    assert info["check_max_abs_diff_coalition_cindex"] < 1e-6
+    assert set(boot) == {"fusion_weight_vs_shapley", "local_share_vs_shapley", "fusion_weight_vs_local_share"}

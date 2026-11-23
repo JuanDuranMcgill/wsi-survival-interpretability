@@ -73,14 +73,15 @@ def shapley_round(round_dir, table, R, out_dir, device="cpu"):
 
 
 def main(argv=None):
-    from analysis.pancan.train import patient_table
+    from analysis.pancan.train import run_table
     ap = argparse.ArgumentParser()
     ap.add_argument("run_dir")
     ap.add_argument("--device", default="cuda")
     a = ap.parse_args(argv)
     run = Path(a.run_dir)
-    variant, subset = run.parts[-3], run.parts[-1]
-    table = patient_table(variant, subset)
+    meta = json.loads((run / "meta.json").read_text())
+    table = run_table(meta)
+    variant, subset = meta["variant"], run.name
     comps = torch.load(table["bag"].iat[0], map_location="cpu", weights_only=False)["compartments"]
     out = run / "shapley"
     for rd in sorted(run.glob("round_*")):
