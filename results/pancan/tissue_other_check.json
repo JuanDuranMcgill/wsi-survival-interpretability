@@ -1,0 +1,126 @@
+{
+  "slides": 555,
+  "tiles": 25229461,
+  "other_tiles": 3527628,
+  "other_share": 0.13982177423449513,
+  "slide_other_share_quantiles": {
+    "0.1": 0.022,
+    "0.25": 0.044,
+    "0.5": 0.107,
+    "0.75": 0.197,
+    "0.9": 0.33
+  },
+  "slides_over_half_other": 19,
+  "edge_share_all_tiles": 0.13487910027090946,
+  "edge_share_other_tiles": 0.24607980206529714,
+  "other_prob_histogram_0_to_1_by_0.1": [
+    0,
+    6,
+    13709,
+    145850,
+    350281,
+    454588,
+    413035,
+    417387,
+    500080,
+    1232692
+  ],
+  "second_choice_share": {
+    "tumour": 0.2871,
+    "normal_epithelium": 0.0825,
+    "stroma": 0.4678,
+    "immune": 0.0543,
+    "necrosis": 0.0,
+    "fat": 0.1084,
+    "vessels": 0.0,
+    "muscle": 0.0,
+    "other": 0.0
+  },
+  "fine_class_share_of_sample": {
+    "necrosis": 0.6436,
+    "other": 0.2061,
+    "stroma": 0.1015,
+    "fat": 0.0214,
+    "normal_epithelium": 0.0169,
+    "immune": 0.0089,
+    "muscle": 0.0015
+  },
+  "sample_tiles": 109065,
+  "top_other_slides_by_type": [
+    {
+      "type": "ESCA",
+      "tiles": 21214,
+      "other_share": 0.9872725558593382
+    },
+    {
+      "type": "BRCA",
+      "tiles": 2721,
+      "other_share": 0.7927232635060639
+    },
+    {
+      "type": "UCEC",
+      "tiles": 46406,
+      "other_share": 0.7825712192388915
+    },
+    {
+      "type": "LUAD",
+      "tiles": 21553,
+      "other_share": 0.7579455296246462
+    },
+    {
+      "type": "CESC",
+      "tiles": 13729,
+      "other_share": 0.7569378687449924
+    },
+    {
+      "type": "HNSC",
+      "tiles": 12421,
+      "other_share": 0.7436599307624184
+    },
+    {
+      "type": "LUSC",
+      "tiles": 27908,
+      "other_share": 0.6669055467966175
+    },
+    {
+      "type": "LUAD",
+      "tiles": 72627,
+      "other_share": 0.6560232420449695
+    },
+    {
+      "type": "THCA",
+      "tiles": 41764,
+      "other_share": 0.587156402643425
+    },
+    {
+      "type": "KIRC",
+      "tiles": 31618,
+      "other_share": 0.5714782718704535
+    },
+    {
+      "type": "COAD",
+      "tiles": 26576,
+      "other_share": 0.5654349789283564
+    },
+    {
+      "type": "KIRC",
+      "tiles": 84411,
+      "other_share": 0.56250962552274
+    },
+    {
+      "type": "BRCA",
+      "tiles": 25155,
+      "other_share": 0.5608427747962632
+    },
+    {
+      "type": "KIRC",
+      "tiles": 72261,
+      "other_share": 0.5487192261385809
+    },
+    {
+      "type": "ESCA",
+      "tiles": 8165,
+      "other_share": 0.5359461114513165
+    }
+  ]
+}
