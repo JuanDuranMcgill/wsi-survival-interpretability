@@ -1,7 +1,19 @@
 # Design: running the IER audit where the data is large enough (TCGA pan-cancer)
 
-Status: draft for Juan's approval (2026-11-20). Extends the AIIM manuscript
-(Overleaf project 6a1dc8fa08f8c0d184f393aa, `manuscript_aim.tex`). One paper, not a second.
+Status: draft for Juan's approval (2026-11-20; updated 2026-11-22). Extends the AIIM
+manuscript (Overleaf project 6a1dc8fa08f8c0d184f393aa, `manuscript_aim.tex`). One paper, not
+a second.
+
+**What changed on 2026-11-22** (for Juan to check):
+- Compute moved to the MEDomics-Beast. Preprocessing of all 6,940 slides started on
+  2026-11-22 and should end about 2026-12-03 (decision 10).
+- Tissue labels come from a classifier trained on public labelled tiles, not from CONCH
+  prompts. There are two label sets, the main one and a stroma-kept variant, and the audit
+  runs on both (decision 2).
+- The events curve stops at 1,999 events, the carcinoma cohort's total (decision 8).
+- The pathomic scripts are in the repo, and slides are kept rather than streamed
+  (decisions 14 and 15).
+- The paper reports what failed on the way, not only what worked (decision 11).
 
 ## Intent and why
 
@@ -17,10 +29,11 @@ Pathologists who read the paper liked it, but it is only a negative result. The
 extension turns it into a positive, actionable one: run the same tool where the
 data is large enough, and show at how many events each explanation starts to pass.
 Researchers then know what it takes to build models whose explanations can be
-trusted, which is the step that matters for patients.
+trusted, which is the step that matters for patients. The message has to be simple enough
+for pathologists who will not read the methods: with enough data, does a model pass more of
+the checks, and how much data does that take?
 
-## What the literature review found (notes with checked references in the
-scratchpad `lit/` folder; to be copied into `docs/lit/` with this design)
+## What the literature review found (notes with checked references in `docs/lit/`)
 
 - Sample-size theory supports the paper. 139-163 events give the overall C-index to
   about +/-0.05 (Collins 2016: >= 100, preferably >= 200 events), but anything that
@@ -75,7 +88,7 @@ scratchpad `lit/` folder; to be copied into `docs/lit/` with this design)
 ## Approaches considered
 
 - **A. TCGA pan-cancer plus an events curve (chosen by Juan, with B).** Public data,
-  our own pipeline (CONCH labels, UNI-2 features, our checks); answers when
+  our own pipeline (UNI-2 features, tissue labels from our own classifier, our checks); answers when
   explanations become trustworthy. Cost: about 7x the slides of the current paper to
   tile, label and encode, and many training runs for the curve.
 - **B. A large external single-cancer cohort (chosen by Juan, with A).** DACHS or
@@ -99,14 +112,37 @@ scratchpad `lit/` folder; to be copied into `docs/lit/` with this design)
    3 of the 4 types without any stage are non-carcinomas. Within-type clinical
    C-index with age, sex and stage: 0.638 for the 17 types
    (`results/pancan/clinical_variables_check.csv`).
-2. **Tissue types.** A shared pan-cancer set that every included cancer has or can
-   have: tumour, stroma, immune infiltrate, necrosis or haemorrhage, adipose, blood
-   vessels, normal epithelium or parenchyma, muscle. CONCH zero-shot with one prompt
-   per class, as now. The label check (pathologist review) is not repeated at scale;
-   the paper states this.
-3. **Features.** UNI-2 tile embeddings, as now (`preprocessing/embed_all_tiles_uni2.py`,
-   `preprocessing/classify_all_tiles_multi_6.py` generalised to the shared classes).
-4. **Models.** Our per-tissue-type weighted model, trained pan-cancer with a Cox
+2. **Tissue types.** Revised 2026-11-22 (design
+   `docs/superpowers/specs/2026-11-22-tissue-classifier-design.md`, results
+   `docs/TISSUE_CLASSIFIER_RESULTS.md`). The starting set was 8 classes that every
+   carcinoma has or can have: tumour, normal epithelium, stroma, immune infiltrate,
+   necrosis or haemorrhage, fat, vessels, muscle. CONCH prompts labelled only about half
+   of the tiles correctly (balanced accuracy 0.52 on Kather's colon tiles). Each tile is
+   therefore labelled by a two-step logistic regression on its UNI-2 embedding (Juan chose
+   UNI-2 over CONCH). It was trained on public tiles that pathologists had labelled and
+   tested on hospitals, donors and slides it never saw. Classes that missed the bars fixed
+   in advance were merged by a fixed table.
+   - **Main labels:** tumour, normal epithelium, immune and fat. Stroma, vessels, muscle
+     and necrosis go to "other", which belongs to no tissue compartment. "Other" holds 60%
+     of the tiles labelled so far (486 slides, `results/pancan/tissue_threshold_kept.csv`),
+     so the main model does not see most stroma.
+   - **Stroma-kept labels (Juan, 2026-11-22):** stroma, with vessels and muscle, is its own
+     compartment, and "other" then holds 14% of the tiles (555 slides,
+     `results/pancan/tissue_threshold_kept_stroma.csv`). Stroma narrowly misses its bar
+     (BCSS recall 0.843 against 0.85, kidney lower), and the paper says so.
+   - The audit runs on both label sets. Tumour against normal tissue passes in all 17
+     organs.
+   The pathologist review of labels is not repeated at scale. In its place are the held-out
+   tests and a comparison of each patient's tumour and stroma shares with TCGA's own
+   pathologist estimates (Spearman above 0.05 in 11 and 14 of the 16 types with enough
+   patients). Some of the classifier's training tiles come from TCGA slides of this cohort.
+   The classifier never sees survival and is fixed before any survival model is trained,
+   so this is not outcome leakage.
+3. **Features.** UNI-2 tile embeddings (256 px tiles at full resolution, float16), computed
+   once per slide by the Beast run (`preprocessing/beast_runner/`), which also saves CONCH
+   embeddings.
+4. **Models.** Our per-tissue-type weighted model, on the compartments of decision 2 (four
+   in the main labels, five with stroma), trained pan-cancer with a Cox
    partial likelihood stratified by cancer type, so it cannot win by ranking cancer
    types. ABMIL trained the same way as the second model. Same training settings as
    the current main runs unless a pilot shows they do not converge.
@@ -119,18 +155,27 @@ scratchpad `lit/` folder; to be copied into `docs/lit/` with this design)
    coalitions, surrogate random forest with Benjamini-Hochberg FDR, MED3pa with
    clinical (including cancer type and stage) and pathomic arms at q50/q70/q80/q90,
    Bonferroni over the tests.
-8. **Events curve.** Target event counts 150, 300, 600, 1,200, 2,400 and all
-   (2,974 in the 22 included types), sampled by patient and stratified by cancer type, 3 repeats per
-   size below "all". At each size, record each check's verdict and effect size.
+8. **Events curve.** Target event counts 150, 300, 600, 1,200 and all (1,999 in the 17
+   carcinoma types; 2,400 was dropped because it exceeds the cohort, Claude's call),
+   sampled by patient and stratified by cancer type, 3 repeats per size below "all". At
+   each size, record each check's verdict and effect size. The run processes slides in an
+   order stratified by type, so the slides finished at any point are a fair sample. The
+   training and audit code is built and tested on them while the run continues, and the
+   smallest curve points can run before it ends (Claude's call).
 9. **Planted signal.** The paper's planted-outcome test, at each curve size, with one
    or two effect sizes.
-10. **Compute.** Trillium and Narval. Juan approves every GPU batch before
-    submission. Embeddings staged on node-local SSD (Narval lesson). Rough order of
-    magnitude, to be refined by a pilot: tiling, labelling and encoding about 9,750
-    slides, plus roughly 20 training rounds for the full cohort and fewer (e.g. 5)
-    per curve point; likely several hundred to over a thousand GPU-hours.
+10. **Compute.** Revised 2026-11-22: the MEDomics-Beast (one 96 GB GPU, shared with
+    another user). Preprocessing reads each slide once (tiling, CONCH and UNI-2
+    embeddings), about 280 GPU-hours for the 6,940 slides by the run's own estimate. It
+    started on 2026-11-22 and should end about 2026-12-03 (`docs/PANCAN_RUN_STATUS.md`).
+    Training runs on the Beast too, roughly 20 rounds for the full cohort and fewer
+    (e.g. 5) per curve point, unless a pilot shows it is too slow; Trillium and Narval are
+    the fallback (Claude's call). Juan approves every GPU job.
 11. **Paper.** All text through the paper-writing-check skill; numbers traced to
-    `results/`.
+    `results/`. The paper shows what failed on the way as well as the path that works
+    (Juan, 2026-11-22): for tissue labels, the CONCH prompts, a classifier on CONCH
+    embeddings, merging failed classes and neighbour smoothing, plus the choices made after
+    seeing test results (listed in `docs/TISSUE_CLASSIFIER_RESULTS.md`).
 12. **External cohort (B).** Juan applies for access now: PLCO through NCI's CDAS,
     and the Kather lab for DACHS (or TransSCOT) colorectal, as a collaboration.
     Once data arrive, the same pipeline and audit run unchanged on that cohort (one
@@ -155,23 +200,27 @@ scratchpad `lit/` folder; to be copied into `docs/lit/` with this design)
     - At a curve size, a check passes if it passes in at least 2 of the 3 repeats;
       the pass fraction and effect sizes are reported alongside.
 14. **Pathomic features.** In scope for all slides, with the same first-order
-    pyradiomics features per tissue type. First task: find the extraction scripts on
-    Trillium (`find_pairs.py`, `extract_radiomics.py`, `filter_radiomics*.py`), copy
-    them into the repo, and rebuild them if they are gone.
-15. **Slide storage.** Check project and nearline quotas on both clusters first. If
-    under about 15 TB is free, stream the slides: download, tile, label, encode and
-    extract features, then delete the slide, keeping only tiles' outputs.
+    pyradiomics features per tissue type. The extraction scripts are in
+    `preprocessing/pathomics/` (copied from Trillium, commit 62e6468). They were written
+    for BLCA, BRCA and the old tile files, and are adapted to the run's tile positions and
+    the new labels; they read slides, so they run on all slides only after the run ends.
+    Only tiles above their class's confidence cut are used (the cut at which 90% of the
+    kept tiles are truly that class; each label set has its own cuts). Extraction is CPU
+    work, so its speed is measured early (Claude's call).
+15. **Slide storage.** Settled 2026-11-22: all slides are kept on the Beast
+    (`/data/storage/juan/pancan_slides/`, the rest on `/data/scratch`), so pathomic
+    features can be computed after the run. Outputs (about 1.2 TB) go on
+    `/data/processed`.
 
 ## Open: Juan's answer needed
 
-16. **GPU budget and what to cut first.** At the BRCA pace on Narval, the full plan
-    could need several thousand GPU-hours. Proposed order of cuts if the pilot shows
-    it does not fit: ABMIL only on the full cohort (not on the curve or the planted
-    test), then one planted effect size, then 2 repeats per curve size instead of 3,
-    then fewer rounds per curve point.
+16. **GPU budget and what to cut first.** Preprocessing is measured (decision 10);
+    training is not yet, and a pilot on finished slides sizes it. Proposed order of cuts
+    if it does not fit: the stroma-kept labels only on the full cohort (not on the curve
+    or the planted test), then ABMIL only on the full cohort, then one planted effect
+    size, then 2 repeats per curve size instead of 3, then fewer rounds per curve point.
 
 ## Left to the builder
 
-Job scripts, batch sizes and time limits; exact CONCH prompts for the shared classes;
-how to subsample within types; the pilot design that sizes the compute; file layout
-under `results/pancan/`.
+Job scripts, batch sizes and time limits; how to subsample within types; the pilot
+design that sizes the compute; file layout under `results/pancan/`.
