@@ -21,6 +21,8 @@ import pandas as pd
 import torch
 from torch.utils.data import DataLoader, Dataset, Sampler
 
+torch.multiprocessing.set_sharing_strategy("file_system")  # bags hold many small tensors; fd sharing hits ulimit 1024
+
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "analysis"))
