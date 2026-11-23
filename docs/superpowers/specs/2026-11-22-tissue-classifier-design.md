@@ -5,6 +5,18 @@ GPU with the running preprocessing job to embed the public tiles. Part of the pa
 (`2026-11-20-pancancer-audit-extension-design.md`, decision 2: tissue types). Replaces the
 zero-shot CONCH labels for the 17 carcinoma types.
 
+**Amendments made while building it (2026-11-22; details and reasons in
+`docs/TISSUE_CLASSIFIER_RESULTS.md`).** These were decided after test results had been seen,
+and the paper says so.
+- The classifier reads UNI-2 embeddings, not CONCH (Juan's choice); CONCH is reported alongside.
+  Where this document says CONCH is the classifier, read UNI-2.
+- Second-wave data were added: TIGER (breast), Brummer ccRCC (kidney) and SegPath CD45RB
+  (immune only; its muscle and vessel markers cannot label whole tiles). OpenTME's licence
+  rules it out.
+- A class with fewer than 100 training tiles at 64 µm is merged before training (vessels).
+- Pathomic confidence cuts are fit per class on tiles labelled that class, at 90% plain
+  precision on 64 µm validation tiles of BCSS, TIGER and Brummer.
+
 ## Intent and why
 
 Our model weights tissue types, check I compares those weights with Shapley values over

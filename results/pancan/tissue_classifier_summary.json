@@ -487,15 +487,15 @@
     }
   ],
   "pathomic_thresholds": {
-    "tumour": 0.09249354153871536,
-    "normal_epithelium": 0.023953391145540535,
+    "tumour": 0.35359251499176025,
+    "normal_epithelium": 0.49016727338443644,
     "stroma": null,
-    "immune": 0.01647333159522968,
+    "immune": 0.7429714649252064,
     "necrosis": null,
-    "fat": 0.0034448454689252755,
+    "fat": 0.7728206150870139,
     "vessels": null,
     "muscle": null,
-    "other": 0.20301615197954703
+    "other": 0.2837838793529528
   },
   "tiles": {
     "bcss|test|crop64": 1073,
