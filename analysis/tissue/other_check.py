@@ -121,8 +121,8 @@ def main(workers=6):
            "second_choice_share": (runner[CLASSES].sum() / runner[CLASSES].sum().sum()).round(4).to_dict(),
            "fine_class_share_of_sample": pd.Series(fine).value_counts(normalize=True).round(4).to_dict(),
            "sample_tiles": int(len(fine)),
-           "top_other_slides": d.sort_values("other_share", ascending=False).head(15)[
-               ["type", "slide", "n", "other_share"]].to_dict("records")}
+           "top_other_slides_by_type": d.sort_values("other_share", ascending=False).head(15)[
+               ["type", "n", "other_share"]].rename(columns={"n": "tiles"}).to_dict("records")}  # no slide IDs in git
     (RESULTS / "tissue_other_check.json").write_text(json.dumps(tot, indent=2, default=float))
     pd.set_option("display.width", 250)
     print(json.dumps(tot, indent=2, default=float))
