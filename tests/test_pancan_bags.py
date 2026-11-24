@@ -40,3 +40,28 @@ def test_make_bag_is_reproducible():
     a = make_bag(feats, coords, label, ["tumour"], cap=7, seed=3)["tumour"][0]
     b = make_bag(feats, coords, label, ["tumour"], cap=7, seed=3)["tumour"][0]
     assert np.array_equal(a, b)
+
+
+def test_neighbour_context_counts_the_tissues_around_each_tile():
+    from analysis.pancan.bags import neighbour_context
+    T, I, O = CLASSES.index("tumour"), CLASSES.index("immune"), CLASSES.index("other")
+    coords = np.array([(x * 256, 0) for x in range(5)])
+    label = np.array([T, I, T, O, T])
+    ctx = neighbour_context(coords, label, np.array([0, 2]), radius=1)
+    assert ctx.shape == (2, len(CLASSES))
+    assert ctx[0, I] == 1.0                                 # tile 0's only neighbour is immune
+    assert ctx[1, I] == 0.5 and ctx[1, O] == 0.5            # tile 2 sits between immune and other
+    assert np.allclose(ctx.sum(1), 1.0)
+
+
+def test_knn_edges_are_symmetric_without_self_loops():
+    from analysis.pancan.bags import knn_edges
+    rng = np.random.default_rng(0)
+    coords = rng.integers(0, 10000, (40, 2))
+    e = knn_edges(coords, k=5)
+    pairs = set(map(tuple, e.T.tolist()))
+    assert all((j, i) in pairs for i, j in pairs)
+    assert all(i != j for i, j in pairs)
+    deg = np.bincount(e[0], minlength=40)
+    assert (deg >= 5).all()
+    assert knn_edges(coords[:1], k=5).shape == (2, 0)

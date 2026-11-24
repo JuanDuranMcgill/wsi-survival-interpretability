@@ -51,12 +51,25 @@ class BagDataset(Dataset):
         o = torch.load(r["bag"], map_location="cpu", weights_only=False)
         feats = [f if len(f) else None for f in o["feats"]]
         pos = [torch.from_numpy(normalize_xy(np.asarray(c))) if len(c) else None for c in o["coords"]]
-        return feats, pos, float(r["pfi_time"]), int(r["pfi_event"]), r["type"], r["patient"]
+        extras = {"patient": r["patient"], "A": None, "ctx": None}
+        if "knn" in o:  # graph and context bags (bags.py ... ctx)
+            extras["A"] = [_row_normalised(e, len(f)) if len(f) else None for e, f in zip(o["knn"], o["feats"])]
+            extras["ctx"] = [c if len(c) else None for c in o["ctx"]]
+        return feats, pos, float(r["pfi_time"]), int(r["pfi_event"]), r["type"], extras
+
+
+def _row_normalised(edges, n):
+    e = torch.as_tensor(edges, dtype=torch.long)
+    if e.shape[1] == 0:
+        return None
+    deg = torch.bincount(e[0], minlength=n).clamp_min(1).float()
+    return torch.sparse_coo_tensor(e, 1.0 / deg[e[0]], (n, n)).coalesce()
 
 
 def collate(batch):
-    feats, pos, t, e, ty, pid = zip(*batch)
-    return list(feats), list(pos), np.array(t), np.array(e), np.array(ty), list(pid)
+    feats, pos, t, e, ty, ex = zip(*batch)
+    extras = {"patient": [x["patient"] for x in ex], "A": [x["A"] for x in ex], "ctx": [x["ctx"] for x in ex]}
+    return list(feats), list(pos), np.array(t), np.array(e), np.array(ty), extras
 
 
 class TypeBatchSampler(Sampler):
@@ -72,11 +85,22 @@ class TypeBatchSampler(Sampler):
         return len(type_batches(self.types, self.bs, np.random.default_rng(0)))
 
 
+GRAPH_KINDS = {"ours_graph": (True, False), "ours_ctx": (False, True), "ours_graph_ctx": (True, True)}
+
+
 def make_model(kind, R):
+    if kind in GRAPH_KINDS:
+        from analysis.pancan.model import PancanFormer
+        g, c = GRAPH_KINDS[kind]
+        return PancanFormer(num_regions=R, use_graph=g, use_ctx=c)
     return IPGGraphFormer(num_regions=R) if kind == "ours" else GatedABMIL()
 
 
-def risks_of(model, kind, feats, pos, device, train):
+def risks_of(model, kind, feats, pos, device, train, extras=None):
+    if kind in GRAPH_KINDS:
+        if extras is None or extras["A"][0] is None and extras["ctx"][0] is None:
+            raise ValueError(f"{kind} needs graph and context bags (bags.py <variant> ctx; train.py --bags _ctx)")
+        return model.forward_batch(feats, pos, extras["A"], extras["ctx"])
     if kind == "ours":
         return model.forward_batch(feats, pos)
     return torch.stack([model.forward_bag(f, device, ABMIL_MAX_TILES if train else None) for f in feats])
@@ -101,8 +125,8 @@ def optimiser(model, kind, steps_per_epoch, epochs):
 def predict(model, kind, loader, device):
     model.eval()
     out = []
-    for feats, pos, *_ in loader:
-        out.append(risks_of(model, kind, feats, pos, device, train=False).float().cpu().numpy())
+    for feats, pos, _, _, _, ex in loader:
+        out.append(risks_of(model, kind, feats, pos, device, train=False, extras=ex).float().cpu().numpy())
     return np.concatenate(out)
 
 
@@ -118,15 +142,15 @@ def train_round(kind, R, train_table, oob_table, out_dir, epochs, device, batch_
     for ep in range(1, epochs + 1):
         model.train()
         tot, nb = 0.0, 0
-        for feats, pos, t, e, ty, _ in tl:
+        for feats, pos, t, e, ty, ex in tl:
             if e.sum() == 0:
                 if sched is not None:
                     sched.step()
                 continue
-            r = risks_of(model, kind, feats, pos, device, train=True)
+            r = risks_of(model, kind, feats, pos, device, train=True, extras=ex)
             loss = cox_loss_stratified(r, torch.tensor(t, dtype=torch.float32, device=device),
                                        torch.tensor(e, dtype=torch.float32, device=device), ty)
-            if kind == "ours":
+            if kind == "ours" or kind in GRAPH_KINDS:
                 w = torch.relu(model.region_weights) + 0.01
                 w = w / w.sum()
                 loss = loss + 1e-3 * (-(w * torch.log(w + 1e-8)).sum())
@@ -140,7 +164,7 @@ def train_round(kind, R, train_table, oob_table, out_dir, epochs, device, batch_
         c = cindex_within(oob_table["pfi_time"].values, oob_table["pfi_event"].values, p, oob_table["type"].values)
         risk.append(p)
         cidx.append(c)
-        if kind == "ours":
+        if kind == "ours" or kind in GRAPH_KINDS:
             w = torch.relu(model.region_weights.detach().cpu()) + 0.01
             weights.append((w / w.sum()).numpy())
         torch.save(model.state_dict(), out_dir / f"epoch_{ep:02d}.pt")
@@ -152,10 +176,10 @@ def train_round(kind, R, train_table, oob_table, out_dir, epochs, device, batch_
     return cidx
 
 
-def patient_table(variant, subset="all"):
+def patient_table(variant, subset="all", bags=""):
     """Cohort patients whose bag exists, with their bag path (subset: 'all' or a patient list from curve.py)."""
     c = pd.read_csv(PANCAN / "cohort.csv")
-    c["bag"] = [str(PANCAN / f"bags_{variant}" / t / f"{s}.pt") for t, s in zip(c["type"], c["slide"])]
+    c["bag"] = [str(PANCAN / f"bags_{variant}{bags}" / t / f"{s}.pt") for t, s in zip(c["type"], c["slide"])]
     c = c[[Path(b).exists() for b in c["bag"]]]
     if subset != "all":
         keep = set(pd.read_csv(PANCAN / "curve" / f"{subset}.csv")["patient"])
@@ -166,7 +190,7 @@ def patient_table(variant, subset="all"):
 def run_table(meta):
     """The patient table of a run, from its meta.json: label set, subset, and an optional outcome file that
     replaces PFI (the planted-signal test, analysis/pancan/planted.py)."""
-    t = patient_table(meta["variant"], meta["subset"])
+    t = patient_table(meta["variant"], meta["subset"], meta.get("bags", ""))
     if meta.get("outcome"):
         o = pd.read_csv(meta["outcome"]).set_index("patient")
         t = t[t["patient"].isin(o.index)].copy()
@@ -177,7 +201,8 @@ def run_table(meta):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model", choices=["ours", "abmil"], required=True)
+    ap.add_argument("--model", choices=["ours", "abmil", *GRAPH_KINDS], required=True)
+    ap.add_argument("--bags", default="", help="bag folder suffix, e.g. _ctx for graph and context bags")
     ap.add_argument("--variant", choices=["main", "stroma"], required=True)
     ap.add_argument("--rounds", default=f"0:{N_ROUNDS}")
     ap.add_argument("--epochs", type=int, default=30)
@@ -189,7 +214,7 @@ def main(argv=None):
     ap.add_argument("--outcome", default="", help="csv patient,pfi_time,pfi_event replacing PFI (planted test)")
     ap.add_argument("--tag", default="", help="run folder name instead of the subset name")
     a = ap.parse_args(argv)
-    meta = {"variant": a.variant, "subset": a.subset, "outcome": a.outcome}
+    meta = {"variant": a.variant, "subset": a.subset, "outcome": a.outcome, "bags": a.bags}
     run_dir = Path(a.out) / a.variant / a.model / (a.tag or a.subset)
     run_dir.mkdir(parents=True, exist_ok=True)
     (run_dir / "meta.json").write_text(json.dumps(meta))

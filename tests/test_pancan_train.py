@@ -56,3 +56,18 @@ def test_check_i_bootstrap_reproduces_the_saved_within_type_payoffs(tmp_path):
     info, boot = bootstrap(tmp_path / "run" / "shapley", B=20, seed=0, chunk=10)
     assert info["check_max_abs_diff_coalition_cindex"] < 1e-6
     assert set(boot) == {"fusion_weight_vs_shapley", "local_share_vs_shapley", "fusion_weight_vs_local_share"}
+
+
+@pytest.mark.parametrize("kind", ["ours_graph", "ours_ctx"])
+def test_graph_and_context_models_train_from_context_bags(tmp_path, kind):
+    from analysis.pancan.bags import knn_edges
+    from analysis.pancan.train import train_round
+    t = _bags(tmp_path)
+    for b in t["bag"]:  # add context and kNN edges, as bags.py ... ctx writes them
+        o = torch.load(b, weights_only=False)
+        o["ctx"] = [torch.rand(len(f), 9).half() for f in o["feats"]]
+        o["knn"] = [torch.from_numpy(knn_edges(c.numpy(), k=3)) for c in o["coords"]]
+        torch.save(o, b)
+    train_round(kind, 2, t.iloc[:8], t.iloc[8:], tmp_path / "out", epochs=1, device="cpu", batch_size=4, workers=0)
+    o = np.load(tmp_path / "out" / "oob.npz")
+    assert np.isfinite(o["risk"]).all() and o["region_weights"].shape == (1, 2)
